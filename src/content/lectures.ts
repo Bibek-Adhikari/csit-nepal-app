@@ -6,6 +6,10 @@ export type LectureVideo = {
   tag: string;
   semester: string;
   subject: string;
+  thumbnail: string;
+  semesterKey: string;
+  storagePath?: string;
+  storageBucket?: string;
 };
 
 export const lectureVideos: LectureVideo[] = [

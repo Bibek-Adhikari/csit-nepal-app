@@ -4,6 +4,9 @@ export type NoteItem = {
   title: string;
   href: string;
   format: "pdf" | "handwritten";
+  size?: number;
+  storagePath?: string;
+  bucket?: string;
 };
 
 export type Unit = {
