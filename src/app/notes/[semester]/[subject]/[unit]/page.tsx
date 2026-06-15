@@ -33,8 +33,12 @@ interface Semester {
 
 export function generateStaticParams() {
   return (semesters as Semester[]).flatMap((semester) =>
-    semester.subjects.flatMap((subject) =>
-      subject.units.map((unit) => ({ semester: semester.key, subject: subject.slug, unit: unit.slug })),
+    semester.subjects.flatMap((subject: Subject) =>
+      subject.units.map((unit: Unit) => ({
+        semester: semester.key,
+        subject: subject.slug,
+        unit: unit.slug,
+      })),
     ),
   );
 }
