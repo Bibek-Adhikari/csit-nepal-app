@@ -4,10 +4,19 @@ import { getSupabaseServer } from "@/lib/supabase";
 export async function POST(request: Request) {
   try {
     const supabase = getSupabaseServer();
+
+    const url = new URL(request.url);
+    const bucketFromQuery = (url.searchParams.get("bucket") || "").trim();
+    const folderFromQuery = (url.searchParams.get("folder") || "").trim();
+
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
-    const bucket = ((formData.get("bucket") as string) || "notes").trim();
-    const folder = ((formData.get("folder") as string) || "").trim();
+
+    const bucketFromForm = ((formData.get("bucket") as string) || "").trim();
+    const folderFromForm = ((formData.get("folder") as string) || "").trim();
+
+    const bucket = (bucketFromQuery || bucketFromForm || "notes").trim();
+    const folder = (folderFromQuery || folderFromForm || "").trim();
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -44,3 +53,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
+

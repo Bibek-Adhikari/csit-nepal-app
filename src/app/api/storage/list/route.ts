@@ -47,7 +47,7 @@ export async function GET(request: Request) {
         path: fullPath,
         url: urlData.publicUrl,
         size: item.metadata?.size ?? 0,
-        createdAt: item.created_at,
+        createdAt: item.created_at ?? new Date().toISOString(),
         formattedSize: formatSize(item.metadata?.size ?? 0),
       };
     });

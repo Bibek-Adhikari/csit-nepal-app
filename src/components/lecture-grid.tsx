@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { lectureVideos } from "@/content/lectures";
+import type { LectureVideo } from "@/content/lectures";
 
 const semesterFilters = [
   { key: "all", label: "All" },
@@ -13,12 +13,35 @@ const semesterFilters = [
 ];
 
 export function LectureGrid() {
+  const [videos, setVideos] = useState<LectureVideo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
 
+  useEffect(() => {
+    async function fetchLectures() {
+      try {
+        const res = await fetch("/api/lectures");
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        setVideos(data.videos ?? []);
+      } catch (err) {
+        console.error("Failed to fetch lectures:", err);
+        setError("Could not load lectures. Using cached data.");
+        // Fallback to static data
+        const { lectureVideos } = await import("@/content/lectures");
+        setVideos(lectureVideos);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLectures();
+  }, []);
+
   const filteredLectures = useMemo(() => {
-    return lectureVideos.filter((video) => {
-      const semKey = video.semester.toLowerCase().replace(" ", "-");
+    return videos.filter((video) => {
+      const semKey = video.semesterKey ?? video.semester.toLowerCase().replace(" ", "-");
       const matchesSemester = selectedSemester === "all" || semKey === selectedSemester;
       const matchesSearch =
         searchQuery === "" ||
@@ -27,10 +50,24 @@ export function LectureGrid() {
         video.tag.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesSemester && matchesSearch;
     });
-  }, [searchQuery, selectedSemester]);
+  }, [searchQuery, selectedSemester, videos]);
+
+  if (loading) {
+    return (
+      <div className="app-card" style={{ justifyContent: "center", textAlign: "center", padding: "3rem 1rem" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>Loading lectures…</p>
+      </div>
+    );
+  }
 
   return (
     <>
+      {error && (
+        <div className="app-card" style={{ justifyContent: "center", textAlign: "center", marginBottom: "1rem" }}>
+          <p style={{ color: "var(--warning, #e67e22)", fontSize: "0.82rem" }}>{error}</p>
+        </div>
+      )}
+
       <div style={{ marginBottom: "1rem" }}>
         <div style={{ marginBottom: "0.75rem" }}>
           <div className="app-search">
