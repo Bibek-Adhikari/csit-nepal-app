@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { lectureVideos } from "@/content/lectures";
 
 const semesterFilters = [
@@ -30,7 +31,6 @@ export function LectureGrid() {
 
   return (
     <>
-      {/* Search + filter */}
       <div style={{ marginBottom: "1rem" }}>
         <div style={{ position: "relative", marginBottom: "0.75rem" }}>
           <i className="bx bx-search" style={{ position: "absolute", left: "0.85rem", top: "50%", transform: "translateY(-50%)", fontSize: "1.1rem", color: "var(--text-muted)" }}></i>
@@ -65,7 +65,6 @@ export function LectureGrid() {
         </div>
       </div>
 
-      {/* Grid */}
       {filteredLectures.length === 0 ? (
         <div className="app-card" style={{ justifyContent: "center", textAlign: "center" }}>
           <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>No lectures found matching your criteria.</p>
@@ -81,10 +80,11 @@ export function LectureGrid() {
               className="lecture-card"
             >
               <div className="lecture-thumb">
-                <img
+                <Image
                   src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
                   alt={video.title}
-                  loading="lazy"
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
                 <span className="lecture-duration">{video.duration}</span>
               </div>

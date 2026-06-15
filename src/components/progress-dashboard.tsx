@@ -15,7 +15,7 @@ export function ProgressDashboard() {
       if (raw) {
         try {
           setCompletedUnits(JSON.parse(raw) as string[]);
-        } catch (e) {
+        } catch {
           setCompletedUnits([]);
         }
       } else {

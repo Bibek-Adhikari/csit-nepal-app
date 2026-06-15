@@ -12,20 +12,17 @@ interface CompletionToggleProps {
 const storageKey = "bca-nepal-completed-units";
 
 export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: CompletionToggleProps) {
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
   const unitId = `${semesterKey}/${subjectSlug}/${unitSlug}`;
+  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const raw = window.localStorage.getItem(storageKey);
     if (raw) {
       try {
         const completed = JSON.parse(raw) as string[];
         setIsCompleted(completed.includes(unitId));
-      } catch (e) {
-        console.error("Failed to parse completed units", e);
+      } catch {
+        console.error("Failed to parse completed units");
       }
     }
   }, [unitId]);
@@ -36,7 +33,7 @@ export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: Complet
     if (raw) {
       try {
         completed = JSON.parse(raw) as string[];
-      } catch (e) {
+      } catch {
         completed = [];
       }
     }
@@ -52,15 +49,8 @@ export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: Complet
 
     window.localStorage.setItem(storageKey, JSON.stringify(updated));
 
-    // Notify other components (like ProgressDashboard) of changes
     window.dispatchEvent(new Event("local-storage-update"));
   };
-
-  if (!mounted) {
-    return (
-      <div className="h-10 w-36 animate-pulse rounded-full bg-muted" />
-    );
-  }
 
   return (
     <button
