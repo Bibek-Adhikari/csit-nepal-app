@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenText, Home, Layers3, UserRound, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/subjects", label: "Subjects", icon: Layers3 },
-  { href: "/lectures", label: "Lectures", icon: Video },
-  { href: "/notes", label: "Notes", icon: BookOpenText },
-  { href: "/profile", label: "Profile", icon: UserRound },
+  { href: "/", label: "Home", icon: "bx-home-alt" },
+  { href: "/subjects", label: "Subjects", icon: "bx-layer" },
+  { href: "/lectures", label: "Lectures", icon: "bx-video" },
+  { href: "/notes", label: "Notes", icon: "bx-book-open" },
+  { href: "/profile", label: "Profile", icon: "bx-user" },
 ];
 
 export function SiteNav() {
@@ -19,15 +18,15 @@ export function SiteNav() {
   return (
     <nav className="bottom-nav">
       {items.map((item) => {
-        const Icon = item.icon;
-        const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const active =
+          pathname === item.href || pathname.startsWith(`${item.href}/`);
         return (
           <Link
             key={item.href}
             href={item.href}
             className={cn("nav-item", active && "active")}
           >
-            <Icon className="h-5 w-5" />
+            <i className={`bx ${item.icon}`} style={{ fontSize: "1.4rem" }}></i>
             <span>{item.label}</span>
           </Link>
         );

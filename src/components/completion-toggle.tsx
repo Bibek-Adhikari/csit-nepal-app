@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, Circle } from "lucide-react";
 
 interface CompletionToggleProps {
   semesterKey: string;
@@ -48,7 +47,6 @@ export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: Complet
     }
 
     window.localStorage.setItem(storageKey, JSON.stringify(updated));
-
     window.dispatchEvent(new Event("local-storage-update"));
   };
 
@@ -56,20 +54,16 @@ export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: Complet
     <button
       type="button"
       onClick={toggleCompletion}
-      className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.14em] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
-        isCompleted
-          ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
-          : "border border-border/80 bg-surface/90 text-text hover:bg-muted hover:shadow-md"
-      }`}
+      className={`completion-toggle${isCompleted ? " completed" : ""}`}
     >
       {isCompleted ? (
         <>
-          <CheckCircle2 className="h-4 w-4" />
+          <i className="bx bxs-check-circle"></i>
           <span>Completed!</span>
         </>
       ) : (
         <>
-          <Circle className="h-4 w-4 text-text-muted" />
+          <i className="bx bx-circle"></i>
           <span>Mark Completed</span>
         </>
       )}

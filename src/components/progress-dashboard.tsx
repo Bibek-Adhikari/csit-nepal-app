@@ -32,19 +32,25 @@ export function ProgressDashboard() {
   const completionRate = Math.round((completedUnits.length / totalUnits) * 100) || 0;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1.4fr_0.9fr]">
-      <section className="rounded-[1.5rem] border border-border/80 bg-surface p-5 shadow-soft">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">Progress Tracker</p>
-        <h2 className="mt-2 text-2xl font-black tracking-tight text-text">{completionRate}% completed</h2>
-        <p className="mt-2 text-sm text-text-muted">Track completed units locally now, then sync to Supabase once you connect your user table.</p>
-        <div className="mt-5 h-3 rounded-full bg-muted">
-          <div className="h-3 rounded-full bg-gradient-to-r from-primary to-amber-500" style={{ width: `${completionRate}%` }} />
+    <div className="progress-dashboard">
+      <section className="progress-card">
+        <p className="progress-label">Progress Tracker</p>
+        <h2 className="progress-value">{completionRate}% completed</h2>
+        <p className="progress-desc">
+          Track completed units locally now, then sync to Supabase once you
+          connect your user table.
+        </p>
+        <div className="progress-bar-track">
+          <div
+            className="progress-bar-fill"
+            style={{ width: `${completionRate}%` }}
+          />
         </div>
       </section>
 
-      <section className="rounded-[1.5rem] border border-border/80 bg-surface p-5 shadow-soft">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">Study Metrics</p>
-        <div className="mt-4 grid grid-cols-2 gap-3">
+      <section className="progress-card">
+        <p className="progress-label">Study Metrics</p>
+        <div className="metrics-grid">
           <Metric label="Semesters" value={semesters.length.toString()} />
           <Metric label="Units" value={totalUnits.toString()} />
           <Metric label="Completed" value={completedUnits.length.toString()} />
@@ -57,9 +63,9 @@ export function ProgressDashboard() {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-background p-4">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-text-muted">{label}</p>
-      <p className="mt-2 text-2xl font-black tracking-tight text-text">{value}</p>
+    <div className="metric-box">
+      <p className="metric-box-label">{label}</p>
+      <p className="metric-box-value">{value}</p>
     </div>
   );
 }

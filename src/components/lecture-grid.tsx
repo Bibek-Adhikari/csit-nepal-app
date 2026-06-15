@@ -32,24 +32,16 @@ export function LectureGrid() {
   return (
     <>
       <div style={{ marginBottom: "1rem" }}>
-        <div style={{ position: "relative", marginBottom: "0.75rem" }}>
-          <i className="bx bx-search" style={{ position: "absolute", left: "0.85rem", top: "50%", transform: "translateY(-50%)", fontSize: "1.1rem", color: "var(--text-muted)" }}></i>
-          <input
-            type="text"
-            placeholder="Search lectures or subjects..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "0.75rem 1rem 0.75rem 2.5rem",
-              borderRadius: "14px",
-              border: "1px solid var(--border)",
-              background: "var(--bg-card)",
-              color: "var(--text-main)",
-              fontSize: "0.88rem",
-              outline: "none",
-            }}
-          />
+        <div style={{ marginBottom: "0.75rem" }}>
+          <div className="app-search">
+            <i className="bx bx-search app-search-icon"></i>
+            <input
+              type="text"
+              placeholder="Search lectures or subjects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
         <div className="semester-scroller" style={{ padding: 0 }}>
           {semesterFilters.map((sem) => (
