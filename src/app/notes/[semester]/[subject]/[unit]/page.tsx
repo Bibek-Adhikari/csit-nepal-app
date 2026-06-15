@@ -3,8 +3,36 @@ import { notFound } from "next/navigation";
 import { getSemester, getSubject, getUnit, semesters, type SemesterKey } from "@/content/subjects";
 import { CompletionToggle } from "@/components/completion-toggle";
 
+// Type definitions
+interface NoteItem {
+  href: string;
+  title: string;
+}
+
+interface UnitNotes {
+  pdf: NoteItem[];
+  handwritten: NoteItem[];
+}
+
+interface Unit {
+  slug: string;
+  title: string;
+  summary: string;
+  notes: UnitNotes;
+}
+
+interface Subject {
+  slug: string;
+  units: Unit[];
+}
+
+interface Semester {
+  key: string;
+  subjects: Subject[];
+}
+
 export function generateStaticParams() {
-  return semesters.flatMap((semester) =>
+  return (semesters as Semester[]).flatMap((semester) =>
     semester.subjects.flatMap((subject) =>
       subject.units.map((unit) => ({ semester: semester.key, subject: subject.slug, unit: unit.slug })),
     ),
@@ -46,7 +74,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
             <span className="card-meta-inline">No PDF notes available yet</span>
           </div>
         ) : (
-          unitData.notes.pdf.map((item) => (
+          unitData.notes.pdf.map((item: NoteItem) => (
             <a key={item.href} href={item.href} target="_blank" rel="noreferrer noopener" className="app-card">
               <div className="card-left">
                 <span className="card-code">PDF</span>
@@ -65,7 +93,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
             <span className="card-meta-inline">No handwritten notes available yet</span>
           </div>
         ) : (
-          unitData.notes.handwritten.map((item) => (
+          unitData.notes.handwritten.map((item: NoteItem) => (
             <a key={item.href} href={item.href} target="_blank" rel="noreferrer noopener" className="app-card">
               <div className="card-left">
                 <span className="card-code">Handwritten</span>
@@ -90,3 +118,4 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
     </>
   );
 }
+

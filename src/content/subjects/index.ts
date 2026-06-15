@@ -4,7 +4,7 @@ import { semester3 } from "./semester-3";
 import { semester4 } from "./semester-4";
 import type { SemesterKey } from "./types";
 
-export const semesters: Semester[] = [semester1, semester2, semester3, semester4];
+export const semesters = [semester1, semester2, semester3, semester4];
 
 export function getSemester(key: SemesterKey) {
   return semesters.find((semester) => semester.key === key);

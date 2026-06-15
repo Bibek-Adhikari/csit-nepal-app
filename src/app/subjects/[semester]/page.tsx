@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getSemester, semesters, type SemesterKey } from "@/content/subjects";
+import { getSemester, semesters, type SemesterKey, type Subject } from "@/content/subjects";
 
 export function generateStaticParams() {
   return semesters.map((semester) => ({ semester: semester.key }));
@@ -23,7 +23,7 @@ export default async function SemesterPage({ params }: { params: Promise<{ semes
 
       <h3 className="section-headline">Subjects</h3>
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
-        {data.subjects.map((subject) => (
+        {data.subjects.map((subject: Subject) => (
           <div key={subject.code} className="app-card" style={{ flexDirection: "column", alignItems: "stretch", cursor: "default" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
               <div className="card-left">

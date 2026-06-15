@@ -19,6 +19,7 @@ export function NotesTree() {
 
   const filteredNotes = useMemo(() => {
     if (!allNotes) return [];
+
     const query = searchQuery.toLowerCase().trim();
 
     return allNotes.filter((entry) => {
@@ -136,7 +137,8 @@ export function NotesTree() {
                       No handwritten notes available
                     </li>
                   ) : (
-                    entry.handwritten.map((item) => (
+                    entry.handwritten.map((item: { href: string; title: string }) => (
+
                       <li key={item.href} style={{ marginBottom: "0.4rem" }}>
                         <a
                           href={item.href}

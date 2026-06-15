@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { semesters } from "@/content/subjects";
+import { semesters, type Subject } from "@/content/subjects";
 
 export default function SubjectsPage() {
   return (
@@ -26,7 +26,7 @@ export default function SubjectsPage() {
               <span className="card-meta-inline">
                 {semester.subjects.length} subjects &middot;{" "}
                 {semester.subjects.reduce(
-                  (count, subject) => count + subject.units.length,
+                  (count: number, subject: Subject) => count + subject.units.length,
                   0
                 )}{" "}
                 units
