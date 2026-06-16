@@ -1,78 +1,73 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
 
+const ADMIN_KEY = process.env.ADMIN_KEY || "";
+
 export async function POST(request: Request) {
   try {
+    const adminKey = request.headers.get("x-admin-key") || "";
+    if (!adminKey || adminKey !== ADMIN_KEY) {
+      return NextResponse.json({ error: "Invalid or missing admin key" }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const bucket = ((body.bucket as string) || "notes").trim();
+    const folder = ((body.folder as string) || "").trim();
+    const title = ((body.title as string) || "").trim();
+    const format = ((body.format as string) || "pdf").trim();
+    let fileName = ((body.fileName as string) || "").trim();
+
+    if (!folder) {
+      return NextResponse.json({ error: "folder is required" }, { status: 400 });
+    }
+
+    if (!fileName) {
+      return NextResponse.json({ error: "fileName is required" }, { status: 400 });
+    }
+
+    const fileExt = fileName.split(".").pop();
+    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2)}${fileExt ? "." + fileExt : ""}`;
+    const filePath = `${folder}/${uniqueName}`;
+
     const supabase = getSupabaseServer({ requireServiceRole: true });
 
-    const url = new URL(request.url);
-    const bucketFromQuery = (url.searchParams.get("bucket") || "").trim();
-    const folderFromQuery = (url.searchParams.get("folder") || "").trim();
+    const { data: signedData, error: signedError } = await supabase.storage
+      .from(bucket)
+      .createSignedUploadUrl(filePath);
 
-    const formData = await request.formData();
-    const file = formData.get("file") as File | null;
-
-    const bucketFromForm = ((formData.get("bucket") as string) || "").trim();
-    const folderFromForm = ((formData.get("folder") as string) || "").trim();
-    const titleFromForm = ((formData.get("title") as string) || "").trim();
-    const formatFromForm = ((formData.get("format") as string) || "pdf").trim();
-
-    const bucket = (bucketFromQuery || bucketFromForm || "notes").trim();
-    const folder = (folderFromQuery || folderFromForm || "").trim();
-
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    if (signedError || !signedData) {
+      console.error("Signed URL error:", signedError);
+      return NextResponse.json({ error: signedError?.message || "Failed to create signed upload URL" }, { status: 500 });
     }
 
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}${fileExt ? "." + fileExt : ""}`;
-    const filePath = folder ? `${folder}/${fileName}` : fileName;
-
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(filePath, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    const { data: urlData } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(data.path);
-
+    const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(filePath);
     const publicUrl = urlData.publicUrl;
 
-    const semesterKey = folder.split("/")[0] || "";
-    const subjectSlug = folder.split("/")[1] || "";
-    const unitSlug = folder.split("/")[2] || "";
-
     const { error: dbError } = await supabase.from("notes").insert({
-      title: titleFromForm || file.name.replace(/\.[^/.]+$/, ""),
-      file_name: file.name,
-      file_path: data.path,
-      file_size: file.size,
-      mime_type: file.type || "application/pdf",
-      format: formatFromForm as "pdf" | "handwritten",
+      title: title || fileName.replace(/\.[^/.]+$/, ""),
+      file_name: fileName,
+      file_path: filePath,
+      file_size: (body.fileSize as number) || 0,
+      mime_type: (body.fileType as string) || "application/pdf",
+      format: format as "pdf" | "handwritten",
       bucket,
-      semester_key: semesterKey,
-      subject_slug: subjectSlug,
-      unit_slug: unitSlug,
+      semester_key: folder.split("/")[0] || "",
+      subject_slug: folder.split("/")[1] || "",
+      unit_slug: folder.split("/")[2] || "",
       public_url: publicUrl,
     });
 
     if (dbError) {
       console.error("Failed to insert note record:", dbError);
+      return NextResponse.json({ error: dbError.message }, { status: 500 });
     }
 
     return NextResponse.json({
-      path: data.path,
-      url: publicUrl,
-      name: file.name,
-      size: file.size,
-      type: file.type,
+      signedUrl: signedData.signedUrl,
+      path: filePath,
+      publicUrl,
+      token: signedData.token,
+      fileName,
     });
   } catch (error) {
     console.error("Upload error:", error);

@@ -92,15 +92,6 @@ function PdfViewer() {
         <div className="empty-state" style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
           <i className="bx bxs-file-pdf" style={{ fontSize: "3rem", color: "var(--text-muted)" }}></i>
           <p>Could not load PDF.</p>
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="pill-btn active"
-            style={{ textDecoration: "none" }}
-          >
-            Open PDF directly
-          </a>
         </div>
       </div>
     );
@@ -119,17 +110,8 @@ function PdfViewer() {
         {numPages > 0 && (
           <span className="pdf-viewer-page-info">1 / {numPages}</span>
         )}
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="pdf-viewer-open-btn"
-          aria-label="Open PDF"
-        >
-          <i className="bx bx-show"></i>
-        </a>
       </div>
-      <div className="pdf-viewer-scroll">
+      <div className="pdf-viewer-scroll" onContextMenu={(e) => e.preventDefault()}>
         <Document
           file={url}
           onLoadSuccess={onLoadSuccess}

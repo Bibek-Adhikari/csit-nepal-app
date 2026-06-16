@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { semesters } from "@/content/subjects";
 import { getTotalUnits } from "@/lib/progress";
 import { BackNav } from "@/components/back-nav";
+import Link from "next/link";
 
 const storageKey = "bca-nepal-completed-units";
 
@@ -101,6 +102,14 @@ export default function ProfilePage() {
 
       <h3 className="section-headline">Features</h3>
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+        <Link href="/upload" className="app-card" style={{ textDecoration: "none" }}>
+          <div className="card-left">
+            <span className="card-code">Admin</span>
+            <span className="card-title">Upload Notes</span>
+            <span className="card-meta-inline">Add PDFs to Supabase storage</span>
+          </div>
+          <i className="bx bx-cloud-upload card-chevron"></i>
+        </Link>
         <div className="app-card" style={{ cursor: "default" }}>
           <div className="card-left">
             <span className="card-code">Theme</span>
