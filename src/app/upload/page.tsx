@@ -21,6 +21,10 @@ export default function UploadPage() {
   const [uploadState, setUploadState] = useState<UploadState>("idle");
   const [result, setResult] = useState<{ path: string; url: string; name: string } | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [isTableMissing, setIsTableMissing] = useState(false);
+  const [dbInitState, setDbInitState] = useState<"idle" | "checking" | "done" | "error">("idle");
+  const [dbInitSql, setDbInitSql] = useState("");
+  const [dbInitUrl, setDbInitUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -92,6 +96,11 @@ export default function UploadPage() {
       }
 
       if (!res.ok) {
+        if (data.code === "TABLE_NOT_FOUND") {
+          setIsTableMissing(true);
+          setUploadState("idle");
+          return;
+        }
         throw new Error((data.error as string) || "Failed to get upload URL");
       }
 
@@ -135,7 +144,26 @@ export default function UploadPage() {
     setUploadState("idle");
     setResult(null);
     setErrorMsg("");
+    setIsTableMissing(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const runDbInit = async () => {
+    setDbInitState("checking");
+    try {
+      const res = await fetch("/api/db/init", { method: "POST" });
+      const data = await res.json();
+      if (data.created) {
+        setDbInitState("done");
+        setIsTableMissing(false);
+      } else {
+        setDbInitSql(data.sql || "");
+        setDbInitUrl(data.sqlEditorUrl || "");
+        setDbInitState("error");
+      }
+    } catch {
+      setDbInitState("error");
+    }
   };
 
   // ─── Auth gate ───────────────────────────────────────────────
@@ -343,10 +371,62 @@ export default function UploadPage() {
           )}
 
           {/* Error */}
-          {uploadState === "error" && (
+          {uploadState === "error" && !isTableMissing && (
             <div className="upload-message upload-message-error">
               <i className="bx bx-error-circle"></i>
               <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {/* Table missing — show setup */}
+          {isTableMissing && dbInitState === "idle" && (
+            <div className="upload-message upload-message-error">
+              <i className="bx bx-database"></i>
+              <div>
+                <div style={{ fontWeight: 700, marginBottom: "0.25rem" }}>Database table missing</div>
+                <p style={{ fontSize: "0.78rem", margin: 0 }}>The <code>notes</code> table has not been created in Supabase.</p>
+                <button className="upload-btn" onClick={runDbInit} style={{ marginTop: "0.75rem", fontSize: "0.85rem" }}>
+                  <i className="bx bx-wrench"></i>
+                  Run Database Setup
+                </button>
+              </div>
+            </div>
+          )}
+
+          {dbInitState === "checking" && (
+            <div className="upload-message" style={{ background: "var(--bg-app-2)", border: "none" }}>
+              <i className="bx bx-loader-alt bx-spin"></i>
+              <span>Checking database setup…</span>
+            </div>
+          )}
+
+          {dbInitState === "done" && (
+            <div className="upload-message upload-message-success">
+              <i className="bx bx-check-circle"></i>
+              <span>Database ready! Try uploading again.</span>
+            </div>
+          )}
+
+          {dbInitState === "error" && dbInitSql && (
+            <div className="upload-message upload-message-error">
+              <i className="bx bx-error-circle"></i>
+              <div>
+                <div style={{ fontWeight: 700, marginBottom: "0.25rem" }}>Manual setup required</div>
+                <p style={{ fontSize: "0.78rem", margin: "0 0 0.5rem" }}>
+                  Open the Supabase SQL editor and run the SQL below:
+                </p>
+                {dbInitUrl && (
+                  <a href={dbInitUrl} target="_blank" rel="noreferrer noopener" className="upload-btn" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.85rem", marginBottom: "0.5rem", textDecoration: "none" }}>
+                    <i className="bx bx-external-link"></i>
+                    Open SQL Editor
+                  </a>
+                )}
+                <pre style={{ fontSize: "0.7rem", background: "var(--bg-app)", padding: "0.75rem", borderRadius: 6, overflowX: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{dbInitSql}</pre>
+                <button className="upload-btn upload-btn-secondary" onClick={() => navigator.clipboard.writeText(dbInitSql)} style={{ fontSize: "0.85rem" }}>
+                  <i className="bx bx-copy"></i>
+                  Copy SQL
+                </button>
+              </div>
             </div>
           )}
 

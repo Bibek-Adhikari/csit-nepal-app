@@ -59,6 +59,12 @@ export async function POST(request: Request) {
 
     if (dbError) {
       console.error("Failed to insert note record:", dbError);
+      if (dbError.message?.includes("does not exist")) {
+        return NextResponse.json({
+          error: "The 'notes' database table does not exist. Run POST /api/db/init or execute the setup SQL in Supabase dashboard.",
+          code: "TABLE_NOT_FOUND",
+        }, { status: 500 });
+      }
       return NextResponse.json({ error: dbError.message }, { status: 500 });
     }
 
