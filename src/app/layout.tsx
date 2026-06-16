@@ -31,13 +31,13 @@ export const metadata: Metadata = {
     url: APP_URL,
     siteName: "BCA Nepal",
     type: "website",
-    images: [{ url: "/icons/icon-512x512.png", width: 512, height: 512 }],
+    images: [{ url: "/icons/fabi.jpg", width: 512, height: 512 }],
   },
   twitter: {
     card: "summary",
     title: "BCA Nepal",
     description: "TU BCA study hub with notes, lectures, and progress tracking.",
-    images: ["/icons/icon-512x512.png"],
+    images: ["/icons/fabi.jpg"],
   },
   manifest: "/manifest.json",
   appleWebApp: {
