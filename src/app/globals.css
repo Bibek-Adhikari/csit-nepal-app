@@ -2098,6 +2098,153 @@ html.dark .unit-note-empty {
   }
 }
 
+/* Watch Page (YouTube Embed) */
+.watch-container {
+  padding: 0.85rem;
+}
+
+.watch-player-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: #0f172a;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+}
+
+html.dark .watch-player-wrapper {
+  border-color: rgba(36, 50, 74, 0.9);
+}
+
+.watch-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.watch-actions {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.watch-actions .pill-btn {
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* Related Lectures */
+.related-lectures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.related-lecture-card {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease;
+}
+
+html.dark .related-lecture-card {
+  border-color: rgba(36, 50, 74, 0.9);
+  background: rgba(15, 23, 42, 0.94);
+}
+
+.related-lecture-card:active {
+  transform: scale(0.98);
+}
+
+.related-lecture-thumb {
+  position: relative;
+  width: 140px;
+  flex-shrink: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.related-lecture-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.related-lecture-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.related-lecture-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.related-lecture-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* PDF Viewer */
+.pdf-viewer-wrapper {
+  width: 100%;
+  height: calc(100vh - 200px);
+  min-height: 70vh;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: #f1f5f9;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+}
+
+html.dark .pdf-viewer-wrapper {
+  border-color: rgba(36, 50, 74, 0.9);
+  background: #0f172a;
+}
+
+.pdf-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .watch-container {
+    padding: 0.85rem 1.35rem;
+  }
+
+  .related-lectures-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;

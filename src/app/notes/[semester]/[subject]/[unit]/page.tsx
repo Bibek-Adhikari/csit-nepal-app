@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSemester, getSubject, getUnit, semesters, type SemesterKey } from "@/content/subjects";
 import { CompletionToggle } from "@/components/completion-toggle";
+import { RelatedLectures } from "@/components/related-lectures";
 import { getSupabaseServer } from "@/lib/supabase";
 import { BackNav } from "@/components/back-nav";
 
@@ -64,11 +65,10 @@ function formatNoteTitle(name: string): string {
 
 function NoteCard({ item, type }: { item: NoteItem; type: "pdf" | "handwritten" }) {
   const isPdf = type === "pdf";
+  const viewUrl = `/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}`;
   return (
-    <a
-      href={item.href}
-      target="_blank"
-      rel="noreferrer noopener"
+    <Link
+      href={viewUrl}
       className="unit-note-card"
     >
       <span className={`unit-note-badge ${isPdf ? "pdf" : "hw"}`}>
@@ -77,7 +77,7 @@ function NoteCard({ item, type }: { item: NoteItem; type: "pdf" | "handwritten" 
       </span>
       <span className="unit-note-title">{item.title}</span>
       <i className="bx bx-download unit-note-dl"></i>
-    </a>
+    </Link>
   );
 }
 
@@ -178,6 +178,8 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
           )}
         </div>
       </section>
+
+      <RelatedLectures semesterKey={semester} subjectSlug={subject} />
 
       <div className="unit-back-row">
         <Link

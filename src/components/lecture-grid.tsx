@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 type LectureVideo = {
   id: string;
   title: string;
@@ -132,11 +133,9 @@ export function LectureGrid() {
       ) : (
         <div className="lecture-grid">
           {filteredLectures.map((video) => (
-            <a
+            <Link
               key={video.id}
-              href={`https://www.youtube.com/watch?v=${video.id}`}
-              target="_blank"
-              rel="noreferrer noopener"
+              href={`/watch/${video.id}`}
               className="lecture-card"
             >
               <div className="lecture-thumb">
@@ -157,7 +156,7 @@ export function LectureGrid() {
                 <h3 className="lecture-title">{video.title}</h3>
                 <p className="lecture-meta">{video.subject} &middot; {video.meta}</p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}
