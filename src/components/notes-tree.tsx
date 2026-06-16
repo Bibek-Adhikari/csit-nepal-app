@@ -12,31 +12,69 @@ const semesters = [
   { key: "semester-4", label: "4th Sem" },
 ];
 
+type NotesEntry = {
+  semesterKey: string;
+  semesterLabel: string;
+  subject: { slug: string; code: string; title: string };
+  unit: { slug: string; title: string; summary: string };
+  pdf: { title: string; href: string }[];
+  handwritten: { title: string; href: string }[];
+};
+
+type SubjectGroup = {
+  semesterKey: string;
+  semesterLabel: string;
+  subject: { slug: string; code: string; title: string };
+  units: NotesEntry[];
+};
+
+function groupBySubject(entries: NotesEntry[]): SubjectGroup[] {
+  const map = new Map<string, SubjectGroup>();
+  for (const entry of entries) {
+    const key = `${entry.semesterKey}-${entry.subject.slug}`;
+    const hasNotes = entry.pdf.length > 0 || entry.handwritten.length > 0;
+    if (!hasNotes) continue;
+    if (!map.has(key)) {
+      map.set(key, {
+        semesterKey: entry.semesterKey,
+        semesterLabel: entry.semesterLabel,
+        subject: entry.subject,
+        units: [],
+      });
+    }
+    map.get(key)!.units.push(entry);
+  }
+  return Array.from(map.values());
+}
+
 export function NotesTree() {
   const allNotes = useMemo(() => getAllNotes(), []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
 
-  const filteredNotes = useMemo(() => {
-    if (!allNotes) return [];
-
+  const grouped = useMemo(() => {
+    const entries = allNotes as NotesEntry[];
     const query = searchQuery.toLowerCase().trim();
 
-    return allNotes.filter((entry) => {
-      const matchesSemester =
-        selectedSemester === "all" || entry.semesterKey === selectedSemester;
-      const matchesSearch =
-        query === "" ||
-        entry.subject.title.toLowerCase().includes(query) ||
-        entry.unit.title.toLowerCase().includes(query) ||
-        entry.subject.code.toLowerCase().includes(query);
-      return matchesSemester && matchesSearch;
-    });
+    const filtered = query
+      ? entries.filter(
+          (e) =>
+            e.subject.title.toLowerCase().includes(query) ||
+            e.unit.title.toLowerCase().includes(query) ||
+            e.subject.code.toLowerCase().includes(query),
+        )
+      : entries;
+
+    const groups = groupBySubject(filtered);
+
+    if (selectedSemester !== "all") {
+      return groups.filter((g) => g.semesterKey === selectedSemester);
+    }
+    return groups;
   }, [allNotes, searchQuery, selectedSemester]);
 
   return (
     <>
-      {/* Controls */}
       <div className="notes-tree-controls">
         <div className="notes-tree-search-row">
           <div className="app-search">
@@ -65,95 +103,52 @@ export function NotesTree() {
         </div>
       </div>
 
-      {/* List */}
-      {filteredNotes.length === 0 ? (
+      {grouped.length === 0 ? (
         <div className="notes-empty">
           <p>No notes found matching your criteria.</p>
         </div>
       ) : (
-        filteredNotes.map((entry) => (
+        grouped.map((group) => (
           <section
-            key={`${entry.semesterKey}-${entry.subject.slug}-${entry.unit.slug}`}
+            key={`${group.semesterKey}-${group.subject.slug}`}
             className="notes-entry"
           >
-            {/* Header */}
             <div className="notes-entry-header">
               <div>
-                <p className="notes-entry-sem">{entry.semesterLabel}</p>
-                <h3 className="notes-entry-title">{entry.subject.title}</h3>
-                <p className="notes-entry-meta">
-                  {entry.subject.code} — {entry.unit.title}
-                </p>
+                <p className="notes-entry-sem">{group.semesterLabel}</p>
+                <h3 className="notes-entry-title">{group.subject.title}</h3>
+                <p className="notes-entry-meta">{group.subject.code}</p>
               </div>
-              <Link
-                href={`/notes/${entry.semesterKey}/${entry.subject.slug}/${entry.unit.slug}`}
-                className="notes-entry-action"
-              >
-                Open unit notes
-                <i className="bx bx-external-link"></i>
-              </Link>
             </div>
 
-            {/* Content Grid */}
             <div className="notes-entry-grid">
-              {/* PDF Notes */}
-              <div className="notes-col">
-                <div className="notes-col-head">
-                  <i className="bx bxs-file-doc"></i>
-                  <span>PDF Notes</span>
+              {group.units.map((entry) => (
+                <div key={entry.unit.slug} className="nt-unit-card">
+                  <div className="nt-unit-info">
+                    <span className="nt-unit-title">{entry.unit.title}</span>
+                    <span className="nt-unit-summary">{entry.unit.summary}</span>
+                    <div className="nt-unit-badges">
+                      {entry.pdf.length > 0 && (
+                        <span className="nt-badge pdf">
+                          <i className="bx bxs-file-pdf"></i> PDF
+                        </span>
+                      )}
+                      {entry.handwritten.length > 0 && (
+                        <span className="nt-badge hw">
+                          <i className="bx bxs-pencil"></i> Handwritten
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <Link
+                    href={`/notes/${entry.semesterKey}/${entry.subject.slug}/${entry.unit.slug}`}
+                    className="nt-unit-open"
+                  >
+                    Open
+                    <i className="bx bx-chevron-right"></i>
+                  </Link>
                 </div>
-                <ul>
-                  {entry.pdf.length === 0 ? (
-                    <li className="notes-item-empty">
-                      No PDF notes available
-                    </li>
-                  ) : (
-                    entry.pdf.map((item: { href: string; title: string }) => (
-                      <li key={item.href} style={{ marginBottom: "0.4rem" }}>
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="notes-item"
-                        >
-                          <span className="notes-item-label">{item.title}</span>
-                          <span className="notes-item-tag">PDF</span>
-                        </a>
-                      </li>
-                    ))
-                  )}
-                </ul>
-              </div>
-
-              {/* Handwritten Notes */}
-              <div className="notes-col">
-                <div className="notes-col-head">
-                  <i className="bx bxs-pencil amber"></i>
-                  <span>Handwritten Notes</span>
-                </div>
-                <ul>
-                  {entry.handwritten.length === 0 ? (
-                    <li className="notes-item-empty">
-                      No handwritten notes available
-                    </li>
-                  ) : (
-                    entry.handwritten.map((item: { href: string; title: string }) => (
-
-                      <li key={item.href} style={{ marginBottom: "0.4rem" }}>
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="notes-item"
-                        >
-                          <span className="notes-item-label">{item.title}</span>
-                          <span className="notes-item-tag amber">Handwritten</span>
-                        </a>
-                      </li>
-                    ))
-                  )}
-                </ul>
-              </div>
+              ))}
             </div>
           </section>
         ))

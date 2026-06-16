@@ -5,7 +5,6 @@ import { CompletionToggle } from "@/components/completion-toggle";
 import { getSupabaseServer } from "@/lib/supabase";
 import { BackNav } from "@/components/back-nav";
 
-// Type definitions
 interface NoteItem {
   href: string;
   title: string;
@@ -45,6 +44,55 @@ export function generateStaticParams() {
   );
 }
 
+function isValidNoteName(name: string): boolean {
+  const nameWithoutExt = name.replace(/\.[^/.]+$/, "");
+  if (/^\d+$/.test(nameWithoutExt)) return false;
+  if (/^\d{10,}\s/.test(nameWithoutExt)) return false;
+  return true;
+}
+
+function formatNoteTitle(name: string): string {
+  return name
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[-_]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function NoteCard({ item, type }: { item: NoteItem; type: "pdf" | "handwritten" }) {
+  const isPdf = type === "pdf";
+  return (
+    <a
+      href={item.href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="unit-note-card"
+    >
+      <span className={`unit-note-badge ${isPdf ? "pdf" : "hw"}`}>
+        <i className={`bx ${isPdf ? "bxs-file-pdf" : "bxs-pencil"}`}></i>
+        {isPdf ? "PDF" : "Handwritten"}
+      </span>
+      <span className="unit-note-title">{item.title}</span>
+      <i className="bx bx-download unit-note-dl"></i>
+    </a>
+  );
+}
+
+function EmptyNote({ type }: { type: "pdf" | "handwritten" }) {
+  const isPdf = type === "pdf";
+  return (
+    <div className="unit-note-empty">
+      <i className={`bx ${isPdf ? "bxs-file-pdf" : "bxs-pencil"}`}></i>
+      <span className="unit-note-empty-label">
+        No {isPdf ? "PDF" : "handwritten"} notes available
+      </span>
+    </div>
+  );
+}
+
 export default async function UnitNotesPage({ params }: { params: Promise<{ semester: SemesterKey; subject: string; unit: string }> }) {
   const { semester, subject, unit } = await params;
   const semesterData = getSemester(semester);
@@ -68,21 +116,16 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
       });
 
     if (!error && files) {
-      files.forEach((file) => {
+      files.forEach((file: { name: string }) => {
         if (file.name === ".emptyFolderPlaceholder" || file.name === "placeholder.txt") return;
+        if (!isValidNoteName(file.name)) return;
 
         const { data: urlData } = supabase.storage
           .from("notes")
           .getPublicUrl(`${folderPath}/${file.name}`);
 
-        const cleanTitle = file.name
-          .replace(/\.[^/.]+$/, "")
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-
         const noteItem: NoteItem = {
-          title: cleanTitle,
+          title: formatNoteTitle(file.name),
           href: urlData.publicUrl,
         };
 
@@ -104,68 +147,46 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
   return (
     <>
       <BackNav href={`/subjects/${semester}/${subject}`} label={subjectData.title} />
-      <section className="welcome-hero">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", flexWrap: "wrap" }}>
-          <div>
-            <div className="badge-row" style={{ margin: 0 }}>
-              <span className="sheet-badge accent">{semesterData.label}</span>
-              <span className="sheet-badge">{subjectData.code}</span>
-            </div>
-            <h2 style={{ marginTop: "0.5rem" }}>{unitData.title}</h2>
-            <p style={{ marginBottom: 0 }}>{unitData.summary}</p>
+      <section className="unit-hero">
+        <div className="unit-hero-top">
+          <div className="badge-row" style={{ margin: 0 }}>
+            <span className="sheet-badge accent">{semesterData.label}</span>
+            <span className="sheet-badge">{subjectData.code}</span>
           </div>
-          <div style={{ flexShrink: 0 }}>
-            <CompletionToggle semesterKey={semester} subjectSlug={subject} unitSlug={unit} />
-          </div>
+          <CompletionToggle semesterKey={semester} subjectSlug={subject} unitSlug={unit} />
+        </div>
+        <h2 className="unit-hero-title">{unitData.title}</h2>
+        <p className="unit-hero-desc">{unitData.summary}</p>
+      </section>
+
+      <section className="unit-notes-section">
+        <h3 className="section-headline">Notes</h3>
+        <div className="unit-notes-list">
+          {pdfNotes.length === 0 ? (
+            <EmptyNote type="pdf" />
+          ) : (
+            pdfNotes.map((item: NoteItem) => (
+              <NoteCard key={item.href} item={item} type="pdf" />
+            ))
+          )}
+          {handwrittenNotes.length === 0 ? (
+            <EmptyNote type="handwritten" />
+          ) : (
+            handwrittenNotes.map((item: NoteItem) => (
+              <NoteCard key={item.href} item={item} type="handwritten" />
+            ))
+          )}
         </div>
       </section>
 
-      <h3 className="section-headline">PDF Notes</h3>
-      <div className="subject-stack">
-        {pdfNotes.length === 0 ? (
-          <div className="app-card" style={{ cursor: "default", justifyContent: "center" }}>
-            <span className="card-meta-inline">No PDF notes available yet</span>
-          </div>
-        ) : (
-          pdfNotes.map((item: NoteItem) => (
-            <a key={item.href} href={item.href} target="_blank" rel="noreferrer noopener" className="app-card">
-              <div className="card-left">
-                <span className="card-code">PDF</span>
-                <span className="card-title">{item.title}</span>
-              </div>
-              <i className="bx bx-download card-chevron"></i>
-            </a>
-          ))
-        )}
-      </div>
-
-      <h3 className="section-headline" style={{ marginTop: "1rem" }}>Handwritten Notes</h3>
-      <div className="subject-stack">
-        {handwrittenNotes.length === 0 ? (
-          <div className="app-card" style={{ cursor: "default", justifyContent: "center" }}>
-            <span className="card-meta-inline">No handwritten notes available yet</span>
-          </div>
-        ) : (
-          handwrittenNotes.map((item: NoteItem) => (
-            <a key={item.href} href={item.href} target="_blank" rel="noreferrer noopener" className="app-card">
-              <div className="card-left">
-                <span className="card-code">Handwritten</span>
-                <span className="card-title">{item.title}</span>
-              </div>
-              <i className="bx bx-download card-chevron"></i>
-            </a>
-          ))
-        )}
-      </div>
-
-      <div style={{ padding: "1rem" }}>
+      <div className="unit-back-row">
         <Link
-          href={`/subjects/${semester}`}
+          href={`/subjects/${semester}/${subject}`}
           className="pill-btn"
           style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
         >
           <i className="bx bx-arrow-back"></i>
-          Back to {semesterData.label}
+          Back to {subjectData.title}
         </Link>
       </div>
     </>
