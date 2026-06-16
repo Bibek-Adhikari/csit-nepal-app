@@ -156,7 +156,6 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
           <CompletionToggle semesterKey={semester} subjectSlug={subject} unitSlug={unit} />
         </div>
         <h2 className="unit-hero-title">{unitData.title}</h2>
-        <p className="unit-hero-desc">{unitData.summary}</p>
       </section>
 
       <section className="unit-notes-section">

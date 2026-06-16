@@ -61,7 +61,6 @@ export default async function SubjectPage({
             <div className="card-left">
               <span className="card-code">UNIT</span>
               <span className="card-title">{unit.title}</span>
-              <span className="card-meta-inline">{unit.summary}</span>
             </div>
             <i className="bx bx-chevron-right card-chevron"></i>
           </Link>

@@ -1,9 +1,9 @@
-const CACHE_NAME = "bca-nepal-v1";
-const STATIC_CACHE = "bca-nepal-static-v1";
-const API_CACHE = "bca-nepal-api-v1";
-const PDF_CACHE = "bca-nepal-pdf-v1";
+const CACHE = "bca-nepal-v2";
+const STATIC_CACHE = "bca-nepal-static-v2";
+const API_CACHE = "bca-nepal-api-v2";
+const PDF_CACHE = "bca-nepal-pdf-v2";
 
-const STATIC_ASSETS = [
+const PRECACHE_URLS = [
   "/",
   "/offline.html",
   "/manifest.json",
@@ -15,108 +15,131 @@ const STATIC_ASSETS = [
 const SUPABASE_DOMAIN = "yrahncykruiwkiwtxjlv.supabase.co";
 const YT_IMG_DOMAIN = "i.ytimg.com";
 
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn("Precache failed for some assets:", err);
-      });
-    })
+    caches.open(STATIC_CACHE).then((cache) =>
+      cache.addAll(PRECACHE_URLS).catch(() => {})
+    )
   );
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
+    caches.keys().then((keys) =>
+      Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME && key !== STATIC_CACHE && key !== API_CACHE && key !== PDF_CACHE)
-          .map((key) => caches.delete(key))
-      );
-    })
+          .filter((k) => k !== CACHE && k !== STATIC_CACHE && k !== API_CACHE && k !== PDF_CACHE)
+          .map((k) => caches.delete(k))
+      )
+    )
   );
   self.clients.claim();
 });
 
-function isNavigationRequest(request) {
-  return request.mode === "navigate";
+function isNavigation(req) {
+  return req.mode === "navigate";
 }
 
-function isApiRequest(url) {
+function isApi(url) {
   return url.pathname.startsWith("/api/");
 }
 
-function isPdfRequest(url) {
+function isPdf(url) {
   return url.pathname.endsWith(".pdf");
 }
 
-function isStaticAsset(url) {
-  const extensions = [".js", ".css", ".png", ".jpg", ".jpeg", ".svg", ".ico", ".woff", ".woff2"];
-  return extensions.some((ext) => url.pathname.endsWith(ext));
+function isStatic(url) {
+  return /\.(js|css|png|jpg|jpeg|svg|ico|woff2?)$/.test(url.pathname);
 }
 
-function isSupabaseRequest(url) {
+function isSupabase(url) {
   return url.hostname === SUPABASE_DOMAIN;
 }
 
-function isYtThumbnail(url) {
+function isYt(url) {
   return url.hostname === YT_IMG_DOMAIN;
+}
+
+function isSameOrigin(url) {
+  return url.origin === self.location.origin;
 }
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
-  const request = event.request;
+  const req = event.request;
 
-  if (isNavigationRequest(request)) {
-    event.respondWith(networkFirstWithFallback(request, "/offline.html"));
+  // Navigation: network-first, fallback to cache, then offline page
+  if (isNavigation(req)) {
+    event.respondWith(networkFirstWithFallback(req, "/offline.html"));
     return;
   }
 
-  if (isApiRequest(url)) {
-    event.respondWith(networkFirstCache(request, API_CACHE));
+  // API: network-first with cache fallback
+  if (isApi(url)) {
+    event.respondWith(networkFirstCache(req, API_CACHE));
     return;
   }
 
-  if (isPdfRequest(url) || isSupabaseRequest(url)) {
-    event.respondWith(cacheFirstWithRefresh(request, PDF_CACHE));
+  // PDFs and Supabase storage: cache-first
+  if (isPdf(url) || isSupabase(url)) {
+    event.respondWith(cacheFirstWithRefresh(req, PDF_CACHE));
     return;
   }
 
-  if (isStaticAsset(url) || isYtThumbnail(url)) {
-    event.respondWith(cacheFirstWithRefresh(request, STATIC_CACHE));
+  // YouTube thumbnails: cache-first
+  if (isYt(url)) {
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
     return;
   }
 
-  event.respondWith(networkFirstWithFallback(request, "/offline.html"));
+  // Static assets (JS, CSS, images): cache-first
+  if (isStatic(url)) {
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    return;
+  }
+
+  // Same-origin requests (RSC payloads, pages, etc.): cache-first
+  if (isSameOrigin(url)) {
+    event.respondWith(cacheFirstWithRefresh(req, CACHE));
+    return;
+  }
+
+  // Cross-origin: network-first with offline fallback
+  event.respondWith(networkFirstWithFallback(req, "/offline.html"));
 });
 
 async function networkFirstWithFallback(request, fallbackUrl) {
   try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, response.clone());
+    const res = await fetch(request);
+    if (res.ok) {
+      const cache = await caches.open(CACHE);
+      cache.put(request, res.clone());
     }
-    return response;
-  } catch (err) {
+    return res;
+  } catch {
     const cached = await caches.match(request);
     if (cached) return cached;
     const fallback = await caches.match(fallbackUrl);
-    if (fallback) return fallback;
-    return new Response("Offline", { status: 503 });
+    return fallback || new Response("Offline", { status: 503 });
   }
 }
 
 async function networkFirstCache(request, cacheName) {
   try {
-    const response = await fetch(request);
-    if (response.ok) {
+    const res = await fetch(request);
+    if (res.ok) {
       const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+      cache.put(request, res.clone());
     }
-    return response;
-  } catch (err) {
+    return res;
+  } catch {
     const cached = await caches.match(request);
     return cached || new Response(JSON.stringify({ error: "Offline" }), {
       status: 503,
@@ -132,25 +155,23 @@ async function cacheFirstWithRefresh(request, cacheName) {
     return cached;
   }
   try {
-    const response = await fetch(request);
-    if (response.ok) {
+    const res = await fetch(request);
+    if (res.ok) {
       const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+      cache.put(request, res.clone());
     }
-    return response;
-  } catch (err) {
+    return res;
+  } catch {
     return new Response("", { status: 503 });
   }
 }
 
 async function fetchAndUpdateCache(request, cacheName) {
   try {
-    const response = await fetch(request);
-    if (response.ok) {
+    const res = await fetch(request);
+    if (res.ok) {
       const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
+      cache.put(request, res);
     }
-  } catch (err) {
-    // silently fail
-  }
+  } catch {}
 }
