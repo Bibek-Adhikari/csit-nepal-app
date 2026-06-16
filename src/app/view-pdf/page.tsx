@@ -57,19 +57,54 @@ function PdfViewer() {
   const [numPages, setNumPages] = useState<number>(0);
   const [loadError, setLoadError] = useState(false);
   const [pageWidth, setPageWidth] = useState(800);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [dlProgress, setDlProgress] = useState(0);
+  const [dlState, setDlState] = useState<"fetching" | "ready" | "error" | "none">("none");
+  const blobUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
     setPageWidth(Math.min(window.innerWidth - 16, 800));
   }, []);
 
-  const onLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setLoadError(false);
-  }, []);
+  useEffect(() => {
+    if (!url) return;
+    let cancelled = false;
 
-  const onLoadError = useCallback(() => {
-    setLoadError(true);
-  }, []);
+    const load = async () => {
+      setDlState("fetching");
+      setDlProgress(0);
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const total = parseInt(res.headers.get("Content-Length") || "0", 10);
+        const reader = res.body!.getReader();
+        const chunks: Uint8Array[] = [];
+        let received = 0;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+          received += value.length;
+          if (total) setDlProgress(Math.round((received / total) * 100));
+        }
+        if (cancelled) return;
+        const blob = new Blob(chunks as BlobPart[], { type: "application/pdf" });
+        const blobUrl_ = URL.createObjectURL(blob);
+        blobUrlRef.current = blobUrl_;
+        setBlobUrl(blobUrl_);
+        setDlState("ready");
+      } catch {
+        if (!cancelled) setDlState("error");
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    };
+  }, [url]);
 
   if (!url) {
     return (
@@ -79,14 +114,10 @@ function PdfViewer() {
     );
   }
 
-  if (loadError) {
+  if (dlState === "error" || (dlState === "none" && loadError)) {
     return (
       <div className="pdf-viewer-root">
-        <button
-          className="pdf-viewer-back"
-          onClick={() => window.history.back()}
-          aria-label="Go back"
-        >
+        <button className="pdf-viewer-back" onClick={() => window.history.back()} aria-label="Go back">
           <i className="bx bx-arrow-back"></i>
         </button>
         <div className="empty-state" style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
@@ -100,33 +131,54 @@ function PdfViewer() {
   return (
     <div className="pdf-viewer-root">
       <div className="pdf-viewer-top-bar">
-        <button
-          className="pdf-viewer-back"
-          onClick={() => window.history.back()}
-          aria-label="Go back"
-        >
+        <button className="pdf-viewer-back" onClick={() => window.history.back()} aria-label="Go back">
           <i className="bx bx-arrow-back"></i>
         </button>
-        {numPages > 0 && (
-          <span className="pdf-viewer-page-info">1 / {numPages}</span>
+        {numPages > 0 && <span className="pdf-viewer-page-info">1 / {numPages}</span>}
+        {dlState === "fetching" && (
+          <span className="pdf-viewer-page-info" style={{ fontSize: "0.72rem" }}>
+            {dlProgress > 0 ? `${dlProgress}%` : "Loading…"}
+          </span>
         )}
       </div>
+
+      {dlState === "fetching" && (
+        <div style={{ padding: "1rem 1.5rem 0" }}>
+          <div style={{ height: 4, borderRadius: 2, background: "var(--border)", overflow: "hidden" }}>
+            <div
+              style={{
+                height: "100%",
+                width: `${dlProgress || 2}%`,
+                background: "linear-gradient(90deg, #2563eb, #0ea5e9)",
+                borderRadius: 2,
+                transition: "width 0.3s ease",
+              }}
+            />
+          </div>
+          <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.4rem" }}>
+            {dlProgress > 0 ? `Downloading PDF… ${dlProgress}%` : "Fetching PDF…"}
+          </p>
+        </div>
+      )}
+
       <div className="pdf-viewer-scroll" onContextMenu={(e) => e.preventDefault()}>
-        <Document
-          file={url}
-          onLoadSuccess={onLoadSuccess}
-          onLoadError={onLoadError}
-          loading={
-            <div className="pdf-viewer-loading">
-              <i className="bx bx-loader-alt bx-spin" style={{ fontSize: "2rem" }}></i>
-              <p>Loading PDF…</p>
-            </div>
-          }
-        >
-          {Array.from(new Array(numPages), (_, index) => (
-            <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} />
-          ))}
-        </Document>
+        {blobUrl && (
+          <Document
+            file={blobUrl}
+            onLoadSuccess={({ numPages }) => { setNumPages(numPages); setLoadError(false); }}
+            onLoadError={() => setLoadError(true)}
+            loading={
+              <div className="pdf-viewer-loading">
+                <i className="bx bx-loader-alt bx-spin" style={{ fontSize: "2rem" }}></i>
+                <p>Rendering PDF…</p>
+              </div>
+            }
+          >
+            {Array.from(new Array(numPages), (_, index) => (
+              <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} />
+            ))}
+          </Document>
+        )}
       </div>
     </div>
   );
