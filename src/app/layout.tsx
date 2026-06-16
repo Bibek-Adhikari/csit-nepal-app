@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_SITE_URL
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_SITE_URL : undefined;
+const APP_URL = SITE_URL
   || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`)
   || "http://localhost:3000";
 
