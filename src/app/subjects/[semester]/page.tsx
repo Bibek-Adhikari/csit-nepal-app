@@ -24,7 +24,7 @@ export default async function SemesterPage({ params }: { params: Promise<{ semes
       <h3 className="section-headline">Subjects</h3>
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
         {data.subjects.map((subject: Subject) => (
-          <div key={subject.code} className="app-card" style={{ flexDirection: "column", alignItems: "stretch", cursor: "default" }}>
+          <div key={subject.code} id={subject.slug} className="app-card" style={{ flexDirection: "column", alignItems: "stretch", cursor: "default" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
               <div className="card-left">
                 <span className="card-code">{subject.code}</span>

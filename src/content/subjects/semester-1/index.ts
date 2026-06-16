@@ -18,10 +18,10 @@ export const semester1: Semester = {
           summary: "Tokens, data types, operators, I/O, and algorithmic thinking.",
           notes: {
             pdf: [
-              { title: "Unit 1 PDF Notes", href: "/notes/semester-1/programming-in-c/c-basics.pdf", format: "pdf" },
+              { title: "Unit 1 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/c-basics/c-basics.pdf", format: "pdf" },
             ],
             handwritten: [
-              { title: "Unit 1 Handwritten Notes", href: "/notes/semester-1/programming-in-c/c-basics-handwritten.pdf", format: "handwritten" },
+              { title: "Unit 1 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/c-basics/c-basics-handwritten.pdf", format: "handwritten" },
             ],
           },
         },
@@ -31,10 +31,10 @@ export const semester1: Semester = {
           summary: "Branching, iteration, nested loops, and runtime tracing.",
           notes: {
             pdf: [
-              { title: "Unit 2 PDF Notes", href: "/notes/semester-1/programming-in-c/control-and-loops.pdf", format: "pdf" },
+              { title: "Unit 2 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-and-loops/control-and-loops.pdf", format: "pdf" },
             ],
             handwritten: [
-              { title: "Unit 2 Handwritten Notes", href: "/notes/semester-1/programming-in-c/control-and-loops-handwritten.pdf", format: "handwritten" },
+              { title: "Unit 2 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-and-loops/control-and-loops-handwritten.pdf", format: "handwritten" },
             ],
           },
         },
@@ -44,10 +44,10 @@ export const semester1: Semester = {
           summary: "Modularity, memory addresses, structures, and file operations.",
           notes: {
             pdf: [
-              { title: "Unit 3 PDF Notes", href: "/notes/semester-1/programming-in-c/functions-pointers-files.pdf", format: "pdf" },
+              { title: "Unit 3 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-pointers-files/functions-pointers-files.pdf", format: "pdf" },
             ],
             handwritten: [
-              { title: "Unit 3 Handwritten Notes", href: "/notes/semester-1/programming-in-c/functions-pointers-files-handwritten.pdf", format: "handwritten" },
+              { title: "Unit 3 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-pointers-files/functions-pointers-files-handwritten.pdf", format: "handwritten" },
             ],
           },
         },
@@ -65,8 +65,8 @@ export const semester1: Semester = {
           title: "Number System and Boolean Algebra",
           summary: "Conversions, truth tables, and canonical forms.",
           notes: {
-            pdf: [{ title: "Digital Logic PDF Notes", href: "/notes/semester-1/digital-logic/number-system.pdf", format: "pdf" }],
-            handwritten: [{ title: "Digital Logic Handwritten Notes", href: "/notes/semester-1/digital-logic/number-system-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Digital Logic PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-system/number-system.pdf", format: "pdf" }],
+            handwritten: [{ title: "Digital Logic Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-system/number-system-handwritten.pdf", format: "handwritten" }],
           },
         },
         {
@@ -74,8 +74,8 @@ export const semester1: Semester = {
           title: "Combinational Circuits",
           summary: "Gates, adders, multiplexers, and decoders.",
           notes: {
-            pdf: [{ title: "Combinational Circuits PDF Notes", href: "/notes/semester-1/digital-logic/combinational-circuits.pdf", format: "pdf" }],
-            handwritten: [{ title: "Combinational Circuits Handwritten Notes", href: "/notes/semester-1/digital-logic/combinational-circuits-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Combinational Circuits PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-circuits/combinational-circuits.pdf", format: "pdf" }],
+            handwritten: [{ title: "Combinational Circuits Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-circuits/combinational-circuits-handwritten.pdf", format: "handwritten" }],
           },
         },
         {
@@ -83,8 +83,8 @@ export const semester1: Semester = {
           title: "Sequential Circuits",
           summary: "Flip-flops, counters, registers, and state machines.",
           notes: {
-            pdf: [{ title: "Sequential Circuits PDF Notes", href: "/notes/semester-1/digital-logic/sequential-circuits.pdf", format: "pdf" }],
-            handwritten: [{ title: "Sequential Circuits Handwritten Notes", href: "/notes/semester-1/digital-logic/sequential-circuits-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Sequential Circuits PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/sequential-circuits/sequential-circuits.pdf", format: "pdf" }],
+            handwritten: [{ title: "Sequential Circuits Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/sequential-circuits/sequential-circuits-handwritten.pdf", format: "handwritten" }],
           },
         },
       ],
@@ -101,8 +101,8 @@ export const semester1: Semester = {
           title: "Calculus Foundations",
           summary: "Limits, continuity, derivatives, and applications.",
           notes: {
-            pdf: [{ title: "Math I PDF Notes", href: "/notes/semester-1/mathematics-i/calculus-foundations.pdf", format: "pdf" }],
-            handwritten: [{ title: "Math I Handwritten Notes", href: "/notes/semester-1/mathematics-i/calculus-foundations-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Math I PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/calculus-foundations/calculus-foundations.pdf", format: "pdf" }],
+            handwritten: [{ title: "Math I Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/calculus-foundations/calculus-foundations-handwritten.pdf", format: "handwritten" }],
           },
         },
         {
@@ -110,8 +110,8 @@ export const semester1: Semester = {
           title: "Integration and Vectors",
           summary: "Definite integrals, vectors, and 3D geometry.",
           notes: {
-            pdf: [{ title: "Integration PDF Notes", href: "/notes/semester-1/mathematics-i/integration-and-vectors.pdf", format: "pdf" }],
-            handwritten: [{ title: "Integration Handwritten Notes", href: "/notes/semester-1/mathematics-i/integration-and-vectors-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Integration PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/integration-and-vectors/integration-and-vectors.pdf", format: "pdf" }],
+            handwritten: [{ title: "Integration Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/integration-and-vectors/integration-and-vectors-handwritten.pdf", format: "handwritten" }],
           },
         },
       ],
@@ -128,8 +128,8 @@ export const semester1: Semester = {
           title: "Technology and Society",
           summary: "Tech evolution, digital economy, and cultural change.",
           notes: {
-            pdf: [{ title: "Society & Tech PDF Notes", href: "/notes/semester-1/society-and-technology/technology-society.pdf", format: "pdf" }],
-            handwritten: [{ title: "Society & Tech Handwritten Notes", href: "/notes/semester-1/society-and-technology/technology-society-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Society & Tech PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/society-and-technology/technology-society/technology-society.pdf", format: "pdf" }],
+            handwritten: [{ title: "Society & Tech Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/society-and-technology/technology-society/technology-society-handwritten.pdf", format: "handwritten" }],
           },
         },
         {
@@ -137,8 +137,8 @@ export const semester1: Semester = {
           title: "Cyber Law and Ethics",
           summary: "Electronic transactions, privacy, and digital safety.",
           notes: {
-            pdf: [{ title: "Cyber Law PDF Notes", href: "/notes/semester-1/society-and-technology/cyber-law.pdf", format: "pdf" }],
-            handwritten: [{ title: "Cyber Law Handwritten Notes", href: "/notes/semester-1/society-and-technology/cyber-law-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Cyber Law PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/society-and-technology/cyber-law/cyber-law.pdf", format: "pdf" }],
+            handwritten: [{ title: "Cyber Law Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/society-and-technology/cyber-law/cyber-law-handwritten.pdf", format: "handwritten" }],
           },
         },
       ],
@@ -155,8 +155,8 @@ export const semester1: Semester = {
           title: "Reading and Writing Skills",
           summary: "Summaries, reports, and professional emails.",
           notes: {
-            pdf: [{ title: "Communication PDF Notes", href: "/notes/semester-1/professional-communication/reading-writing.pdf", format: "pdf" }],
-            handwritten: [{ title: "Communication Handwritten Notes", href: "/notes/semester-1/professional-communication/reading-writing-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Communication PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication/reading-writing/reading-writing.pdf", format: "pdf" }],
+            handwritten: [{ title: "Communication Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication/reading-writing/reading-writing-handwritten.pdf", format: "handwritten" }],
           },
         },
         {
@@ -164,8 +164,8 @@ export const semester1: Semester = {
           title: "Presentation Skills",
           summary: "Visual delivery, non-verbal communication, and speaking structure.",
           notes: {
-            pdf: [{ title: "Presentation PDF Notes", href: "/notes/semester-1/professional-communication/presentation-skills.pdf", format: "pdf" }],
-            handwritten: [{ title: "Presentation Handwritten Notes", href: "/notes/semester-1/professional-communication/presentation-skills-handwritten.pdf", format: "handwritten" }],
+            pdf: [{ title: "Presentation PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication/presentation-skills/presentation-skills.pdf", format: "pdf" }],
+            handwritten: [{ title: "Presentation Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication/presentation-skills/presentation-skills-handwritten.pdf", format: "handwritten" }],
           },
         },
       ],

@@ -36,7 +36,7 @@ export default function HomePage() {
         {currentSemester?.subjects.map((subject) => (
           <Link
             key={subject.code}
-            href={`/subjects/${activeSemester}/${subject.slug}`}
+            href={`/subjects/${activeSemester}#${subject.slug}`}
             className="app-card"
           >
             <div className="card-left">
