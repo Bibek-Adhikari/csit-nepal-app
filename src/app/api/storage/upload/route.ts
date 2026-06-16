@@ -3,7 +3,7 @@ import { getSupabaseServer } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
-    const supabase = getSupabaseServer();
+    const supabase = getSupabaseServer({ requireServiceRole: true });
 
     const url = new URL(request.url);
     const bucketFromQuery = (url.searchParams.get("bucket") || "").trim();

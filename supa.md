@@ -84,6 +84,8 @@ using ( bucket_id = 'lectures' );
 
 Write/delete operations should be done via server-side API routes only, using service-role credentials. Do not add client-side INSERT/UPDATE/DELETE policies unless you add auth.
 
+If uploads fail with `new row violates row-level security policy`, replace `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` and Vercel environment variables with the **service_role** key from Supabase `Project Settings > API`. It must not be the anon/publishable key.
+
 ---
 
 ## Initialize buckets

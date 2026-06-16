@@ -3,7 +3,7 @@ import { getSupabaseServer } from "@/lib/supabase";
 
 export async function DELETE(request: Request) {
   try {
-    const supabase = getSupabaseServer();
+    const supabase = getSupabaseServer({ requireServiceRole: true });
     const body = (await request.json()) as { path: string; bucket?: string };
 
     const path = body.path?.trim();

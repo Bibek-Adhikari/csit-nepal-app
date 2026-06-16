@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
 
+type BucketSummary = {
+  name: string;
+  id?: string;
+};
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "Storage initialization failed";
+}
+
 export async function POST() {
   try {
-    const supabase = getSupabaseServer();
-    const buckets: { name: string; id?: string }[] = [];
+    const supabase = getSupabaseServer({ requireServiceRole: true });
+    const buckets: BucketSummary[] = [];
     const { data, error } = await supabase.storage.listBuckets();
     if (error) throw error;
-    buckets.push(...(data.map((b: any) => ({ name: b.name, id: b.id }))));
+    buckets.push(...(data.map((b) => ({ name: b.name, id: b.id }))));
 
     const required = ["notes", "lectures"];
     const created: string[] = [];
@@ -31,7 +40,7 @@ export async function POST() {
     }
 
     return NextResponse.json({ created, buckets: buckets.map((b) => b.name) });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
   }
 }
