@@ -5,6 +5,7 @@ const PDF_CACHE = "bca-nepal-pdf-v2";
 
 const PRECACHE_URLS = [
   "/",
+  "/offline",
   "/offline.html",
   "/manifest.json",
   "/logo.jpg",
@@ -91,7 +92,8 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
 
   // Navigation: network-first, fallback to cache, then offline page
-  if (isNavigation(req)) {
+  // Skip SW for /offline to avoid serving fallback when the route fetch fails
+  if (isNavigation(req) && url.pathname !== "/offline") {
     event.respondWith(networkFirstWithFallback(req, "/offline.html"));
     return;
   }
