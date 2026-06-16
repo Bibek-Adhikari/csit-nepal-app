@@ -14,6 +14,8 @@ export async function POST(request: Request) {
 
     const bucketFromForm = ((formData.get("bucket") as string) || "").trim();
     const folderFromForm = ((formData.get("folder") as string) || "").trim();
+    const titleFromForm = ((formData.get("title") as string) || "").trim();
+    const formatFromForm = ((formData.get("format") as string) || "pdf").trim();
 
     const bucket = (bucketFromQuery || bucketFromForm || "notes").trim();
     const folder = (folderFromQuery || folderFromForm || "").trim();
@@ -41,9 +43,33 @@ export async function POST(request: Request) {
       .from(bucket)
       .getPublicUrl(data.path);
 
+    const publicUrl = urlData.publicUrl;
+
+    const semesterKey = folder.split("/")[0] || "";
+    const subjectSlug = folder.split("/")[1] || "";
+    const unitSlug = folder.split("/")[2] || "";
+
+    const { error: dbError } = await supabase.from("notes").insert({
+      title: titleFromForm || file.name.replace(/\.[^/.]+$/, ""),
+      file_name: file.name,
+      file_path: data.path,
+      file_size: file.size,
+      mime_type: file.type || "application/pdf",
+      format: formatFromForm as "pdf" | "handwritten",
+      bucket,
+      semester_key: semesterKey,
+      subject_slug: subjectSlug,
+      unit_slug: unitSlug,
+      public_url: publicUrl,
+    });
+
+    if (dbError) {
+      console.error("Failed to insert note record:", dbError);
+    }
+
     return NextResponse.json({
       path: data.path,
-      url: urlData.publicUrl,
+      url: publicUrl,
       name: file.name,
       size: file.size,
       type: file.type,
@@ -53,4 +79,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
-
