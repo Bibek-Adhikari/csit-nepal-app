@@ -1,10 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
 
 export function AppHeader() {
   return (
     <header className="app-header">
-      <Link href="/" style={{ opacity: 0.9 }}>
+      <Link href="/" className="app-logo-link">
+        <Image
+          src="/logo.jpg"
+          alt="BCA Nepal"
+          width={36}
+          height={36}
+          className="app-logo-img"
+        />
         <h1>BCA<span>Nepal</span></h1>
       </Link>
       <div className="header-actions">

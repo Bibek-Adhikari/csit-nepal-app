@@ -153,6 +153,19 @@ html.dark .app-header {
   border-bottom-color: rgba(30, 41, 59, 0.8);
 }
 
+.app-logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-logo-img {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
 .app-header h1 {
   font-size: 1.35rem;
   font-weight: 800;
