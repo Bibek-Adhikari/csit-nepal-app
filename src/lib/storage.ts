@@ -10,7 +10,7 @@ export async function ensureStorageBuckets() {
       return;
     }
 
-    const existingBucketNames = buckets.map((b: any) => b.name);
+    const existingBucketNames = buckets.map((b: { name: string }) => b.name);
     const requiredBuckets = ['notes', 'lectures'];
 
     for (const bucketName of requiredBuckets) {

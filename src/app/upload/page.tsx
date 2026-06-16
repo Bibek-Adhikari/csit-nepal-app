@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import { semesters } from "@/content/subjects";
-import type { SemesterKey } from "@/content/subjects/types";
 
 type UploadState = "idle" | "uploading" | "success" | "error";
 
@@ -19,7 +18,6 @@ export default function UploadPage() {
 
   const semester = semesters.find((s) => s.key === selectedSemester);
   const subject = semester?.subjects.find((s) => s.slug === selectedSubject);
-  const unit = subject?.units.find((u) => u.slug === selectedUnit);
 
   const canSubmit = selectedSemester && selectedSubject && selectedUnit && file;
 
@@ -51,10 +49,11 @@ export default function UploadPage() {
       setUploadState("success");
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
-    } catch (err: any) {
-      setErrorMsg(err.message || "Something went wrong");
-      setUploadState("error");
-    }
+      } catch (err: unknown) {
+        const error = err as Error;
+        setErrorMsg(error.message || "Something went wrong");
+        setUploadState("error");
+      }
   };
 
   const resetForm = () => {
@@ -247,7 +246,7 @@ export default function UploadPage() {
               </div>
               <p className="upload-result-hint">
                 Add this URL to <code>src/content/subjects/semester-N/index.ts</code> under the
-                correct unit's <code>notes.{noteType}</code> array.
+                correct unit&apos;s <code>notes.{noteType}</code> array.
               </p>
             </div>
           )}

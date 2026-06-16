@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     const bucket = searchParams.get("bucket") || "notes";
     const folder = searchParams.get("folder") || "";
 
-    let query = supabase.storage.from(bucket).list(folder || undefined, {
+    const query = supabase.storage.from(bucket).list(folder || undefined, {
       limit: 100,
       offset: 0,
       sortBy: { column: "created_at", order: "desc" },

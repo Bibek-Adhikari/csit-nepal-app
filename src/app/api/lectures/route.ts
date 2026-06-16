@@ -97,9 +97,19 @@ function inferTag(title: string, position: number): string {
   return "Video";
 }
 
+interface YouTubePlaylistItem {
+  contentDetails: {
+    videoId: string;
+  };
+  snippet: {
+    title: string;
+    publishedAt: string;
+  };
+}
+
 export async function GET() {
   try {
-    const allItems: any[] = [];
+    const allItems: YouTubePlaylistItem[] = [];
     let pageToken: string | undefined;
     do {
       const data = await fetchPlaylistItems(pageToken);
@@ -122,7 +132,7 @@ export async function GET() {
       }
     }
 
-    const videos: VideoItem[] = allItems.map((item, index) => {
+    const videos: VideoItem[] = allItems.map((item: YouTubePlaylistItem, index: number) => {
       const id = item.contentDetails.videoId;
       const title = item.snippet.title;
       const semester = inferSemester(title, "semester-2");

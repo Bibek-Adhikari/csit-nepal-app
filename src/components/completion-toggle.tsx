@@ -15,15 +15,23 @@ export function CompletionToggle({ semesterKey, subjectSlug, unitSlug }: Complet
   const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(storageKey);
-    if (raw) {
-      try {
-        const completed = JSON.parse(raw) as string[];
-        setIsCompleted(completed.includes(unitId));
-      } catch {
-        console.error("Failed to parse completed units");
+    const checkCompletion = () => {
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) {
+        try {
+          const completed = JSON.parse(raw) as string[];
+          const completedFlag = completed.includes(unitId);
+          setIsCompleted(completedFlag);
+        } catch {
+          console.error("Failed to parse completed units");
+        }
+      } else {
+        setIsCompleted(false);
       }
-    }
+    };
+
+    const handle = setTimeout(checkCompletion, 0);
+    return () => clearTimeout(handle);
   }, [unitId]);
 
   const toggleCompletion = () => {

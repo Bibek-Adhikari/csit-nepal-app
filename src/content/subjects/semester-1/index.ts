@@ -22,7 +22,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/intro-computer/c-basics.pdf",
                 format: "pdf",
               },
             ],
@@ -30,7 +30,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/intro-computer/c-basics-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -45,7 +45,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/hardware-software/control-and-loops.pdf",
                 format: "pdf",
               },
             ],
@@ -53,7 +53,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/hardware-software/control-and-loops-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -68,7 +68,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/dbms-networks-security/functions-pointers-files.pdf",
                 format: "pdf",
               },
             ],
@@ -76,7 +76,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/dbms-networks-security/functions-pointers-files-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -101,7 +101,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/intro-c-basics/number-system.pdf",
                 format: "pdf",
               },
             ],
@@ -109,7 +109,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/intro-c-basics/number-system-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -124,7 +124,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-loops/combinational-circuits.pdf",
                 format: "pdf",
               },
             ],
@@ -132,7 +132,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-loops/combinational-circuits-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -147,7 +147,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-arrays-pointers/sequential-circuits.pdf",
                 format: "pdf",
               },
             ],
@@ -155,7 +155,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-arrays-pointers/sequential-circuits-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -180,7 +180,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-systems/calculus-foundations.pdf",
                 format: "pdf",
               },
             ],
@@ -188,7 +188,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-systems/calculus-foundations-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -203,7 +203,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/boolean-simplification/integration-and-vectors.pdf",
                 format: "pdf",
               },
             ],
@@ -211,7 +211,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/boolean-simplification/integration-and-vectors-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -226,7 +226,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-sequential/technology-society.pdf",
                 format: "pdf",
               },
             ],
@@ -234,7 +234,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-sequential/technology-society-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -259,7 +259,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/logic-relations/technology-society.pdf",
                 format: "pdf",
               },
             ],
@@ -267,7 +267,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/logic-relations/technology-society-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -282,7 +282,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/sequences-series/integration-and-vectors.pdf",
                 format: "pdf",
               },
             ],
@@ -290,7 +290,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/sequences-series/integration-and-vectors-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -305,7 +305,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/matrix-theory.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/matrices-geometry/matrix-theory.pdf",
                 format: "pdf",
               },
             ],
@@ -313,7 +313,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/matrix-theory-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/matrices-geometry/matrix-theory-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -338,7 +338,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/communication-foundations/reading-writing.pdf",
                 format: "pdf",
               },
             ],
@@ -346,7 +346,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/communication-foundations/reading-writing-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -361,7 +361,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/oral-and-writing/presentation-skills.pdf",
                 format: "pdf",
               },
             ],
@@ -369,7 +369,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/oral-and-writing/presentation-skills-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -384,7 +384,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/ethics-digital-communication/cyber-law.pdf",
                 format: "pdf",
               },
             ],
@@ -392,7 +392,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 3 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/ethics-digital-communication/cyber-law-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -416,7 +416,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/electronics-basics/c-basics.pdf",
                 format: "pdf",
               },
             ],
@@ -424,7 +424,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 1 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/electronics-basics/c-basics-handwritten.pdf",
                 format: "handwritten",
               },
             ],
@@ -439,7 +439,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 PDF Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/networking-components/technology-society.pdf",
                 format: "pdf",
               },
             ],
@@ -447,7 +447,7 @@ export const semester1: Semester = {
               {
                 title: "Unit 2 Handwritten Notes",
                 href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/networking-components/technology-society-handwritten.pdf",
                 format: "handwritten",
               },
             ],
