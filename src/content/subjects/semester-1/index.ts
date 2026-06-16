@@ -3,172 +3,458 @@ import type { Semester } from "../types";
 export const semester1: Semester = {
   key: "semester-1",
   label: "Semester 1",
-  overview: "Foundation subjects for logic, computation, communication, and TU basic mathematics.",
+  overview: "Foundation subjects for logic, computation, communication, and basic mathematics.",
   subjects: [
     {
-      code: "CACS 101",
-      slug: "programming-in-c",
-      title: "Programming in C",
-      credits: "4",
-      overview: "Control flow, functions, arrays, pointers, strings, and file handling.",
+      code: "BCA 101",
+      slug: "computer-fundamentals-and-applications",
+      title: "Computer Fundamentals and Applications",
+      credits: "3",
+      overview:
+        "Fundamentals and practical application of computers, hardware, software, databases, networks, security, and contemporary technologies.",
       units: [
         {
-          slug: "c-basics",
-          title: "C Basics and Problem Solving",
-          summary: "Tokens, data types, operators, I/O, and algorithmic thinking.",
+          slug: "intro-computer",
+          title: "Introduction to Computer",
+          summary: "Definition, characteristics, anatomy, types, history, and applications.",
           notes: {
             pdf: [
-              { title: "Unit 1 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics.pdf", format: "pdf" },
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics.pdf",
+                format: "pdf",
+              },
             ],
             handwritten: [
-              { title: "Unit 1 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics-handwritten.pdf", format: "handwritten" },
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics-handwritten.pdf",
+                format: "handwritten",
+              },
             ],
           },
         },
         {
-          slug: "control-and-loops",
-          title: "Control Structures and Loops",
-          summary: "Branching, iteration, nested loops, and runtime tracing.",
+          slug: "hardware-software",
+          title: "Computer Hardware & Software",
+          summary: "Organization, CPU components, memory hierarchy, OS and utilities, translators.",
           notes: {
             pdf: [
-              { title: "Unit 2 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops.pdf", format: "pdf" },
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops.pdf",
+                format: "pdf",
+              },
             ],
             handwritten: [
-              { title: "Unit 2 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops-handwritten.pdf", format: "handwritten" },
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/control-and-loops-handwritten.pdf",
+                format: "handwritten",
+              },
             ],
           },
         },
         {
-          slug: "functions-pointers-files",
-          title: "Functions, Pointers, and Files",
-          summary: "Modularity, memory addresses, structures, and file operations.",
+          slug: "dbms-networks-security",
+          title: "DBMS, Networks & Security",
+          summary: "DBMS concepts, SQL/NoSQL ideas, network & OSI model basics, security mechanisms.",
           notes: {
             pdf: [
-              { title: "Unit 3 PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files.pdf", format: "pdf" },
+              {
+                title: "Unit 3 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files.pdf",
+                format: "pdf",
+              },
             ],
             handwritten: [
-              { title: "Unit 3 Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files-handwritten.pdf", format: "handwritten" },
+              {
+                title: "Unit 3 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/functions-pointers-files-handwritten.pdf",
+                format: "handwritten",
+              },
             ],
           },
         },
       ],
     },
     {
-      code: "CACS 102",
+      code: "BCA 102",
+      slug: "programming-in-c",
+      title: "Programming in C",
+      credits: "3",
+      overview:
+        "Core C programming fundamentals: control structures, functions, arrays, pointers, and file handling.",
+      units: [
+        {
+          slug: "intro-c-basics",
+          title: "C Basics and Program Structure",
+          summary: "Tokens, data types, operators, compilation and execution, I/O basics.",
+          notes: {
+            pdf: [
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
+          },
+        },
+        {
+          slug: "control-loops",
+          title: "Control Structures & Loops",
+          summary: "Decision making, loops, nested loops, and jump statements.",
+          notes: {
+            pdf: [
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
+          },
+        },
+        {
+          slug: "functions-arrays-pointers",
+          title: "Functions, Arrays & Pointers",
+          summary: "Functions, arrays, strings, pointers, recursion, and related concepts.",
+          notes: {
+            pdf: [
+              {
+                title: "Unit 3 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 3 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      code: "BCA 103",
       slug: "digital-logic",
       title: "Digital Logic",
       credits: "3",
-      overview: "Binary systems, boolean algebra, minimization, and sequential circuits.",
+      overview:
+        "Digital design fundamentals: number systems, boolean algebra, combinational and sequential logic.",
       units: [
         {
-          slug: "number-system",
-          title: "Number System and Boolean Algebra",
-          summary: "Conversions, truth tables, and canonical forms.",
+          slug: "number-systems",
+          title: "Number Systems & Representations",
+          summary: "Conversions, signed numbers, complements, BCD/ASCII/Gray code, error detection.",
           notes: {
-            pdf: [{ title: "Digital Logic PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system.pdf", format: "pdf" }],
-            handwritten: [{ title: "Digital Logic Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/number-system-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
         {
-          slug: "combinational-circuits",
-          title: "Combinational Circuits",
-          summary: "Gates, adders, multiplexers, and decoders.",
+          slug: "boolean-simplification",
+          title: "Boolean Algebra & Simplification",
+          summary: "Gates, universal logic, SOP/POS, K-map, Quine-McCluskey.",
           notes: {
-            pdf: [{ title: "Combinational Circuits PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits.pdf", format: "pdf" }],
-            handwritten: [{ title: "Combinational Circuits Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/combinational-circuits-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
         {
-          slug: "sequential-circuits",
-          title: "Sequential Circuits",
-          summary: "Flip-flops, counters, registers, and state machines.",
+          slug: "combinational-sequential",
+          title: "Combinational & Sequential Logic",
+          summary: "Adders/subtractors, multiplexers, state diagrams, latches/flip-flops, counters/registers.",
           notes: {
-            pdf: [{ title: "Sequential Circuits PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits.pdf", format: "pdf" }],
-            handwritten: [{ title: "Sequential Circuits Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/sequential-circuits-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 3 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 3 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
       ],
     },
     {
-      code: "CAMT 103",
+      code: "BCA 104",
       slug: "mathematics-i",
-      title: "Mathematics I",
+      title: "Mathematics-I",
       credits: "3",
-      overview: "Sets, functions, limits, derivatives, integrals, and vectors.",
+      overview:
+        "Mathematical foundations: logic/relations, sequences/series, matrices/determinants, analytical geometry, vectors and permutations.",
       units: [
         {
-          slug: "calculus-foundations",
-          title: "Calculus Foundations",
-          summary: "Limits, continuity, derivatives, and applications.",
+          slug: "logic-relations",
+          title: "Logic, Relations & Functions",
+          summary: "Elementary logic, ordered axioms, relations and functions, graphs.",
           notes: {
-            pdf: [{ title: "Math I PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations.pdf", format: "pdf" }],
-            handwritten: [{ title: "Math I Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/calculus-foundations-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
         {
-          slug: "integration-and-vectors",
-          title: "Integration and Vectors",
-          summary: "Definite integrals, vectors, and 3D geometry.",
+          slug: "sequences-series",
+          title: "Sequence & Series",
+          summary: "Arithmetic/geometric/harmonic series, means, sums.",
           notes: {
-            pdf: [{ title: "Integration PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors.pdf", format: "pdf" }],
-            handwritten: [{ title: "Integration Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/integration-and-vectors-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
+          },
+        },
+        {
+          slug: "matrices-geometry",
+          title: "Matrices, Determinants & Geometry",
+          summary: "Matrices, determinants, analytical geometry, vectors and permutations.",
+          notes: {
+            pdf: [
+              {
+                title: "Unit 3 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/matrix-theory.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 3 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/matrix-theory-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
       ],
     },
     {
-      code: "CACS 104",
-      slug: "society-and-technology",
-      title: "Society & Technology",
+      code: "BCA 105",
+      slug: "professional-communication-and-ethics",
+      title: "Professional Communication and Ethics",
       credits: "3",
-      overview: "Technology history, cyber law, socio-economic changes, and sustainability.",
+      overview:
+        "Professional communication skills and ethics in computing and workplace contexts.",
       units: [
         {
-          slug: "technology-society",
-          title: "Technology and Society",
-          summary: "Tech evolution, digital economy, and cultural change.",
+          slug: "communication-foundations",
+          title: "Communication Foundations",
+          summary: "Language, communication process, nonverbal communication, barriers.",
           notes: {
-            pdf: [{ title: "Society & Tech PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf", format: "pdf" }],
-            handwritten: [{ title: "Society & Tech Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
         {
-          slug: "cyber-law",
-          title: "Cyber Law and Ethics",
-          summary: "Electronic transactions, privacy, and digital safety.",
+          slug: "oral-and-writing",
+          title: "Oral & Written Communication",
+          summary: "Telephone conversations, public speaking, notices, emails and letters.",
           notes: {
-            pdf: [{ title: "Cyber Law PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law.pdf", format: "pdf" }],
-            handwritten: [{ title: "Cyber Law Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
+          },
+        },
+        {
+          slug: "ethics-digital-communication",
+          title: "Ethics & Digital Communication",
+          summary: "Professional ethics, netiquette, online professionalism, plagiarism.",
+          notes: {
+            pdf: [
+              {
+                title: "Unit 3 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 3 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/cyber-law-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
       ],
     },
     {
-      code: "CAEN 105",
-      slug: "professional-communication",
-      title: "Professional Communication",
-      credits: "3",
-      overview: "Technical writing, presentations, and professional interaction.",
+      code: "BCA 106",
+      slug: "hardware-workshop",
+      title: "Hardware Workshop",
+      credits: "1",
+      overview: "Practical workshop covering electronic components, networking components and PC hardware handling.",
       units: [
         {
-          slug: "reading-writing",
-          title: "Reading and Writing Skills",
-          summary: "Summaries, reports, and professional emails.",
+          slug: "electronics-basics",
+          title: "Introduction to Hardware",
+          summary: "Electronic components, safety, passive/active components and datasheets.",
           notes: {
-            pdf: [{ title: "Communication PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing.pdf", format: "pdf" }],
-            handwritten: [{ title: "Communication Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/reading-writing-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 1 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 1 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/c-basics-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
         {
-          slug: "presentation-skills",
-          title: "Presentation Skills",
-          summary: "Visual delivery, non-verbal communication, and speaking structure.",
+          slug: "networking-components",
+          title: "Networking Components",
+          summary: "Network devices, cabling & connectors, testing/troubleshooting.",
           notes: {
-            pdf: [{ title: "Presentation PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills.pdf", format: "pdf" }],
-            handwritten: [{ title: "Presentation Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/presentation-skills-handwritten.pdf", format: "handwritten" }],
+            pdf: [
+              {
+                title: "Unit 2 PDF Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society.pdf",
+                format: "pdf",
+              },
+            ],
+            handwritten: [
+              {
+                title: "Unit 2 Handwritten Notes",
+                href:
+                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/technology-society-handwritten.pdf",
+                format: "handwritten",
+              },
+            ],
           },
         },
       ],
     },
   ],
 };
+

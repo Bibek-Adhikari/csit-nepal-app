@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-const CHANNEL_ID = "UCBvTTBLD1wD1jTQs0OeBZ4Q";
 const UPLOADS_PLAYLIST = "UUBvTTBLD1wD1jTQs0OeBZ4Q";
 const API_KEY = process.env.YOUTUBE_API_KEY!;
 
@@ -100,7 +99,7 @@ function inferTag(title: string, position: number): string {
 
 export async function GET() {
   try {
-    let allItems: any[] = [];
+    const allItems: any[] = [];
     let pageToken: string | undefined;
     do {
       const data = await fetchPlaylistItems(pageToken);

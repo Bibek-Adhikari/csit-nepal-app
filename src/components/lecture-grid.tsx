@@ -2,7 +2,21 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import type { LectureVideo } from "@/content/lectures";
+type LectureVideo = {
+  id: string;
+  title: string;
+  duration: string;
+  meta: string;
+  tag: string;
+  semester: string;
+  subject: string;
+  thumbnail: string;
+  semesterKey: string;
+  storagePath?: string;
+  storageBucket?: string;
+};
+
+
 
 const semesterFilters = [
   { key: "all", label: "All" },
@@ -20,34 +34,51 @@ export function LectureGrid() {
   const [selectedSemester, setSelectedSemester] = useState<string>("all");
 
   useEffect(() => {
+    let isMounted = true;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
     async function fetchLectures() {
       try {
-        const res = await fetch("/api/lectures");
+        const res = await fetch("/api/lectures", { cache: "no-store" });
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         const data = await res.json();
-        setVideos(data.videos ?? []);
+        if (isMounted) setVideos(data.videos ?? []);
+        if (isMounted) setError(null);
       } catch (err) {
         console.error("Failed to fetch lectures:", err);
-        setError("Could not load lectures. Using cached data.");
-        // Fallback to static data
-        const { lectureVideos } = await import("@/content/lectures");
-        setVideos(lectureVideos);
+        if (isMounted) setError("Could not load lectures.");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
+
     fetchLectures();
+
+    timer = setInterval(() => {
+      fetchLectures();
+    }, 10 * 60 * 1000); // 10 minutes
+
+    return () => {
+      isMounted = false;
+      if (timer) clearInterval(timer);
+    };
   }, []);
+
 
   const filteredLectures = useMemo(() => {
     return videos.filter((video) => {
-      const semKey = video.semesterKey ?? video.semester.toLowerCase().replace(" ", "-");
-      const matchesSemester = selectedSemester === "all" || semKey === selectedSemester;
+      // Semester filtering must rely on semesterKey coming from the API.
+      // This prevents incorrect "semester" label parsing/mixmatch.
+      const semKey = video.semesterKey;
+      // If API ever returns missing semesterKey, keep it from matching any specific pill.
+      const matchesSemester = selectedSemester === "all" || (semKey && semKey === selectedSemester);
+
       const matchesSearch =
         searchQuery === "" ||
         video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         video.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
         video.tag.toLowerCase().includes(searchQuery.toLowerCase());
+
       return matchesSemester && matchesSearch;
     });
   }, [searchQuery, selectedSemester, videos]);
