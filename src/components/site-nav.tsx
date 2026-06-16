@@ -8,7 +8,7 @@ const items = [
   { href: "/", label: "Home", icon: "bx-home-alt" },
   { href: "/subjects", label: "Subjects", icon: "bx-layer" },
   { href: "/lectures", label: "Lectures", icon: "bx-video" },
-  { href: "/notes", label: "Notes", icon: "bx-book-open" },
+  { href: "/offline", label: "Offline", icon: "bx-book-open" },
   { href: "/profile", label: "Profile", icon: "bx-user" },
 ];
 

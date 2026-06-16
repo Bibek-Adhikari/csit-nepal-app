@@ -10,6 +10,9 @@ const PRECACHE_URLS = [
   "/logo.jpg",
   "/favicon.png",
   "/apple-touch-icon.png",
+  "/icons/fabi.jpg",
+  "/icons/icon-192x192.png",
+  "/icons/icon-512x512.png",
 ];
 
 const SUPABASE_DOMAIN = "yrahncykruiwkiwtxjlv.supabase.co";
@@ -71,6 +74,18 @@ function isSameOrigin(url) {
   return url.origin === self.location.origin;
 }
 
+function isNextImage(url) {
+  return url.pathname === "/_next/image";
+}
+
+function resolveNextImageUrl(url) {
+  try {
+    return url.searchParams.get("url");
+  } catch {
+    return null;
+  }
+}
+
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   const req = event.request;
@@ -78,6 +93,12 @@ self.addEventListener("fetch", (event) => {
   // Navigation: network-first, fallback to cache, then offline page
   if (isNavigation(req)) {
     event.respondWith(networkFirstWithFallback(req, "/offline.html"));
+    return;
+  }
+
+  // Next.js optimized images: try cache with original source URL, then network
+  if (isNextImage(url)) {
+    event.respondWith(nextImageStrategy(req, url));
     return;
   }
 
@@ -114,6 +135,28 @@ self.addEventListener("fetch", (event) => {
   // Cross-origin: network-first with offline fallback
   event.respondWith(networkFirstWithFallback(req, "/offline.html"));
 });
+
+async function nextImageStrategy(request, url) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  const originalPath = resolveNextImageUrl(url);
+  if (originalPath) {
+    const originalCached = await caches.match(originalPath);
+    if (originalCached) return originalCached;
+  }
+
+  try {
+    const res = await fetch(request);
+    if (res.ok) {
+      const cache = await caches.open(STATIC_CACHE);
+      cache.put(request, res.clone());
+    }
+    return res;
+  } catch {
+    return new Response("", { status: 503 });
+  }
+}
 
 async function networkFirstWithFallback(request, fallbackUrl) {
   try {

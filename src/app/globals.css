@@ -248,6 +248,32 @@ html.dark .bottom-sheet {
   margin-bottom: 1rem;
 }
 
+.hero-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.hero-top > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-top > div h2 {
+  margin-bottom: 0.2rem;
+}
+
+.hero-top > div p {
+  margin-bottom: 0;
+}
+
+.hero-avatar {
+  border-radius: 16px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
 .app-stat-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2330,6 +2356,67 @@ html.dark .pdf-viewer-back {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.92rem;
+}
+
+.pdf-viewer-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pdf-viewer-save-btn.saved {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+}
+
+.pdf-viewer-save-btn:disabled {
+  cursor: default;
+}
+
+html.dark .pdf-viewer-save-btn {
+  background: rgba(37, 99, 235, 0.15);
+}
+
+html.dark .pdf-viewer-save-btn.saved {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.offline-saved-date {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.offline-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.offline-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 @media (min-width: 768px) {

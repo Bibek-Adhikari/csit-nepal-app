@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { savePDF, isPDFStored, getPDF } from "@/lib/db";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -50,24 +51,41 @@ function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: nu
   );
 }
 
-export default function PdfViewer({ url }: { url: string }) {
+export default function PdfViewer({ url, title, semester, subject, unit }: { url: string; title: string; semester: string; subject: string; unit: string }) {
   const [numPages, setNumPages] = useState<number>(0);
   const [loadError, setLoadError] = useState(false);
   const [pageWidth, setPageWidth] = useState(800);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [dlProgress, setDlProgress] = useState(0);
   const [dlState, setDlState] = useState<"fetching" | "ready" | "error" | "none">("none");
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const blobRef = useRef<Blob | null>(null);
   const blobUrlRef = useRef<string | null>(null);
+  const pdfId = url;
 
   useEffect(() => {
     setPageWidth(Math.min(window.innerWidth - 16, 800));
-  }, []);
+    isPDFStored(pdfId).then(setSaved);
+  }, [pdfId]);
 
   useEffect(() => {
     if (!url) return;
     let cancelled = false;
 
     const load = async () => {
+      const stored = await getPDF(url);
+      if (stored) {
+        if (cancelled) return;
+        blobRef.current = stored.blob;
+        const blobUrl_ = URL.createObjectURL(stored.blob);
+        blobUrlRef.current = blobUrl_;
+        setBlobUrl(blobUrl_);
+        setDlState("ready");
+        setSaved(true);
+        return;
+      }
+
       setDlState("fetching");
       setDlProgress(0);
       try {
@@ -86,6 +104,7 @@ export default function PdfViewer({ url }: { url: string }) {
         }
         if (cancelled) return;
         const blob = new Blob(chunks as BlobPart[], { type: "application/pdf" });
+        blobRef.current = blob;
         const blobUrl_ = URL.createObjectURL(blob);
         blobUrlRef.current = blobUrl_;
         setBlobUrl(blobUrl_);
@@ -102,6 +121,18 @@ export default function PdfViewer({ url }: { url: string }) {
       if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     };
   }, [url]);
+
+  const handleSave = async () => {
+    if (!blobRef.current || saving || saved) return;
+    setSaving(true);
+    try {
+      await savePDF(pdfId, title, url, semester, subject, unit, blobRef.current);
+      setSaved(true);
+    } catch (err) {
+      console.error("Failed to save PDF offline:", err);
+    }
+    setSaving(false);
+  };
 
   if (dlState === "error" || (dlState === "none" && loadError)) {
     return (
@@ -124,6 +155,17 @@ export default function PdfViewer({ url }: { url: string }) {
           <i className="bx bx-arrow-back"></i>
         </button>
         {numPages > 0 && <span className="pdf-viewer-page-info">1 / {numPages}</span>}
+        {dlState === "ready" && (
+          <button
+            className={`pdf-viewer-save-btn ${saved ? "saved" : ""}`}
+            onClick={handleSave}
+            disabled={saving || saved}
+            aria-label={saved ? "Saved offline" : "Save offline"}
+          >
+            <i className={`bx ${saved ? "bxs-check-circle" : saving ? "bx-loader-alt bx-spin" : "bxs-download"}`}></i>
+            <span>{saved ? "Saved" : saving ? "Saving…" : "Save Offline"}</span>
+          </button>
+        )}
         {dlState === "fetching" && (
           <span className="pdf-viewer-page-info" style={{ fontSize: "0.72rem" }}>
             {dlProgress > 0 ? `${dlProgress}%` : "Loading…"}

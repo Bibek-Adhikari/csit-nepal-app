@@ -63,9 +63,9 @@ function formatNoteTitle(name: string): string {
     .join(" ");
 }
 
-function NoteCard({ item, type }: { item: NoteItem; type: "pdf" | "handwritten" }) {
+function NoteCard({ item, type, semester, subject, unit }: { item: NoteItem; type: "pdf" | "handwritten"; semester: string; subject: string; unit: string }) {
   const isPdf = type === "pdf";
-  const viewUrl = `/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}`;
+  const viewUrl = `/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}&semester=${encodeURIComponent(semester)}&subject=${encodeURIComponent(subject)}&unit=${encodeURIComponent(unit)}`;
   return (
     <Link
       href={viewUrl}
@@ -165,14 +165,14 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
             <EmptyNote type="pdf" />
           ) : (
             pdfNotes.map((item: NoteItem) => (
-              <NoteCard key={item.href} item={item} type="pdf" />
+              <NoteCard key={item.href} item={item} type="pdf" semester={semester} subject={subject} unit={unit} />
             ))
           )}
           {handwrittenNotes.length === 0 ? (
             <EmptyNote type="handwritten" />
           ) : (
             handwrittenNotes.map((item: NoteItem) => (
-              <NoteCard key={item.href} item={item} type="handwritten" />
+              <NoteCard key={item.href} item={item} type="handwritten" semester={semester} subject={subject} unit={unit} />
             ))
           )}
         </div>

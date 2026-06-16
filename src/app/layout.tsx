@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: APP_URL,
     siteName: "BCA Nepal",
     type: "website",
-    images: [{ url: "/icons/fabi.jpg", width: 512, height: 512 }],
+    images: [{ url: "/icons/fabi.jpg", width: 1264, height: 848 }],
   },
   twitter: {
     card: "summary",

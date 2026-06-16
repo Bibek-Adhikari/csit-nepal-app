@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { semesters } from "@/content/subjects";
 import { getTotalUnits } from "@/lib/progress";
 
@@ -7,14 +8,23 @@ export function WelcomeHero() {
 
   return (
     <section className="welcome-hero">
-      <div>
-        <h2>
-          BCA<span> Nepal</span> study hub
-        </h2>
-        <p>
-          Browse semester-specific subjects, open YouTube lectures, and study
-          notes grouped by subject &amp; unit.
-        </p>
+        <Image
+          src="/icons/fabi.jpg"
+          alt="BCA Nepal"
+          width={300}
+          height={200}
+          className="hero-avatar"
+        />
+      <div className="hero-top">
+        <div>
+          <h2>
+            BCA<span> Nepal</span> study hub
+          </h2>
+          <p>
+            Browse semester-specific subjects, open YouTube lectures, and study
+            notes grouped by subject &amp; unit.
+          </p>
+        </div>
       </div>
       <div className="app-stat-row">
         <div className="stat-bubble">

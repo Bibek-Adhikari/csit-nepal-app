@@ -9,6 +9,10 @@ const PdfViewer = dynamic(() => import("./pdf-viewer"), { ssr: false });
 function ViewPdfContent() {
   const searchParams = useSearchParams();
   const url = searchParams.get("url");
+  const title = searchParams.get("title") || "Untitled";
+  const semester = searchParams.get("semester") || "";
+  const subject = searchParams.get("subject") || "";
+  const unit = searchParams.get("unit") || "";
 
   if (!url) {
     return (
@@ -18,7 +22,7 @@ function ViewPdfContent() {
     );
   }
 
-  return <PdfViewer url={url} />;
+  return <PdfViewer url={url} title={title} semester={semester} subject={subject} unit={unit} />;
 }
 
 export default function ViewPdfPage() {
