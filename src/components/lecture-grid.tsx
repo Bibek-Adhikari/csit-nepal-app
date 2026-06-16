@@ -113,6 +113,7 @@ export function LectureGrid() {
                   src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
                   alt={video.title}
                   fill
+                  sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
                   style={{ objectFit: "cover" }}
                 />
                 <span className="lecture-duration">{video.duration}</span>

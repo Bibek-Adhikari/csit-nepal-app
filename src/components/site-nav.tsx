@@ -9,6 +9,7 @@ const items = [
   { href: "/subjects", label: "Subjects", icon: "bx-layer" },
   { href: "/lectures", label: "Lectures", icon: "bx-video" },
   { href: "/notes", label: "Notes", icon: "bx-book-open" },
+  { href: "/upload", label: "Upload", icon: "bx-cloud-upload" },
   { href: "/profile", label: "Profile", icon: "bx-user" },
 ];
 
