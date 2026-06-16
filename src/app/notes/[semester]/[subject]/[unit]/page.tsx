@@ -76,7 +76,7 @@ function NoteCard({ item, type }: { item: NoteItem; type: "pdf" | "handwritten" 
         {isPdf ? "PDF" : "Handwritten"}
       </span>
       <span className="unit-note-title">{item.title}</span>
-      <i className="bx bx-download unit-note-dl"></i>
+      <i className="bx bx-show unit-note-dl"></i>
     </Link>
   );
 }

@@ -16,9 +16,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const APP_URL = "https://uploadbcanepal.netlify.app";
+
 export const metadata: Metadata = {
   title: "BCA Nepal",
   description: "Mobile-first TU BCA study hub with semesters, lectures, notes, and progress tracking.",
+  metadataBase: new URL(APP_URL),
+  openGraph: {
+    title: "BCA Nepal",
+    description: "TU BCA study hub — semesters, lectures, notes, and progress tracking for Tribhuvan University students.",
+    url: APP_URL,
+    siteName: "BCA Nepal",
+    type: "website",
+    images: [{ url: "/icons/icon-512x512.png", width: 512, height: 512 }],
+  },
+  twitter: {
+    card: "summary",
+    title: "BCA Nepal",
+    description: "TU BCA study hub with notes, lectures, and progress tracking.",
+    images: ["/icons/icon-512x512.png"],
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
