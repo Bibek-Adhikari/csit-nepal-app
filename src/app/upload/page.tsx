@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { semesters } from "@/content/subjects";
+import { BackNav } from "@/components/back-nav";
 
 type UploadState = "idle" | "uploading" | "success" | "error";
 
@@ -70,6 +71,7 @@ export default function UploadPage() {
 
   return (
     <>
+      <BackNav href="/" label="Home" />
       <section className="welcome-hero">
         <div>
           <h2>Upload Notes</h2>

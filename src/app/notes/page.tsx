@@ -1,8 +1,10 @@
 import { NotesTree } from "@/components/notes-tree";
+import { BackNav } from "@/components/back-nav";
 
 export default function NotesPage() {
   return (
     <>
+      <BackNav href="/" label="Home" />
       <section className="welcome-hero">
         <h2>Notes</h2>
         <p>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSemester, semesters, type SemesterKey, type Subject } from "@/content/subjects";
+import { BackNav } from "@/components/back-nav";
 
 export function generateStaticParams() {
   return semesters.map((semester) => ({ semester: semester.key }));
@@ -16,6 +17,7 @@ export default async function SemesterPage({ params }: { params: Promise<{ semes
 
   return (
     <>
+      <BackNav href="/subjects" label="All Subjects" />
       <section className="welcome-hero">
         <h2>{data.overview}</h2>
         <p>{data.label} — {data.subjects.length} subjects available</p>

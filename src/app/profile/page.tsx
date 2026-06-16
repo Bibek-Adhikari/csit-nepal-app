@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { semesters } from "@/content/subjects";
 import { getTotalUnits } from "@/lib/progress";
+import { BackNav } from "@/components/back-nav";
 
 const storageKey = "bca-nepal-completed-units";
 
@@ -32,6 +33,7 @@ export default function ProfilePage() {
 
   return (
     <>
+      <BackNav href="/" label="Home" />
       <section className="welcome-hero">
         <h2>Profile</h2>
         <p>

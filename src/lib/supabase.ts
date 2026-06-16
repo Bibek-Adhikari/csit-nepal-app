@@ -12,15 +12,13 @@ type ServerSupabaseOptions = {
 export function getSupabaseServer({ requireServiceRole = false }: ServerSupabaseOptions = {}): SupabaseClient {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (requireServiceRole && !serviceRoleKey) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY is required for server-side storage mutations");
-  }
-
-  if (serviceRoleKey === supabaseAnonKey) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY must be the service_role key, not the anon/publishable key");
-  }
-
-  if (serviceRoleKey) {
+  if (requireServiceRole) {
+    if (!serviceRoleKey) {
+      throw new Error("SUPABASE_SERVICE_ROLE_KEY is required for server-side storage mutations");
+    }
+    if (serviceRoleKey === supabaseAnonKey) {
+      throw new Error("SUPABASE_SERVICE_ROLE_KEY must be the service_role key, not the anon/publishable key");
+    }
     return createClient(supabaseUrl, serviceRoleKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });

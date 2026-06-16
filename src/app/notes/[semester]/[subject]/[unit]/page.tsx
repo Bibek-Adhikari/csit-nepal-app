@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getSemester, getSubject, getUnit, semesters, type SemesterKey } from "@/content/subjects";
 import { CompletionToggle } from "@/components/completion-toggle";
 import { getSupabaseServer } from "@/lib/supabase";
+import { BackNav } from "@/components/back-nav";
 
 // Type definitions
 interface NoteItem {
@@ -102,6 +103,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
 
   return (
     <>
+      <BackNav href={`/subjects/${semester}/${subject}`} label={subjectData.title} />
       <section className="welcome-hero">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", flexWrap: "wrap" }}>
           <div>

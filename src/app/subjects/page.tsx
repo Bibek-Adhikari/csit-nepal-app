@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { semesters, type Subject } from "@/content/subjects";
+import { BackNav } from "@/components/back-nav";
 
 export default function SubjectsPage() {
   return (
     <>
+      <BackNav href="/" label="Home" />
       <section className="welcome-hero">
         <h2>Subjects</h2>
         <p>

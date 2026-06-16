@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSemester, getSubject, semesters, type SemesterKey } from "@/content/subjects";
+import { BackNav } from "@/components/back-nav";
 
 export function generateStaticParams() {
   return semesters.flatMap((semester) =>
@@ -26,6 +27,7 @@ export default async function SubjectPage({
 
   return (
     <>
+      <BackNav href={`/subjects/${semester}`} label={semesterData.label} />
       <section className="welcome-hero">
         <div className="badge-row" style={{ margin: 0 }}>
           <span className="sheet-badge accent">{semesterData.label}</span>
@@ -64,17 +66,6 @@ export default async function SubjectPage({
             <i className="bx bx-chevron-right card-chevron"></i>
           </Link>
         ))}
-      </div>
-
-      <div style={{ padding: "1rem 0" }}>
-        <Link
-          href={`/subjects/${semester}`}
-          className="pill-btn"
-          style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
-        >
-          <i className="bx bx-arrow-back"></i>
-          Back to {semesterData.label}
-        </Link>
       </div>
     </>
   );

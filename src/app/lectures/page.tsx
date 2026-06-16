@@ -1,8 +1,10 @@
 import { LectureGrid } from "@/components/lecture-grid";
+import { BackNav } from "@/components/back-nav";
 
 export default function LecturesPage() {
   return (
     <>
+      <BackNav href="/" label="Home" />
       <section className="welcome-hero">
         <h2>Lectures</h2>
         <p>
