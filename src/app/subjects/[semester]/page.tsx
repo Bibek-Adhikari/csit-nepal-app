@@ -1,10 +1,20 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSemester, semesters, type SemesterKey, type Subject } from "@/content/subjects";
 import { BackNav } from "@/components/back-nav";
 
 export function generateStaticParams() {
   return semesters.map((semester) => ({ semester: semester.key }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ semester: SemesterKey }> }): Promise<Metadata> {
+  const { semester } = await params;
+  const data = getSemester(semester);
+  return {
+    title: data?.label || "Semester",
+    description: `Browse ${data?.subjects.length || 0} subjects in ${data?.label || "this semester"}. Access notes, PDFs, and lectures.`,
+  };
 }
 
 export default async function SemesterPage({ params }: { params: Promise<{ semester: SemesterKey }> }) {

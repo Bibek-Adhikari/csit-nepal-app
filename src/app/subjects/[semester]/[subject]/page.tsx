@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSemester, getSubject, semesters, type SemesterKey } from "@/content/subjects";
 import { BackNav } from "@/components/back-nav";
@@ -10,6 +11,15 @@ export function generateStaticParams() {
       subject: subject.slug,
     }))
   );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ semester: SemesterKey; subject: string }> }): Promise<Metadata> {
+  const { semester, subject } = await params;
+  const data = getSubject(semester, subject);
+  return {
+    title: data?.title || "Subject",
+    description: `${data?.title || "Subject"} - ${data?.units.length || 0} units with notes and lectures.`,
+  };
 }
 
 export default async function SubjectPage({

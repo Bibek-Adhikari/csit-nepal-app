@@ -18,21 +18,33 @@ const APP_URL = SITE_URL
   || "https://bcanepal.netlify.app";
 
 export const metadata: Metadata = {
-  title: "BCA Nepal",
-  description: "Mobile-first TU BCA study hub with semesters, lectures, notes, and progress tracking.",
+  title: {
+    default: "BCA Nepal - TU BCA Study Hub",
+    template: "%s | BCA Nepal",
+  },
+  description: "Mobile-first study hub for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
+  keywords: ["BCA Nepal", "TU BCA", "Tribhuvan University", "BCA notes", "BCA study", "semester notes", "BCA PDF", "BCA lectures", "Nepal BCA"],
   metadataBase: new URL(APP_URL),
   openGraph: {
-    title: "BCA Nepal",
-    description: "TU BCA study hub — semesters, lectures, notes, and progress tracking for Tribhuvan University students.",
+    title: "BCA Nepal - TU BCA Study Hub",
+    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for Tribhuvan University BCA students. Works offline.",
     url: APP_URL,
     siteName: "BCA Nepal",
     type: "website",
-    images: [{ url: "/icons/fabi.jpg", width: 1264, height: 848 }],
+    locale: "en_US",
+    images: [
+      {
+        url: "/icons/fabi.jpg",
+        width: 1264,
+        height: 848,
+        alt: "BCA Nepal - TU BCA Study Hub",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
-    title: "BCA Nepal",
-    description: "TU BCA study hub with notes, lectures, and progress tracking.",
+    card: "summary_large_image",
+    title: "BCA Nepal - TU BCA Study Hub",
+    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for TU BCA students.",
     images: ["/icons/fabi.jpg"],
   },
   manifest: "/manifest.json",
@@ -49,6 +61,17 @@ export const metadata: Metadata = {
     ],
     shortcut: "/favicon.png",
     apple: "/apple-touch-icon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   other: {
     "theme-color": "#2563eb",

@@ -2427,3 +2427,50 @@ html.dark .pdf-viewer-save-btn.saved {
     transition-duration: 0.01ms !important;
   }
 }
+
+.pwa-steps {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pwa-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: rgba(241, 245, 249, 0.5);
+  border: 1px solid var(--border);
+}
+
+html.dark .pwa-step {
+  background: rgba(30, 41, 59, 0.3);
+}
+
+.pwa-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.pwa-step p {
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.pwa-step strong {
+  font-weight: 700;
+}
