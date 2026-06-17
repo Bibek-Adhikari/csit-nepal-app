@@ -92,18 +92,6 @@ export async function updateBookmark(id: string, bookmarked: boolean): Promise<v
       if (data) {
         data.bookmarked = bookmarked;
         store.put(data);
-      } else {
-        store.put({
-          id,
-          title: "",
-          url: id,
-          semester: "",
-          subject: "",
-          unit: "",
-          blob: new Blob(),
-          savedAt: Date.now(),
-          bookmarked,
-        });
       }
     };
     tx.oncomplete = () => resolve();

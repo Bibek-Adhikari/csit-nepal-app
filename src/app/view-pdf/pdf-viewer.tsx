@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { savePDF, isPDFStored, getPDF, updateBookmark, getBookmarkedPDFs } from "@/lib/db";
+import { savePDF, getPDF, updateBookmark } from "@/lib/db";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -145,11 +145,14 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         const blobUrl_ = URL.createObjectURL(blob);
         blobUrlRef.current = blobUrl_;
         setBlobUrl(blobUrl_);
-
-        await savePDF(pdfId, title, url, semester, subject, unit, blob);
-        if (cancelled) return;
         setDlState("ready");
-        setBookmarked(false);
+
+        try {
+          await savePDF(pdfId, title, url, semester, subject, unit, blob);
+        } catch {
+          // offline save failed, PDF is still viewable
+        }
+        if (!cancelled) setBookmarked(false);
       } catch {
         if (!cancelled) setDlState("error");
       }
@@ -166,6 +169,10 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   const toggleBookmark = async () => {
     const next = !bookmarked;
     setBookmarked(next);
+    const existing = await getPDF(pdfId);
+    if (!existing && blobRef.current) {
+      await savePDF(pdfId, title, url, semester, subject, unit, blobRef.current);
+    }
     await updateBookmark(pdfId, next);
   };
 
