@@ -178,7 +178,7 @@ export default function ProfilePage() {
             <div className="card-left">
               <span className="card-code">Android</span>
               <span className="card-title">Install on Android</span>
-              <span className="card-meta-inline">Tap the install prompt or use menu</span>
+              <span className="card-meta-inline">Add to home screen via Chrome</span>
             </div>
             <i className={`bx bx-chevron-${showAndroid ? "up" : "down"} card-chevron`}></i>
           </div>
@@ -187,15 +187,24 @@ export default function ProfilePage() {
           <div className="pwa-steps">
             <div className="pwa-step">
               <span className="pwa-step-num">1</span>
-              <p>Open this site in <strong>Chrome</strong> browser</p>
+              <div className="pwa-step-content">
+                <h4>Open in Chrome</h4>
+                <p>Open this website in your <strong>Chrome</strong> browser</p>
+              </div>
             </div>
             <div className="pwa-step">
               <span className="pwa-step-num">2</span>
-              <p>Tap the <strong>Install</strong> banner at the bottom, or tap <strong>3-dot menu</strong> then <strong>Install app</strong></p>
+              <div className="pwa-step-content">
+                <h4>Tap Install</h4>
+                <p>Tap the <strong>Install</strong> banner at the bottom, or go to <strong>3-dot menu</strong> then <strong>Install app</strong></p>
+              </div>
             </div>
             <div className="pwa-step">
               <span className="pwa-step-num">3</span>
-              <p>Tap <strong>Install</strong> to add BCA Nepal to your home screen</p>
+              <div className="pwa-step-content">
+                <h4>Done!</h4>
+                <p>BCA Nepal is now on your home screen. Open it anytime — even offline.</p>
+              </div>
             </div>
           </div>
         )}
@@ -204,7 +213,7 @@ export default function ProfilePage() {
           <div className="card-left">
             <span className="card-code">iPhone</span>
             <span className="card-title">Install on iPhone / iPad</span>
-            <span className="card-meta-inline">Use Safari Share menu</span>
+            <span className="card-meta-inline">Add to home screen via Safari</span>
           </div>
           <i className={`bx bx-chevron-${showIos ? "up" : "down"} card-chevron`}></i>
         </div>
@@ -212,19 +221,31 @@ export default function ProfilePage() {
           <div className="pwa-steps">
             <div className="pwa-step">
               <span className="pwa-step-num">1</span>
-              <p>Open this site in <strong>Safari</strong> browser</p>
+              <div className="pwa-step-content">
+                <h4>Open in Safari</h4>
+                <p>Open this website in <strong>Safari</strong> (not Chrome)</p>
+              </div>
             </div>
             <div className="pwa-step">
               <span className="pwa-step-num">2</span>
-              <p>Tap the <strong>Share</strong> button (square with arrow) at the bottom</p>
+              <div className="pwa-step-content">
+                <h4>Tap Share</h4>
+                <p>Tap the <strong>Share</strong> button (square with arrow) at the bottom</p>
+              </div>
             </div>
             <div className="pwa-step">
               <span className="pwa-step-num">3</span>
-              <p>Scroll down and tap <strong>Add to Home Screen</strong></p>
+              <div className="pwa-step-content">
+                <h4>Add to Home Screen</h4>
+                <p>Scroll down and tap <strong>Add to Home Screen</strong></p>
+              </div>
             </div>
             <div className="pwa-step">
               <span className="pwa-step-num">4</span>
-              <p>Tap <strong>Add</strong> in the top right corner</p>
+              <div className="pwa-step-content">
+                <h4>Done!</h4>
+                <p>Tap <strong>Add</strong> in the top right. BCA Nepal is now on your home screen.</p>
+              </div>
             </div>
           </div>
         )}
