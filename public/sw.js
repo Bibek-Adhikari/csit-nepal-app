@@ -1,7 +1,8 @@
-const CACHE = "bca-nepal-v2";
-const STATIC_CACHE = "bca-nepal-static-v2";
-const API_CACHE = "bca-nepal-api-v2";
-const PDF_CACHE = "bca-nepal-pdf-v2";
+const CACHE = "bca-nepal-v3";
+const STATIC_CACHE = "bca-nepal-static-v3";
+const API_CACHE = "bca-nepal-api-v3";
+const PDF_CACHE = "bca-nepal-pdf-v3";
+const LECTURE_CACHE = "bca-nepal-lecture-v3";
 
 const PRECACHE_URLS = [
   "/",
@@ -19,11 +20,22 @@ const PRECACHE_URLS = [
 const SUPABASE_DOMAIN = "yrahncykruiwkiwtxjlv.supabase.co";
 const YT_IMG_DOMAIN = "i.ytimg.com";
 
+const CACHE_MAX_AGE = 30 * 24 * 60 * 60 * 1000; // 30 days
+const API_CACHE_MAX_AGE = 10 * 60 * 1000; // 10 minutes
+
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
+  if (event.data?.type === "CACHE_URLS") {
+    event.waitUntil(cacheUrls(event.data.urls));
+  }
 });
+
+async function cacheUrls(urls) {
+  const cache = await caches.open(STATIC_CACHE);
+  await cache.addAll(urls);
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -39,7 +51,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((k) => k !== CACHE && k !== STATIC_CACHE && k !== API_CACHE && k !== PDF_CACHE)
+          .filter((k) => ![CACHE, STATIC_CACHE, API_CACHE, PDF_CACHE, LECTURE_CACHE].includes(k))
           .map((k) => caches.delete(k))
       )
     )
@@ -79,6 +91,10 @@ function isNextImage(url) {
   return url.pathname === "/_next/image";
 }
 
+function isLecturePage(url) {
+  return url.pathname.startsWith("/lectures") || url.pathname.startsWith("/watch/");
+}
+
 function resolveNextImageUrl(url) {
   try {
     return url.searchParams.get("url");
@@ -92,7 +108,6 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
 
   // Navigation: network-first, fallback to cache, then offline page
-  // Skip SW for /offline to avoid serving fallback when the route fetch fails
   if (isNavigation(req) && url.pathname !== "/offline") {
     event.respondWith(networkFirstWithFallback(req, "/offline.html"));
     return;
@@ -110,7 +125,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // PDFs and Supabase storage: cache-first
+  // PDFs and Supabase storage: cache-first with refresh
   if (isPdf(url) || isSupabase(url)) {
     event.respondWith(cacheFirstWithRefresh(req, PDF_CACHE));
     return;
@@ -119,6 +134,12 @@ self.addEventListener("fetch", (event) => {
   // YouTube thumbnails: cache-first
   if (isYt(url)) {
     event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    return;
+  }
+
+  // Lecture pages: network-first with lecture cache
+  if (isLecturePage(url)) {
+    event.respondWith(networkFirstCache(req, LECTURE_CACHE));
     return;
   }
 
@@ -186,7 +207,7 @@ async function networkFirstCache(request, cacheName) {
     return res;
   } catch {
     const cached = await caches.match(request);
-    return cached || new Response(JSON.stringify({ error: "Offline" }), {
+    return cached || new Response(JSON.stringify({ error: "Offline", offline: true }), {
       status: 503,
       headers: { "Content-Type": "application/json" },
     });
@@ -196,7 +217,8 @@ async function networkFirstCache(request, cacheName) {
 async function cacheFirstWithRefresh(request, cacheName) {
   const cached = await caches.match(request);
   if (cached) {
-    fetchAndUpdateCache(request, cacheName);
+    const isStale = await isCacheStale(cached, cacheName);
+    if (isStale) fetchAndUpdateCache(request, cacheName);
     return cached;
   }
   try {
@@ -211,12 +233,100 @@ async function cacheFirstWithRefresh(request, cacheName) {
   }
 }
 
+async function isCacheStale(cachedResponse, cacheName) {
+  const dateHeader = cachedResponse.headers.get("date");
+  if (!dateHeader) return true;
+  const cachedTime = new Date(dateHeader).getTime();
+  const maxAge = cacheName === API_CACHE || cacheName === LECTURE_CACHE ? API_CACHE_MAX_AGE : CACHE_MAX_AGE;
+  return Date.now() - cachedTime > maxAge;
+}
+
 async function fetchAndUpdateCache(request, cacheName) {
   try {
     const res = await fetch(request);
     if (res.ok) {
       const cache = await caches.open(cacheName);
       cache.put(request, res);
+    }
+  } catch {}
+}
+
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-bookmarks") {
+    event.waitUntil(syncBookmarks());
+  }
+  if (event.tag === "sync-progress") {
+    event.waitUntil(syncProgress());
+  }
+});
+
+async function syncBookmarks() {
+  const clients = await self.clients.matchAll({ type: "window" });
+  clients.forEach((client) => {
+    client.postMessage({ type: "SYNC_BOOKMARKS" });
+  });
+}
+
+async function syncProgress() {
+  const clients = await self.clients.matchAll({ type: "window" });
+  clients.forEach((client) => {
+    client.postMessage({ type: "SYNC_PROGRESS" });
+  });
+}
+
+self.addEventListener("push", (event) => {
+  if (!event.data) return;
+
+  const data = event.data.json();
+  const options = {
+    body: data.body || "New content available",
+    icon: "/icons/icon-192x192.png",
+    badge: "/icons/icon-192x192.png",
+    vibrate: [100, 50, 100],
+    data: {
+      url: data.url || "/",
+    },
+    actions: [
+      { action: "open", title: "Open" },
+      { action: "close", title: "Dismiss" },
+    ],
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title || "BCA Nepal", options));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  if (event.action === "close") return;
+
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      const targetUrl = event.notification.data?.url || "/";
+      for (const client of clients) {
+        if (client.url.includes(targetUrl) && "focus" in client) {
+          return client.focus();
+        }
+      }
+      return self.clients.openWindow(targetUrl);
+    })
+  );
+});
+
+self.addEventListener("periodicsync", (event) => {
+  if (event.tag === "check-updates") {
+    event.waitUntil(checkForUpdates());
+  }
+});
+
+async function checkForUpdates() {
+  try {
+    const res = await fetch("/api/notes", { method: "HEAD" });
+    if (res.ok) {
+      const clients = await self.clients.matchAll({ type: "window" });
+      clients.forEach((client) => {
+        client.postMessage({ type: "CONTENT_UPDATED" });
+      });
     }
   } catch {}
 }

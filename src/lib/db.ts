@@ -1,6 +1,7 @@
 const DB_NAME = "bca-nepal-offline";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const STORE_NAME = "pdfs";
+const SYNC_STORE = "sync-queue";
 
 export interface StoredPDF {
   id: string;
@@ -14,6 +15,14 @@ export interface StoredPDF {
   bookmarked: boolean;
 }
 
+export interface SyncItem {
+  id: string;
+  type: "bookmark" | "progress";
+  data: Record<string, unknown>;
+  createdAt: number;
+  synced: boolean;
+}
+
 function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -23,6 +32,12 @@ function openDB(): Promise<IDBDatabase> {
         const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
         store.createIndex("semester", "semester");
         store.createIndex("subject", "subject");
+        store.createIndex("bookmarked", "bookmarked");
+      }
+      if (!db.objectStoreNames.contains(SYNC_STORE)) {
+        const syncStore = db.createObjectStore(SYNC_STORE, { keyPath: "id" });
+        syncStore.createIndex("type", "type");
+        syncStore.createIndex("synced", "synced");
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -125,5 +140,86 @@ export async function isPDFStored(id: string): Promise<boolean> {
     const req = tx.objectStore(STORE_NAME).count(id);
     req.onsuccess = () => resolve(req.result > 0);
     req.onerror = () => reject(req.error);
+  });
+}
+
+export async function getStorageUsage(): Promise<{ used: number; quota: number }> {
+  if ("storage" in navigator && "estimate" in navigator.storage) {
+    const { usage, quota } = await navigator.storage.estimate();
+    return { used: usage || 0, quota: quota || 0 };
+  }
+  return { used: 0, quota: 0 };
+}
+
+export async function requestPersistentStorage(): Promise<boolean> {
+  if ("storage" in navigator && "persist" in navigator.storage) {
+    return navigator.storage.persist();
+  }
+  return false;
+}
+
+export async function addSyncItem(type: "bookmark" | "progress", data: Record<string, unknown>): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SYNC_STORE, "readwrite");
+    tx.objectStore(SYNC_STORE).put({
+      id: `${type}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      type,
+      data,
+      createdAt: Date.now(),
+      synced: false,
+    });
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function getPendingSyncItems(): Promise<SyncItem[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SYNC_STORE, "readonly");
+    const index = tx.objectStore(SYNC_STORE).index("synced");
+    const req = index.getAll(false);
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+export async function markSynced(id: string): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SYNC_STORE, "readwrite");
+    const req = tx.objectStore(SYNC_STORE).get(id);
+    req.onsuccess = () => {
+      const data = req.result;
+      if (data) {
+        data.synced = true;
+        tx.objectStore(SYNC_STORE).put(data);
+      }
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function clearOldSyncItems(maxAge: number = 7 * 24 * 60 * 60 * 1000): Promise<void> {
+  const db = await openDB();
+  const cutoff = Date.now() - maxAge;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SYNC_STORE, "readwrite");
+    const store = tx.objectStore(SYNC_STORE);
+    const req = store.openCursor();
+    req.onsuccess = () => {
+      const cursor = req.result;
+      if (cursor) {
+        const item = cursor.value as SyncItem;
+        if (item.synced || item.createdAt < cutoff) {
+          cursor.delete();
+        }
+        cursor.continue();
+      }
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
   });
 }

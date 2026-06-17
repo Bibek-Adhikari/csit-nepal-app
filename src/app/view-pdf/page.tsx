@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { PdfErrorBoundary } from "@/components/pdf-error-boundary";
 
 const PdfViewer = dynamic(() => import("./pdf-viewer"), { ssr: false });
 
@@ -27,12 +28,14 @@ function ViewPdfContent() {
 
 export default function ViewPdfPage() {
   return (
-    <Suspense fallback={
-      <div className="empty-state">
-        <p>Loading PDF viewer…</p>
-      </div>
-    }>
-      <ViewPdfContent />
-    </Suspense>
+    <PdfErrorBoundary>
+      <Suspense fallback={
+        <div className="empty-state">
+          <p>Loading PDF viewer…</p>
+        </div>
+      }>
+        <ViewPdfContent />
+      </Suspense>
+    </PdfErrorBoundary>
   );
 }

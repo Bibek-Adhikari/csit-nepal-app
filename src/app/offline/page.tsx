@@ -93,9 +93,7 @@ export default function BookmarkPage() {
                           className="unit-note-card"
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
-                          <span className="unit-note-badge pdf">
-                            <i className="bx bxs-file-pdf"></i> PDF
-                          </span>
+                          <i className="bx bxs-file-pdf unit-note-icon" style={{ color: "var(--primary)" }}></i>
                           <span className="unit-note-title">{pdf.title}</span>
                           <span className="offline-saved-date">{formatDate(pdf.savedAt)}</span>
                           <span

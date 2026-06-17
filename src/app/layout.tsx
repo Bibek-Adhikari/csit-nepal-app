@@ -5,6 +5,7 @@ import { AppHeader } from "@/components/app-header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteNav } from "@/components/site-nav";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
+import { SentryProvider } from "@/components/sentry-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -73,12 +74,14 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <div className="app-shell">
-            <AppHeader />
-            <main className="app-viewport">{children}</main>
-            <SiteNav />
-            <ServiceWorkerRegister />
-          </div>
+          <SentryProvider>
+            <div className="app-shell">
+              <AppHeader />
+              <main className="app-viewport">{children}</main>
+              <SiteNav />
+              <ServiceWorkerRegister />
+            </div>
+          </SentryProvider>
         </ThemeProvider>
       </body>
     </html>
