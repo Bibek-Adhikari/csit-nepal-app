@@ -17,70 +17,19 @@ export const semester1: Semester = {
           slug: "intro-computer",
           title: "Introduction to Computer",
           summary: "Definition, characteristics, anatomy, types, history, and applications.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/intro-computer/c-basics.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/intro-computer/c-basics-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "hardware-software",
           title: "Computer Hardware & Software",
           summary: "Organization, CPU components, memory hierarchy, OS and utilities, translators.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/hardware-software/control-and-loops.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/hardware-software/control-and-loops-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "dbms-networks-security",
           title: "DBMS, Networks & Security",
           summary: "DBMS concepts, SQL/NoSQL ideas, network & OSI model basics, security mechanisms.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 3 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/dbms-networks-security/functions-pointers-files.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 3 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/computer-fundamentals-and-applications/dbms-networks-security/functions-pointers-files-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "computer-software",
@@ -120,70 +69,19 @@ export const semester1: Semester = {
           slug: "intro-c-basics",
           title: "C Basics and Program Structure",
           summary: "Tokens, data types, operators, compilation and execution, I/O basics.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/intro-c-basics/number-system.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/intro-c-basics/number-system-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "control-loops",
           title: "Control Structures & Loops",
           summary: "Decision making, loops, nested loops, and jump statements.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-loops/combinational-circuits.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/control-loops/combinational-circuits-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "functions-arrays-pointers",
           title: "Functions, Arrays & Pointers",
           summary: "Functions, arrays, strings, pointers, recursion, and related concepts.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 3 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-arrays-pointers/sequential-circuits.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 3 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/programming-in-c/functions-arrays-pointers/sequential-circuits-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "structures-unions-enumerations",
@@ -217,70 +115,19 @@ export const semester1: Semester = {
           slug: "number-systems",
           title: "Number Systems & Representations",
           summary: "Conversions, signed numbers, complements, BCD/ASCII/Gray code, error detection.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-systems/calculus-foundations.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/number-systems/calculus-foundations-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "boolean-simplification",
           title: "Boolean Algebra & Simplification",
           summary: "Gates, universal logic, SOP/POS, K-map, Quine-McCluskey.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/boolean-simplification/integration-and-vectors.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/boolean-simplification/integration-and-vectors-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "combinational-sequential",
           title: "Combinational & Sequential Logic",
           summary: "Adders/subtractors, multiplexers, state diagrams, latches/flip-flops, counters/registers.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 3 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-sequential/technology-society.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 3 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/digital-logic/combinational-sequential/technology-society-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "sequential-logic-design",
@@ -308,70 +155,19 @@ export const semester1: Semester = {
           slug: "logic-relations",
           title: "Logic, Relations & Functions",
           summary: "Elementary logic, ordered axioms, relations and functions, graphs.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/logic-relations/technology-society.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/logic-relations/technology-society-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "sequences-series",
           title: "Sequence & Series",
           summary: "Arithmetic/geometric/harmonic series, means, sums.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/sequences-series/integration-and-vectors.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/sequences-series/integration-and-vectors-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "matrices-geometry",
           title: "Matrices, Determinants & Geometry",
           summary: "Matrices, determinants, analytical geometry, vectors and permutations.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 3 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/matrices-geometry/matrix-theory.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 3 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/mathematics-i/matrices-geometry/matrix-theory-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "analytical-geometry",
@@ -405,24 +201,7 @@ export const semester1: Semester = {
           slug: "communication-foundations",
           title: "Communication Foundations",
           summary: "Language, communication process, nonverbal communication, barriers.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/communication-foundations/reading-writing.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/communication-foundations/reading-writing-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "writing-professionally",
@@ -440,47 +219,13 @@ export const semester1: Semester = {
           slug: "oral-and-writing",
           title: "Oral & Written Communication",
           summary: "Telephone conversations, public speaking, notices, emails and letters.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/oral-and-writing/presentation-skills.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/oral-and-writing/presentation-skills-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "ethics-digital-communication",
           title: "Ethics & Digital Communication",
           summary: "Professional ethics, netiquette, online professionalism, plagiarism.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 3 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/ethics-digital-communication/cyber-law.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 3 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/professional-communication-and-ethics/ethics-digital-communication/cyber-law-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
       ],
     },
@@ -495,47 +240,13 @@ export const semester1: Semester = {
           slug: "electronics-basics",
           title: "Introduction to Hardware",
           summary: "Electronic components, safety, passive/active components and datasheets.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 1 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/electronics-basics/c-basics.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 1 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/electronics-basics/c-basics-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "networking-components",
           title: "Networking Components",
           summary: "Network devices, cabling & connectors, testing/troubleshooting.",
-          notes: {
-            pdf: [
-              {
-                title: "Unit 2 PDF Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/networking-components/technology-society.pdf",
-                format: "pdf",
-              },
-            ],
-            handwritten: [
-              {
-                title: "Unit 2 Handwritten Notes",
-                href:
-                  "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-1/hardware-workshop/networking-components/technology-society-handwritten.pdf",
-                format: "handwritten",
-              },
-            ],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "desktop-laptop-hardware",

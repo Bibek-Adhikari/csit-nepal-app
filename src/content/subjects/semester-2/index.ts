@@ -16,10 +16,7 @@ export const semester2: Semester = {
           slug: "set-theory",
           title: "Set Theory",
           summary: "Sets, subsets, power sets, Cartesian products, set operations, Venn diagrams, and set identities.",
-          notes: {
-            pdf: [{ title: "Discrete PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/discrete-structure/set-theory/set-theory.pdf", format: "pdf" }],
-            handwritten: [{ title: "Discrete Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/discrete-structure/set-theory/set-theory-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "logic-propositional-calculus",
@@ -49,10 +46,7 @@ export const semester2: Semester = {
           slug: "graph-theory-trees",
           title: "Graph Theory and Trees",
           summary: "Graphs, subgraphs, paths, cycles, connectivity, trees, spanning trees, traversals, and graph representations.",
-          notes: {
-            pdf: [{ title: "Graph Theory PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/discrete-structure/graph-theory/graph-theory.pdf", format: "pdf" }],
-            handwritten: [{ title: "Graph Theory Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/discrete-structure/graph-theory/graph-theory-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "algebraic-structures",
@@ -73,19 +67,13 @@ export const semester2: Semester = {
           slug: "8085-basics",
           title: "8085 Basics",
           summary: "Registers, buses, timing, and instruction cycle.",
-          notes: {
-            pdf: [{ title: "Microprocessor PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/microprocessor-architecture/8085-basics/8085-basics.pdf", format: "pdf" }],
-            handwritten: [{ title: "Microprocessor Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/microprocessor-architecture/8085-basics/8085-basics-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "interfacing",
           title: "Memory and I/O Interfacing",
           summary: "Decoding, memory mapping, and system interfaces.",
-          notes: {
-            pdf: [{ title: "Interfacing PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/microprocessor-architecture/interfacing/interfacing.pdf", format: "pdf" }],
-            handwritten: [{ title: "Interfacing Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/microprocessor-architecture/interfacing/interfacing-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "intro-computer-architecture",
@@ -124,19 +112,13 @@ export const semester2: Semester = {
           slug: "java-basics",
           title: "Java Basics and OOP",
           summary: "Objects, classes, inheritance, and polymorphism.",
-          notes: {
-            pdf: [{ title: "Java PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/oop-in-java/java-basics/java-basics.pdf", format: "pdf" }],
-            handwritten: [{ title: "Java Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/oop-in-java/java-basics/java-basics-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "exceptions-threading",
           title: "Exceptions and Threading",
           summary: "Try-catch, concurrency, and thread management.",
-          notes: {
-            pdf: [{ title: "Exceptions PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/oop-in-java/exceptions-threading/exceptions-threading.pdf", format: "pdf" }],
-            handwritten: [{ title: "Exceptions Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/oop-in-java/exceptions-threading/exceptions-threading-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "classes-objects",
@@ -220,19 +202,13 @@ export const semester2: Semester = {
           slug: "design-process",
           title: "Design Process",
           summary: "Research, personas, journeys, and requirements.",
-          notes: {
-            pdf: [{ title: "UX Design PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/ux-ui-design/design-process/design-process.pdf", format: "pdf" }],
-            handwritten: [{ title: "UX Design Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/ux-ui-design/design-process/design-process-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "visual-design",
           title: "Visual Design",
           summary: "Typography, grids, color systems, and responsive composition.",
-          notes: {
-            pdf: [{ title: "Visual Design PDF Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/ux-ui-design/visual-design/visual-design.pdf", format: "pdf" }],
-            handwritten: [{ title: "Visual Design Handwritten Notes", href: "https://yrahncykruiwkiwtxjlv.supabase.co/storage/v1/object/public/notes/semester-2/ux-ui-design/visual-design/visual-design-handwritten.pdf", format: "handwritten" }],
-          },
+          notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "user-research-analysis",

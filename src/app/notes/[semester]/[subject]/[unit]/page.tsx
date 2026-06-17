@@ -38,19 +38,11 @@ export const dynamic = 'force-dynamic';
 function isValidNoteName(name: string): boolean {
   const nameWithoutExt = name.replace(/\.[^/.]+$/, "");
   if (/^\d+$/.test(nameWithoutExt)) return false;
-  if (/^\d{8,}[\s_-]/.test(nameWithoutExt)) return false;
   return true;
 }
 
 function formatNoteTitle(name: string): string {
-  return name
-    .replace(/\.[^/.]+$/, "")
-    .replace(/[-_]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
+  return name.replace(/\.[^/.]+$/, "");
 }
 
 function NoteCard({ item, type, semester, subject, unit }: { item: NoteItem; type: "pdf" | "handwritten"; semester: string; subject: string; unit: string }) {
