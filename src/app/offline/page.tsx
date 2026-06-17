@@ -2,20 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { getAllPDFs, deletePDF } from "@/lib/db";
+import { getBookmarkedPDFs, deletePDF, updateBookmark } from "@/lib/db";
+import type { StoredPDF } from "@/lib/db";
 import { getSemester, getSubject } from "@/content/subjects";
 import type { SemesterKey } from "@/content/subjects";
-
-interface StoredPDF {
-  id: string;
-  title: string;
-  url: string;
-  semester: string;
-  subject: string;
-  unit: string;
-  blob: Blob;
-  savedAt: number;
-}
 
 function formatDate(ts: number) {
   return new Date(ts).toLocaleDateString("en-US", {
@@ -25,14 +15,13 @@ function formatDate(ts: number) {
   });
 }
 
-export default function OfflinePage() {
+export default function BookmarkPage() {
   const [pdfs, setPdfs] = useState<StoredPDF[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
-    const all = await getAllPDFs();
-    all.sort((a, b) => b.savedAt - a.savedAt);
+    const all = await getBookmarkedPDFs();
     setPdfs(all);
     setLoading(false);
   }, []);
@@ -40,6 +29,11 @@ export default function OfflinePage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  const handleRemove = async (id: string) => {
+    await updateBookmark(id, false);
+    setPdfs((prev) => prev.filter((p) => p.id !== id));
+  };
 
   const handleDelete = async (id: string) => {
     await deletePDF(id);
@@ -65,18 +59,18 @@ export default function OfflinePage() {
   return (
     <>
       <section className="welcome-hero">
-        <h2>Offline PDFs</h2>
-        <p>PDFs you&apos;ve saved for offline viewing, organized by subject.</p>
+        <h2>Bookmarks</h2>
+        <p>Bookmarked PDFs organized by subject. Opened PDFs are automatically saved for offline access.</p>
       </section>
 
       {loading ? (
         <div className="empty-state">
-          <p>Loading saved PDFs…</p>
+          <p>Loading bookmarks…</p>
         </div>
       ) : pdfs.length === 0 ? (
         <div className="empty-state">
-          <i className="bx bxs-file-pdf" style={{ fontSize: "3rem", color: "var(--text-muted)" }}></i>
-          <p>No PDFs saved yet. Open a PDF and tap &ldquo;Save Offline&rdquo; to store it here.</p>
+          <i className="bx bx-bookmark" style={{ fontSize: "3rem", color: "var(--text-muted)" }}></i>
+          <p>No bookmarks yet. Open a PDF and tap the bookmark icon to save it here.</p>
         </div>
       ) : (
         <div style={{ padding: "0 1rem 1.5rem" }}>
@@ -104,6 +98,19 @@ export default function OfflinePage() {
                           </span>
                           <span className="unit-note-title">{pdf.title}</span>
                           <span className="offline-saved-date">{formatDate(pdf.savedAt)}</span>
+                          <span
+                            className="offline-delete-btn"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleRemove(pdf.id);
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label="Remove bookmark"
+                          >
+                            <i className="bx bxs-bookmark-x"></i>
+                          </span>
                           <span
                             className="offline-delete-btn"
                             onClick={(e) => {

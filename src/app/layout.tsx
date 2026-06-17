@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { AppHeader } from "@/components/app-header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -8,11 +8,6 @@ import { ServiceWorkerRegister } from "@/components/service-worker-register";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -66,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />

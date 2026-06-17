@@ -1,8 +1,8 @@
 const DB_NAME = "bca-nepal-offline";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_NAME = "pdfs";
 
-interface StoredPDF {
+export interface StoredPDF {
   id: string;
   title: string;
   url: string;
@@ -11,6 +11,7 @@ interface StoredPDF {
   unit: string;
   blob: Blob;
   savedAt: number;
+  bookmarked: boolean;
 }
 
 function openDB(): Promise<IDBDatabase> {
@@ -41,7 +42,42 @@ export async function savePDF(
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    tx.objectStore(STORE_NAME).put({ id, title, url, semester, subject, unit, blob, savedAt: Date.now() });
+    const store = tx.objectStore(STORE_NAME);
+    const getReq = store.get(id);
+    getReq.onsuccess = () => {
+      const existing = getReq.result;
+      store.put({
+        id,
+        title,
+        url,
+        semester,
+        subject,
+        unit,
+        blob,
+        savedAt: Date.now(),
+        bookmarked: existing ? existing.bookmarked : false,
+      });
+    };
+    getReq.onerror = () => {
+      store.put({ id, title, url, semester, subject, unit, blob, savedAt: Date.now(), bookmarked: false });
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function updateBookmark(id: string, bookmarked: boolean): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const req = tx.objectStore(STORE_NAME).get(id);
+    req.onsuccess = () => {
+      const data = req.result;
+      if (data) {
+        data.bookmarked = bookmarked;
+        tx.objectStore(STORE_NAME).put(data);
+      }
+    };
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
@@ -75,6 +111,11 @@ export async function getAllPDFs(): Promise<StoredPDF[]> {
     req.onsuccess = () => resolve(req.result || []);
     req.onerror = () => reject(req.error);
   });
+}
+
+export async function getBookmarkedPDFs(): Promise<StoredPDF[]> {
+  const all = await getAllPDFs();
+  return all.filter((p) => p.bookmarked).sort((a, b) => b.savedAt - a.savedAt);
 }
 
 export async function isPDFStored(id: string): Promise<boolean> {

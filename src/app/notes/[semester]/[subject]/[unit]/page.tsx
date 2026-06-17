@@ -33,22 +33,12 @@ interface Semester {
   subjects: Subject[];
 }
 
-export function generateStaticParams() {
-  return (semesters as Semester[]).flatMap((semester) =>
-    semester.subjects.flatMap((subject: Subject) =>
-      subject.units.map((unit: Unit) => ({
-        semester: semester.key,
-        subject: subject.slug,
-        unit: unit.slug,
-      })),
-    ),
-  );
-}
+export const dynamic = 'force-dynamic';
 
 function isValidNoteName(name: string): boolean {
   const nameWithoutExt = name.replace(/\.[^/.]+$/, "");
   if (/^\d+$/.test(nameWithoutExt)) return false;
-  if (/^\d{10,}\s/.test(nameWithoutExt)) return false;
+  if (/^\d{8,}[\s_-]/.test(nameWithoutExt)) return false;
   return true;
 }
 
@@ -71,25 +61,10 @@ function NoteCard({ item, type, semester, subject, unit }: { item: NoteItem; typ
       href={viewUrl}
       className="unit-note-card"
     >
-      <span className={`unit-note-badge ${isPdf ? "pdf" : "hw"}`}>
-        <i className={`bx ${isPdf ? "bxs-file-pdf" : "bxs-pencil"}`}></i>
-        {isPdf ? "PDF" : "Handwritten"}
-      </span>
+      <i className={`bx ${isPdf ? "bxs-file-pdf" : "bxs-pencil"} unit-note-icon`} style={{ color: isPdf ? "var(--primary)" : "var(--text-muted)" }}></i>
       <span className="unit-note-title">{item.title}</span>
       <i className="bx bx-show unit-note-dl"></i>
     </Link>
-  );
-}
-
-function EmptyNote({ type }: { type: "pdf" | "handwritten" }) {
-  const isPdf = type === "pdf";
-  return (
-    <div className="unit-note-empty">
-      <i className={`bx ${isPdf ? "bxs-file-pdf" : "bxs-pencil"}`}></i>
-      <span className="unit-note-empty-label">
-        No {isPdf ? "PDF" : "handwritten"} notes available
-      </span>
-    </div>
   );
 }
 
@@ -158,25 +133,36 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
         <h2 className="unit-hero-title">{unitData.title}</h2>
       </section>
 
-      <section className="unit-notes-section">
-        <h3 className="section-headline">Notes</h3>
-        <div className="unit-notes-list">
-          {pdfNotes.length === 0 ? (
-            <EmptyNote type="pdf" />
-          ) : (
-            pdfNotes.map((item: NoteItem) => (
+      {pdfNotes.length > 0 && (
+        <section className="unit-notes-section">
+          <h3 className="section-headline"><i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>PDF &mdash; Course</h3>
+          <div className="unit-notes-list">
+            {pdfNotes.map((item: NoteItem) => (
               <NoteCard key={item.href} item={item} type="pdf" semester={semester} subject={subject} unit={unit} />
-            ))
-          )}
-          {handwrittenNotes.length === 0 ? (
-            <EmptyNote type="handwritten" />
-          ) : (
-            handwrittenNotes.map((item: NoteItem) => (
+            ))}
+          </div>
+        </section>
+      )}
+
+      {handwrittenNotes.length > 0 && (
+        <section className="unit-notes-section">
+          <h3 className="section-headline"><i className="bx bxs-pencil" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>Handwritten</h3>
+          <div className="unit-notes-list">
+            {handwrittenNotes.map((item: NoteItem) => (
               <NoteCard key={item.href} item={item} type="handwritten" semester={semester} subject={subject} unit={unit} />
-            ))
-          )}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {pdfNotes.length === 0 && handwrittenNotes.length === 0 && (
+        <section className="unit-notes-section">
+          <div className="unit-coming-soon">
+            <i className="bx bx-time-five"></i>
+            <span>Notes for this unit are being prepared &mdash; check back soon!</span>
+          </div>
+        </section>
+      )}
 
       <RelatedLectures semesterKey={semester} subjectSlug={subject} />
 

@@ -43,7 +43,7 @@ export default async function SubjectPage({
         </div>
       </section>
 
-      <h3 className="section-headline">Units &amp; Notes</h3>
+      <h3 className="section-headline">Units</h3>
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
         {subjectData.units.map((unit) => (
           <Link

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { savePDF, isPDFStored, getPDF } from "@/lib/db";
+import { savePDF, isPDFStored, getPDF, updateBookmark, getBookmarkedPDFs } from "@/lib/db";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -58,16 +58,14 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [dlProgress, setDlProgress] = useState(0);
   const [dlState, setDlState] = useState<"fetching" | "ready" | "error" | "none">("none");
-  const [saved, setSaved] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
   const blobRef = useRef<Blob | null>(null);
   const blobUrlRef = useRef<string | null>(null);
   const pdfId = url;
 
   useEffect(() => {
     setPageWidth(Math.min(window.innerWidth - 16, 800));
-    isPDFStored(pdfId).then(setSaved);
-  }, [pdfId]);
+  }, []);
 
   useEffect(() => {
     if (!url) return;
@@ -82,7 +80,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         blobUrlRef.current = blobUrl_;
         setBlobUrl(blobUrl_);
         setDlState("ready");
-        setSaved(true);
+        setBookmarked(stored.bookmarked);
         return;
       }
 
@@ -109,6 +107,9 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         blobUrlRef.current = blobUrl_;
         setBlobUrl(blobUrl_);
         setDlState("ready");
+
+        await savePDF(pdfId, title, url, semester, subject, unit, blob);
+        setBookmarked(false);
       } catch {
         if (!cancelled) setDlState("error");
       }
@@ -120,18 +121,12 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
       cancelled = true;
       if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     };
-  }, [url]);
+  }, [url, pdfId, title, semester, subject, unit]);
 
-  const handleSave = async () => {
-    if (!blobRef.current || saving || saved) return;
-    setSaving(true);
-    try {
-      await savePDF(pdfId, title, url, semester, subject, unit, blobRef.current);
-      setSaved(true);
-    } catch (err) {
-      console.error("Failed to save PDF offline:", err);
-    }
-    setSaving(false);
+  const toggleBookmark = async () => {
+    const next = !bookmarked;
+    setBookmarked(next);
+    await updateBookmark(pdfId, next);
   };
 
   if (dlState === "error" || (dlState === "none" && loadError)) {
@@ -157,13 +152,11 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         {numPages > 0 && <span className="pdf-viewer-page-info">1 / {numPages}</span>}
         {dlState === "ready" && (
           <button
-            className={`pdf-viewer-save-btn ${saved ? "saved" : ""}`}
-            onClick={handleSave}
-            disabled={saving || saved}
-            aria-label={saved ? "Saved offline" : "Save offline"}
+            className={`pdf-viewer-save-btn ${bookmarked ? "saved" : ""}`}
+            onClick={toggleBookmark}
+            aria-label={bookmarked ? "Bookmarked" : "Bookmark"}
           >
-            <i className={`bx ${saved ? "bxs-check-circle" : saving ? "bx-loader-alt bx-spin" : "bxs-download"}`}></i>
-            <span>{saved ? "Saved" : saving ? "Saving…" : "Save Offline"}</span>
+            <i className={`bx ${bookmarked ? "bxs-bookmark" : "bx-bookmark"}`}></i>
           </button>
         )}
         {dlState === "fetching" && (
