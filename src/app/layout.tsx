@@ -11,10 +11,10 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_SITE_URL : undefined;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "") : undefined;
 const APP_URL = SITE_URL
   || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`)
-  || "http://localhost:3000";
+  || "https://bcanepal.netlify.app";
 
 export const metadata: Metadata = {
   title: "BCA Nepal",

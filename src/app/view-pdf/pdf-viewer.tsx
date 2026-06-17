@@ -8,7 +8,7 @@ import { savePDF, isPDFStored, getPDF, updateBookmark, getBookmarkedPDFs } from 
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: number }) {
+function LazyPage({ pageNumber, pageWidth, onVisible }: { pageNumber: number; pageWidth: number; onVisible?: (page: number) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -27,6 +27,21 @@ function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: nu
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          onVisible?.(pageNumber);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [pageNumber, onVisible]);
 
   return (
     <div ref={ref} className="pdf-viewer-page-wrap">
@@ -53,6 +68,7 @@ function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: nu
 
 export default function PdfViewer({ url, title, semester, subject, unit }: { url: string; title: string; semester: string; subject: string; unit: string }) {
   const [numPages, setNumPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [loadError, setLoadError] = useState(false);
   const [pageWidth, setPageWidth] = useState(800);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
@@ -149,7 +165,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         <button className="pdf-viewer-back" onClick={() => window.history.back()} aria-label="Go back">
           <i className="bx bx-arrow-back"></i>
         </button>
-        {numPages > 0 && <span className="pdf-viewer-page-info">1 / {numPages}</span>}
+        {numPages > 0 && <span className="pdf-viewer-page-info">{currentPage} / {numPages}</span>}
         {dlState === "ready" && (
           <button
             className={`pdf-viewer-save-btn ${bookmarked ? "saved" : ""}`}
@@ -199,7 +215,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
             }
           >
             {Array.from(new Array(numPages), (_, index) => (
-              <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} />
+              <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} onVisible={setCurrentPage} />
             ))}
           </Document>
         )}
