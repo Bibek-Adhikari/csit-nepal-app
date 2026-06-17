@@ -178,9 +178,11 @@ export async function getPendingSyncItems(): Promise<SyncItem[]> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(SYNC_STORE, "readonly");
-    const index = tx.objectStore(SYNC_STORE).index("synced");
-    const req = index.getAll(false);
-    req.onsuccess = () => resolve(req.result || []);
+    const req = tx.objectStore(SYNC_STORE).getAll();
+    req.onsuccess = () => {
+      const items = (req.result || []) as SyncItem[];
+      resolve(items.filter((item) => !item.synced));
+    };
     req.onerror = () => reject(req.error);
   });
 }
