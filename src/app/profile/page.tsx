@@ -304,7 +304,7 @@ export default function ProfilePage() {
       </div>
 
       <h3 className="section-headline">Admin</h3>
-      <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+      <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
         <Link href="/upload" className="app-card" style={{ textDecoration: "none" }}>
           <div className="card-left">
             <span className="card-code">Admin</span>
@@ -312,6 +312,26 @@ export default function ProfilePage() {
             <span className="card-meta-inline">Add PDFs to Supabase storage</span>
           </div>
           <i className="bx bx-cloud-upload card-chevron"></i>
+        </Link>
+      </div>
+
+      <h3 className="section-headline">Legal</h3>
+      <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+        <Link href="/privacy-policy" className="app-card" style={{ textDecoration: "none", color: "inherit" }}>
+          <div className="card-left">
+            <span className="card-code">Privacy</span>
+            <span className="card-title">Privacy Policy</span>
+            <span className="card-meta-inline">How we handle your data</span>
+          </div>
+          <i className="bx bx-chevron-right card-chevron"></i>
+        </Link>
+        <Link href="/terms-and-conditions" className="app-card" style={{ textDecoration: "none", color: "inherit" }}>
+          <div className="card-left">
+            <span className="card-code">Terms</span>
+            <span className="card-title">Terms and Conditions</span>
+            <span className="card-meta-inline">App usage terms</span>
+          </div>
+          <i className="bx bx-chevron-right card-chevron"></i>
         </Link>
       </div>
     </>

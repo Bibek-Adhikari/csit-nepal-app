@@ -2490,3 +2490,43 @@ html.dark .pdf-viewer-save-btn.saved {
   color: var(--text);
   font-weight: 700;
 }
+
+.legal-content {
+  padding: 0 1.25rem 2rem;
+}
+
+.legal-content h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.legal-content p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+}
+
+.legal-content ul {
+  padding-left: 1.25rem;
+  margin: 0 0 0.75rem;
+}
+
+.legal-content li {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.35rem;
+}
+
+.legal-content a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-content a:hover {
+  opacity: 0.8;
+}

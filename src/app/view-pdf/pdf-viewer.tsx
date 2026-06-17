@@ -8,7 +8,7 @@ import { savePDF, isPDFStored, getPDF, updateBookmark, getBookmarkedPDFs } from 
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-function LazyPage({ pageNumber, pageWidth, onVisible }: { pageNumber: number; pageWidth: number; onVisible?: (page: number) => void }) {
+function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -28,23 +28,8 @@ function LazyPage({ pageNumber, pageWidth, onVisible }: { pageNumber: number; pa
     return () => obs.disconnect();
   }, []);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          onVisible?.(pageNumber);
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [pageNumber, onVisible]);
-
   return (
-    <div ref={ref} className="pdf-viewer-page-wrap">
+    <div ref={ref} className="pdf-viewer-page-wrap" data-page={pageNumber}>
       {visible ? (
         <Page
           pageNumber={pageNumber}
@@ -77,11 +62,49 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   const [bookmarked, setBookmarked] = useState(false);
   const blobRef = useRef<Blob | null>(null);
   const blobUrlRef = useRef<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const pdfId = url;
 
   useEffect(() => {
     setPageWidth(Math.min(window.innerWidth - 16, 800));
   }, []);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container || numPages === 0) return;
+    let ticking = false;
+
+    const track = () => {
+      const containerRect = container.getBoundingClientRect();
+      const containerTop = containerRect.top;
+      const containerMid = containerTop + containerRect.height * 0.35;
+      let bestPage = 1;
+      let bestDist = Infinity;
+      const pages = container.querySelectorAll<HTMLElement>("[data-page]");
+      pages.forEach((el) => {
+        const pn = parseInt(el.dataset.page || "1", 10);
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top - containerTop);
+        if (rect.top <= containerMid && dist < bestDist) {
+          bestDist = dist;
+          bestPage = pn;
+        }
+      });
+      setCurrentPage(bestPage);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(track);
+      }
+    };
+
+    container.addEventListener("scroll", onScroll, { passive: true });
+    track();
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [numPages]);
 
   useEffect(() => {
     if (!url) return;
@@ -122,9 +145,10 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         const blobUrl_ = URL.createObjectURL(blob);
         blobUrlRef.current = blobUrl_;
         setBlobUrl(blobUrl_);
-        setDlState("ready");
 
         await savePDF(pdfId, title, url, semester, subject, unit, blob);
+        if (cancelled) return;
+        setDlState("ready");
         setBookmarked(false);
       } catch {
         if (!cancelled) setDlState("error");
@@ -201,7 +225,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
         </div>
       )}
 
-      <div className="pdf-viewer-scroll" onContextMenu={(e) => e.preventDefault()}>
+      <div ref={scrollRef} className="pdf-viewer-scroll" onContextMenu={(e) => e.preventDefault()}>
         {blobUrl && (
           <Document
             file={blobUrl}
@@ -215,7 +239,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
             }
           >
             {Array.from(new Array(numPages), (_, index) => (
-              <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} onVisible={setCurrentPage} />
+              <LazyPage key={`page_${index + 1}`} pageNumber={index + 1} pageWidth={pageWidth} />
             ))}
           </Document>
         )}

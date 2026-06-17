@@ -85,12 +85,25 @@ export async function updateBookmark(id: string, bookmarked: boolean): Promise<v
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    const req = tx.objectStore(STORE_NAME).get(id);
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.get(id);
     req.onsuccess = () => {
       const data = req.result;
       if (data) {
         data.bookmarked = bookmarked;
-        tx.objectStore(STORE_NAME).put(data);
+        store.put(data);
+      } else {
+        store.put({
+          id,
+          title: "",
+          url: id,
+          semester: "",
+          subject: "",
+          unit: "",
+          blob: new Blob(),
+          savedAt: Date.now(),
+          bookmarked,
+        });
       }
     };
     tx.oncomplete = () => resolve();
