@@ -63,8 +63,7 @@ function inferSemester(title: string, fallbackSemester: string): string {
   const semPatterns = [
     { key: "semester-1", patterns: ["1st sem", "1st semester", "semester 1", "bca 1"] },
     { key: "semester-2", patterns: ["2nd sem", "2nd semester", "semester 2", "bca 2"] },
-    { key: "semester-3", patterns: ["3rd sem", "3rd semester", "semester 3", "bca 3"] },
-    { key: "semester-4", patterns: ["4th sem", "4th semester", "semester 4", "bca 4"] },
+
   ];
   const lower = title.toLowerCase();
   for (const { key, patterns } of semPatterns) {

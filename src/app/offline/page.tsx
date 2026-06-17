@@ -52,8 +52,7 @@ export default function BookmarkPage() {
   const semLabels: Record<string, string> = {
     "semester-1": "Semester 1",
     "semester-2": "Semester 2",
-    "semester-3": "Semester 3",
-    "semester-4": "Semester 4",
+
   };
 
   return (

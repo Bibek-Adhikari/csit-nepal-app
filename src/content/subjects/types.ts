@@ -1,4 +1,4 @@
-export type SemesterKey = "semester-1" | "semester-2" | "semester-3" | "semester-4";
+export type SemesterKey = "semester-1" | "semester-2";
 
 export type NoteItem = {
   title: string;

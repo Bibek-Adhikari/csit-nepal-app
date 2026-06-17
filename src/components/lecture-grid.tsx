@@ -23,8 +23,7 @@ const semesterFilters = [
   { key: "all", label: "All" },
   { key: "semester-1", label: "1st Sem" },
   { key: "semester-2", label: "2nd Sem" },
-  { key: "semester-3", label: "3rd Sem" },
-  { key: "semester-4", label: "4th Sem" },
+
 ];
 
 export function LectureGrid() {
