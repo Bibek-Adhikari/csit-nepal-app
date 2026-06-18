@@ -20,15 +20,9 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "hardware-software",
-          title: "Computer Hardware & Software",
-          summary: "Organization, CPU components, memory hierarchy, OS and utilities, translators.",
-          notes: { pdf: [], handwritten: [] },
-        },
-        {
-          slug: "dbms-networks-security",
-          title: "DBMS, Networks & Security",
-          summary: "DBMS concepts, SQL/NoSQL ideas, network & OSI model basics, security mechanisms.",
+          slug: "computer-hardware",
+          title: "Computer Hardware",
+          summary: "Organization, CPU components, memory hierarchy, input/output devices, and storage.",
           notes: { pdf: [], handwritten: [] },
         },
         {
@@ -38,9 +32,15 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
         {
+          slug: "database-management-system",
+          title: "Database Management System",
+          summary: "DBMS concepts, data models, SQL/NoSQL, database design, normalization, and transaction management.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
           slug: "computer-network-internet",
           title: "Computer Network and Internet",
-          summary: "Network types, LAN topologies, transmission media, OSI model, protocols, DNS, and client-server concepts.",
+          summary: "Network types, topologies, transmission media, OSI model, protocols, DNS, and client-server concepts.",
           notes: { pdf: [], handwritten: [] },
         },
         {
@@ -60,26 +60,26 @@ export const semester1: Semester = {
     {
       code: "BCA 102",
       slug: "programming-in-c",
-      title: "Programming in C",
+      title: "Programming Fundamentals using C",
       credits: "3",
       overview:
         "Core C programming fundamentals: control structures, functions, arrays, pointers, and file handling.",
       units: [
         {
           slug: "intro-c-basics",
-          title: "C Basics and Program Structure",
+          title: "Introduction to C Programming Language and Basics",
           summary: "Tokens, data types, operators, compilation and execution, I/O basics.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "control-loops",
-          title: "Control Structures & Loops",
+          slug: "io-control-structures",
+          title: "Input/Output and Control Structures",
           summary: "Decision making, loops, nested loops, and jump statements.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "functions-arrays-pointers",
-          title: "Functions, Arrays & Pointers",
+          slug: "functions-arrays-string",
+          title: "Functions, Arrays and String",
           summary: "Functions, arrays, strings, pointers, recursion, and related concepts.",
           notes: { pdf: [], handwritten: [] },
         },
@@ -91,7 +91,7 @@ export const semester1: Semester = {
         },
         {
           slug: "pointers-memory-management",
-          title: "Pointers and Memory Management",
+          title: "Pointers and Dynamic Memory Allocation",
           summary: "Pointer declaration, arithmetic, pointers with arrays/strings/functions/structures, dynamic memory allocation.",
           notes: { pdf: [], handwritten: [] },
         },
@@ -106,27 +106,27 @@ export const semester1: Semester = {
     {
       code: "BCA 103",
       slug: "digital-logic",
-      title: "Digital Logic",
+      title: "Digital Logic Design",
       credits: "3",
       overview:
         "Digital design fundamentals: number systems, boolean algebra, combinational and sequential logic.",
       units: [
         {
-          slug: "number-systems",
-          title: "Number Systems & Representations",
-          summary: "Conversions, signed numbers, complements, BCD/ASCII/Gray code, error detection.",
+          slug: "number-system-digital-logic",
+          title: "Number System and Digital Logic",
+          summary: "Conversions, signed numbers, complements, BCD/ASCII/Gray code, error detection, logic gates.",
           notes: { pdf: [], handwritten: [] },
         },
         {
           slug: "boolean-simplification",
-          title: "Boolean Algebra & Simplification",
+          title: "Boolean Algebra and its Simplification",
           summary: "Gates, universal logic, SOP/POS, K-map, Quine-McCluskey.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "combinational-sequential",
-          title: "Combinational & Sequential Logic",
-          summary: "Adders/subtractors, multiplexers, state diagrams, latches/flip-flops, counters/registers.",
+          slug: "combinational-logic-design",
+          title: "Combinational Logic Design",
+          summary: "Adders/subtractors, multiplexers, decoders, encoders, comparators, and ALU design.",
           notes: { pdf: [], handwritten: [] },
         },
         {
@@ -146,27 +146,27 @@ export const semester1: Semester = {
     {
       code: "BCA 104",
       slug: "mathematics-i",
-      title: "Mathematics-I",
+      title: "Mathematics I",
       credits: "3",
       overview:
         "Mathematical foundations: logic/relations, sequences/series, matrices/determinants, analytical geometry, vectors and permutations.",
       units: [
         {
-          slug: "logic-relations",
-          title: "Logic, Relations & Functions",
+          slug: "logic-relations-functions-graphs",
+          title: "Logic, Relations, Functions, and Graphs",
           summary: "Elementary logic, ordered axioms, relations and functions, graphs.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "sequences-series",
-          title: "Sequence & Series",
+          slug: "sequence-series",
+          title: "Sequence and Series",
           summary: "Arithmetic/geometric/harmonic series, means, sums.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "matrices-geometry",
-          title: "Matrices, Determinants & Geometry",
-          summary: "Matrices, determinants, analytical geometry, vectors and permutations.",
+          slug: "matrices-determinants",
+          title: "Matrices and Determinants",
+          summary: "Matrices, determinants, properties, inverse, rank, and system of linear equations.",
           notes: { pdf: [], handwritten: [] },
         },
         {
@@ -198,9 +198,15 @@ export const semester1: Semester = {
         "Professional communication skills and ethics in computing and workplace contexts.",
       units: [
         {
-          slug: "communication-foundations",
-          title: "Communication Foundations",
+          slug: "foundation-professional-communication",
+          title: "Foundation of Professional Communication",
           summary: "Language, communication process, nonverbal communication, barriers.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "oral-communication",
+          title: "Oral Communication",
+          summary: "Telephone conversations, public speaking, presentations, and interview techniques.",
           notes: { pdf: [], handwritten: [] },
         },
         {
@@ -216,15 +222,15 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "oral-and-writing",
-          title: "Oral & Written Communication",
-          summary: "Telephone conversations, public speaking, notices, emails and letters.",
+          slug: "digital-communication",
+          title: "Digital Communication",
+          summary: "Netiquette, online professionalism, digital tools, and virtual collaboration.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "ethics-digital-communication",
-          title: "Ethics & Digital Communication",
-          summary: "Professional ethics, netiquette, online professionalism, plagiarism.",
+          slug: "professional-ethics",
+          title: "Professional Ethics",
+          summary: "Professional ethics, plagiarism, intellectual property, and ethical decision making.",
           notes: { pdf: [], handwritten: [] },
         },
       ],
@@ -237,25 +243,60 @@ export const semester1: Semester = {
       overview: "Practical workshop covering electronic components, networking components and PC hardware handling.",
       units: [
         {
-          slug: "electronics-basics",
-          title: "Introduction to Hardware",
+          slug: "intro-hardware-electronic-components",
+          title: "Introduction to Hardware (Electronic Components)",
           summary: "Electronic components, safety, passive/active components and datasheets.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "networking-components",
-          title: "Networking Components",
-          summary: "Network devices, cabling & connectors, testing/troubleshooting.",
+          slug: "intro-networking-components",
+          title: "Introduction to Networking Components",
+          summary: "Network devices, cabling and connectors, testing and troubleshooting.",
           notes: { pdf: [], handwritten: [] },
         },
         {
-          slug: "desktop-laptop-hardware",
+          slug: "desktop-laptop-hardware-id",
           title: "Desktop and Laptop Hardware Identification and Handling",
           summary: "PC hardware identification, workbench safety, system unit components, storage devices, I/O devices, and PSU testing.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "pc-laptop-assembly",
+          title: "PC and Laptop Assembly",
+          summary: "Assembly and disassembly of desktop and laptop systems, component installation, and cable management.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "basic-network-device-deployment",
+          title: "Basic Network Device and Deployment",
+          summary: "Network device installation, router and switch configuration, and small network setup.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "basic-networking-configuration",
+          title: "Basic Networking Configuration",
+          summary: "IP addressing, subnetting, DHCP, DNS configuration, and network troubleshooting.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "problem-solving-techniques",
+          title: "Problem Solving Techniques",
+          summary: "Diagnostic methods, troubleshooting methodology, hardware and software issue resolution.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "maintenance-upgrade",
+          title: "Maintenance and Upgrade",
+          summary: "Preventive maintenance, system upgrades, driver updates, and performance optimization.",
+          notes: { pdf: [], handwritten: [] },
+        },
+        {
+          slug: "final-practical-assessment",
+          title: "Final Practical Assessment",
+          summary: "Comprehensive practical evaluation covering hardware assembly, networking, and troubleshooting.",
           notes: { pdf: [], handwritten: [] },
         },
       ],
     },
   ],
 };
-
