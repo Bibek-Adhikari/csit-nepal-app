@@ -1,8 +1,8 @@
-const CACHE = "bca-nepal-v4";
-const STATIC_CACHE = "bca-nepal-static-v4";
-const API_CACHE = "bca-nepal-api-v4";
-const PDF_CACHE = "bca-nepal-pdf-v4";
-const LECTURE_CACHE = "bca-nepal-lecture-v4";
+const CACHE = "bca-nepal-v5";
+const STATIC_CACHE = "bca-nepal-static-v5";
+const API_CACHE = "bca-nepal-api-v5";
+const PDF_CACHE = "bca-nepal-pdf-v5";
+const LECTURE_CACHE = "bca-nepal-lecture-v5";
 
 const PRECACHE_URLS = [
   "/",
@@ -12,6 +12,7 @@ const PRECACHE_URLS = [
   "/lectures",
   "/privacy-policy",
   "/terms-and-conditions",
+  "/view-pdf",
   "/offline",
   "/offline.html",
   "/manifest.json",
@@ -119,7 +120,7 @@ self.addEventListener("fetch", (event) => {
       event.respondWith(caches.match("/offline.html"));
       return;
     }
-    event.respondWith(networkFirstWithFallback(req, "/offline.html"));
+    event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
     return;
   }
 
@@ -166,7 +167,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Cross-origin: network-first with offline fallback
-  event.respondWith(networkFirstWithFallback(req, "/offline.html"));
+  event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
 });
 
 async function nextImageStrategy(request, url) {
@@ -191,7 +192,7 @@ async function nextImageStrategy(request, url) {
   }
 }
 
-async function networkFirstWithFallback(request, fallbackUrl) {
+async function networkFirstWithFallback(request, fallbackUrl, url) {
   try {
     const res = await fetch(request);
     if (res.ok) {
@@ -202,6 +203,11 @@ async function networkFirstWithFallback(request, fallbackUrl) {
   } catch {
     const cached = await caches.match(request);
     if (cached) return cached;
+    if (url) {
+      const pathReq = new Request(url.origin + url.pathname);
+      const pathCached = await caches.match(pathReq);
+      if (pathCached) return pathCached;
+    }
     const fallback = await caches.match(fallbackUrl);
     return fallback || new Response("Offline", { status: 503 });
   }
