@@ -531,6 +531,51 @@ export default function UploadPage() {
             </div>
           )}
         </div>
+
+        <div className="upload-card" style={{ marginTop: "1rem" }}>
+          <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.85rem" }}>YouTube Sync</h4>
+          <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0 0 0.75rem" }}>
+            Subscribe to YouTube PubSubHubbub so new videos appear instantly instead of waiting for the cache to expire.
+          </p>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button
+              className="upload-btn"
+              onClick={async () => {
+                try {
+                  const res = await fetch("/api/youtube/subscribe", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                    body: JSON.stringify({ mode: "subscribe" }),
+                  });
+                  const data = await res.json();
+                  alert(data.message || data.error || "Done");
+                } catch {
+                  alert("Failed to subscribe");
+                }
+              }}
+            >
+              <i className="bx bx-rss"></i> Subscribe
+            </button>
+            <button
+              className="upload-btn upload-btn-secondary"
+              onClick={async () => {
+                try {
+                  const res = await fetch("/api/youtube/subscribe", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                    body: JSON.stringify({ mode: "unsubscribe" }),
+                  });
+                  const data = await res.json();
+                  alert(data.message || data.error || "Done");
+                } catch {
+                  alert("Failed to unsubscribe");
+                }
+              }}
+            >
+              <i className="bx bx-block"></i> Unsubscribe
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

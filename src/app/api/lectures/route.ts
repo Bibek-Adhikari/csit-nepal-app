@@ -26,7 +26,7 @@ async function fetchPlaylistItems(pageToken?: string) {
 
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/playlistItems?${params}`,
-    { next: { revalidate: 3600 } }
+    { next: { tags: ["youtube"] } }
   );
   if (!res.ok) throw new Error(`YouTube API error: ${res.status}`);
   return res.json();
@@ -36,7 +36,7 @@ async function fetchVideoDurations(videoIds: string[]) {
   const ids = videoIds.join(",");
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${ids}&key=${API_KEY}`,
-    { next: { revalidate: 3600 } }
+    { next: { tags: ["youtube"] } }
   );
   if (!res.ok) throw new Error(`YouTube API error: ${res.status}`);
   return res.json();
