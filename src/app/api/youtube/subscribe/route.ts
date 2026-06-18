@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
   if (!process.env.PUBSUB_CALLBACK_URL) {
     return NextResponse.json(
-      { error: "PUBSUB_CALLBACK_URL env var not set (e.g. https://bcanepal.com/api/youtube/pubsub)" },
+      { error: "PUBSUB_CALLBACK_URL env var not set (e.g. https://bcanepal.netlify.app/api/youtube/pubsub)" },
       { status: 400 }
     );
   }

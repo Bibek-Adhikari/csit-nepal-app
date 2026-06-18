@@ -157,15 +157,22 @@ html.dark .app-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
+  gap: 0.45rem;
+  padding: 0.55rem 0.75rem;
   background: #fef2f2;
   border-bottom: 1px solid #fecaca;
   color: #b91c1c;
   font-size: 0.78rem;
   font-weight: 600;
+  text-align: center;
+  line-height: 1.4;
   animation: slide-down 0.3s ease;
   z-index: 100;
+}
+
+.offline-banner i {
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 html.dark .offline-banner {
