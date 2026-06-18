@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BackNav } from "@/components/back-nav";
+import { VideoNotes } from "@/components/video-notes";
 
 export default function WatchPage() {
   const params = useParams();
@@ -94,6 +95,7 @@ export default function WatchPage() {
             Back to Lectures
           </Link>
         </div>
+        <VideoNotes videoId={videoId} />
       </div>
     </>
   );

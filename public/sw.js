@@ -1,11 +1,17 @@
-const CACHE = "bca-nepal-v3";
-const STATIC_CACHE = "bca-nepal-static-v3";
-const API_CACHE = "bca-nepal-api-v3";
-const PDF_CACHE = "bca-nepal-pdf-v3";
-const LECTURE_CACHE = "bca-nepal-lecture-v3";
+const CACHE = "bca-nepal-v4";
+const STATIC_CACHE = "bca-nepal-static-v4";
+const API_CACHE = "bca-nepal-api-v4";
+const PDF_CACHE = "bca-nepal-pdf-v4";
+const LECTURE_CACHE = "bca-nepal-lecture-v4";
 
 const PRECACHE_URLS = [
   "/",
+  "/subjects",
+  "/bookmark",
+  "/profile",
+  "/lectures",
+  "/privacy-policy",
+  "/terms-and-conditions",
   "/offline",
   "/offline.html",
   "/manifest.json",
@@ -108,7 +114,11 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
 
   // Navigation: network-first, fallback to cache, then offline page
-  if (isNavigation(req) && url.pathname !== "/offline") {
+  if (isNavigation(req)) {
+    if (url.pathname === "/offline") {
+      event.respondWith(caches.match("/offline.html"));
+      return;
+    }
     event.respondWith(networkFirstWithFallback(req, "/offline.html"));
     return;
   }

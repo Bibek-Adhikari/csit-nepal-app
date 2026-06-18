@@ -13,17 +13,38 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 2rem 1.5rem;
       text-align: center;
       color: #0f172a;
-      background: #f1f5f9;
+      background: #f8fafc;
     }
-    .icon { font-size: 4rem; margin-bottom: 1rem; }
-    h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-    p { color: #64748b; font-size: 0.92rem; line-height: 1.5; max-width: 300px; }
+    .icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .icon-wrap svg { width: 40px; height: 40px; color: #2563eb; }
+    h1 { font-size: 1.35rem; font-weight: 800; margin-bottom: 0.4rem; }
+    p { color: #64748b; font-size: 0.92rem; line-height: 1.6; max-width: 340px; margin-bottom: 0.25rem; }
+    .hint { font-size: 0.82rem; color: #94a3b8; margin-top: 0.25rem; max-width: 320px; line-height: 1.5; }
+    .pages {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      justify-content: center; margin: 1.25rem 0 0.25rem; max-width: 340px;
+    }
+    .page-chip {
+      background: #f1f5f9; padding: 0.4rem 0.75rem; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; color: #334155;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .page-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; display: inline-block; }
     .retry-btn {
       margin-top: 1.5rem;
-      padding: 0.7rem 1.5rem;
+      padding: 0.75rem 2rem;
       border: none;
       border-radius: 999px;
       background: #2563eb;
@@ -31,14 +52,30 @@
       font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 12px 24px rgba(37,99,235,0.24);
+      box-shadow: 0 8px 24px rgba(37,99,235,0.2);
+      transition: opacity 0.2s;
     }
+    .retry-btn:hover { opacity: 0.9; }
+    .retry-btn:active { transform: scale(0.97); }
   </style>
 </head>
 <body>
-  <div class="icon">📡</div>
+  <div class="icon-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636a9 9 0 0 1 0 12.728m-2.829-2.829a5 5 0 0 0 0-7.07m-4.243 4.243a1 1 0 0 1 0-1.414" />
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+    </svg>
+  </div>
   <h1>You're Offline</h1>
-  <p>Connect to the internet to access the latest content.<br>Cached notes and lectures are still available.</p>
+  <p>Connect to the internet and browse the app once.<br>Pages you visit will be cached for offline use.</p>
+  <p class="hint">Already visited pages are still available below.</p>
+  <div class="pages">
+    <span class="page-chip"><span class="dot"></span> Home</span>
+    <span class="page-chip"><span class="dot"></span> Subjects</span>
+    <span class="page-chip"><span class="dot"></span> Lectures</span>
+    <span class="page-chip"><span class="dot"></span> Bookmarks</span>
+    <span class="page-chip"><span class="dot"></span> Profile</span>
+  </div>
   <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
 </body>
 </html>
