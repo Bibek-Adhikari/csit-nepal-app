@@ -2,20 +2,24 @@
 
 import { useState, useRef, useEffect } from "react";
 import { semesters } from "@/content/subjects";
+import { lectureVideos } from "@/content/lectures";
 import { BackNav } from "@/components/back-nav";
 
 const ADMIN_KEY_STORAGE = "bca-nepal-admin-key";
 
 type UploadState = "idle" | "getting-url" | "uploading" | "success" | "error";
+type UploadTarget = "notes" | "lectures";
 
 export default function UploadPage() {
   const [adminKey, setAdminKey] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState("");
 
+  const [uploadTarget, setUploadTarget] = useState<UploadTarget>("notes");
   const [selectedSemester, setSelectedSemester] = useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedUnit, setSelectedUnit] = useState<string>("");
+  const [selectedVideo, setSelectedVideo] = useState<string>("");
   const [noteType, setNoteType] = useState<"pdf" | "handwritten">("pdf");
   const [file, setFile] = useState<File | null>(null);
   const [uploadState, setUploadState] = useState<UploadState>("idle");
@@ -37,8 +41,11 @@ export default function UploadPage() {
 
   const semester = semesters.find((s) => s.key === selectedSemester);
   const subject = semester?.subjects.find((s) => s.slug === selectedSubject);
+  const selectedLecture = lectureVideos.find((v) => v.id === selectedVideo);
 
-  const canSubmit = authenticated && selectedSemester && selectedSubject && selectedUnit && file;
+  const canSubmit = authenticated && file && (uploadTarget === "notes"
+    ? selectedSemester && selectedSubject && selectedUnit
+    : selectedVideo);
 
   const handleLogin = () => {
     if (!adminKey.trim()) {
@@ -66,10 +73,20 @@ export default function UploadPage() {
     setErrorMsg("");
     setResult(null);
 
-    const folder = `${selectedSemester}/${selectedSubject}/${selectedUnit}`;
+    let folder: string;
+    let bucket: string;
+
+    if (uploadTarget === "lectures" && selectedLecture) {
+      const semesterKey = selectedLecture.semesterKey;
+      const subSlug = selectedLecture.subject.toLowerCase().replace(/\s+/g, "-");
+      folder = `${semesterKey}/${subSlug}/lecture-${selectedLecture.id}`;
+      bucket = "lectures";
+    } else {
+      folder = `${selectedSemester}/${selectedSubject}/${selectedUnit}`;
+      bucket = "notes";
+    }
 
     try {
-      // 1. Get signed upload URL from API
       const res = await fetch("/api/storage/upload", {
         method: "POST",
         headers: {
@@ -78,7 +95,7 @@ export default function UploadPage() {
         },
         body: JSON.stringify({
           folder,
-          bucket: "notes",
+          bucket,
           format: noteType,
           title: file.name.replace(/\.[^/.]+$/, ""),
           fileName: file.name,
@@ -106,7 +123,6 @@ export default function UploadPage() {
 
       const signedUrl = data.signedUrl as string;
 
-      // 2. Upload file directly to Supabase via signed URL
       setUploadState("uploading");
 
       const uploadRes = await fetch(signedUrl, {
@@ -139,6 +155,7 @@ export default function UploadPage() {
     setSelectedSemester("");
     setSelectedSubject("");
     setSelectedUnit("");
+    setSelectedVideo("");
     setNoteType("pdf");
     setFile(null);
     setUploadState("idle");
@@ -240,59 +257,104 @@ export default function UploadPage() {
 
       <div style={{ padding: "0 1rem 1.5rem" }}>
         <div className="upload-card">
-          {/* Semester */}
+          {/* Target Toggle */}
           <div className="upload-field">
-            <label className="upload-label">Semester</label>
-            <select
-              className="upload-select"
-              value={selectedSemester}
-              onChange={(v) => {
-                setSelectedSemester(v.target.value);
-                setSelectedSubject("");
-                setSelectedUnit("");
-              }}
-            >
-              <option value="">— Select semester —</option>
-              {semesters.map((s) => (
-                <option key={s.key} value={s.key}>{s.label}</option>
-              ))}
-            </select>
+            <label className="upload-label">Upload Target</label>
+            <div className="upload-radio-group">
+              <button
+                className={`upload-radio-btn${uploadTarget === "notes" ? " active" : ""}`}
+                onClick={() => setUploadTarget("notes")}
+              ><i className="bx bx-book-bookmark"></i> Subject Notes</button>
+              <button
+                className={`upload-radio-btn${uploadTarget === "lectures" ? " active" : ""}`}
+                onClick={() => setUploadTarget("lectures")}
+              ><i className="bx bxl-youtube"></i> Lecture Notes</button>
+            </div>
           </div>
 
-          {/* Subject */}
-          <div className="upload-field">
-            <label className="upload-label">Subject</label>
-            <select
-              className="upload-select"
-              value={selectedSubject}
-              onChange={(v) => {
-                setSelectedSubject(v.target.value);
-                setSelectedUnit("");
-              }}
-              disabled={!semester}
-            >
-              <option value="">— Select subject —</option>
-              {semester?.subjects.map((s) => (
-                <option key={s.slug} value={s.slug}>{s.code} — {s.title}</option>
-              ))}
-            </select>
-          </div>
+          {uploadTarget === "notes" ? (
+            <>
+              {/* Semester */}
+              <div className="upload-field">
+                <label className="upload-label">Semester</label>
+                <select
+                  className="upload-select"
+                  value={selectedSemester}
+                  onChange={(v) => {
+                    setSelectedSemester(v.target.value);
+                    setSelectedSubject("");
+                    setSelectedUnit("");
+                  }}
+                >
+                  <option value="">— Select semester —</option>
+                  {semesters.map((s) => (
+                    <option key={s.key} value={s.key}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Unit */}
-          <div className="upload-field">
-            <label className="upload-label">Unit</label>
-            <select
-              className="upload-select"
-              value={selectedUnit}
-              onChange={(v) => setSelectedUnit(v.target.value)}
-              disabled={!subject}
-            >
-              <option value="">— Select unit —</option>
-              {subject?.units.map((u) => (
-                <option key={u.slug} value={u.slug}>{u.title}</option>
-              ))}
-            </select>
-          </div>
+              {/* Subject */}
+              <div className="upload-field">
+                <label className="upload-label">Subject</label>
+                <select
+                  className="upload-select"
+                  value={selectedSubject}
+                  onChange={(v) => {
+                    setSelectedSubject(v.target.value);
+                    setSelectedUnit("");
+                  }}
+                  disabled={!semester}
+                >
+                  <option value="">— Select subject —</option>
+                  {semester?.subjects.map((s) => (
+                    <option key={s.slug} value={s.slug}>{s.code} — {s.title}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Unit */}
+              <div className="upload-field">
+                <label className="upload-label">Unit</label>
+                <select
+                  className="upload-select"
+                  value={selectedUnit}
+                  onChange={(v) => setSelectedUnit(v.target.value)}
+                  disabled={!subject}
+                >
+                  <option value="">— Select unit —</option>
+                  {subject?.units.map((u) => (
+                    <option key={u.slug} value={u.slug}>{u.title}</option>
+                  ))}
+                </select>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Video Selector */}
+              <div className="upload-field">
+                <label className="upload-label">Lecture Video</label>
+                <select
+                  className="upload-select"
+                  value={selectedVideo}
+                  onChange={(v) => setSelectedVideo(v.target.value)}
+                >
+                  <option value="">— Select lecture video —</option>
+                  {lectureVideos.map((v) => (
+                    <option key={v.id} value={v.id}>
+                      {v.subject} — {v.title.slice(0, 60)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedLecture && (
+                <div className="upload-message" style={{ background: "var(--bg-app-2)", border: "none" }}>
+                  <i className="bx bx-info-circle"></i>
+                  <span>Uploading to <strong>lectures</strong> bucket &mdash; {selectedLecture.subject} ({selectedLecture.semester})</span>
+                </div>
+              )}
+            </>
+          )}
 
           {/* Note Type */}
           <div className="upload-field">
@@ -366,7 +428,7 @@ export default function UploadPage() {
           {uploadState === "uploading" && file && (
             <div className="upload-message" style={{ background: "var(--bg-app-2)", border: "none" }}>
               <i className="bx bx-time"></i>
-              <span>Uploading {file.name} ({(file.size / 1024 / 1024).toFixed(1)} MB) directly to Supabase…</span>
+              <span>Uploading {file.name} ({(file.size / 1024 / 1024).toFixed(1)} MB) to <strong>{uploadTarget === "lectures" ? "lectures" : "notes"}</strong> bucket&hellip;</span>
             </div>
           )}
 
@@ -396,7 +458,7 @@ export default function UploadPage() {
           {dbInitState === "checking" && (
             <div className="upload-message" style={{ background: "var(--bg-app-2)", border: "none" }}>
               <i className="bx bx-loader-alt bx-spin"></i>
-              <span>Checking database setup…</span>
+              <span>Checking database setup&hellip;</span>
             </div>
           )}
 
@@ -439,6 +501,7 @@ export default function UploadPage() {
               </div>
               <div className="upload-result-details">
                 <div><strong>File:</strong> {result.name}</div>
+                <div><strong>Bucket:</strong> {uploadTarget === "lectures" ? "lectures" : "notes"}</div>
                 <div><strong>Path:</strong> <code>{result.path}</code></div>
                 <div>
                   <strong>URL:</strong>{" "}
@@ -451,12 +514,20 @@ export default function UploadPage() {
           )}
 
           {/* Path preview */}
-          {selectedSemester && selectedSubject && selectedUnit && (
+          {uploadTarget === "notes" && selectedSemester && selectedSubject && selectedUnit && (
             <div className="upload-path-preview">
               <span className="upload-label" style={{ fontSize: "0.72rem", marginBottom: "0.25rem" }}>
                 Storage path preview
               </span>
               <code>{selectedSemester}/{selectedSubject}/{selectedUnit}/filename.pdf</code>
+            </div>
+          )}
+          {uploadTarget === "lectures" && selectedLecture && (
+            <div className="upload-path-preview">
+              <span className="upload-label" style={{ fontSize: "0.72rem", marginBottom: "0.25rem" }}>
+                Storage path preview
+              </span>
+              <code>lectures/{selectedLecture.semesterKey}/{selectedLecture.subject.toLowerCase().replace(/\s+/g, "-")}/lecture-{selectedLecture.id}/filename.pdf</code>
             </div>
           )}
         </div>
