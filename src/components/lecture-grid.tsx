@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { semesters } from "@/content/subjects";
 
 type LectureVideo = {
   id: string;
@@ -35,15 +34,6 @@ const semesterFilters = [
   { key: "semester-1", label: "1st Sem" },
   { key: "semester-2", label: "2nd Sem" },
 ];
-
-const subjectTitleToSlug: Record<string, Record<string, string>> = {};
-for (const sem of semesters) {
-  const map: Record<string, string> = {};
-  for (const sub of sem.subjects) {
-    map[sub.title.toLowerCase()] = sub.slug;
-  }
-  subjectTitleToSlug[sem.key] = map;
-}
 
 export function LectureGrid() {
   const [videos, setVideos] = useState<LectureVideo[]>([]);
@@ -94,13 +84,8 @@ export function LectureGrid() {
     };
   }, []);
 
-  const notesBySubject: Record<string, NoteItem[]> = {};
   const notesByLecture: Record<string, NoteItem[]> = {};
   for (const note of allNotes) {
-    const key = `${note.semester_key}:${note.subject_slug}`;
-    if (!notesBySubject[key]) notesBySubject[key] = [];
-    notesBySubject[key].push(note);
-
     const lecturePrefix = "lecture-";
     if (note.unit_slug.startsWith(lecturePrefix)) {
       const videoId = note.unit_slug.slice(lecturePrefix.length);
@@ -173,11 +158,6 @@ export function LectureGrid() {
       ) : (
         <div className="lecture-grid">
           {filteredLectures.map((video, idx) => {
-            const slugMap = subjectTitleToSlug[video.semesterKey || ""];
-            const subjectSlug = slugMap?.[video.subject.toLowerCase()];
-            const noteKey = subjectSlug ? `${video.semesterKey}:${subjectSlug}` : "";
-            const relatedNotes = noteKey ? notesBySubject[noteKey] : undefined;
-
             return (
               <div key={video.id} className="lecture-card-wrap">
                 <Link
@@ -210,17 +190,11 @@ export function LectureGrid() {
                   </span>
                   <div className="lecture-notes-list">
                     {(() => {
-                      const lectureNotes = notesByLecture[video.id];
-                      const subjectNotes = relatedNotes?.filter(
-                        (n) => !lectureNotes?.find((ln) => ln.id === n.id)
-                      );
-                      const allRelated = [...(lectureNotes || []), ...(subjectNotes || [])];
-
-                      if (allRelated.length > 0) {
+                      const notes = notesByLecture[video.id];
+                      if (notes && notes.length > 0) {
                         const maxVisible = 3;
-                        const hasMore = allRelated.length > maxVisible;
-                        const visible = hasMore ? allRelated.slice(0, maxVisible) : allRelated;
-
+                        const hasMore = notes.length > maxVisible;
+                        const visible = hasMore ? notes.slice(0, maxVisible) : notes;
                         return (
                           <>
                             {visible.map((note) => (
@@ -235,13 +209,12 @@ export function LectureGrid() {
                             ))}
                             {hasMore && (
                               <span className="lecture-notes-more">
-                                +{allRelated.length - maxVisible} more
+                                +{notes.length - maxVisible} more
                               </span>
                             )}
                           </>
                         );
                       }
-
                       return (
                         <span className="lecture-notes-placeholder">
                           <i className="bx bx-time"></i>

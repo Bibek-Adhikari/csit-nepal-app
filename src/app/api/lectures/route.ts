@@ -72,18 +72,25 @@ function inferSemester(title: string, fallbackSemester: string): string {
   return fallbackSemester || "semester-2";
 }
 
-function inferSubject(title: string): string {
+function inferSubject(title: string, semesterKey: string): string {
   const lower = title.toLowerCase();
-  if (lower.includes("math") || lower.includes("calculus") || lower.includes("limit") || lower.includes("sequence") || lower.includes("trigonometric") || lower.includes("geometry") || lower.includes("vector")) return "Mathematics";
-  if (lower.includes("discrete") || lower.includes("set theory")) return "Discrete Structure";
-  if (lower.includes("microprocessor") || lower.includes("microcontroller")) return "Microprocessor";
-  if (lower.includes("c programming") || lower.includes("programming in c") || lower.includes("c program")) return "Programming in C";
-  if (lower.includes("digital logic") || lower.includes("digital electronics")) return "Digital Logic";
-  if (lower.includes("statistics") || lower.includes("probability")) return "Statistics";
-  if (lower.includes("oop") || lower.includes("object oriented")) return "OOP";
+  if (lower.includes("discrete") || lower.includes("set theory")) return "Discrete Mathematics";
+  if (lower.includes("microprocessor") || lower.includes("microcontroller")) return "Microprocessor and Computer Architecture";
+  if (lower.includes("c programming") || lower.includes("programming in c") || lower.includes("c program")) return "Programming Fundamentals using C";
+  if (lower.includes("digital") && (lower.includes("logic") || lower.includes("electronic"))) return "Digital Logic Design";
+  if (lower.includes("oop") || lower.includes("object oriented") || lower.includes("java")) return "Object Oriented Programming using Java";
   if (lower.includes("database") || lower.includes("sql") || lower.includes("dbms")) return "Database";
-  if (lower.includes("computer networks") || lower.includes("networking")) return "Computer Networks";
+  if (lower.includes("computer network") || lower.includes("networking")) return "Computer Networks";
   if (lower.includes("operating system") || lower.includes("os ")) return "Operating System";
+  if (lower.includes("statistics") || lower.includes("probability")) return "Statistics";
+  if (lower.includes("math") || lower.includes("calculus") || lower.includes("limit") || lower.includes("sequence") || lower.includes("trigonometric") || lower.includes("geometry") || lower.includes("vector")) {
+    return semesterKey === "semester-1" ? "Mathematics I" : "Mathematics II";
+  }
+  if (lower.includes("workshop") || lower.includes("hardware")) return "Hardware Workshop";
+  if (lower.includes("ux") || lower.includes("ui design") || lower.includes("vui")) return "UX and UI Design";
+  if (lower.includes("management") || lower.includes("principle")) return "Principle of Management";
+  if (lower.includes("communication") || lower.includes("ethics") || lower.includes("professional")) return "Professional Communication and Ethics";
+  if (lower.includes("computer funda") || lower.includes("computer application")) return "Computer Fundamentals and Applications";
   return "General";
 }
 
@@ -155,7 +162,7 @@ export async function GET() {
         tag: inferTag(title, index),
         semester: semLabel,
         semesterKey: semester,
-        subject: inferSubject(title),
+        subject: inferSubject(title, semester),
         thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
       };
     });

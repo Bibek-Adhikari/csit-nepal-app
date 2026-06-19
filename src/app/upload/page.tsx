@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { semesters } from "@/content/subjects";
 import { lectureVideos } from "@/content/lectures";
 import { BackNav } from "@/components/back-nav";
@@ -39,9 +39,39 @@ export default function UploadPage() {
     }
   }, []);
 
+  const [apiVideos, setApiVideos] = useState<{ id: string; subject: string; semester: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/lectures")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.videos) setApiVideos(d.videos);
+      })
+      .catch(() => {});
+  }, []);
+
+  const allVideos = useMemo(() => {
+    const merged = [...lectureVideos];
+    const existingIds = new Set(merged.map((v) => v.id));
+    for (const v of apiVideos) {
+      if (!existingIds.has(v.id)) {
+        merged.push({ id: v.id, title: (v as any).title || "", duration: "", meta: "", tag: "", semester: v.semester, subject: v.subject, thumbnail: "", semesterKey: (v as any).semesterKey || "" });
+        existingIds.add(v.id);
+      }
+    }
+    return merged;
+  }, [apiVideos]);
+
   const semester = semesters.find((s) => s.key === selectedSemester);
   const subject = semester?.subjects.find((s) => s.slug === selectedSubject);
-  const selectedLecture = lectureVideos.find((v) => v.id === selectedVideo);
+  const selectedLecture = allVideos.find((v) => v.id === selectedVideo);
+
+  const subjectTitleToSlug: Record<string, string> = {};
+  for (const sem of semesters) {
+    for (const sub of sem.subjects) {
+      subjectTitleToSlug[sub.title.toLowerCase()] = sub.slug;
+    }
+  }
 
   const canSubmit = authenticated && file && (uploadTarget === "notes"
     ? selectedSemester && selectedSubject && selectedUnit
@@ -78,7 +108,7 @@ export default function UploadPage() {
 
     if (uploadTarget === "lectures" && selectedLecture) {
       const semesterKey = selectedLecture.semesterKey;
-      const subSlug = selectedLecture.subject.toLowerCase().replace(/\s+/g, "-");
+      const subSlug = subjectTitleToSlug[selectedLecture.subject.toLowerCase()] || selectedLecture.subject.toLowerCase().replace(/\s+/g, "-");
       folder = `${semesterKey}/${subSlug}/lecture-${selectedLecture.id}`;
       bucket = "lectures";
     } else {
@@ -339,9 +369,9 @@ export default function UploadPage() {
                   onChange={(v) => setSelectedVideo(v.target.value)}
                 >
                   <option value="">— Select lecture video —</option>
-                  {lectureVideos.map((v) => (
+                  {allVideos.map((v) => (
                     <option key={v.id} value={v.id}>
-                      {v.subject} — {v.title.slice(0, 60)}
+                      {v.subject} — {(v as any).title ? (v as any).title.slice(0, 60) : v.id.slice(0, 12)}
                     </option>
                   ))}
                 </select>
@@ -527,9 +557,40 @@ export default function UploadPage() {
               <span className="upload-label" style={{ fontSize: "0.72rem", marginBottom: "0.25rem" }}>
                 Storage path preview
               </span>
-              <code>lectures/{selectedLecture.semesterKey}/{selectedLecture.subject.toLowerCase().replace(/\s+/g, "-")}/lecture-{selectedLecture.id}/filename.pdf</code>
+              <code>lectures/{selectedLecture.semesterKey}/{subjectTitleToSlug[selectedLecture.subject.toLowerCase()] || selectedLecture.subject.toLowerCase().replace(/\s+/g, "-")}/lecture-{selectedLecture.id}/filename.pdf</code>
             </div>
           )}
+        </div>
+
+        <div className="upload-card" style={{ marginTop: "1rem" }}>
+          <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.85rem" }}>Sync Storage Files</h4>
+          <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0 0 0.75rem" }}>
+            Scan the <strong>lectures</strong> bucket for orphaned files (uploaded via Supabase dashboard) and create database entries so they appear in the app.
+          </p>
+          <button
+            className="upload-btn"
+            onClick={async () => {
+              try {
+                const res = await fetch("/api/storage/sync", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                  body: JSON.stringify({ bucket: "lectures" }),
+                });
+                const data = await res.json();
+                if (data.synced > 0) {
+                  alert(`Synced ${data.synced} file${data.synced > 1 ? "s" : ""} to the database.`);
+                } else if (data.total_orphans === 0) {
+                  alert("No orphaned files found. All storage files already have database entries.");
+                } else {
+                  alert(`Found ${data.total_orphans} orphan(s) but could not sync them. Check server logs.`);
+                }
+              } catch {
+                alert("Failed to sync files");
+              }
+            }}
+          >
+            <i className="bx bx-refresh"></i> Sync Lectures Bucket
+          </button>
         </div>
 
         <div className="upload-card" style={{ marginTop: "1rem" }}>

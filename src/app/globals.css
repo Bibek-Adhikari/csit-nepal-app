@@ -342,9 +342,7 @@ html.dark .bottom-sheet {
 }
 
 .hero-avatar {
-  border-radius: 16px;
-  flex-shrink: 0;
-  object-fit: cover;
+  display: none;
 }
 
 .app-stat-row {
