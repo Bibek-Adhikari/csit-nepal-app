@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteNav } from "@/components/site-nav";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { OfflineBanner } from "@/components/offline-banner";
-import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,6 +87,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
+        <script src="https://www.googletagmanager.com/gtm.js?id=GTM-TDJL2X9D" async />
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -97,7 +97,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
-        <GoogleTagManager gtmId="GTM-TDJL2X9D" />
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDJL2X9D" height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="app-shell">
             <AppHeader />
