@@ -2593,6 +2593,27 @@ html.dark .pdf-viewer-save-btn.saved {
   flex-direction: column;
 }
 
+.share-qr-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  box-shadow: var(--card-shadow), var(--neuro-shadow-outer);
+}
+
+.share-qr-wrap img {
+  width: auto;
+  max-width: 220px;
+  height: auto;
+  border-radius: 16px;
+}
+
 .pwa-step {
   display: flex;
   align-items: flex-start;

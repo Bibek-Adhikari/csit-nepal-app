@@ -88,13 +88,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
-        <script src="https://www.googletagmanager.com/gtm.js?id=GTM-TDJL2X9D" async />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MLZFJ1XP5" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3MLZFJ1XP5');`,
-          }}
-        />
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -102,19 +95,15 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body>
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDJL2X9D" height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
-        <Script id="gtm" strategy="afterInteractive">
+        <Script id="gtm" strategy="beforeInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TDJL2X9D');`}
         </Script>
-        <Script id="ga4" strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-3MLZFJ1XP5" />
-        <Script id="ga4-init" strategy="afterInteractive">
+        <Script id="ga4" strategy="beforeInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-3MLZFJ1XP5" />
+        <Script id="ga4-init" strategy="beforeInteractive">
           {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3MLZFJ1XP5');`}
         </Script>
-        <Script id="protect-content" strategy="afterInteractive">
-          {`document.addEventListener('contextmenu',function(e){if(e.target.closest('img,canvas,.pdf-viewer,.protect')){e.preventDefault();}});document.addEventListener('copy',function(e){if(e.target.closest('.pdf-viewer,.protect')){e.preventDefault();}});`}
-        </Script>
+      </head>
+      <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="app-shell">
             <AppHeader />

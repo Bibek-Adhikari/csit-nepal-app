@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [showAndroid, setShowAndroid] = useState(false);
   const [showIos, setShowIos] = useState(false);
+  const [showShare, setShowShare] = useState(false);
   const [isIos, setIsIos] = useState(false);
 
   useEffect(() => {
@@ -215,6 +216,29 @@ export default function ProfilePage() {
               <div className="pwa-step-content">
                 <h4>Done!</h4>
                 <p>Tap <strong>Add</strong> in the top right. BCA Nepal is now on your home screen.</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <h3 className="section-headline">Share</h3>
+      <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
+        <div className="app-card" style={{ cursor: "pointer" }} onClick={() => setShowShare(!showShare)}>
+          <div className="card-left">
+            <span className="card-code">Share</span>
+            <span className="card-title">Share BCA Nepal</span>
+            <span className="card-meta-inline">Scan QR code to share with friends</span>
+          </div>
+          <i className={`bx bx-chevron-${showShare ? "up" : "down"} card-chevron`}></i>
+        </div>
+        {showShare && (
+          <div className="pwa-steps" style={{ marginTop: "0.5rem" }}>
+            <div className="pwa-step" style={{ flexDirection: "column", alignItems: "center", textAlign: "center", gap: "1rem" }}>
+              <img src="/qr_bca.png" alt="Share BCA Nepal" className="protect" style={{ width: "100%", maxWidth: 220, height: "auto", borderRadius: 16 }} />
+              <div className="pwa-step-content" style={{ textAlign: "center" }}>
+                <h4>Scan to Share</h4>
+                <p>Share this QR code with friends</p>
               </div>
             </div>
           </div>
