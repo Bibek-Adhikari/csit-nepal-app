@@ -1,8 +1,8 @@
-const CACHE = "bca-nepal-v6";
-const STATIC_CACHE = "bca-nepal-static-v5";
-const API_CACHE = "bca-nepal-api-v5";
-const PDF_CACHE = "bca-nepal-pdf-v5";
-const LECTURE_CACHE = "bca-nepal-lecture-v5";
+const CACHE = "bca-nepal-v7";
+const STATIC_CACHE = "bca-nepal-static-v7";
+const API_CACHE = "bca-nepal-api-v7";
+const PDF_CACHE = "bca-nepal-pdf-v7";
+const LECTURE_CACHE = "bca-nepal-lecture-v7";
 
 const PRECACHE_URLS = [
   "/",
@@ -26,9 +26,12 @@ const PRECACHE_URLS = [
 
 const SUPABASE_DOMAIN = "yrahncykruiwkiwtxjlv.supabase.co";
 const YT_IMG_DOMAIN = "i.ytimg.com";
+const ANALYTICS_DOMAINS = ["www.googletagmanager.com", "www.google-analytics.com"];
 
-const CACHE_MAX_AGE = 30 * 24 * 60 * 60 * 1000; // 30 days
-const API_CACHE_MAX_AGE = 10 * 60 * 1000; // 10 minutes
+const CACHE_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+const API_CACHE_MAX_AGE = 10 * 60 * 1000;
+
+// ─── Event Listeners ─────────────────────────────────────
 
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
@@ -38,11 +41,6 @@ self.addEventListener("message", (event) => {
     event.waitUntil(cacheUrls(event.data.urls));
   }
 });
-
-async function cacheUrls(urls) {
-  const cache = await caches.open(STATIC_CACHE);
-  await cache.addAll(urls);
-}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -66,6 +64,8 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// ─── URL Matchers ────────────────────────────────────────
+
 function isNavigation(req) {
   return req.mode === "navigate";
 }
@@ -75,11 +75,11 @@ function isApi(url) {
 }
 
 function isPdf(url) {
-  return url.pathname.endsWith(".pdf");
+  return url.pathname.endsWith(".pdf") || url.searchParams.has("pdf");
 }
 
 function isStatic(url) {
-  return /\.(js|css|png|jpg|jpeg|svg|ico|woff2?)$/.test(url.pathname);
+  return /\.(js|css|png|jpg|jpeg|svg|ico|woff2?|webp)$/.test(url.pathname);
 }
 
 function isSupabase(url) {
@@ -103,34 +103,51 @@ function isLecturePage(url) {
 }
 
 function isAnalytics(url) {
-  return url.hostname === "www.googletagmanager.com" || url.hostname === "www.google-analytics.com";
+  return ANALYTICS_DOMAINS.includes(url.hostname);
 }
 
-function resolveNextImageUrl(url) {
-  try {
-    return url.searchParams.get("url");
-  } catch {
-    return null;
-  }
+function isRsc(url) {
+  return url.searchParams.has("__rsc") || url.pathname.endsWith(".rsc");
 }
+
+function isViewPdf(url) {
+  return url.pathname === "/view-pdf";
+}
+
+// ─── Fetch Strategy ──────────────────────────────────────
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   const req = event.request;
 
-  // Navigation: network-first, fallback to cache, then offline page
+  // Bypass analytics
+  if (isAnalytics(url)) return;
+
+  // Navigation: stale-while-revalidate (instant from cache, update in background)
   if (isNavigation(req)) {
     if (url.pathname === "/offline") {
       event.respondWith(caches.match("/offline.html"));
       return;
     }
+    event.respondWith(staleWhileRevalidateNav(req, url));
+    return;
+  }
+
+  // View-pdf page: network-first (always show latest, with offline fallback)
+  if (isViewPdf(url)) {
     event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
     return;
   }
 
-  // Next.js optimized images: try cache with original source URL, then network
+  // Next.js optimized images: cache-first with original source lookup
   if (isNextImage(url)) {
     event.respondWith(nextImageStrategy(req, url));
+    return;
+  }
+
+  // RSC payloads: stale-while-revalidate (fast page transitions)
+  if (isRsc(url)) {
+    event.respondWith(staleWhileRevalidate(req, CACHE));
     return;
   }
 
@@ -164,20 +181,66 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Same-origin requests (RSC payloads, pages, etc.): cache-first
+  // Same-origin (pages, RSC payloads, etc.): stale-while-revalidate
   if (isSameOrigin(url)) {
-    event.respondWith(cacheFirstWithRefresh(req, CACHE));
-    return;
-  }
-
-  // Analytics/tracking: pass through without SW intervention
-  if (isAnalytics(url)) {
+    event.respondWith(staleWhileRevalidate(req, CACHE));
     return;
   }
 
   // Cross-origin: network-first with offline fallback
   event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
 });
+
+// ─── Cache Strategies ────────────────────────────────────
+
+async function staleWhileRevalidateNav(request, url) {
+  const cache = await caches.open(CACHE);
+  const cached = await cache.match(request);
+  const cachedPath = url ? await cache.match(url.origin + url.pathname) : null;
+
+  const fetchPromise = fetch(request).then(async (res) => {
+    if (res.ok) {
+      cache.put(request, res.clone());
+      if (url) cache.put(url.origin + url.pathname, res.clone());
+    }
+    return res;
+  }).catch(() => null);
+
+  if (cached) {
+    fetchPromise.catch(() => {});
+    return cached;
+  }
+
+  if (cachedPath) {
+    fetchPromise.catch(() => {});
+    return cachedPath;
+  }
+
+  const fresh = await fetchPromise;
+  if (fresh) return fresh;
+
+  const fallback = await caches.match("/offline.html");
+  return fallback || new Response("Offline", { status: 503 });
+}
+
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const fetchPromise = fetch(request).then(async (res) => {
+    if (res.ok) {
+      cache.put(request, res.clone());
+    }
+    return res;
+  }).catch(() => null);
+
+  if (cached) {
+    fetchPromise.catch(() => {});
+    return cached;
+  }
+
+  return fetchPromise || new Response("", { status: 503 });
+}
 
 async function nextImageStrategy(request, url) {
   const cached = await caches.match(request);
@@ -198,6 +261,14 @@ async function nextImageStrategy(request, url) {
     return res;
   } catch {
     return new Response("", { status: 503 });
+  }
+}
+
+function resolveNextImageUrl(url) {
+  try {
+    return url.searchParams.get("url");
+  } catch {
+    return null;
   }
 }
 
@@ -276,6 +347,13 @@ async function fetchAndUpdateCache(request, cacheName) {
   } catch {}
 }
 
+async function cacheUrls(urls) {
+  const cache = await caches.open(STATIC_CACHE);
+  await cache.addAll(urls);
+}
+
+// ─── Background Sync ─────────────────────────────────────
+
 self.addEventListener("sync", (event) => {
   if (event.tag === "sync-bookmarks") {
     event.waitUntil(syncBookmarks());
@@ -298,6 +376,8 @@ async function syncProgress() {
     client.postMessage({ type: "SYNC_PROGRESS" });
   });
 }
+
+// ─── Push Notifications ──────────────────────────────────
 
 self.addEventListener("push", (event) => {
   if (!event.data) return;
@@ -337,6 +417,8 @@ self.addEventListener("notificationclick", (event) => {
     })
   );
 });
+
+// ─── Periodic Sync ───────────────────────────────────────
 
 self.addEventListener("periodicsync", (event) => {
   if (event.tag === "check-updates") {
