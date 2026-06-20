@@ -2,6 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
 export function ServiceWorkerRegister() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
 
@@ -59,6 +65,25 @@ export function ServiceWorkerRegister() {
       navigator.serviceWorker.removeEventListener("controllerchange", handleControllerChange);
     };
   }, [updateAvailable]);
+
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      window.dataLayer?.push({ event: "pwa_beforeinstallprompt" });
+    };
+
+    const handleAppInstalled = () => {
+      window.dataLayer?.push({ event: "pwa_installed" });
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
 
   if (!updateAvailable) return null;
 
