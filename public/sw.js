@@ -1,4 +1,4 @@
-const CACHE = "bca-nepal-v5";
+const CACHE = "bca-nepal-v6";
 const STATIC_CACHE = "bca-nepal-static-v5";
 const API_CACHE = "bca-nepal-api-v5";
 const PDF_CACHE = "bca-nepal-pdf-v5";
@@ -102,6 +102,10 @@ function isLecturePage(url) {
   return url.pathname.startsWith("/lectures") || url.pathname.startsWith("/watch/");
 }
 
+function isAnalytics(url) {
+  return url.hostname === "www.googletagmanager.com" || url.hostname === "www.google-analytics.com";
+}
+
 function resolveNextImageUrl(url) {
   try {
     return url.searchParams.get("url");
@@ -163,6 +167,11 @@ self.addEventListener("fetch", (event) => {
   // Same-origin requests (RSC payloads, pages, etc.): cache-first
   if (isSameOrigin(url)) {
     event.respondWith(cacheFirstWithRefresh(req, CACHE));
+    return;
+  }
+
+  // Analytics/tracking: pass through without SW intervention
+  if (isAnalytics(url)) {
     return;
   }
 

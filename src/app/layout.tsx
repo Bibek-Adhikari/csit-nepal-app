@@ -88,6 +88,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
         <script src="https://www.googletagmanager.com/gtm.js?id=GTM-TDJL2X9D" async />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MLZFJ1XP5" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3MLZFJ1XP5');`,
+          }}
+        />
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
