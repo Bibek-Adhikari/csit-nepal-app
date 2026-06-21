@@ -70,14 +70,33 @@ export default function AdminPage() {
     fetchNotes();
   }, [authenticated]);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!adminKey.trim()) {
       setAuthError("Enter the admin key");
       return;
     }
-    localStorage.setItem(ADMIN_KEY_STORAGE, adminKey.trim());
-    setAuthenticated(true);
+
     setAuthError("");
+    try {
+      const res = await fetch("/api/storage/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": adminKey.trim(),
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (res.status === 401) {
+        setAuthError("Something goes wrong, try again");
+        return;
+      }
+
+      localStorage.setItem(ADMIN_KEY_STORAGE, adminKey.trim());
+      setAuthenticated(true);
+    } catch {
+      setAuthError("Something goes wrong, try again");
+    }
   };
 
   const handleLogout = () => {
