@@ -45,13 +45,13 @@ export function LectureGrid() {
 
   useEffect(() => {
     let isMounted = true;
-    let timer: ReturnType<typeof setInterval> | null = null;
 
     async function fetchData() {
       try {
+        const ts = Date.now();
         const [lecturesRes, notesRes] = await Promise.all([
-          fetch("/api/lectures", { cache: "no-store" }),
-          fetch("/api/notes?limit=200", { cache: "no-store" }),
+          fetch(`/api/lectures?_=${ts}`, { cache: "no-store" }),
+          fetch(`/api/notes?limit=200&_=${ts}`, { cache: "no-store" }),
         ]);
 
         if (isMounted) {
@@ -76,11 +76,8 @@ export function LectureGrid() {
 
     fetchData();
 
-    timer = setInterval(fetchData, 10 * 60 * 1000);
-
     return () => {
       isMounted = false;
-      if (timer) clearInterval(timer);
     };
   }, []);
 
