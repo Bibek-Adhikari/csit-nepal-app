@@ -75,6 +75,21 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
   try {
     const supabase = getSupabaseServer();
     const folderPath = `${semester}/${subject}/${unit}`;
+
+    const { data: dbNotes } = await supabase
+      .from("notes")
+      .select("title, public_url, format, file_path")
+      .eq("semester_key", semester)
+      .eq("subject_slug", subject)
+      .eq("unit_slug", unit);
+
+    const dbByPath: Record<string, { title: string; public_url: string; format: string }> = {};
+    if (dbNotes) {
+      for (const note of dbNotes) {
+        dbByPath[note.file_path] = note;
+      }
+    }
+
     const { data: files, error } = await supabase.storage
       .from("notes")
       .list(folderPath, {
@@ -87,17 +102,28 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
         if (file.name === ".emptyFolderPlaceholder" || file.name === "placeholder.txt") return;
         if (!isValidNoteName(file.name)) return;
 
-        const { data: urlData } = supabase.storage
-          .from("notes")
-          .getPublicUrl(`${folderPath}/${file.name}`);
+        const fullPath = `${folderPath}/${file.name}`;
+        const dbNote = dbByPath[fullPath];
 
-        const noteItem: NoteItem = {
-          title: formatNoteTitle(file.name),
-          href: urlData.publicUrl,
-        };
+        let title: string;
+        let href: string;
+        let format: "pdf" | "handwritten";
 
-        const lowerName = file.name.toLowerCase();
-        if (lowerName.includes("handwritten") || lowerName.includes("hw")) {
+        if (dbNote) {
+          title = dbNote.title || formatNoteTitle(file.name);
+          href = dbNote.public_url;
+          format = dbNote.format as "pdf" | "handwritten";
+        } else {
+          const { data: urlData } = supabase.storage.from("notes").getPublicUrl(fullPath);
+          title = formatNoteTitle(file.name);
+          href = urlData.publicUrl;
+          const lowerName = file.name.toLowerCase();
+          format = (lowerName.includes("handwritten") || lowerName.includes("hw")) ? "handwritten" : "pdf";
+        }
+
+        const noteItem: NoteItem = { title, href };
+
+        if (format === "handwritten") {
           supabaseNotes.handwritten.push(noteItem);
         } else {
           supabaseNotes.pdf.push(noteItem);
@@ -105,7 +131,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
       });
     }
   } catch (err) {
-    console.error("Failed to dynamically load notes from Supabase Storage:", err);
+    console.error("Failed to dynamically load notes from Supabase:", err);
   }
 
   const pdfNotes = [...unitData.notes.pdf, ...supabaseNotes.pdf];

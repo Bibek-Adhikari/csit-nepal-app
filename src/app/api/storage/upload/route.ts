@@ -25,9 +25,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "fileName is required" }, { status: 400 });
     }
 
-    const fileExt = fileName.split(".").pop();
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2)}${fileExt ? "." + fileExt : ""}`;
-    const filePath = `${folder}/${uniqueName}`;
+    const filePath = `${folder}/${fileName}`;
 
     const supabase = getSupabaseServer({ requireServiceRole: true });
 

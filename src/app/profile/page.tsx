@@ -247,6 +247,14 @@ export default function ProfilePage() {
 
       <h3 className="section-headline">Admin</h3>
       <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
+        <Link href="/admin" className="app-card" style={{ textDecoration: "none" }}>
+          <div className="card-left">
+            <span className="card-code">Admin</span>
+            <span className="card-title">Admin Panel</span>
+            <span className="card-meta-inline">Manage all uploaded PDFs</span>
+          </div>
+          <i className="bx bx-grid-alt card-chevron"></i>
+        </Link>
         <Link href="/upload" className="app-card" style={{ textDecoration: "none" }}>
           <div className="card-left">
             <span className="card-code">Admin</span>
