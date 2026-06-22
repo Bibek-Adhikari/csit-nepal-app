@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
 
+const ADMIN_KEY = process.env.ADMIN_KEY || "";
+
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = getSupabaseServer();
@@ -28,11 +30,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const adminKey = request.headers.get("x-admin-key") || "";
+    if (!adminKey || adminKey !== ADMIN_KEY) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const supabase = getSupabaseServer({ requireServiceRole: true });
     const { id } = await params;
     const body = await request.json() as Record<string, unknown>;
 
-    const allowedFields = ["title", "format"];
+    const allowedFields = ["title", "format", "lecture_video_id"];
     const updates: Record<string, unknown> = {};
     for (const field of allowedFields) {
       if (body[field] !== undefined) {

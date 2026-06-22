@@ -36,6 +36,7 @@ export async function GET(request: Request) {
     const subject = searchParams.get("subject");
     const unit = searchParams.get("unit");
     const format = searchParams.get("format");
+    const videoId = searchParams.get("video_id");
     const limit = parseInt(searchParams.get("limit") || "200");
     const offset = parseInt(searchParams.get("offset") || "0");
 
@@ -50,6 +51,7 @@ export async function GET(request: Request) {
     if (subject) query = query.eq("subject_slug", subject);
     if (unit) query = query.eq("unit_slug", unit);
     if (format) query = query.eq("format", format);
+    if (videoId) query = query.eq("lecture_video_id", videoId);
 
     const { data, error, count } = await query;
 

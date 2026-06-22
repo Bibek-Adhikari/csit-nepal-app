@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { semesters } from "@/content/subjects";
+import { lectureVideos } from "@/content/lectures";
 import { BackNav } from "@/components/back-nav";
 import Link from "next/link";
 
@@ -18,6 +19,7 @@ type NoteRecord = {
   format: "pdf" | "handwritten";
   public_url: string;
   created_at: string;
+  lecture_video_id: string | null;
 };
 
 function getSemesterLabel(key: string) {
@@ -42,6 +44,13 @@ export default function AdminPage() {
   const [notes, setNotes] = useState<NoteRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [filterSemester, setFilterSemester] = useState("");
+  const [filterSubject, setFilterSubject] = useState("");
+  const [filterFormat, setFilterFormat] = useState("");
+
+  const filteredSubjects = filterSemester
+    ? semesters.find((s) => s.key === filterSemester)?.subjects || []
+    : [];
 
   useEffect(() => {
     const stored = localStorage.getItem(ADMIN_KEY_STORAGE);
@@ -51,24 +60,110 @@ export default function AdminPage() {
     }
   }, []);
 
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState("");
+  const [linkingNoteId, setLinkingNoteId] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string>("");
+
+  const fetchNotes = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const params = new URLSearchParams({ limit: "500" });
+      if (filterSemester) params.set("semester", filterSemester);
+      if (filterSubject) params.set("subject", filterSubject);
+      if (filterFormat) params.set("format", filterFormat);
+      const res = await fetch(`/api/notes?${params}`);
+      if (!res.ok) throw new Error("Failed to fetch notes");
+      const data = await res.json();
+      setNotes(data.notes || []);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getLecturesForSemester = (note: NoteRecord) => {
+    const semKey = note.semester_key.replace("semester-", "Semester ");
+    const subTitle = getSubjectTitle(note.semester_key, note.subject_slug);
+    return lectureVideos.filter((v) => v.semester.startsWith(semKey) && v.subject === subTitle);
+  };
+
+  const handleLinkVideo = async (noteId: string, videoId: string | null) => {
+    if (!videoId) return;
+    try {
+      const key = localStorage.getItem(ADMIN_KEY_STORAGE);
+      const res = await fetch(`/api/notes/${noteId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-key": key || "" },
+        body: JSON.stringify({ lecture_video_id: videoId }),
+      });
+      if (!res.ok) throw new Error("Failed to link video");
+      setNotes((prev) => prev.map((n) => (n.id === noteId ? { ...n, lecture_video_id: videoId } : n)));
+      setLinkingNoteId(null);
+      setSelectedVideo("");
+    } catch (err) {
+      alert("Failed to link video: " + (err as Error).message);
+    }
+  };
+
+  const handleRemoveLink = async (noteId: string) => {
+    try {
+      const key = localStorage.getItem(ADMIN_KEY_STORAGE);
+      const res = await fetch(`/api/notes/${noteId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-key": key || "" },
+        body: JSON.stringify({ lecture_video_id: null }),
+      });
+      if (!res.ok) throw new Error("Failed to remove link");
+      setNotes((prev) => prev.map((n) => (n.id === noteId ? { ...n, lecture_video_id: null } : n)));
+    } catch (err) {
+      alert("Failed to remove link: " + (err as Error).message);
+    }
+  };
+
+  const grouped = useMemo(() => {
+    const groups: Record<string, NoteRecord[]> = {};
+    for (const note of notes) {
+      const semLabel = getSemesterLabel(note.semester_key);
+      const subTitle = getSubjectTitle(note.semester_key, note.subject_slug);
+      const key = `${semLabel} › ${subTitle}`;
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(note);
+    }
+    return groups;
+  }, [notes]);
+
   useEffect(() => {
     if (!authenticated) return;
-    const fetchNotes = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const res = await fetch("/api/notes?limit=500");
-        if (!res.ok) throw new Error("Failed to fetch notes");
-        const data = await res.json();
-        setNotes(data.notes || []);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchNotes();
-  }, [authenticated]);
+  }, [authenticated, filterSemester, filterSubject, filterFormat]);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    setSyncMsg("");
+    try {
+      const res = await fetch("/api/storage/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ bucket: "notes" }),
+      });
+      const data = await res.json();
+      if (data.synced > 0) {
+        setSyncMsg(`Synced ${data.synced} file${data.synced > 1 ? "s" : ""} to the database.`);
+      } else if (data.total_orphans === 0) {
+        setSyncMsg("All storage files already have database entries.");
+      } else {
+        setSyncMsg(`Found ${data.total_orphans} orphan(s) but could not sync them.`);
+      }
+      await fetchNotes();
+    } catch {
+      setSyncMsg("Failed to sync files");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const handleLogin = async () => {
     if (!adminKey.trim()) {
@@ -191,42 +286,164 @@ export default function AdminPage() {
           </div>
         )}
 
-        {!loading && !error && notes.length === 0 && (
-          <div className="empty-state">
-            <i className="bx bxs-file-pdf" style={{ fontSize: "3rem", color: "var(--text-muted)" }}></i>
-            <p>No PDFs found.</p>
-          </div>
-        )}
-
-        {!loading && notes.length > 0 && (
+        {!loading && (
           <div className="upload-card" style={{ padding: "0.75rem" }}>
-            <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: "0.75rem" }}>
-              {notes.length} PDF{notes.length !== 1 ? "s" : ""} total
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+              <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
+                {notes.length} PDF{notes.length !== 1 ? "s" : ""} total
+              </span>
+              <button
+                className="upload-btn"
+                onClick={handleSync}
+                disabled={syncing}
+                style={{ fontSize: "0.72rem", padding: "0.35rem 0.6rem" }}
+              >
+                <i className={`bx ${syncing ? "bx-loader-alt bx-spin" : "bx-refresh"}`}></i>
+                {syncing ? "Syncing..." : "Sync Notes"}
+              </button>
             </div>
-            <div className="subject-stack" style={{ gap: "0.5rem" }}>
-              {notes.map((note) => (
-                <div key={note.id} className="app-card" style={{ flexDirection: "column", alignItems: "stretch", gap: "0.3rem" }}>
-                  <div className="card-left" style={{ flex: 1 }}>
-                    <span className="card-title" style={{ fontSize: "0.85rem" }}>{note.title}</span>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginTop: "0.25rem" }}>
-                      <span className="sheet-badge" style={{ fontSize: "0.65rem" }}>{getSemesterLabel(note.semester_key)}</span>
-                      <span className="sheet-badge" style={{ fontSize: "0.65rem" }}>{getSubjectTitle(note.semester_key, note.subject_slug)}</span>
-                      <span className="sheet-badge" style={{ fontSize: "0.65rem" }}>{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</span>
-                      <span className={`sheet-badge ${note.format === "handwritten" ? "" : ""}`} style={{ fontSize: "0.65rem", background: note.format === "handwritten" ? "var(--bg-app-2)" : "var(--primary-light)", color: note.format === "handwritten" ? "var(--text-muted)" : "var(--primary)" }}>
-                        {note.format}
-                      </span>
+
+            <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "0.75rem" }}>
+              <select
+                className="upload-select"
+                value={filterSemester}
+                onChange={(v) => {
+                  setFilterSemester(v.target.value);
+                  setFilterSubject("");
+                }}
+                style={{ flex: 1, minWidth: 100, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+              >
+                <option value="">All Semesters</option>
+                {semesters.map((s) => (
+                  <option key={s.key} value={s.key}>{s.label}</option>
+                ))}
+              </select>
+              <select
+                className="upload-select"
+                value={filterSubject}
+                onChange={(v) => setFilterSubject(v.target.value)}
+                disabled={!filterSemester}
+                style={{ flex: 1, minWidth: 100, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+              >
+                <option value="">All Subjects</option>
+                {filteredSubjects.map((s) => (
+                  <option key={s.slug} value={s.slug}>{s.title}</option>
+                ))}
+              </select>
+              <select
+                className="upload-select"
+                value={filterFormat}
+                onChange={(v) => setFilterFormat(v.target.value)}
+                style={{ flex: 1, minWidth: 80, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+              >
+                <option value="">All Formats</option>
+                <option value="pdf">PDF</option>
+                <option value="handwritten">Handwritten</option>
+              </select>
+            </div>
+
+            {syncMsg && (
+              <div className="upload-message" style={{ fontSize: "0.75rem", marginBottom: "0.75rem", background: "var(--bg-app-2)", border: "none" }}>
+                <i className="bx bx-info-circle"></i>
+                <span>{syncMsg}</span>
+              </div>
+            )}
+
+            {notes.length > 0 && (
+              <div className="subject-stack" style={{ gap: "0.75rem" }}>
+                {Object.entries(grouped).map(([groupKey, items]) => (
+                  <div key={groupKey}>
+                    <h4 style={{ fontSize: "0.82rem", fontWeight: 600, margin: "0 0 0.4rem", color: "var(--text-muted)" }}>
+                      {groupKey} ({items.length})
+                    </h4>
+                    <div className="unit-notes-list">
+                      {items.map((note) => (
+                        <div key={note.id} style={{ display: "flex", flexDirection: "column", gap: "0.4rem", padding: "0.55rem 0.75rem", borderRadius: 14, background: "var(--bg-card)", border: "1px solid var(--border)", minHeight: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontSize: "0.82rem", fontWeight: 600 }}>{note.title}</div>
+                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.15rem" }}>
+                                <span className="sheet-badge" style={{ fontSize: "0.6rem" }}>{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</span>
+                                <span className="sheet-badge" style={{ fontSize: "0.6rem", background: note.format === "handwritten" ? "var(--bg-app-2)" : "var(--primary-light)", color: note.format === "handwritten" ? "var(--text-muted)" : "var(--primary)" }}>
+                                  {note.format}
+                                </span>
+                                <span style={{ fontSize: "0.6rem", color: "var(--text-muted)" }}>
+                                  {new Date(note.created_at).toLocaleDateString()}
+                                </span>
+                              </div>
+                              {note.lecture_video_id && (() => {
+                                const vid = lectureVideos.find(v => v.id === note.lecture_video_id);
+                                return vid ? (
+                                  <div style={{ fontSize: "0.65rem", color: "var(--primary)", marginTop: "0.15rem" }}>
+                                    <i className="bx bx-video"></i> {vid.title.slice(0, 60)}...
+                                  </div>
+                                ) : null;
+                              })()}
+                            </div>
+                            <a href={note.public_url} target="_blank" rel="noopener noreferrer" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.7rem", padding: "0.25rem 0.5rem", whiteSpace: "nowrap" }}>
+                              <i className="bx bx-show"></i>
+                            </a>
+                            <button
+                              className="upload-btn"
+                              onClick={() => {
+                                if (linkingNoteId === note.id) {
+                                  setLinkingNoteId(null);
+                                  setSelectedVideo("");
+                                } else {
+                                  setLinkingNoteId(note.id);
+                                  setSelectedVideo(note.lecture_video_id || "");
+                                }
+                              }}
+                              style={{ fontSize: "0.7rem", padding: "0.25rem 0.5rem", whiteSpace: "nowrap" }}
+                            >
+                              <i className={`bx ${note.lecture_video_id ? "bx-link-alt" : "bx-plus"}`}></i>
+                            </button>
+                          </div>
+                          {linkingNoteId === note.id && (
+                            <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                              <select
+                                value={selectedVideo}
+                                onChange={(e) => setSelectedVideo(e.target.value)}
+                                style={{ flex: 1, fontSize: "0.7rem", padding: "0.3rem 0.5rem", borderRadius: 8, background: "var(--bg-app-2)", color: "var(--text)", border: "1px solid var(--border)" }}
+                              >
+                                <option value="">Select a lecture video...</option>
+                                {getLecturesForSemester(note).map((v) => (
+                                  <option key={v.id} value={v.id}>{v.subject}: {v.title.slice(0, 50)}</option>
+                                ))}
+                              </select>
+                              <button
+                                className="upload-btn"
+                                onClick={() => handleLinkVideo(note.id, selectedVideo)}
+                                disabled={!selectedVideo}
+                                style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", whiteSpace: "nowrap" }}
+                              >
+                                Save
+                              </button>
+                              {note.lecture_video_id && (
+                                <button
+                                  className="upload-btn"
+                                  onClick={() => handleRemoveLink(note.id)}
+                                  style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", whiteSpace: "nowrap", color: "var(--danger)" }}
+                                >
+                                  Unlink
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                    <span style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
-                      {new Date(note.created_at).toLocaleDateString()}
-                    </span>
                   </div>
-                  <a href={note.public_url} target="_blank" rel="noopener noreferrer" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.75rem", padding: "0.3rem 0.6rem", alignSelf: "flex-start" }}>
-                    <i className="bx bx-show"></i>
-                    View
-                  </a>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {notes.length === 0 && (
+              <div className="empty-state">
+                <i className="bx bxs-file-pdf" style={{ fontSize: "2.5rem", color: "var(--text-muted)" }}></i>
+                <p>No PDFs match the selected filters.</p>
+              </div>
+            )}
           </div>
         )}
       </div>

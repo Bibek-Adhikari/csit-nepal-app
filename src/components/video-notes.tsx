@@ -28,26 +28,33 @@ export function VideoNotes({ videoId }: { videoId: string }) {
       return;
     }
 
-    const semKey = video.semesterKey;
-    const sem = semesters.find((s) => s.key === semKey);
-    const subject = sem?.subjects.find(
-      (s) => s.title.toLowerCase() === video.subject.toLowerCase()
-    );
-    if (!subject) {
-      setLoading(false);
-      return;
-    }
-
     const fetchNotes = async () => {
       try {
-        const params = new URLSearchParams({
-          semester: semKey,
-          subject: subject.slug,
-          limit: "50",
-        });
-        const res = await fetch(`/api/notes?${params}`);
+        // First try: fetch notes linked to this video
+        let params = new URLSearchParams({ video_id: videoId, limit: "50" });
+        let res = await fetch(`/api/notes?${params}`);
         if (!res.ok) { setLoading(false); return; }
-        const data = await res.json();
+        let data = await res.json();
+
+        // Fallback: no linked notes, fetch by semester+subject
+        if (!data.notes || data.notes.length === 0) {
+          const semKey = video.semesterKey;
+          const sem = semesters.find((s) => s.key === semKey);
+          const subject = sem?.subjects.find(
+            (s) => s.title.toLowerCase() === video.subject.toLowerCase()
+          );
+          if (subject) {
+            params = new URLSearchParams({ semester: semKey, subject: subject.slug, limit: "50" });
+            res = await fetch(`/api/notes?${params}`);
+            if (res.ok) {
+              data = await res.json();
+              setNotes(data.notes ?? []);
+              setLoading(false);
+              return;
+            }
+          }
+        }
+
         setNotes(data.notes ?? []);
       } catch {
         // silently fail
