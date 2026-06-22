@@ -14,6 +14,10 @@ export function ServiceWorkerRegister() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
 
+    if ("storage" in navigator && "persist" in navigator.storage) {
+      navigator.storage.persist().then(() => {});
+    }
+
     let registration: ServiceWorkerRegistration | null = null;
 
     navigator.serviceWorker

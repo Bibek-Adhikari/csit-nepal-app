@@ -7,9 +7,12 @@ const LECTURE_CACHE = "bca-nepal-lecture-v7";
 const PRECACHE_URLS = [
   "/",
   "/subjects",
+  "/subjects/semester-1",
+  "/subjects/semester-2",
   "/bookmark",
   "/profile",
   "/lectures",
+  "/admin",
   "/privacy-policy",
   "/terms-and-conditions",
   "/view-pdf",
@@ -145,9 +148,9 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // RSC payloads: stale-while-revalidate (fast page transitions)
+  // RSC payloads: stale-while-revalidate with offline fallback
   if (isRsc(url)) {
-    event.respondWith(staleWhileRevalidate(req, CACHE));
+    event.respondWith(staleWhileRevalidateRsc(req, url));
     return;
   }
 
@@ -240,6 +243,33 @@ async function staleWhileRevalidate(request, cacheName) {
   }
 
   return fetchPromise || new Response("", { status: 503 });
+}
+
+async function staleWhileRevalidateRsc(request, url) {
+  const cache = await caches.open(CACHE);
+  const cached = await cache.match(request);
+
+  const fetchPromise = fetch(request).then(async (res) => {
+    if (res.ok) {
+      cache.put(request, res.clone());
+    }
+    return res;
+  }).catch(() => null);
+
+  if (cached) {
+    fetchPromise.catch(() => {});
+    return cached;
+  }
+
+  const fresh = await fetchPromise;
+  if (fresh) return fresh;
+
+  const pathReq = new Request(url.origin + url.pathname);
+  const pathCached = await cache.match(pathReq);
+  if (pathCached) return pathCached;
+
+  const fallback = await caches.match("/offline.html");
+  return fallback || new Response("Offline", { status: 503 });
 }
 
 async function nextImageStrategy(request, url) {
