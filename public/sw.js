@@ -150,7 +150,11 @@ self.addEventListener("fetch", (event) => {
 
   // RSC payloads: stale-while-revalidate with offline fallback
   if (isRsc(url)) {
-    event.respondWith(staleWhileRevalidateRsc(req, url));
+    if (url.pathname === "/view-pdf") {
+      event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
+    } else {
+      event.respondWith(staleWhileRevalidateRsc(req, url));
+    }
     return;
   }
 
