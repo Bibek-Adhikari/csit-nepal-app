@@ -35,6 +35,22 @@ interface Semester {
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata({ params }: { params: Promise<{ semester: string; subject: string; unit: string }> }) {
+  const { semester, subject, unit } = await params;
+  const semesterData = getSemester(semester as SemesterKey);
+  const subjectData = getSubject(semester as SemesterKey, subject);
+  const unitData = getUnit(semester as SemesterKey, subject, unit);
+  const title = unitData ? `${unitData.title} - ${subjectData?.title || subject} Notes` : "Notes";
+  const description = unitData
+    ? `Download ${unitData.title} notes and handwritten PDFs for ${subjectData?.title || subject} (${semesterData?.label || semester}). BCA study material.`
+    : "BCA notes and study materials.";
+  return {
+    title,
+    description,
+    alternates: { canonical: `/notes/${semester}/${subject}/${unit}` },
+  };
+}
+
 function isValidNoteName(name: string): boolean {
   const nameWithoutExt = name.replace(/\.[^/.]+$/, "");
   if (/^\d+$/.test(nameWithoutExt)) return false;
@@ -137,8 +153,25 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
   const pdfNotes = [...unitData.notes.pdf, ...supabaseNotes.pdf];
   const handwrittenNotes = [...unitData.notes.handwritten, ...supabaseNotes.handwritten];
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.app";
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+              { "@type": "ListItem", position: 2, name: semesterData.label, item: `${siteUrl}/subjects/${semester}` },
+              { "@type": "ListItem", position: 3, name: subjectData.title, item: `${siteUrl}/subjects/${semester}/${subject}` },
+              { "@type": "ListItem", position: 4, name: unitData.title, item: `${siteUrl}/notes/${semester}/${subject}/${unit}` },
+            ],
+          }),
+        }}
+      />
       <BackNav href={`/subjects/${semester}/${subject}`} label={subjectData.title} />
       <section className="unit-hero">
         <div className="unit-hero-top">
@@ -148,7 +181,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
           </div>
           <CompletionToggle semesterKey={semester} subjectSlug={subject} unitSlug={unit} />
         </div>
-        <h2 className="unit-hero-title">{unitData.title}</h2>
+        <h1 className="unit-hero-title">{unitData.title}</h1>
       </section>
 
       {pdfNotes.length > 0 && (

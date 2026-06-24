@@ -220,7 +220,7 @@ export default function UploadPage() {
         <BackNav href="/profile" label="Profile" />
         <section className="welcome-hero">
           <div>
-            <h2>Admin Upload</h2>
+            <h1>Admin Upload</h1>
             <p>Enter the admin key to access the upload area.</p>
           </div>
         </section>
@@ -261,7 +261,7 @@ export default function UploadPage() {
       <section className="welcome-hero">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <h2>Upload Notes</h2>
+            <h1>Upload Notes</h1>
             <p>Upload PDF notes to Supabase storage.</p>
           </div>
           <button

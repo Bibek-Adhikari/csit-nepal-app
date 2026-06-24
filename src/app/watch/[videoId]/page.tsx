@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BackNav } from "@/components/back-nav";
 import { VideoNotes } from "@/components/video-notes";
+import { lectureVideos } from "@/content/lectures";
 
 export default function WatchPage() {
   const params = useParams();
@@ -46,8 +47,27 @@ export default function WatchPage() {
     };
   }, [videoId]);
 
+  const video = lectureVideos.find((l) => l.id === videoId);
+
   return (
     <>
+      {video && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              name: video.title,
+              description: `${video.subject} lecture for BCA ${video.semester}.`,
+              thumbnailUrl: video.thumbnail,
+              embedUrl: `https://www.youtube.com/embed/${video.id}`,
+              contentUrl: `https://www.youtube.com/watch?v=${video.id}`,
+              duration: video.duration,
+            }),
+          }}
+        />
+      )}
       <BackNav href="/lectures" label="Lectures" />
       <div className="watch-container">
         <div className="watch-player-wrapper">
@@ -75,6 +95,7 @@ export default function WatchPage() {
             </div>
           )}
         </div>
+        {video ? <h1 style={{ fontSize: "1rem", fontWeight: 600, margin: "0.75rem 0 0", lineHeight: 1.4 }}>{video.title}</h1> : null}
         <div className="watch-actions">
           <Link
             href={`https://www.youtube.com/watch?v=${videoId}`}

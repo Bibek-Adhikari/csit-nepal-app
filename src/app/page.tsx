@@ -14,6 +14,21 @@ export default function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "BCA Nepal",
+            url: "https://bcanepal.app",
+            description: "Free study companion for TU BCA students. Browse notes, watch YouTube lectures, track progress.",
+            applicationCategory: "EducationalApplication",
+            operatingSystem: "Any",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          }),
+        }}
+      />
       <WelcomeHero />
 
       {/* Semester Scroller */}

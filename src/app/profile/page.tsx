@@ -54,7 +54,7 @@ export default function ProfilePage() {
     <>
       <BackNav href="/" label="Home" />
       <section className="welcome-hero">
-        <h2>Profile</h2>
+        <h1>Profile</h1>
         <p>Track your study progress and manage preferences.</p>
 
         <div style={{ marginTop: "1rem" }}>

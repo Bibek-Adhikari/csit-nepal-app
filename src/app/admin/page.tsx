@@ -64,25 +64,7 @@ export default function AdminPage() {
   const [syncMsg, setSyncMsg] = useState("");
   const [linkingNoteId, setLinkingNoteId] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
-
-  const fetchNotes = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const params = new URLSearchParams({ limit: "500" });
-      if (filterSemester) params.set("semester", filterSemester);
-      if (filterSubject) params.set("subject", filterSubject);
-      if (filterFormat) params.set("format", filterFormat);
-      const res = await fetch(`/api/notes?${params}`);
-      if (!res.ok) throw new Error("Failed to fetch notes");
-      const data = await res.json();
-      setNotes(data.notes || []);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const getLecturesForSemester = (note: NoteRecord) => {
     const semKey = note.semester_key.replace("semester-", "Semester ");
@@ -137,8 +119,28 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!authenticated) return;
-    fetchNotes();
-  }, [authenticated, filterSemester, filterSubject, filterFormat]);
+    let cancelled = false;
+    const doFetch = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const params = new URLSearchParams({ limit: "500" });
+        if (filterSemester) params.set("semester", filterSemester);
+        if (filterSubject) params.set("subject", filterSubject);
+        if (filterFormat) params.set("format", filterFormat);
+        const res = await fetch(`/api/notes?${params}`);
+        if (!res.ok) throw new Error("Failed to fetch notes");
+        const data = await res.json();
+        if (!cancelled) setNotes(data.notes || []);
+      } catch (err) {
+        if (!cancelled) setError((err as Error).message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    doFetch();
+    return () => { cancelled = true; };
+  }, [authenticated, filterSemester, filterSubject, filterFormat, refreshKey]);
 
   const handleSync = async () => {
     setSyncing(true);
@@ -157,7 +159,7 @@ export default function AdminPage() {
       } else {
         setSyncMsg(`Found ${data.total_orphans} orphan(s) but could not sync them.`);
       }
-      await fetchNotes();
+      setRefreshKey(k => k + 1);
     } catch {
       setSyncMsg("Failed to sync files");
     } finally {
@@ -206,8 +208,8 @@ export default function AdminPage() {
       <>
         <BackNav href="/profile" label="Profile" />
         <section className="welcome-hero">
-          <h2>Admin Panel</h2>
-          <p>Enter the admin key to manage PDFs.</p>
+<h1>Admin Panel</h1>
+            <p>Enter the admin key to manage PDFs.</p>
         </section>
         <div style={{ padding: "0 1rem 1.5rem", maxWidth: 400, margin: "0 auto" }}>
           <div className="upload-card">
@@ -243,15 +245,15 @@ export default function AdminPage() {
     <>
       <BackNav href="/profile" label="Profile" />
       <section className="welcome-hero">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <h2>Admin Panel</h2>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem" }}>
+          <div style={{ minWidth: 0 }}>
+            <h1>Admin Panel</h1>
             <p>Manage all uploaded PDFs.</p>
           </div>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <Link href="/upload" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.78rem", padding: "0.4rem 0.75rem" }}>
-              <i className="bx bx-cloud-upload"></i>
-              Upload
+          <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
+            <Link href="/upload" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.78rem", padding: "0.45rem 0.7rem", minHeight: 44, display: "inline-flex", alignItems: "center", gap: "0.3rem" }}>
+              <i className="bx bx-cloud-upload" style={{ fontSize: "1.1rem" }}></i>
+              <span>Upload</span>
             </Link>
             <button
               onClick={handleLogout}
@@ -259,13 +261,17 @@ export default function AdminPage() {
                 background: "none",
                 border: "1px solid var(--border)",
                 borderRadius: 8,
-                padding: "0.4rem 0.75rem",
+                padding: "0.45rem 0.7rem",
                 fontSize: "0.78rem",
+                minHeight: 44,
                 color: "var(--text-muted)",
                 cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <i className="bx bx-log-out"></i>
+              <i className="bx bx-log-out" style={{ fontSize: "1.1rem" }}></i>
             </button>
           </div>
         </div>
@@ -303,7 +309,7 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "0.75rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginBottom: "0.75rem" }}>
               <select
                 className="upload-select"
                 value={filterSemester}
@@ -311,7 +317,7 @@ export default function AdminPage() {
                   setFilterSemester(v.target.value);
                   setFilterSubject("");
                 }}
-                style={{ flex: 1, minWidth: 100, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
               >
                 <option value="">All Semesters</option>
                 {semesters.map((s) => (
@@ -323,7 +329,7 @@ export default function AdminPage() {
                 value={filterSubject}
                 onChange={(v) => setFilterSubject(v.target.value)}
                 disabled={!filterSemester}
-                style={{ flex: 1, minWidth: 100, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
               >
                 <option value="">All Subjects</option>
                 {filteredSubjects.map((s) => (
@@ -334,7 +340,7 @@ export default function AdminPage() {
                 className="upload-select"
                 value={filterFormat}
                 onChange={(v) => setFilterFormat(v.target.value)}
-                style={{ flex: 1, minWidth: 80, fontSize: "0.75rem", padding: "0.5rem 0.7rem", margin: 0 }}
+                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
               >
                 <option value="">All Formats</option>
                 <option value="pdf">PDF</option>
@@ -358,76 +364,81 @@ export default function AdminPage() {
                     </h4>
                     <div className="unit-notes-list">
                       {items.map((note) => (
-                        <div key={note.id} style={{ display: "flex", flexDirection: "column", gap: "0.4rem", padding: "0.55rem 0.75rem", borderRadius: 14, background: "var(--bg-card)", border: "1px solid var(--border)", minHeight: 0 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        <div key={note.id} style={{ display: "flex", flexDirection: "column", gap: "0.5rem", padding: "0.7rem 0.8rem", borderRadius: 14, background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+                          <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: "0.82rem", fontWeight: 600 }}>{note.title}</div>
-                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.15rem" }}>
-                                <span className="sheet-badge" style={{ fontSize: "0.6rem" }}>{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</span>
-                                <span className="sheet-badge" style={{ fontSize: "0.6rem", background: note.format === "handwritten" ? "var(--bg-app-2)" : "var(--primary-light)", color: note.format === "handwritten" ? "var(--text-muted)" : "var(--primary)" }}>
+                              <div style={{ fontSize: "0.88rem", fontWeight: 600, lineHeight: 1.3 }}>{note.title}</div>
+                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.25rem" }}>
+                                <span className="sheet-badge" style={{ fontSize: "0.65rem" }}>{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</span>
+                                <span className="sheet-badge" style={{ fontSize: "0.65rem", background: note.format === "handwritten" ? "var(--bg-app-2)" : "var(--primary-light)", color: note.format === "handwritten" ? "var(--text-muted)" : "var(--primary)" }}>
                                   {note.format}
                                 </span>
-                                <span style={{ fontSize: "0.6rem", color: "var(--text-muted)" }}>
+                                <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
                                   {new Date(note.created_at).toLocaleDateString()}
                                 </span>
                               </div>
                               {note.lecture_video_id && (() => {
                                 const vid = lectureVideos.find(v => v.id === note.lecture_video_id);
                                 return vid ? (
-                                  <div style={{ fontSize: "0.65rem", color: "var(--primary)", marginTop: "0.15rem" }}>
-                                    <i className="bx bx-video"></i> {vid.title.slice(0, 60)}...
+                                  <div style={{ fontSize: "0.7rem", color: "var(--primary)", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                                    <i className="bx bx-video"></i>
+                                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{vid.title}</span>
                                   </div>
                                 ) : null;
                               })()}
                             </div>
-                            <a href={note.public_url} target="_blank" rel="noopener noreferrer" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.7rem", padding: "0.25rem 0.5rem", whiteSpace: "nowrap" }}>
-                              <i className="bx bx-show"></i>
-                            </a>
-                            <button
-                              className="upload-btn"
-                              onClick={() => {
-                                if (linkingNoteId === note.id) {
-                                  setLinkingNoteId(null);
-                                  setSelectedVideo("");
-                                } else {
-                                  setLinkingNoteId(note.id);
-                                  setSelectedVideo(note.lecture_video_id || "");
-                                }
-                              }}
-                              style={{ fontSize: "0.7rem", padding: "0.25rem 0.5rem", whiteSpace: "nowrap" }}
-                            >
-                              <i className={`bx ${note.lecture_video_id ? "bx-link-alt" : "bx-plus"}`}></i>
-                            </button>
+                            <div style={{ display: "flex", gap: "0.35rem", flexShrink: 0 }}>
+                              <a href={note.public_url} target="_blank" rel="noopener noreferrer" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.85rem", padding: "0.5rem", minWidth: 44, minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                                <i className="bx bx-show"></i>
+                              </a>
+                              <button
+                                className="upload-btn"
+                                onClick={() => {
+                                  if (linkingNoteId === note.id) {
+                                    setLinkingNoteId(null);
+                                    setSelectedVideo("");
+                                  } else {
+                                    setLinkingNoteId(note.id);
+                                    setSelectedVideo(note.lecture_video_id || "");
+                                  }
+                                }}
+                                style={{ fontSize: "0.85rem", padding: "0.5rem", minWidth: 44, minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                              >
+                                <i className={`bx ${note.lecture_video_id ? "bx-link-alt" : "bx-plus"}`}></i>
+                              </button>
+                            </div>
                           </div>
                           {linkingNoteId === note.id && (
-                            <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", paddingTop: "0.4rem", borderTop: "1px solid var(--border)" }}>
                               <select
                                 value={selectedVideo}
                                 onChange={(e) => setSelectedVideo(e.target.value)}
-                                style={{ flex: 1, fontSize: "0.7rem", padding: "0.3rem 0.5rem", borderRadius: 8, background: "var(--bg-app-2)", color: "var(--text)", border: "1px solid var(--border)" }}
+                                style={{ width: "100%", fontSize: "0.8rem", padding: "0.55rem 0.6rem", minHeight: 44, borderRadius: 10, background: "var(--bg-app-2)", color: "var(--text)", border: "1px solid var(--border)" }}
                               >
                                 <option value="">Select a lecture video...</option>
                                 {getLecturesForSemester(note).map((v) => (
                                   <option key={v.id} value={v.id}>{v.subject}: {v.title.slice(0, 50)}</option>
                                 ))}
                               </select>
-                              <button
-                                className="upload-btn"
-                                onClick={() => handleLinkVideo(note.id, selectedVideo)}
-                                disabled={!selectedVideo}
-                                style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", whiteSpace: "nowrap" }}
-                              >
-                                Save
-                              </button>
-                              {note.lecture_video_id && (
+                              <div style={{ display: "flex", gap: "0.4rem" }}>
                                 <button
                                   className="upload-btn"
-                                  onClick={() => handleRemoveLink(note.id)}
-                                  style={{ fontSize: "0.65rem", padding: "0.2rem 0.5rem", whiteSpace: "nowrap", color: "var(--danger)" }}
+                                  onClick={() => handleLinkVideo(note.id, selectedVideo)}
+                                  disabled={!selectedVideo}
+                                  style={{ flex: 1, fontSize: "0.8rem", padding: "0.5rem", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
                                 >
-                                  Unlink
+                                  Save
                                 </button>
-                              )}
+                                {note.lecture_video_id && (
+                                  <button
+                                    className="upload-btn"
+                                    onClick={() => handleRemoveLink(note.id)}
+                                    style={{ fontSize: "0.8rem", padding: "0.5rem", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center", color: "var(--danger)" }}
+                                  >
+                                    Unlink
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>

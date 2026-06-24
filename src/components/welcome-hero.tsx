@@ -20,9 +20,9 @@ export function WelcomeHero() {
       </div>
       <div className="hero-top">
         <div>
-          <h2>
+          <h1>
             BCA<span> Nepal</span> study hub
-          </h2>
+          </h1>
           <p>
             Browse semester-specific subjects, open YouTube lectures, and study
             notes grouped by subject &amp; unit.

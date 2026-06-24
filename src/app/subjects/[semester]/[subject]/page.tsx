@@ -35,15 +35,31 @@ export default async function SubjectPage({
     notFound();
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.app";
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+              { "@type": "ListItem", position: 2, name: semesterData.label, item: `${siteUrl}/subjects/${semester}` },
+              { "@type": "ListItem", position: 3, name: subjectData.title, item: `${siteUrl}/subjects/${semester}/${subject}` },
+            ],
+          }),
+        }}
+      />
       <BackNav href={`/subjects/${semester}`} label={semesterData.label} />
       <section className="welcome-hero">
         <div className="badge-row" style={{ margin: 0 }}>
           <span className="sheet-badge accent">{semesterData.label}</span>
           <span className="sheet-badge">{subjectData.code}</span>
         </div>
-        <h2 style={{ marginTop: "0.5rem" }}>{subjectData.title}</h2>
+        <h1 style={{ marginTop: "0.5rem" }}>{subjectData.title}</h1>
         <p>{subjectData.overview}</p>
         <div style={{ marginTop: "1rem" }}>
           <span className="lecture-badge">{subjectData.credits} Credits</span>

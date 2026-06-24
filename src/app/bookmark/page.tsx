@@ -57,7 +57,7 @@ export default function BookmarkPage() {
   return (
     <>
       <section className="welcome-hero">
-        <h2>Bookmarks</h2>
+        <h1>Bookmarks</h1>
         <p>Bookmarked PDFs organized by subject. Opened PDFs are automatically saved for offline access.</p>
       </section>
 
