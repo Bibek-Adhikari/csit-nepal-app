@@ -5,13 +5,11 @@ import { semesters } from "@/content/subjects";
 import { lectureVideos } from "@/content/lectures";
 import { BackNav } from "@/components/back-nav";
 
-const ADMIN_KEY_STORAGE = "bca-nepal-admin-key";
-
 type UploadState = "idle" | "getting-url" | "uploading" | "success" | "error";
 type UploadTarget = "notes" | "lectures";
 
 export default function UploadPage() {
-  const [adminKey, setAdminKey] = useState("");
+  const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState("");
 
@@ -30,14 +28,6 @@ export default function UploadPage() {
   const [dbInitSql, setDbInitSql] = useState("");
   const [dbInitUrl, setDbInitUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(ADMIN_KEY_STORAGE);
-    if (stored) {
-      setAdminKey(stored);
-      setAuthenticated(true);
-    }
-  }, []);
 
   const [apiVideos, setApiVideos] = useState<{ id: string; subject: string; semester: string }[]>([]);
 
@@ -77,19 +67,30 @@ export default function UploadPage() {
     ? selectedSemester && selectedSubject && selectedUnit
     : selectedVideo);
 
-  const handleLogin = () => {
-    if (!adminKey.trim()) {
-      setAuthError("Enter the admin key");
-      return;
-    }
-    localStorage.setItem(ADMIN_KEY_STORAGE, adminKey.trim());
-    setAuthenticated(true);
+  const handleLogin = async () => {
     setAuthError("");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ password }),
+      });
+      if (!res.ok) {
+        setAuthError("Invalid admin key");
+        return;
+      }
+      setAuthenticated(true);
+    } catch {
+      setAuthError("Something went wrong, try again");
+    }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem(ADMIN_KEY_STORAGE);
-    setAdminKey("");
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     setAuthenticated(false);
     setAuthError("");
     setUploadState("idle");
@@ -119,10 +120,8 @@ export default function UploadPage() {
     try {
       const res = await fetch("/api/storage/upload", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-key": adminKey,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           folder,
           bucket,
@@ -233,8 +232,8 @@ export default function UploadPage() {
                 className="upload-select"
                 style={{ padding: "0.75rem 0.75rem" }}
                 placeholder="Enter admin key..."
-                value={adminKey}
-                onChange={(e) => setAdminKey(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") handleLogin(); }}
               />
             </div>
@@ -573,7 +572,8 @@ export default function UploadPage() {
               try {
                 const res = await fetch("/api/storage/sync", {
                   method: "POST",
-                  headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                  headers: { "Content-Type": "application/json" },
+                  credentials: "include",
                   body: JSON.stringify({ bucket: "lectures" }),
                 });
                 const data = await res.json();
@@ -605,7 +605,8 @@ export default function UploadPage() {
                 try {
                   const res = await fetch("/api/youtube/subscribe", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ mode: "subscribe" }),
                   });
                   const data = await res.json();
@@ -623,7 +624,8 @@ export default function UploadPage() {
                 try {
                   const res = await fetch("/api/youtube/subscribe", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ mode: "unsubscribe" }),
                   });
                   const data = await res.json();

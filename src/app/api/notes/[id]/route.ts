@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
-
-const ADMIN_KEY = process.env.ADMIN_KEY || "";
+import { validateAdminRequest } from "@/lib/admin-auth";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -30,8 +29,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const adminKey = request.headers.get("x-admin-key") || "";
-    if (!adminKey || adminKey !== ADMIN_KEY) {
+    if (!validateAdminRequest(request)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const supabase = getSupabaseServer({ requireServiceRole: true });
@@ -67,6 +65,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!validateAdminRequest(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const supabase = getSupabaseServer({ requireServiceRole: true });
     const { id } = await params;
 

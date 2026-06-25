@@ -6,8 +6,6 @@ import { lectureVideos } from "@/content/lectures";
 import { BackNav } from "@/components/back-nav";
 import Link from "next/link";
 
-const ADMIN_KEY_STORAGE = "bca-nepal-admin-key";
-
 type NoteRecord = {
   id: string;
   title: string;
@@ -37,8 +35,12 @@ function getUnitTitle(semKey: string, subSlug: string, unitSlug: string) {
   return sub?.units.find((u) => u.slug === unitSlug)?.title || unitSlug;
 }
 
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
 export default function AdminPage() {
-  const [adminKey, setAdminKey] = useState("");
+  const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState("");
   const [notes, setNotes] = useState<NoteRecord[]>([]);
@@ -47,38 +49,23 @@ export default function AdminPage() {
   const [filterSemester, setFilterSemester] = useState("");
   const [filterSubject, setFilterSubject] = useState("");
   const [filterFormat, setFilterFormat] = useState("");
-
-  const filteredSubjects = filterSemester
-    ? semesters.find((s) => s.key === filterSemester)?.subjects || []
-    : [];
-
-  useEffect(() => {
-    const stored = localStorage.getItem(ADMIN_KEY_STORAGE);
-    if (stored) {
-      setAdminKey(stored);
-      setAuthenticated(true);
-    }
-  }, []);
-
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState("");
   const [linkingNoteId, setLinkingNoteId] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const getLecturesForSemester = (note: NoteRecord) => {
-    const semKey = note.semester_key.replace("semester-", "Semester ");
-    const subTitle = getSubjectTitle(note.semester_key, note.subject_slug);
-    return lectureVideos.filter((v) => v.semester.startsWith(semKey) && v.subject === subTitle);
-  };
+  const filteredSubjects = filterSemester
+    ? semesters.find((s) => s.key === filterSemester)?.subjects || []
+    : [];
 
   const handleLinkVideo = async (noteId: string, videoId: string | null) => {
     if (!videoId) return;
     try {
-      const key = localStorage.getItem(ADMIN_KEY_STORAGE);
       const res = await fetch(`/api/notes/${noteId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json", "x-admin-key": key || "" },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ lecture_video_id: videoId }),
       });
       if (!res.ok) throw new Error("Failed to link video");
@@ -92,10 +79,10 @@ export default function AdminPage() {
 
   const handleRemoveLink = async (noteId: string) => {
     try {
-      const key = localStorage.getItem(ADMIN_KEY_STORAGE);
       const res = await fetch(`/api/notes/${noteId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json", "x-admin-key": key || "" },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ lecture_video_id: null }),
       });
       if (!res.ok) throw new Error("Failed to remove link");
@@ -148,7 +135,8 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/storage/sync", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ bucket: "notes" }),
       });
       const data = await res.json();
@@ -168,37 +156,29 @@ export default function AdminPage() {
   };
 
   const handleLogin = async () => {
-    if (!adminKey.trim()) {
-      setAuthError("Enter the admin key");
-      return;
-    }
-
     setAuthError("");
     try {
-      const res = await fetch("/api/storage/upload", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-key": adminKey.trim(),
-        },
-        body: JSON.stringify({}),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ password }),
       });
-
-      if (res.status === 401) {
-        setAuthError("Something goes wrong, try again");
+      if (!res.ok) {
+        setAuthError("Invalid admin key");
         return;
       }
-
-      localStorage.setItem(ADMIN_KEY_STORAGE, adminKey.trim());
       setAuthenticated(true);
     } catch {
-      setAuthError("Something goes wrong, try again");
+      setAuthError("Something went wrong, try again");
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem(ADMIN_KEY_STORAGE);
-    setAdminKey("");
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     setAuthenticated(false);
     setNotes([]);
   };
@@ -207,33 +187,32 @@ export default function AdminPage() {
     return (
       <>
         <BackNav href="/profile" label="Profile" />
-        <section className="welcome-hero">
-<h1>Admin Panel</h1>
-            <p>Enter the admin key to manage PDFs.</p>
-        </section>
-        <div style={{ padding: "0 1rem 1.5rem", maxWidth: 400, margin: "0 auto" }}>
-          <div className="upload-card">
-            <div className="upload-field">
-              <label className="upload-label">Admin Key</label>
+        <div className="admin-login-page">
+          <div className="admin-login-icon">
+            <i className="bx bxs-shield-alt-2"></i>
+          </div>
+          <h1 className="admin-login-title">Admin Panel</h1>
+          <p className="admin-login-desc">Enter the admin key to manage PDFs.</p>
+          <div className="admin-login-card">
+            <div className="admin-login-field">
+              <label className="admin-login-label">Admin Key</label>
               <input
                 type="password"
-                className="upload-select"
-                style={{ padding: "0.75rem 0.75rem" }}
+                className="admin-login-input"
                 placeholder="Enter admin key..."
-                value={adminKey}
-                onChange={(e) => setAdminKey(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") handleLogin(); }}
               />
             </div>
             {authError && (
-              <div className="upload-message upload-message-error">
+              <div className="admin-login-error">
                 <i className="bx bx-error-circle"></i>
                 <span>{authError}</span>
               </div>
             )}
-            <button className="upload-btn" onClick={handleLogin} style={{ marginTop: "0.5rem" }}>
-              <i className="bx bx-lock-open"></i>
-              Login
+            <button className="admin-login-btn" onClick={handleLogin}>
+              <i className="bx bx-lock-open"></i> Login
             </button>
           </div>
         </div>
@@ -244,218 +223,231 @@ export default function AdminPage() {
   return (
     <>
       <BackNav href="/profile" label="Profile" />
-      <section className="welcome-hero">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem" }}>
-          <div style={{ minWidth: 0 }}>
-            <h1>Admin Panel</h1>
-            <p>Manage all uploaded PDFs.</p>
+      <div className="admin-dashboard">
+        <div className="admin-header">
+          <div>
+            <h1 className="admin-title">Admin Panel</h1>
+            <p className="admin-subtitle">Manage all uploaded PDFs</p>
           </div>
-          <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
-            <Link href="/upload" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.78rem", padding: "0.45rem 0.7rem", minHeight: 44, display: "inline-flex", alignItems: "center", gap: "0.3rem" }}>
-              <i className="bx bx-cloud-upload" style={{ fontSize: "1.1rem" }}></i>
-              <span>Upload</span>
+          <div className="admin-header-actions">
+            <Link href="/upload" className="admin-btn admin-btn-primary">
+              <i className="bx bx-cloud-upload"></i> Upload
             </Link>
-            <button
-              onClick={handleLogout}
-              style={{
-                background: "none",
-                border: "1px solid var(--border)",
-                borderRadius: 8,
-                padding: "0.45rem 0.7rem",
-                fontSize: "0.78rem",
-                minHeight: 44,
-                color: "var(--text-muted)",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <i className="bx bx-log-out" style={{ fontSize: "1.1rem" }}></i>
+            <button onClick={handleLogout} className="admin-btn admin-btn-ghost" title="Logout">
+              <i className="bx bx-log-out"></i>
             </button>
           </div>
         </div>
-      </section>
 
-      <div style={{ padding: "0 1rem 1.5rem" }}>
         {loading && (
-          <div className="empty-state">
-            <i className="bx bx-loader-alt bx-spin" style={{ fontSize: "2rem" }}></i>
+          <div className="admin-loading">
+            <i className="bx bx-loader-alt bx-spin"></i>
             <p>Loading PDFs...</p>
           </div>
         )}
 
         {error && (
-          <div className="upload-message upload-message-error">
+          <div className="admin-alert admin-alert-error">
             <i className="bx bx-error-circle"></i>
             <span>{error}</span>
           </div>
         )}
 
         {!loading && (
-          <div className="upload-card" style={{ padding: "0.75rem" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-              <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                {notes.length} PDF{notes.length !== 1 ? "s" : ""} total
-              </span>
-              <button
-                className="upload-btn"
-                onClick={handleSync}
-                disabled={syncing}
-                style={{ fontSize: "0.72rem", padding: "0.35rem 0.6rem" }}
-              >
-                <i className={`bx ${syncing ? "bx-loader-alt bx-spin" : "bx-refresh"}`}></i>
-                {syncing ? "Syncing..." : "Sync Notes"}
-              </button>
+          <>
+            <div className="admin-toolbar">
+              <div className="admin-toolbar-left">
+                <span className="admin-count">{notes.length} PDF{notes.length !== 1 ? "s" : ""}</span>
+              </div>
+              <div className="admin-toolbar-right">
+                <button className="admin-btn admin-btn-outline" onClick={handleSync} disabled={syncing}>
+                  <i className={`bx ${syncing ? "bx-loader-alt bx-spin" : "bx-refresh"}`}></i>
+                  {syncing ? "Syncing..." : "Sync"}
+                </button>
+              </div>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginBottom: "0.75rem" }}>
-              <select
-                className="upload-select"
-                value={filterSemester}
-                onChange={(v) => {
-                  setFilterSemester(v.target.value);
-                  setFilterSubject("");
-                }}
-                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
-              >
-                <option value="">All Semesters</option>
-                {semesters.map((s) => (
-                  <option key={s.key} value={s.key}>{s.label}</option>
-                ))}
-              </select>
-              <select
-                className="upload-select"
-                value={filterSubject}
-                onChange={(v) => setFilterSubject(v.target.value)}
-                disabled={!filterSemester}
-                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
-              >
-                <option value="">All Subjects</option>
-                {filteredSubjects.map((s) => (
-                  <option key={s.slug} value={s.slug}>{s.title}</option>
-                ))}
-              </select>
-              <select
-                className="upload-select"
-                value={filterFormat}
-                onChange={(v) => setFilterFormat(v.target.value)}
-                style={{ width: "100%", fontSize: "0.85rem", padding: "0.6rem 0.7rem", minHeight: 44, margin: 0 }}
-              >
-                <option value="">All Formats</option>
-                <option value="pdf">PDF</option>
-                <option value="handwritten">Handwritten</option>
-              </select>
+            <div className="admin-filters-bar">
+              <div className="admin-filter-group">
+                <label className="admin-filter-label">Semester</label>
+                <select
+                  className="admin-filter-select"
+                  value={filterSemester}
+                  onChange={(v) => { setFilterSemester(v.target.value); setFilterSubject(""); }}
+                >
+                  <option value="">All Semesters</option>
+                  {semesters.map((s) => (
+                    <option key={s.key} value={s.key}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="admin-filter-group">
+                <label className="admin-filter-label">Subject</label>
+                <select
+                  className="admin-filter-select"
+                  value={filterSubject}
+                  onChange={(v) => setFilterSubject(v.target.value)}
+                  disabled={!filterSemester}
+                >
+                  <option value="">All Subjects</option>
+                  {filteredSubjects.map((s) => (
+                    <option key={s.slug} value={s.slug}>{s.title}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="admin-filter-group">
+                <label className="admin-filter-label">Format</label>
+                <select
+                  className="admin-filter-select"
+                  value={filterFormat}
+                  onChange={(v) => setFilterFormat(v.target.value)}
+                >
+                  <option value="">All Formats</option>
+                  <option value="pdf">PDF</option>
+                  <option value="handwritten">Handwritten</option>
+                </select>
+              </div>
             </div>
 
             {syncMsg && (
-              <div className="upload-message" style={{ fontSize: "0.75rem", marginBottom: "0.75rem", background: "var(--bg-app-2)", border: "none" }}>
+              <div className="admin-alert admin-alert-info">
                 <i className="bx bx-info-circle"></i>
                 <span>{syncMsg}</span>
               </div>
             )}
 
+            {notes.length === 0 && (
+              <div className="admin-empty">
+                <i className="bx bxs-file-pdf"></i>
+                <p>No PDFs match the selected filters.</p>
+              </div>
+            )}
+
             {notes.length > 0 && (
-              <div className="subject-stack" style={{ gap: "0.75rem" }}>
+              <div className="admin-groups">
                 {Object.entries(grouped).map(([groupKey, items]) => (
-                  <div key={groupKey}>
-                    <h4 style={{ fontSize: "0.82rem", fontWeight: 600, margin: "0 0 0.4rem", color: "var(--text-muted)" }}>
-                      {groupKey} ({items.length})
-                    </h4>
-                    <div className="unit-notes-list">
-                      {items.map((note) => (
-                        <div key={note.id} style={{ display: "flex", flexDirection: "column", gap: "0.5rem", padding: "0.7rem 0.8rem", borderRadius: 14, background: "var(--bg-card)", border: "1px solid var(--border)" }}>
-                          <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: "0.88rem", fontWeight: 600, lineHeight: 1.3 }}>{note.title}</div>
-                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.25rem" }}>
-                                <span className="sheet-badge" style={{ fontSize: "0.65rem" }}>{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</span>
-                                <span className="sheet-badge" style={{ fontSize: "0.65rem", background: note.format === "handwritten" ? "var(--bg-app-2)" : "var(--primary-light)", color: note.format === "handwritten" ? "var(--text-muted)" : "var(--primary)" }}>
-                                  {note.format}
-                                </span>
-                                <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
-                                  {new Date(note.created_at).toLocaleDateString()}
-                                </span>
+                  <div key={groupKey} className="admin-group">
+                    <div className="admin-group-head">
+                      <h3 className="admin-group-title">
+                        <i className="bx bxs-folder-open"></i> {groupKey}
+                      </h3>
+                      <span className="admin-group-count">{items.length} file{items.length !== 1 ? "s" : ""}</span>
+                    </div>
+                    <div className="admin-notes-grid">
+                      {items.map((note) => {
+                        const currentVid = lectureVideos.find(v => v.id === note.lecture_video_id);
+                        return (
+                          <div key={note.id} className={`admin-note-card ${note.lecture_video_id ? "admin-note-linked" : ""}`}>
+                            <div className="admin-note-top">
+                              <div className="admin-note-icon">
+                                <i className={`bx ${note.format === "handwritten" ? "bx-pencil" : "bxs-file-pdf"}`}></i>
                               </div>
-                              {note.lecture_video_id && (() => {
-                                const vid = lectureVideos.find(v => v.id === note.lecture_video_id);
-                                return vid ? (
-                                  <div style={{ fontSize: "0.7rem", color: "var(--primary)", marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                                    <i className="bx bx-video"></i>
-                                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{vid.title}</span>
-                                  </div>
-                                ) : null;
-                              })()}
+                              <div className="admin-note-info">
+                                <div className="admin-note-name">{note.title}</div>
+                                <div className="admin-note-unit">{getUnitTitle(note.semester_key, note.subject_slug, note.unit_slug)}</div>
+                              </div>
                             </div>
-                            <div style={{ display: "flex", gap: "0.35rem", flexShrink: 0 }}>
-                              <a href={note.public_url} target="_blank" rel="noopener noreferrer" className="upload-btn" style={{ textDecoration: "none", fontSize: "0.85rem", padding: "0.5rem", minWidth: 44, minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-                                <i className="bx bx-show"></i>
+
+                            <div className="admin-note-badges">
+                              <span className={`admin-badge ${note.format === "handwritten" ? "admin-badge-hw" : "admin-badge-pdf"}`}>
+                                {note.format === "handwritten" ? "Handwritten" : "PDF"}
+                              </span>
+                              <span className="admin-badge admin-badge-date">{formatDate(note.created_at)}</span>
+                              {currentVid && (
+                                <span className="admin-badge admin-badge-video" title={currentVid.title}>
+                                  <i className="bx bx-video"></i> Linked
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="admin-note-actions">
+                              <a
+                                href={note.public_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="admin-btn admin-btn-sm admin-btn-outline"
+                              >
+                                <i className="bx bx-show"></i> View
                               </a>
                               <button
-                                className="upload-btn"
+                                className={`admin-btn admin-btn-sm ${linkingNoteId === note.id ? "admin-btn-active" : "admin-btn-outline"}`}
                                 onClick={() => {
-                                  if (linkingNoteId === note.id) {
-                                    setLinkingNoteId(null);
-                                    setSelectedVideo("");
-                                  } else {
-                                    setLinkingNoteId(note.id);
-                                    setSelectedVideo(note.lecture_video_id || "");
-                                  }
+                                  if (linkingNoteId === note.id) { setLinkingNoteId(null); setSelectedVideo(""); }
+                                  else { setLinkingNoteId(note.id); setSelectedVideo(note.lecture_video_id || ""); }
                                 }}
-                                style={{ fontSize: "0.85rem", padding: "0.5rem", minWidth: 44, minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
                               >
-                                <i className={`bx ${note.lecture_video_id ? "bx-link-alt" : "bx-plus"}`}></i>
+                                <i className={`bx ${note.lecture_video_id ? "bx-link-alt" : "bx-link"}`}></i>
+                                {note.lecture_video_id ? "Change" : "Link"}
                               </button>
                             </div>
-                          </div>
-                          {linkingNoteId === note.id && (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", paddingTop: "0.4rem", borderTop: "1px solid var(--border)" }}>
-                              <select
-                                value={selectedVideo}
-                                onChange={(e) => setSelectedVideo(e.target.value)}
-                                style={{ width: "100%", fontSize: "0.8rem", padding: "0.55rem 0.6rem", minHeight: 44, borderRadius: 10, background: "var(--bg-app-2)", color: "var(--text)", border: "1px solid var(--border)" }}
-                              >
-                                <option value="">Select a lecture video...</option>
-                                {getLecturesForSemester(note).map((v) => (
-                                  <option key={v.id} value={v.id}>{v.subject}: {v.title.slice(0, 50)}</option>
-                                ))}
-                              </select>
-                              <div style={{ display: "flex", gap: "0.4rem" }}>
-                                <button
-                                  className="upload-btn"
-                                  onClick={() => handleLinkVideo(note.id, selectedVideo)}
-                                  disabled={!selectedVideo}
-                                  style={{ flex: 1, fontSize: "0.8rem", padding: "0.5rem", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-                                >
-                                  Save
-                                </button>
-                                {note.lecture_video_id && (
+
+                            {linkingNoteId === note.id && (
+                              <div className="admin-link-panel">
+                                <div className="admin-link-panel-title">Select a lecture video</div>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, maxHeight: 320, overflowY: "auto", padding: "4px 0" }}>
+                                  {lectureVideos.map((v) => (
+                                    <button
+                                      key={v.id}
+                                      onClick={() => setSelectedVideo(v.id === selectedVideo ? "" : v.id)}
+                                      style={{
+                                        width: 140,
+                                        flexShrink: 0,
+                                        border: v.id === selectedVideo ? "2px solid var(--accent)" : "2px solid var(--border)",
+                                        borderRadius: 8,
+                                        overflow: "hidden",
+                                        cursor: "pointer",
+                                        background: "var(--bg-card)",
+                                        padding: 0,
+                                        textAlign: "left",
+                                        transition: "border-color .15s",
+                                      }}
+                                    >
+                                      <img
+                                        src={v.thumbnail}
+                                        alt={v.title}
+                                        style={{ width: "100%", height: 78, objectFit: "cover", display: "block" }}
+                                      />
+                                      <div style={{ padding: "4px 6px", fontSize: "0.65rem", lineHeight: 1.3, color: "var(--text-muted)" }}>
+                                        <div style={{ fontWeight: 600, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{v.subject}</div>
+                                        <div style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{v.title.slice(0, 40)}</div>
+                                      </div>
+                                    </button>
+                                  ))}
+                                </div>
+                                <div className="admin-link-btns" style={{ marginTop: 8 }}>
                                   <button
-                                    className="upload-btn"
-                                    onClick={() => handleRemoveLink(note.id)}
-                                    style={{ fontSize: "0.8rem", padding: "0.5rem", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center", color: "var(--danger)" }}
+                                    className="admin-btn admin-btn-sm admin-btn-primary"
+                                    onClick={() => handleLinkVideo(note.id, selectedVideo)}
+                                    disabled={!selectedVideo}
                                   >
-                                    Unlink
+                                    Save
                                   </button>
-                                )}
+                                  <button
+                                    className="admin-btn admin-btn-sm admin-btn-ghost"
+                                    onClick={() => { setLinkingNoteId(null); setSelectedVideo(""); }}
+                                  >
+                                    Cancel
+                                  </button>
+                                  {note.lecture_video_id && (
+                                    <button
+                                      className="admin-btn admin-btn-sm admin-btn-danger"
+                                      onClick={() => handleRemoveLink(note.id)}
+                                    >
+                                      Unlink
+                                    </button>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
               </div>
             )}
-
-            {notes.length === 0 && (
-              <div className="empty-state">
-                <i className="bx bxs-file-pdf" style={{ fontSize: "2.5rem", color: "var(--text-muted)" }}></i>
-                <p>No PDFs match the selected filters.</p>
-              </div>
-            )}
-          </div>
+          </>
         )}
       </div>
     </>

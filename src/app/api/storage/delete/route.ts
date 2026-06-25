@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
+import { validateAdminRequest } from "@/lib/admin-auth";
 
 export async function DELETE(request: Request) {
   try {
+    if (!validateAdminRequest(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const supabase = getSupabaseServer({ requireServiceRole: true });
     const body = (await request.json()) as { path: string; bucket?: string };
 

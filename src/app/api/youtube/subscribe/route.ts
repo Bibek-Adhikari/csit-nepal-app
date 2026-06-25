@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
+import { validateAdminRequest } from "@/lib/admin-auth";
 
-const ADMIN_KEY = process.env.ADMIN_KEY || "";
 const HUB_URL = "https://pubsubhubbub.appspot.com/subscribe";
 const CHANNEL_ID = "UCBvTTBLD1wD1jTQs0OeBZ4Q";
 const TOPIC = `https://www.youtube.com/xml/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
 
 export async function POST(request: Request) {
-  const adminKey = request.headers.get("x-admin-key") || "";
-  if (!adminKey || adminKey !== ADMIN_KEY) {
+  if (!validateAdminRequest(request)) {
     return NextResponse.json({ error: "Invalid or missing admin key" }, { status: 401 });
   }
 

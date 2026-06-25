@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase";
-
-const ADMIN_KEY = process.env.ADMIN_KEY || "";
+import { validateAdminRequest } from "@/lib/admin-auth";
 
 async function listAllFiles(supabase: ReturnType<typeof getSupabaseServer>, bucket: string, prefix = ""): Promise<string[]> {
   const { data, error } = await supabase.storage.from(bucket).list(prefix || undefined, { limit: 100 });
@@ -22,9 +21,8 @@ async function listAllFiles(supabase: ReturnType<typeof getSupabaseServer>, buck
 
 export async function POST(request: Request) {
   try {
-    const adminKey = request.headers.get("x-admin-key") || "";
-    if (!adminKey || adminKey !== ADMIN_KEY) {
-      return NextResponse.json({ error: "Invalid or missing admin key" }, { status: 401 });
+    if (!validateAdminRequest(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json().catch(() => ({}));
