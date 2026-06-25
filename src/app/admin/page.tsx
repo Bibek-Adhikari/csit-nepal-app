@@ -54,6 +54,32 @@ export default function AdminPage() {
   const [linkingNoteId, setLinkingNoteId] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [apiVideos, setApiVideos] = useState<{ id: string; subject: string; semester: string; title: string; thumbnail: string; semesterKey: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/lectures")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.videos) setApiVideos(d.videos);
+      })
+      .catch(() => {});
+  }, []);
+
+  const allVideos = useMemo(() => {
+    const merged: typeof lectureVideos = [];
+    const existingIds = new Set<string>();
+    for (const v of apiVideos) {
+      merged.push({ id: v.id, title: v.title || "", duration: "", meta: "", tag: "", semester: v.semester, subject: v.subject, thumbnail: v.thumbnail || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`, semesterKey: v.semesterKey || "" });
+      existingIds.add(v.id);
+    }
+    for (const v of lectureVideos) {
+      if (!existingIds.has(v.id)) {
+        merged.push(v);
+        existingIds.add(v.id);
+      }
+    }
+    return merged;
+  }, [apiVideos]);
 
   const filteredSubjects = filterSemester
     ? semesters.find((s) => s.key === filterSemester)?.subjects || []
@@ -385,7 +411,7 @@ export default function AdminPage() {
                               <div className="admin-link-panel">
                                 <div className="admin-link-panel-title">Select a lecture video</div>
                                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8, maxHeight: 320, overflowY: "auto", padding: "4px 0" }}>
-                                  {lectureVideos.map((v) => (
+                                  {allVideos.map((v) => (
                                     <button
                                       key={v.id}
                                       onClick={() => setSelectedVideo(v.id === selectedVideo ? "" : v.id)}
