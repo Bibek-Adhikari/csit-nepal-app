@@ -8,16 +8,6 @@ export function WelcomeHero() {
 
   return (
     <section className="welcome-hero">
-      <div className="hero-image-wrap">
-        <Image
-          src="/icons/fabi.jpg"
-          alt="BCA Nepal"
-          fill
-          sizes="(max-width: 768px) 100vw, 600px"
-          className="hero-avatar"
-          priority
-        />
-      </div>
       <div className="hero-top">
         <div>
           <h1>

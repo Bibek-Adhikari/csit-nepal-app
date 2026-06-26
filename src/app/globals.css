@@ -357,7 +357,7 @@ html.dark .bottom-sheet {
 }
 
 .hero-avatar {
-  display: none;
+  /* display: none; */
 }
 
 .app-stat-row {
@@ -473,7 +473,7 @@ html.dark .pill-btn {
 }
 
 .card-code {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.03em;
 }
