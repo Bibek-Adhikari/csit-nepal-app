@@ -15,8 +15,10 @@ const items = [
 export function SiteNav() {
   const pathname = usePathname();
 
+  const isDimmed = pathname.startsWith("/view-pdf");
+
   return (
-    <nav className="bottom-nav">
+    <nav className={cn("bottom-nav", isDimmed && "bottom-nav--dimmed")}>
       {items.map((item) => {
         const active =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
