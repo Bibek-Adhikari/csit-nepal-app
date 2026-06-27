@@ -153,7 +153,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
   const pdfNotes = [...unitData.notes.pdf, ...supabaseNotes.pdf];
   const handwrittenNotes = [...unitData.notes.handwritten, ...supabaseNotes.handwritten];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.vercel.app";
 
   return (
     <>

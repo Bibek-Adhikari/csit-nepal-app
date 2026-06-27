@@ -2,9 +2,7 @@ import { MetadataRoute } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
   ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "")
-  : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "https://bcanepal.netlify.app";
+  : "https://bcanepal.vercel.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {

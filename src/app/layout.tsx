@@ -14,9 +14,7 @@ const geistSans = Geist({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "") : undefined;
-const APP_URL = SITE_URL
-  || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`)
-  || "https://bcanepal.netlify.app";
+const APP_URL = SITE_URL || "https://bcanepal.vercel.app";
 
 export const metadata: Metadata = {
   title: {
