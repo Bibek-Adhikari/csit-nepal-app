@@ -63,6 +63,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   const blobRef = useRef<Blob | null>(null);
   const blobUrlRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const trackingRef = useRef(false);
   const pdfId = url;
 
   useEffect(() => {
@@ -71,39 +72,26 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
 
   useEffect(() => {
     const container = scrollRef.current;
-    if (!container || numPages === 0) return;
-    let ticking = false;
+    if (!container || numPages < 2) return;
 
-    const track = () => {
-      const containerRect = container.getBoundingClientRect();
-      const containerTop = containerRect.top;
-      const containerMid = containerTop + containerRect.height * 0.35;
-      let bestPage = 1;
-      let bestDist = Infinity;
-      const pages = container.querySelectorAll<HTMLElement>("[data-page]");
-      pages.forEach((el) => {
-        const pn = parseInt(el.dataset.page || "1", 10);
-        const rect = el.getBoundingClientRect();
-        const dist = Math.abs(rect.top - containerTop);
-        if (rect.top <= containerMid && dist < bestDist) {
-          bestDist = dist;
-          bestPage = pn;
-        }
-      });
-      setCurrentPage(bestPage);
-      ticking = false;
-    };
+    trackingRef.current = true;
 
     const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(track);
-      }
+      if (!trackingRef.current) return;
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      const maxScroll = scrollHeight - clientHeight;
+      if (maxScroll <= 0) return;
+      const progress = scrollTop / maxScroll;
+      const page = Math.round(progress * (numPages - 1)) + 1;
+      setCurrentPage(Math.min(page, numPages));
     };
 
     container.addEventListener("scroll", onScroll, { passive: true });
-    track();
-    return () => container.removeEventListener("scroll", onScroll);
+    onScroll();
+    return () => {
+      trackingRef.current = false;
+      container.removeEventListener("scroll", onScroll);
+    };
   }, [numPages]);
 
   useEffect(() => {
