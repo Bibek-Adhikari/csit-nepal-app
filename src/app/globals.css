@@ -756,9 +756,7 @@ html.dark .bottom-nav {
 }
 
 .bottom-nav--dimmed {
-  opacity: 0.25; /*It is opacity 
-   bro , not croma key🗝️
-  */
+  opacity: 0.25;
   transition: opacity 0.3s ease;
 }
 .nav-item {
