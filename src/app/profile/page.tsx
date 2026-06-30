@@ -8,14 +8,23 @@ import { getBookmarkedPDFs } from "@/lib/db";
 import Link from "next/link";
 
 const storageKey = "bca-nepal-completed-units";
+const DEFAULT_SEMESTER_KEY = "bca-nepal-default-semester";
 
 export default function ProfilePage() {
   const [completedUnits, setCompletedUnits] = useState<string[]>([]);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [defaultSemester, setDefaultSemester] = useState("");
   const [showAndroid, setShowAndroid] = useState(false);
   const [showIos, setShowIos] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [isIos, setIsIos] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DEFAULT_SEMESTER_KEY);
+      if (saved) setDefaultSemester(saved);
+    } catch {}
+  }, []);
 
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
@@ -106,6 +115,43 @@ export default function ProfilePage() {
               <div className="stat-val">{bookmarkCount}</div>
               <div className="stat-lbl">Bookmarks</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 className="section-headline">Preferences</h3>
+      <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
+        <div className="app-card">
+          <div className="card-left" style={{ width: "100%" }}>
+            <span className="card-code">Default Semester</span>
+            <span className="card-title" style={{ marginBottom: "0.3rem" }}>Jump directly to a semester when tapping Subjects</span>
+            <select
+              value={defaultSemester}
+              onChange={(e) => {
+                const val = e.target.value;
+                setDefaultSemester(val);
+                try {
+                  if (val) localStorage.setItem(DEFAULT_SEMESTER_KEY, val);
+                  else localStorage.removeItem(DEFAULT_SEMESTER_KEY);
+                  window.dispatchEvent(new Event("default-semester-change"));
+                } catch {}
+              }}
+              style={{
+                width: "100%",
+                padding: "0.6rem 0.75rem",
+                borderRadius: "10px",
+                border: "1px solid var(--border)",
+                background: "var(--bg-app-2)",
+                color: "var(--text)",
+                fontSize: "0.9rem",
+                marginTop: "0.25rem",
+              }}
+            >
+              <option value="">None (show semester list)</option>
+              {semesters.map((s) => (
+                <option key={s.key} value={s.key}>{s.label}</option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
