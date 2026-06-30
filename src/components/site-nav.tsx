@@ -13,11 +13,21 @@ const items = [
   { href: "/profile", label: "Profile", icon: "bx-user" },
 ];
 
-const SUBJECTS_PATH_KEY = "bca-nepal-last-subjects-path";
+const SAVED_PATH_KEY = "bca-nepal-last-subjects-path";
 const DEFAULT_SEMESTER_KEY = "bca-nepal-default-semester";
 
 function isSubjectsRoute(path: string) {
   return path.startsWith("/subjects") || path.startsWith("/notes") || path.startsWith("/view-pdf");
+}
+
+function getLevel(path: string): number {
+  if (path.startsWith("/view-pdf") || path.startsWith("/notes")) return 3;
+  if (path.startsWith("/subjects/")) {
+    const segs = path.split("/").filter(Boolean);
+    if (segs.length >= 3) return 2;
+    return 1;
+  }
+  return 0;
 }
 
 export function SiteNav() {
@@ -28,7 +38,7 @@ export function SiteNav() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(SUBJECTS_PATH_KEY);
+      const saved = localStorage.getItem(SAVED_PATH_KEY);
       if (saved) savedPathRef.current = saved;
     } catch {}
     try {
@@ -49,7 +59,7 @@ export function SiteNav() {
     if (isSubjectsRoute(pathname)) {
       const fullPath = pathname + location.search;
       try {
-        localStorage.setItem(SUBJECTS_PATH_KEY, fullPath);
+        localStorage.setItem(SAVED_PATH_KEY, fullPath);
       } catch {}
       savedPathRef.current = fullPath;
     }
@@ -57,9 +67,19 @@ export function SiteNav() {
 
   const handleSubjectsClick = useCallback(
     (e: React.MouseEvent) => {
-      if (isSubjectsRoute(pathname)) return;
+      const level = getLevel(pathname);
+      if (level > 0) {
+        e.preventDefault();
+        if (level >= 2) {
+          const def = defaultSemesterRef.current;
+          router.push(def ? `/subjects/${def}` : "/subjects");
+        } else {
+          router.push("/subjects");
+        }
+        return;
+      }
       const saved = savedPathRef.current;
-      if (saved && saved !== "/subjects") {
+      if (saved && getLevel(saved) >= 2) {
         e.preventDefault();
         router.push(saved);
         return;
