@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { semesters } from "@/content/subjects";
 import { BackNav } from "@/components/back-nav";
+import { EntranceCard } from "@/components/entrance-card";
 
 export const metadata: Metadata = {
   title: "Subjects",
@@ -17,6 +18,7 @@ export default function SubjectsPage() {
       </section>
 
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+        <EntranceCard />
         {semesters.map((semester) => (
           <Link
             key={semester.key}
