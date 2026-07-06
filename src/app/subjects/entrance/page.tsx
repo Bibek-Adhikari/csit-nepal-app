@@ -28,6 +28,7 @@ export default function EntrancePage() {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [pdfs, setPdfs] = useState<PDF[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [showResults, setShowResults] = useState(false);
   const [mockActive, setMockActive] = useState(false);
@@ -39,16 +40,28 @@ export default function EntrancePage() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/entrance/questions").then((r) => r.json()),
-      fetch("/api/entrance/pdfs").then((r) => r.json()),
-    ])
-      .then(([qData, pData]) => {
-        setAllQuestions(qData.questions ?? []);
-        setPdfs(pData.pdfs ?? []);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    const errors: string[] = [];
+
+    Promise.allSettled([
+      fetch("/api/entrance/questions").then(async (r) => {
+        if (!r.ok) throw new Error(`questions HTTP ${r.status}${r.status === 500 ? " (table may not exist)" : ""}`);
+        const data = await r.json();
+        if (data.error) throw new Error(data.error);
+        return data.questions ?? [];
+      }),
+      fetch("/api/entrance/pdfs").then(async (r) => {
+        if (!r.ok) throw new Error(`pdfs HTTP ${r.status}`);
+        const data = await r.json();
+        if (data.error) throw new Error(data.error);
+        return data.pdfs ?? [];
+      }),
+    ]).then(([qResult, pResult]) => {
+      if (qResult.status === "fulfilled") setAllQuestions(qResult.value);
+      else errors.push(qResult.reason.message);
+      if (pResult.status === "fulfilled") setPdfs(pResult.value);
+      else errors.push(pResult.reason.message);
+      if (errors.length) setError(errors.join("; "));
+    }).finally(() => setLoading(false));
   }, []);
 
   const filteredQuestions = activeTopic === "all"
@@ -298,33 +311,35 @@ export default function EntrancePage() {
         )}
       </div>
 
+      {error && (
+        <div style={{ padding: "0.75rem 1rem", margin: "0 1rem", background: "#fee2e2", color: "#b91c1c", borderRadius: 8, fontSize: "0.85rem" }}>
+          <i className="bx bx-error-circle" style={{ marginRight: "0.35rem" }}></i>
+          Error loading data: {error}. Check console for details.
+        </div>
+      )}
+
       {pdfs.length > 0 && (
-        <>
-          <h3 className="section-headline" style={{ marginTop: "1rem" }}>Old Questions</h3>
-          <div className="subject-stack">
-            {pdfs.map((pdf) => (
-              <a
-                key={pdf.id}
-                href={pdf.public_url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="app-card"
-                style={{ alignItems: "center" }}
-              >
-                <div className="card-left">
-                  <span className="card-code">
-                    <i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem" }}></i>
-                    {pdf.title}
-                  </span>
-                  {pdf.year && (
-                    <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{pdf.year}</span>
-                  )}
-                </div>
-                <i className="bx bx-download card-chevron" style={{ fontSize: "1.2rem" }}></i>
-              </a>
+        <div className="subject-stack" style={{ marginTop: "1rem" }}>
+          {pdfs.map((pdf) => (
+            <a
+              key={pdf.id}
+              href={`/view-pdf?url=${encodeURIComponent(pdf.public_url)}&title=${encodeURIComponent(pdf.title)}`}
+              className="app-card"
+              style={{ alignItems: "center" }}
+            >
+              <div className="card-left">
+                <span className="card-code">
+                  <i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem" }}></i>
+                  {pdf.title}
+                </span>
+                {pdf.year && (
+                  <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{pdf.year}</span>
+                )}
+              </div>
+              <i className="bx bx-chevron-right card-chevron" style={{ fontSize: "1.2rem" }}></i>
+            </a>
             ))}
           </div>
-        </>
       )}
 
       <h3 className="section-headline" style={{ marginTop: "1rem" }}>Mock Test</h3>

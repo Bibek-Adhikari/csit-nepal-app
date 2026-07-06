@@ -11,30 +11,59 @@ export async function GET() {
       .select("*")
       .order("created_at", { ascending: false });
 
+    if (dbError) {
+      console.error("entrance_pdfs DB query error:", dbError);
+    }
+
     const dbFileNames = new Set((dbPdfs ?? []).map((p) => p.file_name));
 
-    const { data: storageFiles, error: storageError } = await supabase.storage
-      .from("entrance")
-      .list("", { limit: 100, sortBy: { column: "name", order: "desc" } });
+    const supabaseAdmin = getSupabaseServer({ requireServiceRole: true });
 
-    const storagePdfs = (storageError || !storageFiles ? [] : storageFiles)
-      .filter((f) => !dbFileNames.has(f.name) && f.name.endsWith(".pdf"))
-      .map((f) => ({
-        id: f.name,
-        title: f.name.replace(/\.pdf$/i, "").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase()),
-        file_name: f.name,
-        file_path: f.name,
-        file_size: f.metadata?.size ?? null,
-        mime_type: "application/pdf",
-        public_url: supabase.storage.from("entrance").getPublicUrl(f.name).data.publicUrl,
-        year: null,
-        created_at: f.created_at ?? new Date().toISOString(),
-      }));
+    const bucketUrl = `${supabaseAdmin.storage.from("entrance").getPublicUrl("").data.publicUrl}`.replace(/\/+$/, "");
+    const inlineSuffix = "?content-disposition=inline";
 
-    const pdfs = [...(dbPdfs ?? []), ...storagePdfs];
+    async function listPrefix(prefix: string) {
+      const { data: files, error } = await supabaseAdmin.storage
+        .from("entrance")
+        .list(prefix, { limit: 100, sortBy: { column: "name", order: "desc" } });
+      if (error || !files) {
+        console.error(`entrance storage list error (prefix="${prefix}"):`, error);
+        return [];
+      }
+      return files
+        .filter((f) => f.metadata?.size && f.name.endsWith(".pdf"))
+        .map((f) => {
+          const fullPath = prefix ? `${prefix}/${f.name}` : f.name;
+          return {
+            id: fullPath,
+            title: f.name.replace(/\.pdf$/i, "").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase()),
+            file_name: fullPath,
+            file_path: fullPath,
+            file_size: f.metadata!.size,
+            mime_type: "application/pdf",
+            public_url: `${bucketUrl}/${fullPath.split("/").map(encodeURIComponent).join("/")}${inlineSuffix}`,
+            year: null,
+            created_at: f.created_at ?? new Date().toISOString(),
+          };
+        })
+        .filter((p) => !dbFileNames.has(p.file_name));
+    }
+
+    const [rootFiles, folderFiles] = await Promise.all([
+      listPrefix(""),
+      listPrefix("entrance_pdfs"),
+    ]);
+
+    const storagePdfs = [...rootFiles, ...folderFiles];
+
+    const pdfs = [...(dbPdfs ?? []), ...storagePdfs].map((p) => ({
+      ...p,
+      public_url: p.public_url.includes("?") ? p.public_url : `${p.public_url}${inlineSuffix}`,
+    }));
 
     return NextResponse.json({ pdfs });
-  } catch {
+  } catch (error) {
+    console.error("entrance PDFs GET error:", error);
     return NextResponse.json({ error: "Failed to fetch PDFs" }, { status: 500 });
   }
 }

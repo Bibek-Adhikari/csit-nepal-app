@@ -18,7 +18,7 @@ export async function POST() {
     if (error) throw error;
     buckets.push(...(data.map((b) => ({ name: b.name, id: b.id }))));
 
-    const required = ["notes", "lectures"];
+    const required = ["notes", "lectures", "entrance"];
     const created: string[] = [];
 
     for (const name of required) {

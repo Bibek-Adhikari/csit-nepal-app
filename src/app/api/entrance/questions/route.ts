@@ -21,12 +21,14 @@ export async function GET(req: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("entrance_questions query error:", error.message);
+      return NextResponse.json({ questions: [] });
     }
 
     return NextResponse.json({ questions: data ?? [] });
-  } catch {
-    return NextResponse.json({ error: "Failed to fetch questions" }, { status: 500 });
+  } catch (error) {
+    console.error("entrance_questions GET error:", error);
+    return NextResponse.json({ questions: [] });
   }
 }
 
