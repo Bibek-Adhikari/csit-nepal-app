@@ -93,27 +93,34 @@ export function NotificationPanel({ open, onClose }: NotificationPanelProps) {
   }, []);
 
   useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
     fetch("/api/lectures")
       .then((r) => r.json())
       .then((data) => {
+        if (cancelled) return;
         if (data?.videos?.length) {
           const v = data.videos[0];
-          setNotifications((prev) => [
-            {
-              id: "latest-video",
-              icon: "bxl-youtube",
-              title: v.title,
-              description: v.subject ? `${v.subject} · ${v.semester ?? ""}` : "New lecture video uploaded",
-              time: v.meta ?? "New",
-              url: `/watch/${v.id}`,
-              thumbnail: v.thumbnail,
-            },
-            ...prev,
-          ]);
+          setNotifications((prev) => {
+            if (prev.some((n) => n.id === "latest-video")) return prev;
+            return [
+              {
+                id: "latest-video",
+                icon: "bxl-youtube",
+                title: v.title,
+                description: v.subject ? `${v.subject} · ${v.semester ?? ""}` : "New lecture video uploaded",
+                time: v.meta ?? "New",
+                url: `/watch/${v.id}`,
+                thumbnail: v.thumbnail,
+              },
+              ...prev,
+            ];
+          });
         }
       })
       .catch(() => {});
-  }, []);
+    return () => { cancelled = true; };
+  }, [open]);
 
   return (
     <>

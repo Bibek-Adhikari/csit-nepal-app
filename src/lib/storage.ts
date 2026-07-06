@@ -11,7 +11,7 @@ export async function ensureStorageBuckets() {
     }
 
     const existingBucketNames = buckets.map((b: { name: string }) => b.name);
-    const requiredBuckets = ['notes', 'lectures'];
+    const requiredBuckets = ['notes', 'lectures', 'entrance'];
 
     for (const bucketName of requiredBuckets) {
       if (!existingBucketNames.includes(bucketName)) {

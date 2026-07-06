@@ -8,6 +8,16 @@ export interface Database {
         Insert: NoteInsert;
         Update: NoteUpdate;
       };
+      entrance_questions: {
+        Row: EntranceQuestionRow;
+        Insert: EntranceQuestionInsert;
+        Update: EntranceQuestionUpdate;
+      };
+      entrance_pdfs: {
+        Row: EntrancePDFRow;
+        Insert: EntrancePDFInsert;
+        Update: EntrancePDFUpdate;
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -41,3 +51,41 @@ export type NoteInsert = Omit<NoteRow, "id" | "created_at" | "updated_at"> & {
 };
 
 export type NoteUpdate = Partial<NoteInsert>;
+
+export type EntranceTopicSlug = "mathematics" | "english" | "computer-gk";
+
+export interface EntranceQuestionRow {
+  id: string;
+  topic: EntranceTopicSlug;
+  question: string;
+  options: string[];
+  correct_answer: string;
+  explanation: string | null;
+  created_at: string;
+}
+
+export type EntranceQuestionInsert = Omit<EntranceQuestionRow, "id" | "created_at"> & {
+  id?: string;
+  created_at?: string;
+};
+
+export type EntranceQuestionUpdate = Partial<EntranceQuestionInsert>;
+
+export interface EntrancePDFRow {
+  id: string;
+  title: string;
+  file_name: string;
+  file_path: string;
+  file_size: number | null;
+  mime_type: string;
+  public_url: string;
+  year: string | null;
+  created_at: string;
+}
+
+export type EntrancePDFInsert = Omit<EntrancePDFRow, "id" | "created_at"> & {
+  id?: string;
+  created_at?: string;
+};
+
+export type EntrancePDFUpdate = Partial<EntrancePDFInsert>;
