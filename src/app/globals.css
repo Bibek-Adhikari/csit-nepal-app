@@ -14,6 +14,16 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --content-max: 1180px;
 
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --slate-200: #e2e8f0;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+
   /* Tailwind CSS variables bridging */
   --background: var(--bg-app);
   --foreground: var(--text-main);
@@ -36,6 +46,16 @@ html.dark {
   --text-muted: #94a3b8;
   --border: #1e293b;
 
+  --success: #4ade80;
+  --success-light: rgba(74, 222, 128, 0.15);
+  --danger: #f87171;
+  --danger-light: rgba(248, 113, 113, 0.15);
+  --warning: #fbbf24;
+  --warning-light: rgba(251, 191, 36, 0.15);
+  --slate-200: #1e293b;
+  --slate-400: #475569;
+  --slate-500: #94a3b8;
+
   --background: var(--bg-app);
   --foreground: var(--text-main);
   --surface: var(--bg-card);
@@ -56,6 +76,12 @@ html.dark {
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-slate-200: var(--slate-200);
+  --color-slate-400: var(--slate-400);
+  --color-slate-500: var(--slate-500);
   --shadow-soft: var(--shadow-soft);
   --shadow-card: var(--shadow-card);
   --font-sans: var(--font-geist-sans);

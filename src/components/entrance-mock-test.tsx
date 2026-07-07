@@ -139,8 +139,7 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
   const q = questions[index];
   const fmtTime = `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60).padStart(2, "0")}`;
   const progressPct = questions.length ? ((index + 1) / questions.length) * 100 : 0;
-  const timerColor = timeLeft < 60 ? "#dc2626" : timeLeft < 300 ? "#d97706" : "var(--primary)";
-  const timerBg = timeLeft < 60 ? "#fee2e2" : timeLeft < 300 ? "#fef3c7" : "var(--primary-light)";
+  const timerColor = timeLeft < 60 ? "var(--danger)" : timeLeft < 300 ? "var(--warning, #d97706)" : "var(--primary)";
 
   return (
     <>
@@ -154,7 +153,7 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
             <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{answeredCount}/{questions.length}</span>
             <span style={{
               fontFamily: "'SF Mono','Fira Code',monospace", fontWeight: 700, fontSize: "0.88rem",
-              color: timerColor, background: timerBg, padding: "0.2rem 0.6rem", borderRadius: 8,
+              color: timerColor, background: "var(--primary-light)", padding: "0.2rem 0.6rem", borderRadius: 8,
             }}>
               <i className="bx bx-time" style={{ marginRight: "0.2rem", verticalAlign: "middle" }}></i>
               {fmtTime}
@@ -179,7 +178,7 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
               backdropFilter: "blur(12px)", overflow: "hidden",
             }}>
               <div style={{ height: 4, background: "var(--slate-200)" }}>
-                <div style={{ height: "100%", width: `${progressPct}%`, background: "linear-gradient(90deg, var(--primary), #818cf8)", transition: "width 0.3s" }} />
+                <div style={{ height: "100%", width: `${progressPct}%`, background: "var(--primary)", transition: "width 0.3s" }} />
               </div>
               <div ref={dotsRef} style={{ display: "flex", gap: "5px", padding: "0.7rem 0.85rem", overflowX: "auto", scrollbarWidth: "none" }}>
                 {questions.map((_, i) => {
@@ -191,9 +190,9 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
                       style={{
                         width: 28, height: 28, borderRadius: "50%", border: "none", flexShrink: 0,
                         fontSize: "0.7rem", fontWeight: 700, cursor: "pointer", transition: "all 0.15s",
-                        background: isCurrent ? "var(--primary)" : isAns ? "#dcfce7" : "var(--slate-200)",
-                        color: isCurrent ? "white" : isAns ? "#16a34a" : "var(--slate-500)",
-                        boxShadow: isCurrent ? "0 0 0 3px rgba(37,99,235,0.2)" : "none",
+                    background: isCurrent ? "var(--primary)" : isAns ? "var(--success-light)" : "var(--slate-200)",
+                    color: isCurrent ? "white" : isAns ? "var(--success)" : "var(--slate-500)",
+                    boxShadow: isCurrent ? "0 0 0 3px rgba(37,99,235,0.2)" : "none",
                         transform: isCurrent ? "scale(1.1)" : "none",
                       }}>
                       {i + 1}
@@ -270,7 +269,7 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
                   display: "flex", alignItems: "center", gap: "0.3rem",
                   padding: "0.75rem 1.5rem", borderRadius: 16, border: "none",
                   background: "var(--success)", color: "white", fontWeight: 700, fontSize: "0.9rem",
-                  cursor: "pointer", boxShadow: "0 8px 20px rgba(22,163,74,0.25)",
+                  cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
                   transition: "all 0.15s",
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-1px)"}
@@ -297,7 +296,7 @@ export function EntranceMockTest({ onBack }: { onBack: () => void }) {
                 style={{
                   display: "flex", alignItems: "center", gap: "0.3rem",
                   padding: "0.75rem 1.25rem", borderRadius: 16, border: "none",
-                  background: "var(--warning-light)", color: "#d97706", fontWeight: 700, fontSize: "0.9rem",
+                  background: "var(--warning-light)", color: "var(--warning, #d97706)", fontWeight: 700, fontSize: "0.9rem",
                   cursor: "pointer", transition: "all 0.15s",
                 }}
               >
@@ -353,12 +352,12 @@ function ResultsScreen({
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.5rem", textAlign: "center" }}>
           {[
-            { num: correctCount, label: "Correct", color: "var(--success)", bg: "#dcfce7" },
-            { num: wrongCount, label: "Wrong", color: "var(--danger)", bg: "#fee2e2" },
-            { num: `0:${timeStr}`, label: "Time", color: "var(--text-main)", bg: "var(--slate-100)" },
-            { num: total, label: "Total", color: "var(--primary)", bg: "var(--primary-light)" },
+            { num: correctCount, label: "Correct", color: "var(--success)", border: "2px solid var(--success)" },
+            { num: wrongCount, label: "Wrong", color: "var(--danger)", border: "2px solid var(--danger)" },
+            { num: `0:${timeStr}`, label: "Time", color: "var(--text-main)", border: "2px solid var(--border)" },
+            { num: total, label: "Total", color: "var(--primary)", border: "2px solid var(--primary)" },
           ].map((box, i) => (
-            <div key={i} style={{ borderRadius: 12, padding: "0.75rem 0.25rem", background: box.bg }}>
+            <div key={i} style={{ borderRadius: 12, padding: "0.75rem 0.25rem", background: "var(--bg-card)", border: box.border }}>
               <div style={{ fontSize: "1.2rem", fontWeight: 800, color: box.color, lineHeight: 1.2 }}>{box.num}</div>
               <div style={{ fontSize: "0.65rem", color: "var(--text-muted)", marginTop: "0.2rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>{box.label}</div>
             </div>
@@ -381,7 +380,7 @@ function ResultsScreen({
                 </div>
                 <div style={{ height: 6, background: "var(--slate-200)", borderRadius: 999, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${pct}%`, borderRadius: 999, transition: "width 0.5s ease",
-                    background: pct >= 60 ? "var(--success)" : pct >= 40 ? "#d97706" : "var(--danger)" }} />
+                    background: pct >= 60 ? "var(--success)" : pct >= 40 ? "var(--warning, #d97706)" : "var(--danger)" }} />
                 </div>
               </div>
             );
@@ -416,11 +415,11 @@ function ResultsScreen({
                 marginTop: "0.6rem", borderLeft: `4px solid ${borderColor}`,
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ background: "var(--slate-100)", padding: "0.2rem 0.6rem", borderRadius: 6, fontSize: "0.72rem", fontWeight: 700 }}>
+                  <span style={{ background: "var(--slate-200)", padding: "0.2rem 0.6rem", borderRadius: 6, fontSize: "0.72rem", fontWeight: 700 }}>
                     Q{i + 1}
                   </span>
                   <span style={{ fontSize: "0.72rem", fontWeight: 700, padding: "0.15rem 0.5rem", borderRadius: 6,
-                    background: isCorrect ? "#dcfce7" : isUnanswered ? "var(--slate-100)" : "#fee2e2",
+                    background: isCorrect ? "var(--success-light)" : isUnanswered ? "var(--slate-200)" : "var(--danger-light)",
                     color: isCorrect ? "var(--success)" : isUnanswered ? "var(--slate-500)" : "var(--danger)" }}>
                     {isCorrect ? "Correct" : isUnanswered ? "Skipped" : "Wrong"}
                   </span>
@@ -433,13 +432,13 @@ function ResultsScreen({
                     const isSelected = oi === userChoice;
                     const isRightAnswer = opt === q.correct_answer;
                     let bg = "transparent";
-                    if (isRightAnswer) bg = "#dcfce7";
-                    else if (isSelected && !isCorrect) bg = "#fee2e2";
+                    if (isRightAnswer) bg = "var(--success-light)";
+                    else if (isSelected && !isCorrect) bg = "var(--danger-light)";
                     return (
                       <div key={oi} style={{
                         display: "flex", alignItems: "center", gap: "0.4rem",
                         padding: "0.45rem 0.65rem", borderRadius: 8, fontSize: "0.82rem",
-                        background: bg, border: `1px solid ${isSelected ? (isCorrect ? "#22c55e" : "#ef4444") : "var(--border)"}`,
+                        background: bg, border: `1px solid ${isSelected ? (isCorrect ? "var(--success)" : "var(--danger)") : "var(--border)"}`,
                       }}>
                         <span style={{
                           width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
@@ -461,7 +460,7 @@ function ResultsScreen({
                 {q.explanation && (
                   <div style={{
                     fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.6,
-                    background: "var(--slate-50)", padding: "0.65rem", borderRadius: 8, marginTop: "0.15rem",
+                    background: "var(--primary-light)", padding: "0.65rem", borderRadius: 8, marginTop: "0.15rem",
                     border: "1px solid var(--border)",
                   }}>
                     <i className="bx bx-info-circle" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>

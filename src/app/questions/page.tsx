@@ -37,13 +37,13 @@ export default function QuestionsPage() {
           <i className="bx bx-book-open" style={{ fontSize: "1.6rem", color: "var(--primary)" }}></i>
           <h2 style={{ margin: 0 }}>Questions</h2>
         </div>
-        <p>BCA entrance exam questions and study materials.</p>
+      
       </section>
 
       {loading ? (
         <p style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem 0" }}>Loading study materials...</p>
       ) : error ? (
-        <div style={{ padding: "0.75rem 1rem", margin: "0 1rem", background: "#fee2e2", color: "#b91c1c", borderRadius: 8, fontSize: "0.85rem" }}>
+        <div style={{ padding: "0.75rem 1rem", margin: "0 1rem", background: "var(--danger-light)", color: "var(--danger)", borderRadius: 8, fontSize: "0.85rem" }}>
           <i className="bx bx-error-circle" style={{ marginRight: "0.35rem" }}></i>
           Error loading data: {error}. Check console for details.
         </div>

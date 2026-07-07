@@ -47,6 +47,7 @@ export default function MockTestQuizPage() {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [submitted, setSubmitted] = useState(false);
+  const [showAnswers, setShowAnswers] = useState(false);
   const [startTime] = useState(Date.now());
   const [endTime, setEndTime] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -271,12 +272,89 @@ export default function MockTestQuizPage() {
           )}
 
           <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button className="upload-btn upload-btn-secondary" onClick={() => setShowAnswers(!showAnswers)}
+              style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}>
+              <i className={`bx ${showAnswers ? "bx-hide" : "bx-show"}`}></i>
+              {showAnswers ? "Hide Answers" : "View Answers"}
+            </button>
             <button className="upload-btn" onClick={() => router.push("/mock-test")}
               style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}>
               <i className="bx bx-refresh"></i>
-              New Test
+              Retake
             </button>
           </div>
+
+          {showAnswers && (
+            <div style={{ marginTop: "0.5rem" }}>
+              {questions.map((q_, i) => {
+                const userChoice = answers[i];
+                const userAnswer = userChoice !== undefined ? q_.options[userChoice] : undefined;
+                const isCorrect = userAnswer === q_.correct_answer;
+                const isUnanswered = userChoice === undefined;
+                const borderColor = isCorrect ? "var(--success)" : isUnanswered ? "var(--slate-400)" : "var(--danger)";
+                return (
+                  <div key={q_.id} className="app-card" style={{
+                    flexDirection: "column", alignItems: "stretch", gap: "0.6rem", padding: "1rem",
+                    marginTop: "0.6rem", borderLeft: `4px solid ${borderColor}`,
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ background: "var(--slate-200)", padding: "0.2rem 0.6rem", borderRadius: 6, fontSize: "0.72rem", fontWeight: 700 }}>
+                        Q{i + 1}
+                      </span>
+                      <span style={{ fontSize: "0.72rem", fontWeight: 700, padding: "0.15rem 0.5rem", borderRadius: 6,
+                        background: isCorrect ? "var(--success-light)" : isUnanswered ? "var(--slate-200)" : "var(--danger-light)",
+                        color: isCorrect ? "var(--success)" : isUnanswered ? "var(--slate-500)" : "var(--danger)" }}>
+                        {isCorrect ? "Correct" : isUnanswered ? "Skipped" : "Wrong"}
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: "0.85rem", fontWeight: 600, lineHeight: 1.5 }}>{q_.question}</div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                      {q_.options.map((opt, oi) => {
+                        const isSelected = oi === userChoice;
+                        const isRightAnswer = opt === q_.correct_answer;
+                        let bg = "transparent";
+                        if (isRightAnswer) bg = "var(--success-light)";
+                        else if (isSelected && !isCorrect) bg = "var(--danger-light)";
+                        return (
+                          <div key={oi} style={{
+                            display: "flex", alignItems: "center", gap: "0.4rem",
+                            padding: "0.45rem 0.65rem", borderRadius: 8, fontSize: "0.82rem",
+                            background: bg, border: `1px solid ${isSelected ? (isCorrect ? "var(--success)" : "var(--danger)") : "var(--border)"}`,
+                          }}>
+                            <span style={{
+                              width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                              fontSize: "0.68rem", fontWeight: 700,
+                              background: isRightAnswer ? "var(--success)" : isSelected ? "var(--danger)" : "var(--slate-200)",
+                              color: isRightAnswer || isSelected ? "white" : "var(--slate-500)",
+                            }}>
+                              {LETTERS[oi]}
+                            </span>
+                            <span style={{ flex: 1 }}>{opt}</span>
+                            {isRightAnswer && <i className="bx bx-check" style={{ color: "var(--success)", fontSize: "1rem" }}></i>}
+                            {isSelected && !isCorrect && <i className="bx bx-x" style={{ color: "var(--danger)", fontSize: "1rem" }}></i>}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {q_.explanation && (
+                      <div style={{
+                        fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.6,
+                        background: "var(--primary-light)", padding: "0.65rem", borderRadius: 8, marginTop: "0.15rem",
+                        border: "1px solid var(--border)",
+                      }}>
+                        <i className="bx bx-info-circle" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>
+                        {q_.explanation}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </>
     );
@@ -306,8 +384,8 @@ export default function MockTestQuizPage() {
           background: "var(--bg-card)", borderRadius: 12, border: "1px solid var(--border)",
           backdropFilter: "blur(12px)", overflow: "hidden",
         }}>
-          <div style={{ height: 4, background: "var(--slate-200)" }}>
-            <div style={{ height: "100%", width: `${progressPct}%`, background: "linear-gradient(90deg, var(--primary), #818cf8)", transition: "width 0.3s" }} />
+            <div style={{ height: 4, background: "var(--slate-200)" }}>
+              <div style={{ height: "100%", width: `${progressPct}%`, background: "var(--primary)", transition: "width 0.3s" }} />
           </div>
           <div ref={dotsRef} style={{ display: "flex", gap: "5px", padding: "0.7rem 0.85rem", overflowX: "auto", scrollbarWidth: "none" }}>
             {questions.map((_, i) => {
@@ -319,8 +397,8 @@ export default function MockTestQuizPage() {
                   style={{
                     width: 28, height: 28, borderRadius: "50%", border: "none", flexShrink: 0,
                     fontSize: "0.7rem", fontWeight: 700, cursor: "pointer", transition: "all 0.15s",
-                    background: isCurrent ? "var(--primary)" : isAns ? "#dcfce7" : "var(--slate-200)",
-                    color: isCurrent ? "white" : isAns ? "#16a34a" : "var(--slate-500)",
+                    background: isCurrent ? "var(--primary)" : isAns ? "var(--success-light)" : "var(--slate-200)",
+                    color: isCurrent ? "white" : isAns ? "var(--success)" : "var(--slate-500)",
                     boxShadow: isCurrent ? "0 0 0 3px rgba(37,99,235,0.2)" : "none",
                     transform: isCurrent ? "scale(1.1)" : "none",
                   }}>
@@ -398,7 +476,7 @@ export default function MockTestQuizPage() {
               display: "flex", alignItems: "center", gap: "0.3rem",
               padding: "0.75rem 1.5rem", borderRadius: 16, border: "none",
               background: "var(--success)", color: "white", fontWeight: 700, fontSize: "0.9rem",
-              cursor: "pointer", boxShadow: "0 8px 20px rgba(22,163,74,0.25)",
+              cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
               transition: "all 0.15s",
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-1px)"}
@@ -425,7 +503,7 @@ export default function MockTestQuizPage() {
             style={{
               display: "flex", alignItems: "center", gap: "0.3rem",
               padding: "0.75rem 1.25rem", borderRadius: 16, border: "none",
-              background: "var(--warning-light)", color: "#d97706", fontWeight: 700, fontSize: "0.9rem",
+              background: "var(--warning-light)", color: "var(--warning, #d97706)", fontWeight: 700, fontSize: "0.9rem",
               cursor: "pointer", transition: "all 0.15s",
             }}
           >
