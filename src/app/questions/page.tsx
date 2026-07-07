@@ -41,11 +41,26 @@ export default function QuestionsPage() {
       </section>
 
       {loading ? (
-        <p style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem 0" }}>Loading study materials...</p>
+        <div className="subject-stack">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="app-card" style={{ alignItems: "center" }}>
+              <div className="card-left" style={{ flex: 1 }}>
+                <div className="skeleton" style={{ height: 16, width: "70%", marginBottom: "0.35rem" }} />
+                <div className="skeleton" style={{ height: 12, width: "45%" }} />
+              </div>
+              <div className="skeleton" style={{ width: 36, height: 36, borderRadius: 10, flexShrink: 0 }} />
+            </div>
+          ))}
+        </div>
       ) : error ? (
-        <div style={{ padding: "0.75rem 1rem", margin: "0 1rem", background: "var(--danger-light)", color: "var(--danger)", borderRadius: 8, fontSize: "0.85rem" }}>
-          <i className="bx bx-error-circle" style={{ marginRight: "0.35rem" }}></i>
-          Error loading data: {error}. Check console for details.
+        <div style={{ padding: "0.75rem 1rem", margin: "0 1rem", background: "var(--danger-light)", color: "var(--danger)", borderRadius: 8, fontSize: "0.85rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span><i className="bx bx-error-circle" style={{ marginRight: "0.35rem" }}></i> Error loading data: {error}</span>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ padding: "0.35rem 0.75rem", borderRadius: 6, border: "none", background: "var(--danger)", color: "#fff", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", flexShrink: 0 }}
+          >
+            Retry
+          </button>
         </div>
       ) : pdfs.length === 0 ? (
         <p style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem 0" }}>No study materials yet.</p>

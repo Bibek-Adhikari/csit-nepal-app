@@ -319,6 +319,125 @@ html.dark .toast--online {
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+/* ─── Skeleton shimmer ─────────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, rgba(226,232,240,0.5) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+html.dark .skeleton {
+  background: linear-gradient(90deg, rgba(51,65,85,0.5) 25%, rgba(71,85,105,0.3) 50%, rgba(51,65,85,0.5) 75%);
+  background-size: 200% 100%;
+}
+
+/* ─── Page entrance animations ─────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in { animation: fadeInUp 0.35s ease both; }
+.animate-in-delay-1 { animation-delay: 0.05s; }
+.animate-in-delay-2 { animation-delay: 0.1s; }
+.animate-in-delay-3 { animation-delay: 0.15s; }
+
+/* ─── Route progress bar ───────────────────────────────── */
+
+.route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
+  z-index: 10000;
+  transition: width 0.3s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ─── Nav active indicator ─────────────────────────────── */
+
+@keyframes nav-indicator-in {
+  from { width: 0; opacity: 0; }
+  to { width: 24px; opacity: 1; }
+}
+
+/* ─── Install banner ───────────────────────────────────── */
+
+.install-banner {
+  position: fixed;
+  bottom: calc(70px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 1rem), var(--content-max));
+  padding: 0.85rem 1rem;
+  background: #1e293b;
+  color: #fff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 999;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.25);
+  animation: toast-in 0.3s ease;
+}
+
+.install-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.install-banner-text strong {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.15rem;
+}
+
+.install-banner-text span {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.install-banner button {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.install-banner .install-dismiss {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+html.dark .install-banner {
+  background: #0f172a;
+  border: 1px solid rgba(51,65,85,0.5);
+}
+
 html.dark .sw-update-toast {
   background: #0f172a;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -403,6 +522,7 @@ html.dark .bottom-sheet {
   padding: 1rem;
   border-radius: 24px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  animation: fadeInUp 0.35s ease both;
 }
 
 .welcome-hero h2 {
@@ -483,6 +603,7 @@ html.dark .stat-bubble {
   text-transform: uppercase;
   color: var(--text-muted);
   font-weight: 800;
+  animation: fadeInUp 0.35s ease 0.05s both;
 }
 
 .semester-scroller {
@@ -529,6 +650,7 @@ html.dark .pill-btn {
   grid-template-columns: 1fr;
   gap: 0.75rem;
   padding: 0 1rem;
+  animation: fadeInUp 0.35s ease 0.1s both;
 }
 
 .app-card {
@@ -539,7 +661,7 @@ html.dark .pill-btn {
   padding: 1rem;
   border-radius: 18px;
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
-  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
   min-height: 78px;
   cursor: pointer;
 }
@@ -856,14 +978,34 @@ html.dark .bottom-nav {
   font-weight: 700;
   cursor: pointer;
   padding: 0.1rem 0.15rem;
+  position: relative;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-item i {
   font-size: 1.4rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-item:active i {
+  transform: scale(0.88);
 }
 
 .nav-item.active {
   color: var(--primary);
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  top: -0.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--primary);
+  animation: nav-indicator-in 0.25s ease;
 }
 
 .bottom-sheet-backdrop {

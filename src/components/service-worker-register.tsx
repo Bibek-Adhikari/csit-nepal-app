@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 declare global {
   interface Window {
@@ -8,8 +8,18 @@ declare global {
   }
 }
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
 export function ServiceWorkerRegister() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstall, setShowInstall] = useState(false);
+  const [installDismissed, setInstallDismissed] = useState(false);
+  const autoHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
@@ -54,10 +64,6 @@ export function ServiceWorkerRegister() {
       }
     });
 
-    if ("Notification" in window && Notification.permission === "default") {
-      Notification.requestPermission();
-    }
-
     const handleControllerChange = () => {
       if (updateAvailable) {
         window.location.reload();
@@ -73,10 +79,20 @@ export function ServiceWorkerRegister() {
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
+      const prompt = e as BeforeInstallPromptEvent;
+      setDeferredPrompt(prompt);
+      try {
+        const dismissed = localStorage.getItem("bca-nepal-install-dismissed");
+        if (!dismissed) setShowInstall(true);
+      } catch {
+        setShowInstall(true);
+      }
       window.dataLayer?.push({ event: "pwa_beforeinstallprompt" });
     };
 
     const handleAppInstalled = () => {
+      setDeferredPrompt(null);
+      setShowInstall(false);
       window.dataLayer?.push({ event: "pwa_installed" });
     };
 
@@ -107,13 +123,62 @@ export function ServiceWorkerRegister() {
     };
   }, []);
 
-  if (!updateAvailable) return null;
+  useEffect(() => {
+    if (updateAvailable && !dismissed) {
+      autoHideTimer.current = setTimeout(() => setDismissed(true), 12000);
+      return () => {
+        if (autoHideTimer.current) clearTimeout(autoHideTimer.current);
+      };
+    }
+  }, [updateAvailable, dismissed]);
+
+  const handleInstall = useCallback(async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      setShowInstall(false);
+    }
+    setDeferredPrompt(null);
+  }, [deferredPrompt]);
+
+  const dismissInstall = useCallback(() => {
+    setShowInstall(false);
+    setInstallDismissed(true);
+    try {
+      localStorage.setItem("bca-nepal-install-dismissed", "1");
+    } catch {}
+  }, []);
 
   return (
-    <div className="sw-update-toast" role="alert">
-      <span>A new version is available.</span>
-      <button onClick={() => window.location.reload()}>Refresh</button>
-    </div>
+    <>
+      {updateAvailable && !dismissed && (
+        <div className="sw-update-toast" role="alert">
+          <span>A new version is available.</span>
+          <button onClick={() => window.location.reload()}>Refresh</button>
+          <button
+            onClick={() => setDismissed(true)}
+            aria-label="Dismiss"
+            style={{ padding: "0.25rem", borderRadius: 6, border: "none", background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: "0.9rem", cursor: "pointer", lineHeight: 1 }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {showInstall && !installDismissed && (
+        <div className="install-banner">
+          <div className="install-banner-text">
+            <strong>Install BCA Nepal</strong>
+            <span>Add to home screen for faster access</span>
+          </div>
+          <button onClick={handleInstall}>Install</button>
+          <button className="install-dismiss" onClick={dismissInstall} aria-label="Dismiss">
+            ×
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 

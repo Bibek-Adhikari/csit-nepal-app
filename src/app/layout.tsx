@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteNav } from "@/components/site-nav";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { OfflineBanner } from "@/components/offline-banner";
+import { RouteProgress } from "@/components/route-progress";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -104,6 +105,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="app-shell">
+            <RouteProgress />
             <AppHeader />
             <OfflineBanner />
             <main className="app-viewport">{children}</main>

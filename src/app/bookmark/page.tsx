@@ -62,8 +62,14 @@ export default function BookmarkPage() {
       </section>
 
       {loading ? (
-        <div className="empty-state">
-          <p>Loading bookmarks…</p>
+        <div style={{ padding: "0 1rem 1.5rem" }}>
+          {[1, 2, 3].map((i) => (
+            <div key={i} style={{ marginBottom: "1rem" }}>
+              <div className="skeleton" style={{ height: 14, width: 100, marginBottom: "0.5rem", borderRadius: 4 }} />
+              <div className="skeleton" style={{ height: 56, borderRadius: 14, marginBottom: "0.5rem" }} />
+              <div className="skeleton" style={{ height: 56, borderRadius: 14 }} />
+            </div>
+          ))}
         </div>
       ) : pdfs.length === 0 ? (
         <div className="empty-state">

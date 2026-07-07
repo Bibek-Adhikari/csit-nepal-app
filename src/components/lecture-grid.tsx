@@ -108,17 +108,47 @@ export function LectureGrid() {
 
   if (loading) {
     return (
-      <div className="app-card" style={{ justifyContent: "center", textAlign: "center", padding: "3rem 1rem" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>Loading lectures…</p>
-      </div>
+      <>
+        <div style={{ marginBottom: "1rem" }}>
+          <div className="skeleton" style={{ height: 44, borderRadius: 10, marginBottom: "0.75rem" }} />
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="skeleton" style={{ height: 32, width: 70, borderRadius: 999 }} />
+            ))}
+          </div>
+        </div>
+        <div className="lecture-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="lecture-card-wrap">
+              <div className="lecture-card">
+                <div className="skeleton" style={{ width: "100%", aspectRatio: "16/9", borderRadius: "12px 12px 0 0" }} />
+                <div className="lecture-body">
+                  <div style={{ display: "flex", gap: "0.35rem", marginBottom: "0.5rem" }}>
+                    <div className="skeleton" style={{ height: 18, width: 50, borderRadius: 999 }} />
+                    <div className="skeleton" style={{ height: 18, width: 40, borderRadius: 999 }} />
+                  </div>
+                  <div className="skeleton" style={{ height: 14, width: "90%", marginBottom: "0.35rem" }} />
+                  <div className="skeleton" style={{ height: 12, width: "60%" }} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
     );
   }
 
   return (
     <>
       {error && (
-        <div className="app-card" style={{ justifyContent: "center", textAlign: "center", marginBottom: "1rem" }}>
+        <div className="app-card" style={{ justifyContent: "center", textAlign: "center", marginBottom: "1rem", flexDirection: "column", gap: "0.5rem" }}>
           <p style={{ color: "var(--warning, #e67e22)", fontSize: "0.82rem" }}>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ padding: "0.4rem 1rem", borderRadius: 8, border: "1px solid var(--border)", background: "var(--card-bg)", color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 600, cursor: "pointer" }}
+          >
+            <i className="bx bx-refresh" style={{ marginRight: "0.25rem" }}></i> Retry
+          </button>
         </div>
       )}
 

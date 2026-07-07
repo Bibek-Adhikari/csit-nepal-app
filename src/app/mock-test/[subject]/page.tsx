@@ -162,11 +162,24 @@ export default function MockTestQuizPage() {
     return (
       <>
         <BackNav href="/mock-test" label="Mock Test" />
-        <div style={{ padding: "3rem 1rem", textAlign: "center" }}>
-          <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>
-            <i className="bx bx-loader bx-spin" style={{ color: "var(--primary)" }}></i>
+        <div style={{ padding: "1rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
+            <div className="skeleton" style={{ height: 14, width: 80 }} />
+            <div className="skeleton" style={{ height: 14, width: 60 }} />
           </div>
-          <p style={{ color: "var(--text-muted)" }}>Loading questions...</p>
+          <div className="skeleton" style={{ height: 12, width: "100%", marginBottom: "0.75rem" }} />
+          <div className="app-card" style={{ flexDirection: "column", alignItems: "stretch", gap: "0.75rem", padding: "1.25rem" }}>
+            <div className="skeleton" style={{ height: 16, width: "85%", marginBottom: "0.25rem" }} />
+            <div className="skeleton" style={{ height: 44, borderRadius: 10 }} />
+            <div className="skeleton" style={{ height: 44, borderRadius: 10 }} />
+            <div className="skeleton" style={{ height: 44, borderRadius: 10 }} />
+            <div className="skeleton" style={{ height: 44, borderRadius: 10 }} />
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: "0.35rem", marginTop: "1rem" }}>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="skeleton" style={{ width: 10, height: 10, borderRadius: "50%" }} />
+            ))}
+          </div>
         </div>
       </>
     );
@@ -178,9 +191,14 @@ export default function MockTestQuizPage() {
         <BackNav href="/mock-test" label="Mock Test" />
         <div style={{ padding: "2rem 1rem", textAlign: "center" }}>
           <p style={{ color: "var(--text-muted)" }}>No questions available.</p>
-          <button className="upload-btn" onClick={() => router.push("/mock-test")} style={{ marginTop: "1rem" }}>
-            Back to Config
-          </button>
+          <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center", marginTop: "1rem" }}>
+            <button className="upload-btn" onClick={() => window.location.reload()} style={{ padding: "0.5rem 1rem" }}>
+              <i className="bx bx-refresh" style={{ marginRight: "0.25rem" }}></i> Retry
+            </button>
+            <button className="upload-btn" onClick={() => router.push("/mock-test")} style={{ padding: "0.5rem 1rem" }}>
+              Back to Config
+            </button>
+          </div>
         </div>
       </>
     );
