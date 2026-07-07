@@ -1,8 +1,8 @@
-const CACHE = "bca-nepal-v8";
-const STATIC_CACHE = "bca-nepal-static-v8";
-const API_CACHE = "bca-nepal-api-v8";
-const PDF_CACHE = "bca-nepal-pdf-v8";
-const LECTURE_CACHE = "bca-nepal-lecture-v8";
+const CACHE = "bca-nepal-v9";
+const STATIC_CACHE = "bca-nepal-static-v9";
+const API_CACHE = "bca-nepal-api-v9";
+const PDF_CACHE = "bca-nepal-pdf-v9";
+const LECTURE_CACHE = "bca-nepal-lecture-v9";
 
 const PRECACHE_URLS = [
   "/",
@@ -16,6 +16,9 @@ const PRECACHE_URLS = [
   "/privacy-policy",
   "/terms-and-conditions",
   "/view-pdf",
+  "/subjects/entrance",
+  "/questions",
+  "/mock-test",
   "/offline",
   "/offline.html",
   "/manifest.json",
@@ -117,6 +120,10 @@ function isViewPdf(url) {
   return url.pathname === "/view-pdf";
 }
 
+function isPdfjsWorker(url) {
+  return url.hostname === "unpkg.com" && url.pathname.includes("pdfjs-dist");
+}
+
 // ─── Fetch Strategy ──────────────────────────────────────
 
 self.addEventListener("fetch", (event) => {
@@ -184,6 +191,12 @@ self.addEventListener("fetch", (event) => {
 
   // Static assets (JS, CSS, images): cache-first
   if (isStatic(url)) {
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    return;
+  }
+
+  // PDF.js worker from CDN: cache-first (needed for offline PDF viewing)
+  if (isPdfjsWorker(url)) {
     event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
     return;
   }
