@@ -56,6 +56,12 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-intro-to-computer", title: "Lab 1: Introduction to Computer and OS", summary: "Hands-on with computer components and operating system basics.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-ms-office", title: "Lab 2: MS Office Applications", summary: "Practical exercises in Word, Excel, and PowerPoint.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-database-sql", title: "Lab 3: Database and SQL Basics", summary: "Creating databases and writing basic SQL queries.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-networking", title: "Lab 4: Networking Fundamentals", summary: "Network setup, IP configuration, and troubleshooting.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 102",
@@ -102,6 +108,13 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-basics-io", title: "Lab 1: C Basics and I/O", summary: "Programs using data types, operators, and input/output.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-control-structures", title: "Lab 2: Control Structures", summary: "Programs using if-else, switch, and loops.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-functions-arrays", title: "Lab 3: Functions and Arrays", summary: "Programs using functions, arrays, and string manipulation.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-pointers-structures", title: "Lab 4: Pointers and Structures", summary: "Programs using pointers, dynamic memory, and structures.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-5-file-handling", title: "Lab 5: File Handling", summary: "Programs for file read/write operations and random access.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 103",
@@ -141,6 +154,12 @@ export const semester1: Semester = {
           summary: "Asynchronous and synchronous counters, ring counters, modulus counters, and shift registers.",
           notes: { pdf: [], handwritten: [] },
         },
+      ],
+      labReports: [
+        { slug: "lab-1-number-systems", title: "Lab 1: Number Systems and Codes", summary: "Number conversions, BCD, Gray code, and error detection.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-boolean-algebra", title: "Lab 2: Boolean Algebra and K-Map", summary: "Simplification using Boolean algebra and Karnaugh maps.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-combinational-circuits", title: "Lab 3: Combinational Logic Circuits", summary: "Design of adders, mux, decoders, and encoders.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-sequential-circuits", title: "Lab 4: Sequential Logic Circuits", summary: "Flip-flops, counters, and register design.", notes: { pdf: [], handwritten: [] } },
       ],
     },
     {
@@ -188,6 +207,12 @@ export const semester1: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-logic-relations", title: "Lab 1: Logic and Relations", summary: "Truth tables, logical equivalences, and relation properties.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-matrices", title: "Lab 2: Matrices and Determinants", summary: "Matrix operations, determinants, and solving linear equations.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-analytical-geometry", title: "Lab 3: Analytical Geometry", summary: "Graphing conic sections and polar curves.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-vectors", title: "Lab 4: Vectors and Vector Spaces", summary: "Vector operations and linear independence problems.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 105",
@@ -233,6 +258,12 @@ export const semester1: Semester = {
           summary: "Professional ethics, plagiarism, intellectual property, and ethical decision making.",
           notes: { pdf: [], handwritten: [] },
         },
+      ],
+      labReports: [
+        { slug: "lab-1-written-communication", title: "Lab 1: Written Communication", summary: "Email drafting, memo writing, and professional letters.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-presentation-skills", title: "Lab 2: Presentation Skills", summary: "Preparing and delivering professional presentations.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-digital-communication", title: "Lab 3: Digital Communication Tools", summary: "Using digital collaboration tools and netiquette practice.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-ethics-case-study", title: "Lab 4: Ethics Case Study", summary: "Analyzing ethical dilemmas and writing reports.", notes: { pdf: [], handwritten: [] } },
       ],
     },
     {
@@ -296,6 +327,13 @@ export const semester1: Semester = {
           summary: "Comprehensive practical evaluation covering hardware assembly, networking, and troubleshooting.",
           notes: { pdf: [], handwritten: [] },
         },
+      ],
+      labReports: [
+        { slug: "lab-1-electronic-components", title: "Lab 1: Electronic Components Identification", summary: "Identifying and testing passive and active components.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-cable-connector", title: "Lab 2: Cabling and Connectors", summary: "Cable preparation, crimping, and connector testing.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-pc-assembly", title: "Lab 3: PC Assembly and Disassembly", summary: "Hands-on desktop assembly and component installation.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-network-setup", title: "Lab 4: Network Setup and Configuration", summary: "Router/switch configuration and IP addressing.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-5-troubleshooting", title: "Lab 5: Hardware Troubleshooting", summary: "Diagnosing and resolving hardware and software issues.", notes: { pdf: [], handwritten: [] } },
       ],
     },
   ],

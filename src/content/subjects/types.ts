@@ -26,6 +26,7 @@ export type Subject = {
   credits: string;
   overview: string;
   units: Unit[];
+  labReports: Unit[];
 };
 
 export type Semester = {

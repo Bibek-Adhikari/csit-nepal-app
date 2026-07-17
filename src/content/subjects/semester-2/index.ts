@@ -55,6 +55,12 @@ export const semester2: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-set-theory", title: "Lab 1: Set Operations and Venn Diagrams", summary: "Set operations, identities, and Venn diagram problems.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-logic-proofs", title: "Lab 2: Logic and Proof Techniques", summary: "Truth tables, logical equivalence, and proof methods.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-relations-functions", title: "Lab 3: Relations and Functions", summary: "Relation properties, equivalence classes, and function analysis.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-graph-theory", title: "Lab 4: Graph Theory", summary: "Graph traversals, spanning trees, and graph representations.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 152",
@@ -118,6 +124,12 @@ export const semester2: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-8085-programming", title: "Lab 1: 8085 Microprocessor Programming", summary: "Assembly language programs on 8085 simulator.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-8086-programming", title: "Lab 2: 8086 Assembly Programming", summary: "Assembly language programs using 8086 instruction set.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-assembly-string", title: "Lab 3: String and Display Operations", summary: "String manipulation and display programs in assembly.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-arithmetic-operations", title: "Lab 4: Arithmetic Operations", summary: "Multi-byte arithmetic and BCD operations in assembly.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 153",
@@ -175,6 +187,13 @@ export const semester2: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-java-basics", title: "Lab 1: Java Basics and I/O", summary: "Java programs using data types, operators, and control structures.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-classes-objects", title: "Lab 2: Classes and Objects", summary: "Creating classes, objects, constructors, and methods.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-inheritance-polymorphism", title: "Lab 3: Inheritance and Polymorphism", summary: "Implementing inheritance, interfaces, and method overriding.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-exception-collections", title: "Lab 4: Exceptions and Collections", summary: "Exception handling and using the Collections Framework.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-5-file-handling", title: "Lab 5: File Handling", summary: "File read/write operations and serialization in Java.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 154",
@@ -219,6 +238,12 @@ export const semester2: Semester = {
           summary: "Bisection method, Newton-Raphson method, Gauss elimination, linear programming, and simplex method.",
           notes: { pdf: [], handwritten: [] },
         },
+      ],
+      labReports: [
+        { slug: "lab-1-limits-continuity", title: "Lab 1: Limits and Continuity", summary: "Numerical and graphical limit evaluation problems.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-differentiation", title: "Lab 2: Differentiation", summary: "Computing derivatives using various rules and techniques.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-integration", title: "Lab 3: Integration", summary: "Definite and indefinite integral computations.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-numerical-methods", title: "Lab 4: Numerical Methods", summary: "Bisection, Newton-Raphson, and Gauss elimination implementations.", notes: { pdf: [], handwritten: [] } },
       ],
     },
     {
@@ -277,6 +302,12 @@ export const semester2: Semester = {
           notes: { pdf: [], handwritten: [] },
         },
       ],
+      labReports: [
+        { slug: "lab-1-user-research", title: "Lab 1: User Research and Personas", summary: "Creating user personas and journey maps.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-wireframing", title: "Lab 2: Wireframing", summary: "Designing low-fidelity wireframes for web and mobile.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-prototyping", title: "Lab 3: Prototyping", summary: "Building interactive prototypes using design tools.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-4-usability-testing", title: "Lab 4: Usability Testing", summary: "Conducting usability tests and analyzing results.", notes: { pdf: [], handwritten: [] } },
+      ],
     },
     {
       code: "BCA 156",
@@ -309,6 +340,11 @@ export const semester2: Semester = {
           summary: "Leadership styles, motivation theories, communication, team building, and conflict management.",
           notes: { pdf: [], handwritten: [] },
         },
+      ],
+      labReports: [
+        { slug: "lab-1-case-study", title: "Lab 1: Management Case Study", summary: "Analyzing real-world management scenarios.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-2-planning-exercise", title: "Lab 2: Planning Exercise", summary: "Developing business plans and strategies.", notes: { pdf: [], handwritten: [] } },
+        { slug: "lab-3-organizational-structure", title: "Lab 3: Organizational Structure Design", summary: "Designing organizational charts and structures.", notes: { pdf: [], handwritten: [] } },
       ],
     },
   ],

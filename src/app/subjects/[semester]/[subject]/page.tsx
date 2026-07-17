@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ semester:
   const data = getSubject(semester, subject);
   return {
     title: data?.title || "Subject",
-    description: `${data?.title || "Subject"} - ${data?.units.length || 0} units with notes and lectures.`,
+    description: `${data?.title || "Subject"} - ${data?.units.length || 0} units, ${data?.labReports.length || 0} lab reports with notes and lectures.`,
   };
 }
 
@@ -91,6 +91,25 @@ export default async function SubjectPage({
             <i className="bx bx-chevron-right card-chevron"></i>
           </Link>
         ))}
+        {subjectData.labReports.length > 0 && (
+          <Link
+            href={`/notes/${semester}/${subject}/lab-reports`}
+            className="app-card"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div className="card-left">
+              <span className="card-code">LAB</span>
+              <span className="card-title">Lab Reports</span>
+            </div>
+            <i className="bx bx-chevron-right card-chevron"></i>
+          </Link>
+        )}
       </div>
     </>
   );

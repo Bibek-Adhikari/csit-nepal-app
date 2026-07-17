@@ -354,6 +354,9 @@ export default function UploadPage() {
                   {subject?.units.map((u) => (
                     <option key={u.slug} value={u.slug}>{u.title}</option>
                   ))}
+                  {subject && subject.labReports.length > 0 && (
+                    <option value="lab-reports">Lab Reports</option>
+                  )}
                 </select>
               </div>
             </>
