@@ -14,12 +14,15 @@
 5. [Auth System](#5-auth-system)
 6. [PDF Handling — End to End](#6-pdf-handling--end-to-end)
 7. [Lecture System — End to End](#7-lecture-system--end-to-end)
-8. [Linking Between Nodes](#8-linking-between-nodes)
-9. [Profile Page In-Depth](#9-profile-page-in-depth)
-10. [Admin Panel In-Depth](#10-admin-panel-in-depth)
-11. [Database & Storage Schema](#11-database--storage-schema)
-12. [PWA & Offline Architecture](#12-pwa--offline-architecture)
-13. [Environment Variables](#13-environment-variables)
+8. [Entrance Preparation System](#8-entrance-preparation-system)
+9. [Lab Reports System](#9-lab-reports-system)
+10. [Linking Between Nodes](#10-linking-between-nodes)
+11. [Profile Page In-Depth](#11-profile-page-in-depth)
+12. [Admin Panel In-Depth](#12-admin-panel-in-depth)
+13. [Notification & Progress Systems](#13-notification--progress-systems)
+14. [Database & Storage Schema](#14-database--storage-schema)
+15. [PWA & Offline Architecture](#15-pwa--offline-architecture)
+16. [Environment Variables](#16-environment-variables)
 
 ---
 
@@ -55,7 +58,7 @@
 ❌ No Chakra
 ❌ No component library of any kind
 
-✅ Custom CSS variables in :root (3300+ lines in globals.css)
+✅ Custom CSS variables in :root (3560+ lines in globals.css)
 ✅ Tailwind CSS 4 (utility classes used sparingly)
 ✅ cn() utility (clsx + tailwind-merge) — used in ~3 files
 ✅ Boxicons CDN — primary icon set (bx-*, bxs-*, bxl-*)
@@ -72,7 +75,7 @@ ThemeProvider        → wraps root layout
 ThemeToggle          → Sun/Moon button in AppHeader
 ```
 
-#### Custom CSS Architecture (globals.css @ 3300+ lines)
+#### Custom CSS Architecture (globals.css @ 3560 lines)
 
 | Section | Lines | Classes |
 |---|---|---|
@@ -90,7 +93,14 @@ ThemeToggle          → Sun/Moon button in AppHeader
 | Bookmark page | 2501-2700 | `.bookmark-*` |
 | PDF viewer | 2701-2900 | `.pdf-viewer`, `.pdf-toolbar` |
 | Notes tree | 2901-3100 | `.notes-tree-*` |
-| Site nav (bottom tab bar) | 3101-3337 | `.site-nav`, `.nav-link`, `.nav-link.active` |
+| Site nav (bottom tab bar) | 3101-3300 | `.site-nav`, `.nav-link`, `.nav-link.active` |
+| Toast notifications | 3301-3380 | `.toast`, `.toast--offline`, `.toast--online` |
+| PWA install steps | 3381-3420 | `.pwa-steps`, `.pwa-step`, `.pwa-step-num` |
+| Share QR code | 3421-3440 | `.share-qr-wrap` |
+| Legal content | 3441-3460 | `.legal-content` |
+| Route progress bar | 3461-3480 | `.route-progress` |
+| Bottom sheet (notifications) | 3481-3540 | `.bottom-sheet`, `.sheet-handle`, `.sheet-header` |
+| Reduced motion | 3541-3560 | `@media (prefers-reduced-motion: reduce)` |
 
 ---
 
@@ -120,24 +130,50 @@ src/
 │   │
 │   ├── subjects/
 │   │   ├── page.tsx  ◄── ALL SEMESTERS (server, SSG)
-│   │   │   └── Links to: /subjects/[semester]
+│   │   │   └── Links to: /subjects/[semester], /subjects/entrance
 │   │   │
 │   │   ├── [semester]/page.tsx  ◄── SEMESTER DETAIL (server, SSG, generateStaticParams)
 │   │   │   └── Links to: /subjects/[semester]/[subject]
 │   │   │
-│   │   └── [semester]/[subject]/page.tsx  ◄── SUBJECT DETAIL (server, SSG)
-│   │       └── Links to: /notes/[semester]/[subject]/[unit]
+│   │   ├── [semester]/[subject]/page.tsx  ◄── SUBJECT DETAIL (server, SSG)
+│   │   │   └── Links to: /notes/[semester]/[subject]/[unit], /notes/[semester]/[subject]/lab-reports
+│   │   │
+│   │   └── entrance/page.tsx  ◄── ENTRANCE PREP HUB (client)
+│   │       └── Links to: /questions, /mock-test
 │   │
 │   ├── notes/
 │   │   ├── page.tsx  ◄── REDIRECT → /bookmark
 │   │   │
-│   │   └── [semester]/[subject]/[unit]/page.tsx  ◄── UNIT NOTES (server, force-dynamic)
-│   │       ├── FETCHES: content/subjects (static unit data)
-│   │       ├── FETCHES: Supabase DB (notes table, filtered by semester+subject+unit)
-│   │       ├── FETCHES: Supabase Storage (list files in bucket path)
-│   │       ├── MERGES: static notes + DB records + storage files
-│   │       ├── CompletionToggle (localStorage)
-│   │       └── RelatedLectures (fetches /api/lectures, filters by semester)
+│   │   ├── [semester]/[subject]/page.tsx  ◄── (redirects to unit list)
+│   │   │
+│   │   ├── [semester]/[subject]/[unit]/page.tsx  ◄── UNIT NOTES (server, force-dynamic)
+│   │   │   ├── FETCHES: content/subjects (static unit data)
+│   │   │   ├── FETCHES: Supabase DB (notes table, filtered by semester+subject+unit)
+│   │   │   ├── FETCHES: Supabase Storage (list files in bucket path)
+│   │   │   ├── MERGES: static notes + DB records + storage files
+│   │   │   ├── CompletionToggle (localStorage)
+│   │   │   └── RelatedLectures (fetches /api/lectures, filters by semester)
+│   │   │
+│   │   └── [semester]/[subject]/lab-reports/page.tsx  ◄── LAB REPORTS (server, force-dynamic)
+│   │       ├── FETCHES: Supabase DB (notes table, unit_slug="lab-reports")
+│   │       ├── FETCHES: Supabase Storage (list {sem}/{sub}/lab-reports/)
+│   │       ├── MERGES: DB records + storage files
+│   │       └── Renders: PDF links to /view-pdf
+│   │
+│   ├── questions/page.tsx  ◄── ENTRANCE QUESTIONS (client)
+│   │   ├── FETCHES: /api/entrance/pdfs (entrance study materials)
+│   │   └── Renders: PDF cards with view/download
+│   │
+│   ├── mock-test/
+│   │   ├── page.tsx  ◄── MOCK TEST CONFIG (client)
+│   │   │   └── Selects: subject (english/math/gk/all), question count (10/20/30)
+│   │   │
+│   │   └── [subject]/page.tsx  ◄── MOCK TEST QUIZ ENGINE (client, 535 lines)
+│   │       ├── FETCHES: /api/entrance/questions (Supabase API)
+│   │       ├── FALLBACK: local questionBank.ts (offline-first)
+│   │       ├── Timer, question navigation dots, submit
+│   │       ├── Results: grade, topic breakdown, answer review with explanations
+│   │       └── Shuffle: randomized question order per attempt
 │   │
 │   ├── lectures/page.tsx  ◄── LECTURES GRID (server shell + client component)
 │   │   ├── LectureGrid (client component)
@@ -208,21 +244,34 @@ src/
 │   ├── not-found.tsx  ◄── 404 page
 │   ├── sitemap.ts  ◄── Dynamic sitemap (covers all static routes)
 │   ├── robots.ts  ◄── Dynamic robots.txt
-│   └── globals.css  ◄── 3337 lines of app styles
+│   └── globals.css  ◄── 3560 lines of app styles
 │
 ├── components/  ◄── SHARED UI COMPONENTS
 │   ├── app-header.tsx  ◄── TOP HEADER
 │   │   ├── Logo image (logo.jpg) + "BCA Nepal" title
-│   │   ├── YouTube subscribe badge (links to channel)
+│   │   ├── Notification bell icon (opens NotificationPanel)
 │   │   └── ThemeToggle (moon/sun)
 │   │
-│   ├── site-nav.tsx  ◄── BOTTOM TAB BAR
+│   ├── site-nav.tsx  ◄── BOTTOM TAB BAR (smart navigation)
 │   │   ├── 5 tabs: Home, Subjects, Lectures, Bookmarks, Profile
-│   │   ├── Icons: bx-home-alt, bx-book, bx-video, bx-bookmark, bx-user
+│   │   ├── Icons: bx-home-alt, bx-layer, bx-video, bx-bookmark, bx-user
 │   │   ├── Active route detection (usePathname)
-│   │   └── cn() utility for active styling
+│   │   ├── Smart back-navigation (remembers last subjects path)
+│   │   ├── Default semester preference (jumps to selected semester)
+│   │   └── Dimmed state on /view-pdf page
 │   │
 │   ├── back-nav.tsx  ◄── BREADCRUMB (Link + chevron + label)
+│   │
+│   ├── notification-panel.tsx  ◄── BOTTOM SHEET NOTIFICATIONS (client, 242 lines)
+│   │   ├── Welcome notification (shown once, localStorage tracked)
+│   │   ├── Latest video notification (fetches /api/lectures)
+│   │   ├── Default "Notes Updated" notification
+│   │   └── Bottom sheet UI with backdrop, drag/touch handling
+│   │
+│   ├── route-progress.tsx  ◄── ROUTE TRANSITION BAR (client)
+│   │   ├── Shows animated progress bar at top during navigation
+│   │   ├── Uses usePathname to detect route changes
+│   │   └── Animates: 30% → 65% → 85% → 100% → hide
 │   │
 │   ├── lecture-grid.tsx  ◄── LECTURE BROWSER (client, 231 lines)
 │   │   ├── FETCHES: /api/lectures (YouTube API)
@@ -249,6 +298,13 @@ src/
 │   │   ├── Groups by: semester → subject
 │   │   ├── Shows: unit title, summary, PDF/handwritten badges
 │   │   └── Links to: /notes/[semester]/[subject]/[unit]
+│   │
+│   ├── entrance-card.tsx  ◄── ENTRANCE HUB CARD (simple Link card)
+│   │   └── Links to: /subjects/entrance
+│   │
+│   ├── entrance-mock-test.tsx  ◄── STANDALONE MOCK TEST (client, 477 lines)
+│   │   ├── Config + quiz + results in one component
+│   │   └── Earlier iteration (route-based pages preferred)
 │   │
 │   ├── completion-toggle.tsx  ◄── UNIT COMPLETION (client)
 │   │   ├── Reads/Writes: localStorage (bca-nepal-completed-units[])
@@ -283,10 +339,13 @@ src/
 │
 ├── content/  ◄── STATIC CONTENT (bundled at build time)
 │   ├── subjects/
-│   │   ├── types.ts  ◄── Semester, Subject, Unit, NoteItem, SemesterKey types
+│   │   ├── types.ts  ◄── Semester, Subject, Unit, NoteItem, SemesterKey types (includes labReports field)
 │   │   ├── index.ts  ◄── Aggregates semesters[], exports getSemester/getSubject/getUnit
-│   │   ├── semester-1/index.ts  ◄── 6 subjects, 38 units (302 lines)
-│   │   └── semester-2/index.ts  ◄── 6 subjects, 48 units (315 lines)
+│   │   ├── semester-1/index.ts  ◄── 6 subjects, 38 units + lab reports
+│   │   └── semester-2/index.ts  ◄── 6 subjects, 48 units + lab reports
+│   ├── entrance/
+│   │   ├── index.ts  ◄── entranceTopics[] (mathematics, english, computer-gk)
+│   │   └── questionBank.ts  ◄── ~439 lines of offline question data (121 English, 121 Math, ~52 GK)
 │   ├── lectures.ts  ◄── 10 static LectureVideo objects (fallback for YouTube API)
 │   └── notes.ts  ◄── getAllNotes() — flattens all subjects/units for search
 │
@@ -294,7 +353,7 @@ src/
 │   ├── supabase.ts  ◄── getSupabaseClient() (singleton), getSupabaseServer() (service_role)
 │   ├── admin-auth.ts  ◄── validateAdminRequest() — checks cookie + header
 │   ├── db.ts  ◄── IndexedDB client (228 lines): savePDF, getPDF, bookmark, sync queue
-│   ├── database.types.ts  ◄── NoteRow, NoteInsert, NoteUpdate types
+│   ├── database.types.ts  ◄── NoteRow, NoteInsert, NoteUpdate, EntranceQuestionRow, EntrancePDFRow types
 │   ├── storage-url.ts  ◄── getPublicObjectUrl, getNotesPdfUrl, getLecturesPdfUrl
 │   ├── storage.ts  ◄── ensureStorageBuckets() — idempotent bucket creation
 │   ├── progress.ts  ◄── ProgressState, getTotalUnits()
@@ -309,13 +368,16 @@ src/
 ```
 HOME        → /subjects, /lectures, /watch/[videoId]
 SUBJECTS    → /subjects/[semester] → /subjects/[semester]/[subject]
+            → /subjects/entrance → /questions, /mock-test
             → /notes/[semester]/[subject]/[unit]
+            → /notes/[semester]/[subject]/lab-reports
 NOTES       → /view-pdf?url=&title=&semester=&subject=&unit=
 LECTURES    → /watch/[videoId], /view-pdf?url=...
 WATCH       → /view-pdf?url=... (for linked notes)
 PROFILE     → /admin, /upload, /privacy-policy, /terms-and-conditions
 ADMIN       → /upload, /view-pdf (preview notes)
 BOOKMARKS   → /view-pdf?url=... (opens stored PDF)
+ENTRANCE    → /questions (PDFs), /mock-test/[subject] (quiz)
 ```
 
 ---
@@ -410,7 +472,12 @@ BOOKMARKS   → /view-pdf?url=... (opens stored PDF)
 | `/subjects` | **SSG** (static HTML) | `content/` | Instant |
 | `/subjects/[sem]` | **SSG** (generateStaticParams) | `content/` | Instant |
 | `/subjects/[sem]/[sub]` | **SSG** (generateStaticParams) | `content/` | Instant |
+| `/subjects/entrance` | Client | Static markup | Instant |
+| `/questions` | Client | `/api/entrance/pdfs` | Wait for API |
+| `/mock-test` | Client | Static markup | Instant |
+| `/mock-test/[subject]` | Client | `/api/entrance/questions` + fallback | Wait for API |
 | `/notes/[sem]/[sub]/[unit]` | **SSR** (force-dynamic) | Static + Supabase DB + Storage | Wait for DB |
+| `/notes/[sem]/[sub]/lab-reports` | **SSR** (force-dynamic) | Supabase DB + Storage | Wait for DB |
 | `/lectures` | Server shell + client fetch | `/api/lectures` + `/api/notes` | Fast shell, wait for API |
 | `/watch/[id]` | Server metadata + client page | `lectureVideos[]` + `/api/notes` | Fast shell, wait for API |
 | `/view-pdf` | Client (dynamic import) | Query params + IndexedDB | Wait for react-pdf |
@@ -427,6 +494,7 @@ Navigation (pages)  →  Stale-while-revalidate (instant cache, background refre
 PDFs / Supabase     →  Cache-first with refresh (30 day max age)
 YouTube thumbnails  →  Cache-first with refresh
 JS/CSS/images       →  Cache-first with refresh
+PDF.js worker       →  Cache-first (unpkg.com CDN)
 Analytics (GA/GTM)  →  BYPASSED (never intercepted)
 ```
 
@@ -450,6 +518,12 @@ Analytics (GA/GTM)  →  BYPASSED (never intercepted)
 │
 ├── lectures/route.ts      GET   (no auth)  → Proxy YouTube API, infer metadata
 │
+├── entrance/
+│   ├── questions/route.ts GET   (no auth)  → List questions with topic filter
+│   │                      POST  (admin)    → Insert new question
+│   └── pdfs/route.ts      GET   (no auth)  → List entrance PDFs (DB + storage scan)
+│                          POST  (admin)    → Create signed upload URL + DB record
+│
 ├── storage/
 │   ├── upload/route.ts    POST  (admin)    → Create signed URL + insert DB record
 │   ├── delete/route.ts    DELETE (admin)   → Remove file from storage
@@ -462,7 +536,7 @@ Analytics (GA/GTM)  →  BYPASSED (never intercepted)
 └── youtube/
     ├── subscribe/route.ts POST  (admin)    → PubSubHubbub subscribe/unsubscribe
     └── pubsub/route.ts    GET   (no auth)  → Hub challenge verification
-                           POST  (no auth)  → Receive new video notifications
+                       POST  (no auth)  → Receive new video notifications
 ```
 
 ### 🔍 Deep Dive: Key API Endpoints
@@ -649,6 +723,8 @@ Used by:
 | `POST /api/storage/sync` | ✅ `validateAdminRequest()` | Sync orphans |
 | `PATCH /api/notes/[id]` | ✅ `validateAdminRequest()` | Link/unlink videos |
 | `DELETE /api/notes/[id]` | ✅ `validateAdminRequest()` | Delete notes |
+| `POST /api/entrance/questions` | ✅ `validateAdminRequest()` | Add entrance questions |
+| `POST /api/entrance/pdfs` | ✅ `validateAdminRequest()` | Upload entrance PDFs |
 | `POST /api/youtube/subscribe` | ✅ `validateAdminRequest()` | PubSubHubbub mgmt |
 
 ### 🛡️ `validateAdminRequest()` Logic
@@ -855,7 +931,181 @@ getLecturesPdfUrl({ semesterKey, subjectSlug, unitSlug, filename })
 
 ---
 
-## 8. Linking Between Nodes
+## 8. Entrance Preparation System
+
+### 🎓 Architecture Overview
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                    ENTRANCE PREP FLOW                                  │
+│                                                                       │
+│    Subjects Page (/subjects)                                          │
+│           │                                                           │
+│           ▼                                                           │
+│    Entrance Hub (/subjects/entrance)                                  │
+│           │                                                           │
+│           ├──► Questions (/questions)                                  │
+│           │     ├── Fetches: /api/entrance/pdfs                       │
+│           │     ├── Scans: entrance Supabase Storage bucket           │
+│           │     └── Renders: PDF cards with view/download             │
+│           │                                                           │
+│           └──► Mock Test (/mock-test)                                 │
+│                 ├── Config: subject + question count                  │
+│                 └── Quiz Engine (/mock-test/[subject])                │
+│                       ├── Primary: /api/entrance/questions (Supabase) │
+│                       ├── Fallback: questionBank.ts (offline)         │
+│                       └── Results: grade + topic breakdown            │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### 📚 Question Bank (Offline-First)
+
+```
+content/entrance/questionBank.ts
+├── rawQuestionBank: RawQuestion[]
+│   ├── 121 English questions
+│   ├── 121 Mathematics questions
+│   └── ~52 Computer GK questions
+├── toMockQuestion(): converts RawQuestion → MockQuestion
+└── MockQuestion type: { question, options[], correctAnswer, explanation, topic }
+
+Two-tier data loading:
+  1. TRY: /api/entrance/questions?topic={subject}&limit={count}
+     → Queries entrance_questions table in Supabase
+  2. CATCH: Use local questionBank.ts data
+     → Shuffle + slice to requested count
+     → Works fully offline
+```
+
+### 🗂️ Entrance PDFs Storage
+
+```
+Bucket: entrance (public)
+├── Root files (PDFs directly in bucket root)
+└── entrance_pdfs/
+    └── {filename}.pdf
+
+API: /api/entrance/pdfs
+├── GET: Merges DB records + storage scan (finds orphans)
+├── POST: Creates signed upload URL + DB record (admin only)
+└── Returns: { pdfs: EntrancePDFRow[] }
+```
+
+### 📊 Mock Test Flow
+
+```
+Config Page (/mock-test):
+  ┌─────────────────────────────────────────┐
+  │  Select Subject:                         │
+  │  [English] [Mathematics] [GK] [All]     │
+  │                                          │
+  │  Number of Questions:                    │
+  │  [10] [20] [30]                          │
+  │                                          │
+  │  [Start Mock Test →]                     │
+  └─────────────────────────────────────────┘
+                    │
+                    ▼
+Quiz Engine (/mock-test/[subject]?count=20):
+  ┌─────────────────────────────────────────┐
+  │  Q 3/20           ⏱ 14:32              │
+  │                                          │
+  │  What is the capital of Nepal?           │
+  │                                          │
+  │  A. Pokhara      B. Kathmandu ✓         │
+  │  C. Chitwan      D. Lalitpur            │
+  │                                          │
+  │  [← Prev]  [Next →]                     │
+  │  ┌─┬─┬─┬─┬─┬─┬─┬─┬─┬─┐                │
+  │  │1│2│●│4│5│6│7│8│9│10│  (dots)         │
+  │  └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘                │
+  │                                          │
+  │  [Submit Test]                           │
+  └─────────────────────────────────────────┘
+                    │
+                    ▼
+Results:
+  ┌─────────────────────────────────────────┐
+  │  Score: 15/20 (75%)    Grade: B+        │
+  │                                          │
+  │  Topic Breakdown:                        │
+  │  ├── English: 8/10 (80%)                │
+  │  └── Mathematics: 7/10 (70%)            │
+  │                                          │
+  │  [Review Answers]                        │
+  └─────────────────────────────────────────┘
+```
+
+### 🗄️ Entrance Database Tables
+
+```sql
+-- entrance_questions table
+entrance_questions
+├── id              UUID DEFAULT gen_random_uuid() PRIMARY KEY
+├── topic           TEXT CHECK (topic IN ('mathematics', 'english', 'computer-gk'))
+├── question        TEXT NOT NULL
+├── options         JSONB NOT NULL  -- ["option1", "option2", "option3", "option4"]
+├── correct_answer  INTEGER NOT NULL  -- index of correct option (0-based)
+├── explanation     TEXT NULLABLE
+└── created_at      TIMESTAMPTZ DEFAULT NOW()
+
+-- entrance_pdfs table
+entrance_pdfs
+├── id              UUID DEFAULT gen_random_uuid() PRIMARY KEY
+├── title           TEXT NOT NULL
+├── file_name       TEXT NOT NULL
+├── file_path       TEXT NOT NULL
+├── file_size       BIGINT NULLABLE
+├── mime_type       TEXT DEFAULT 'application/pdf'
+├── public_url      TEXT NOT NULL
+├── year            TEXT NULLABLE
+└── created_at      TIMESTAMPTZ DEFAULT NOW()
+```
+
+---
+
+## 9. Lab Reports System
+
+### 🔬 Architecture Overview
+
+```
+Subject Detail Page (/subjects/[semester]/[subject])
+│
+├── Shows "Lab Reports" link when subject.labReports.length > 0
+│
+└──► Lab Reports Page (/notes/[semester]/[subject]/lab-reports)
+    ├── Server-rendered (force-dynamic)
+    ├── FETCHES: Supabase DB (notes WHERE unit_slug = "lab-reports")
+    ├── FETCHES: Supabase Storage (list {semester}/{subject}/lab-reports/)
+    ├── MERGES: DB records + storage files (deduped by path)
+    └── Renders: PDF links to /view-pdf
+```
+
+### 📁 Storage Path Convention
+
+```
+Bucket: notes (public)
+└── {semester-key}/{subject-slug}/lab-reports/
+    ├── lab-report-1.pdf
+    ├── lab-report-2.pdf
+    └── ...
+```
+
+### 🗄️ Database Integration
+
+```
+Lab reports are stored in the existing notes table:
+  - semester_key: "semester-1"
+  - subject_slug: "c-programming"
+  - unit_slug: "lab-reports"  ← special marker
+
+The page also scans Supabase Storage directly for any files
+in the lab-reports folder that may not have DB records.
+```
+
+---
+
+## 10. Linking Between Nodes
 
 ### 🕸️ Complete Node Connection Map
 
@@ -872,32 +1122,36 @@ getLecturesPdfUrl({ semesterKey, subjectSlug, unitSlug, filename })
         │ (SSG)    │   │ (client)   │   │  (client)    │
         └────┬─────┘   └─────┬──────┘   └──────┬───────┘
              │               │                  │
-             ▼               ▼                  ├────────────┐
-     ┌──────────────┐ ┌──────────┐              │            │
-     │ SEMESTER     │ │  WATCH   │              ▼            ▼
-     │ (SSG)        │ │ (client) │         ┌────────┐ ┌──────────┐
-     └──────┬───────┘ └────┬─────┘         │ ADMIN  │ │  UPLOAD  │
-            │              │               │(client)│ │ (client) │
-            ▼              │               └────────┘ └──────────┘
-     ┌──────────────┐      │
-     │  SUBJECT     │      ├──────────────────────┐
-     │  (SSG)       │      ▼                      ▼
-     └──────┬───────┘ ┌───────────┐      ┌───────────────┐
-            │         │ PDF VIEWER│      │  VIDEO NOTES  │
-            ▼         │(client)   │      │(video-notes)  │
-     ┌──────────────┐ │react-pdf  │      └───────┬───────┘
-     │  UNIT NOTES  │ │IndexedDB  │              │
-     │(SSR+dynamic) │ └───────────┘              │
-     └──────┬───────┘             ▲              │
-            │                     │              │
-            ├─────────────────────┼──────────────┘
-            │                     │
-            ▼                     │
-     ┌──────────────┐            │
-     │  RELATED     │            │
-     │  LECTURES    │────────────┘
-     │(related-lec) │
-     └──────────────┘
+             ▼               │                  ├────────────┐
+     ┌──────────────┐        │                  │            │
+     │ SEMESTER     │        │                  ▼            ▼
+     │ (SSG)        │        │             ┌────────┐ ┌──────────┐
+     └──────┬───────┘        │             │ ADMIN  │ │  UPLOAD  │
+            │                │             │(client)│ │ (client) │
+            ▼                │             └────────┘ └──────────┘
+     ┌──────────────┐        │
+     │  SUBJECT     │        │
+     │  (SSG)       │        │
+     └──────┬───────┘        │
+            │                │
+            ├────────────────┼──────────────────┐
+            │                │                  │
+            ▼                ▼                  ▼
+     ┌──────────────┐ ┌───────────┐      ┌───────────────┐
+     │  UNIT NOTES  │ │PDF VIEWER │      │  LAB REPORTS  │
+     │(SSR+dynamic) │ │(client)   │      │(SSR+dynamic)  │
+     └──────┬───────┘ │react-pdf  │      └───────────────┘
+            │         │IndexedDB  │
+            ├─────────┴───────────┘
+            │
+            ▼
+     ┌──────────────┐        ┌──────────────────────────┐
+     │  RELATED     │        │  ENTRANCE PREP           │
+     │  LECTURES    │        │  (/subjects/entrance)    │
+     │(related-lec) │        │  ├── Questions (/questions)│
+     └──────────────┘        │  └── Mock Test (/mock-test)│
+                             │      └── Quiz Engine     │
+                             └──────────────────────────┘
 
      ┌──────────────────────────────────────────────────────────────┐
      │                    BACKEND SERVICES                           │
@@ -914,8 +1168,13 @@ getLecturesPdfUrl({ semesterKey, subjectSlug, unitSlug, filename })
 | From | To | Via | Type |
 |---|---|---|---|
 | Home → Subject card | `/subjects/[semester]` | `<Link>` | Static route |
+| Subjects → Entrance | `/subjects/entrance` | `<Link>` | Static route |
+| Entrance → Questions | `/questions` | `<Link>` | Client |
+| Entrance → Mock Test | `/mock-test` | `<Link>` | Client |
+| Mock Test Config → Quiz | `/mock-test/[subject]?count=N` | `<Link>` | Client |
 | Subject list → Subject | `/subjects/[sem]/[sub]` | `<Link>` | Static route |
 | Subject → Unit notes | `/notes/[sem]/[sub]/[unit]` | `<Link>` | SSR + dynamic data |
+| Subject → Lab Reports | `/notes/[sem]/[sub]/lab-reports` | `<Link>` | SSR + dynamic data |
 | Unit notes → PDF | `/view-pdf?url=...` | `<Link>` with query params | Client |
 | Unit notes → Related lectures | `/watch/[videoId]` | `<Link>` | Client |
 | Lectures → Watch | `/watch/[videoId]` | `<Link>` | Client |
@@ -935,14 +1194,18 @@ getLecturesPdfUrl({ semesterKey, subjectSlug, unitSlug, filename })
 | LectureGrid → API | `/api/notes` | `fetch()` | API call |
 | VideoNotes → API | `/api/notes?video_id=` | `fetch()` | API call |
 | RelatedLectures → API | `/api/lectures` | `fetch()` | API call |
+| Questions → API | `/api/entrance/pdfs` | `fetch()` | API call |
+| Mock Test → API | `/api/entrance/questions` | `fetch()` | API call |
 | Profile → localStorage | `bca-nepal-completed-units` | Direct read | Client storage |
+| Profile → localStorage | `bca-nepal-default-semester` | Direct read/write | Client storage |
 | Profile → IndexedDB | `getBookmarkedPDFs()` | IndexedDB | Client storage |
 | Bookmarks → IndexedDB | `getBookmarkedPDFs()` | IndexedDB | Client storage |
 | PDFViewer → IndexedDB | `savePDF()`, `getPDF()` | IndexedDB | Client storage |
+| SiteNav → localStorage | `bca-nepal-last-subjects-path` | Direct read/write | Client storage |
 
 ---
 
-## 9. Profile Page — In-Depth
+## 11. Profile Page — In-Depth
 
 ### 👤 Profile Page Layout
 
@@ -972,6 +1235,14 @@ getLecturesPdfUrl({ semesterKey, subjectSlug, unitSlug, filename })
 │  │  └────────┘ └────────┘ └────────┘ └──────────┘ ││
 │  │                                                 ││
 │  │  Bookmark count from: IndexedDB getBookmarked   ││
+│  └─────────────────────────────────────────────────┘│
+│                                                     │
+│  ┌─────────────────────────────────────────────────┐│
+│  │  DEFAULT SEMESTER                                ││
+│  │  [Semester 1 ▼]                                  ││
+│  │  → Tap Subjects tab jumps directly to this sem  ││
+│  │  → Writes to localStorage                       ││
+│  │  → Dispatches "default-semester-change" event   ││
 │  └─────────────────────────────────────────────────┘│
 │                                                     │
 │  ┌─────────────────────────────────────────────────┐│
@@ -1029,7 +1300,7 @@ Total Units: 38 (sem-1) + 48 (sem-2) = 86 units
 
 ---
 
-## 10. Admin Panel — In-Depth
+## 12. Admin Panel — In-Depth
 
 ### 🔧 Admin Panel Layout
 
@@ -1148,7 +1419,118 @@ Memo:
 
 ---
 
-## 11. Database & Storage Schema
+## 13. Notification & Progress Systems
+
+### 🔔 Notification Panel
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                    NOTIFICATION PANEL (bottom sheet)                   │
+│                                                                       │
+│  Trigger: Bell icon in AppHeader                                      │
+│                                                                       │
+│  ┌───────────────────────────────────────────────────────────────┐    │
+│  │  ───── (drag handle)                                          │    │
+│  │  🔔 Notifications                                    [×]      │    │
+│  ├───────────────────────────────────────────────────────────────┤    │
+│  │                                                               │    │
+│  │  ┌─────────────────────────────────────────────────────────┐  │    │
+│  │  │ 👋 Welcome to BCA Nepal!                                │  │    │
+│  │  │ Your all-in-one study hub for TU BCA students.          │  │    │
+│  │  │ (shown once, tracked via localStorage)                  │  │    │
+│  │  └─────────────────────────────────────────────────────────┘  │    │
+│  │                                                               │    │
+│  │  ┌─────────────────────────────────────────────────────────┐  │    │
+│  │  │ 🎬 Latest Video                                         │  │    │
+│  │  │ [thumbnail] Limits of Trigonometric Functions            │  │    │
+│  │  │             2 hours ago                                  │  │    │
+│  │  │ (fetches /api/lectures, shows most recent)              │  │    │
+│  │  └─────────────────────────────────────────────────────────┘  │    │
+│  │                                                               │    │
+│  │  ┌─────────────────────────────────────────────────────────┐  │    │
+│  │  │ 📝 Notes Updated                                        │  │    │
+│  │  │ New notes and study materials have been uploaded.        │  │    │
+│  │  │ 1 week ago                                              │  │    │
+│  │  └─────────────────────────────────────────────────────────┘  │    │
+│  └───────────────────────────────────────────────────────────────┘    │
+│                                                                       │
+│  Features:                                                            │
+│  - Bottom sheet with backdrop overlay                                 │
+│  - Drag/touch handling for swipe-to-dismiss                          │
+│  - Scroll locking when open                                          │
+│  - Welcome notification shown once (localStorage bca-nepal-welcome-seen)│
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### 📊 Route Progress Bar
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                    ROUTE PROGRESS BAR                                  │
+│                                                                       │
+│  Position: Fixed at top of viewport                                   │
+│  Trigger: Any route change (usePathname)                              │
+│                                                                       │
+│  Animation sequence:                                                  │
+│  ├── 0ms:    Show bar at 30% width                                   │
+│  ├── 200ms:  Advance to 65%                                          │
+│  ├── 500ms:  Advance to 85%                                          │
+│  ├── 700ms:  Complete to 100%                                        │
+│  └── 950ms:  Fade out and hide                                       │
+│                                                                       │
+│  CSS: .route-progress (fixed, top: 0, animated width)                │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### 📡 Smart Site Navigation
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                    SMART SITE NAV                                      │
+│                                                                       │
+│  Features:                                                            │
+│  ├── Remembers last subjects path in localStorage                    │
+│  │   Key: bca-nepal-last-subjects-path                               │
+│  │                                                                    │
+│  ├── Default semester preference                                      │
+│  │   Key: bca-nepal-default-semester                                  │
+│  │   → Tap Subjects tab jumps directly to selected semester          │
+│  │   → Listens for "default-semester-change" custom event            │
+│  │                                                                    │
+│  ├── Smart back-navigation                                           │
+│  │   → Level 0: /subjects (top level)                                │
+│  │   → Level 1: /subjects/semester-2 (semester view)                 │
+│  │   → Level 2: /subjects/semester-2/microprocessor (subject view)   │
+│  │   → Level 3: /notes/* or /view-pdf (deep view)                   │
+│  │   → On deep pages, tapping Subjects goes back one level           │
+│  │                                                                    │
+│  └── Dimmed state on /view-pdf page                                  │
+│      → Reduces visual prominence during PDF viewing                  │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### 🔄 Offline Banner (Toast System)
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                    OFFLINE BANNER (toast-based)                        │
+│                                                                       │
+│  Offline detection:                                                   │
+│  ├── Shows toast notification when going offline                     │
+│  ├── Stored in sessionStorage (dismiss once per session)             │
+│  └── Swipe-right to dismiss                                          │
+│                                                                       │
+│  Online recovery:                                                     │
+│  ├── Shows "Back online!" toast for 3 seconds                       │
+│  └── Auto-dismisses                                                  │
+│                                                                       │
+│  CSS: .toast--offline, .toast--online                                │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 14. Database & Storage Schema
 
 ### 🗄️ Supabase Database — `notes` Table
 
@@ -1177,6 +1559,42 @@ Indexes:
 Row Level Security:
   → SELECT: public (anyone can read notes)
   → INSERT/UPDATE/DELETE: service_role only (admin API uses service role key)
+```
+
+### 🗄️ Supabase Database — `entrance_questions` Table
+
+```sql
+entrance_questions
+├── id              UUID DEFAULT gen_random_uuid() PRIMARY KEY
+├── topic           TEXT CHECK (topic IN ('mathematics', 'english', 'computer-gk'))
+├── question        TEXT NOT NULL
+├── options         JSONB NOT NULL  -- ["option1", "option2", "option3", "option4"]
+├── correct_answer  INTEGER NOT NULL  -- index of correct option (0-based)
+├── explanation     TEXT NULLABLE
+└── created_at      TIMESTAMPTZ DEFAULT NOW()
+
+Row Level Security:
+  → SELECT: public (anyone can read)
+  → INSERT/UPDATE/DELETE: service_role only
+```
+
+### 🗄️ Supabase Database — `entrance_pdfs` Table
+
+```sql
+entrance_pdfs
+├── id              UUID DEFAULT gen_random_uuid() PRIMARY KEY
+├── title           TEXT NOT NULL
+├── file_name       TEXT NOT NULL
+├── file_path       TEXT NOT NULL
+├── file_size       BIGINT NULLABLE
+├── mime_type       TEXT DEFAULT 'application/pdf'
+├── public_url      TEXT NOT NULL
+├── year            TEXT NULLABLE
+└── created_at      TIMESTAMPTZ DEFAULT NOW()
+
+Row Level Security:
+  → SELECT: public (anyone can read)
+  → INSERT/UPDATE/DELETE: service_role only
 ```
 
 ### 📦 Supabase Storage — Buckets
@@ -1209,6 +1627,11 @@ Bucket: lectures (public)
         └── lecture-{videoId}/
             └── notes.pdf
 
+Bucket: entrance (public)
+├── Root files (PDFs directly in bucket root)
+└── entrance_pdfs/
+    └── {filename}.pdf
+
 Settings:
   - public: true
   - file_size_limit: 50MB (52428800 bytes)
@@ -1217,7 +1640,7 @@ Settings:
 
 ---
 
-## 12. PWA & Offline Architecture
+## 15. PWA & Offline Architecture
 
 ### 📱 PWA Setup
 
@@ -1249,34 +1672,43 @@ Settings:
 │                                                                │
 │  Level 1: Server (always authoritative)                        │
 │  ├── Supabase DB    → notes table (metadata)                   │
-│  └── Supabase Stor. → PDF files (notes/ + lectures/ buckets)   │
+│  │                 → entrance_questions table                   │
+│  │                 → entrance_pdfs table                        │
+│  └── Supabase Stor. → notes/ bucket                            │
+│                    → lectures/ bucket                           │
+│                    → entrance/ bucket                           │
 │                                                                │
-│  Level 2: Cache Storage (Service Worker)                       │
-│  ├── bca-nepal-v7          → Navigation pages                  │
-│  ├── bca-nepal-static-v7   → JS, CSS, images                   │
-│  ├── bca-nepal-api-v7      → API responses (10 min TTL)        │
-│  ├── bca-nepal-pdf-v7      → PDFs (30 day TTL)                 │
-│  └── bca-nepal-lecture-v7  → Lecture pages                     │
+│  Level 2: Cache Storage (Service Worker v9)                    │
+│  ├── bca-nepal-v9            → Navigation pages                │
+│  ├── bca-nepal-static-v9     → JS, CSS, images                 │
+│  ├── bca-nepal-api-v9        → API responses (10 min TTL)      │
+│  ├── bca-nepal-pdf-v9        → PDFs (30 day TTL)               │
+│  └── bca-nepal-lecture-v9    → Lecture pages                   │
 │                                                                │
 │  Level 3: IndexedDB (persistent)                                │
 │  ├── pdfs (store)          → Full PDF blobs for offline        │
 │  └── sync-queue (store)    → Pending bookmark/progress changes │
 │                                                                │
 │  Level 4: localStorage (ephemeral)                              │
-│  └── bca-nepal-completed-units → Unit completion tracking      │
+│  ├── bca-nepal-completed-units → Unit completion tracking      │
+│  ├── bca-nepal-last-subjects-path → Smart nav memory          │
+│  ├── bca-nepal-default-semester → Default semester pref        │
+│  └── bca-nepal-welcome-seen → Notification welcome flag        │
 └───────────────────────────────────────────────────────────────┘
 ```
 
-### 🔄 Service Worker Strategies
+### 🔄 Service Worker Strategies (v9)
 
 | Pattern | Cache Name | Strategy | Max Age | Used For |
 |---|---|---|---|---|
-| Navigation | `bca-nepal-v7` | Stale-while-revalidate | Immediate | All pages |
-| API calls | `bca-nepal-api-v7` | Network-first | 10 min | `/api/*` endpoints |
-| PDFs | `bca-nepal-pdf-v7` | Cache-first with refresh | 30 days | Supabase storage PDFs |
-| Thumbnails | `bca-nepal-pdf-v7` | Cache-first with refresh | 30 days | YouTube `i.ytimg.com` |
-| Static assets | `bca-nepal-static-v7` | Cache-first with refresh | — | JS, CSS, fonts, icons |
-| RSC payloads | `bca-nepal-v7` | Stale-while-revalidate | — | Next.js RSC data |
+| Navigation | `bca-nepal-v9` | Stale-while-revalidate | Immediate | All pages |
+| API calls | `bca-nepal-api-v9` | Network-first | 10 min | `/api/*` endpoints |
+| PDFs | `bca-nepal-pdf-v9` | Cache-first with refresh | 30 days | Supabase storage PDFs |
+| Thumbnails | `bca-nepal-pdf-v9` | Cache-first with refresh | 30 days | YouTube `i.ytimg.com` |
+| Static assets | `bca-nepal-static-v9` | Cache-first with refresh | — | JS, CSS, fonts, icons |
+| RSC payloads | `bca-nepal-v9` | Stale-while-revalidate | — | Next.js RSC data |
+| View-PDF | `bca-nepal-pdf-v9` | Network-first | 30 days | PDF viewer page |
+| PDF.js worker | `bca-nepal-static-v9` | Cache-first | — | unpkg.com CDN worker |
 | Analytics | — | Bypass (not intercepted) | — | GTM, GA4 |
 
 ### 📡 Background Sync
@@ -1295,8 +1727,14 @@ self.addEventListener("sync", (event) => {
 self.addEventListener("periodicsync", (event) => {
   if (event.tag === "check-updates") {
     // HEAD /api/notes → check for content updates
+    // Sends CONTENT_UPDATED message to clients
   }
 });
+
+// Client message handling (service-worker-register.tsx):
+// - SYNC_BOOKMARKS: Triggers bookmark sync
+// - SYNC_PROGRESS: Triggers progress sync
+// - CONTENT_UPDATED: Dispatches custom event for UI update
 ```
 
 ### 📤 Offline Queue
@@ -1311,11 +1749,16 @@ When user is offline:
      → Read pending items from sync-queue
      → Process each (update IndexedDB/bookmark state)
      → Mark as synced or retry
+
+Service Worker messages:
+  - SYNC_BOOKMARKS: Triggers bookmark sync from clients
+  - SYNC_PROGRESS: Triggers progress sync from clients
+  - CONTENT_UPDATED: Notifies clients of new content
 ```
 
 ---
 
-## 13. Environment Variables
+## 16. Environment Variables
 
 | Variable | Required | Used In | Secret? | Purpose |
 |---|---|---|---|---|
@@ -1339,30 +1782,38 @@ When user is offline:
 
 | File | Lines | Type |
 |---|---|---|
-| `src/app/globals.css` | 3337 | Styles |
+| `src/app/globals.css` | 3560 | Styles |
+| `src/app/mock-test/[subject]/page.tsx` | 535 | Client component (quiz engine) |
 | `src/app/upload/page.tsx` | 645 | Client component |
 | `src/app/admin/page.tsx` | 481 | Client component |
-| `public/sw.js` | 473 | Service Worker |
+| `src/components/entrance-mock-test.tsx` | 477 | Client component (standalone) |
+| `public/sw.js` | 473+ | Service Worker (v9) |
 | `src/app/view-pdf/pdf-viewer.tsx` | 256 | Client component |
+| `src/components/notification-panel.tsx` | 242 | Client component |
 | `src/components/lecture-grid.tsx` | 231 | Client component |
 | `src/lib/db.ts` | 228 | IndexedDB library |
 | `src/app/api/lectures/route.ts` | 175 | API route |
 | `src/components/notes-tree.tsx` | 157 | Client component |
+| `src/app/notes/[semester]/[subject]/lab-reports/page.tsx` | 153 | Server component |
+| `src/app/api/entrance/pdfs/route.ts` | 126 | API route |
 | `src/app/bookmark/page.tsx` | 135 | Client component |
 | `src/app/watch/[videoId]/page.tsx` | 123 | Client component |
 | `src/components/video-notes.tsx` | 121 | Client component |
+| `src/content/entrance/questionBank.ts` | 439 | Offline question data |
 
 ### 🎨 CSS Stats
 
 | Metric | Value |
 |---|---|
-| Total CSS lines | 3337 |
+| Total CSS lines | 3560 |
 | Custom CSS variables | ~40 (`--bg-app`, `--text`, `--accent`, etc.) |
 | Dark mode overrides | ~40 properties |
 | Tailwind CSS version | 4 |
 | Icon library | Boxicons CDN (bx-* set) |
 | Animation classes | Custom (`.admin-note-card`, `.upload-progress`, etc.) |
+| New CSS sections | Toast notifications, bottom-sheet, PWA steps, route progress, legal content |
 | Responsive breakpoints | Mobile-first (implicit via flex/grid layouts) |
+| Accessibility | `@media (prefers-reduced-motion: reduce)` support |
 
 ### 🚀 Performance Characteristics
 
@@ -1371,7 +1822,10 @@ When user is offline:
 | First load (home) | Instant — no API calls, bundled static content |
 | First load (lectures) | Fast shell + wait for `/api/lectures` + `/api/notes` |
 | First load (unit notes) | SSR — waits for Supabase DB query |
+| First load (mock test) | Wait for `/api/entrance/questions` or local fallback |
 | PDF rendering | On-demand, lazy page loading via IntersectionObserver |
-| Offline capability | Full — all pages cached, PDFs in IndexedDB |
+| Offline capability | Full — all pages cached, PDFs in IndexedDB, question bank local fallback |
 | Bundle size | Next.js app router chunks (code-split by route) |
 | Image optimization | Next.js Image component for YouTube thumbnails |
+| Route transitions | Animated progress bar via RouteProgress component |
+| Smart navigation | SiteNav remembers last path, supports default semester preference |
