@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -33,22 +33,20 @@ function getLevel(path: string): number {
 export function SiteNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const savedPathRef = useRef<string | null>(null);
-  const defaultSemesterRef = useRef<string | null>(null);
+  const [savedPath, setSavedPath] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    try { return localStorage.getItem(SAVED_PATH_KEY); } catch { return null; }
+  });
+  const [defaultSemester, setDefaultSemester] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    try { return localStorage.getItem(DEFAULT_SEMESTER_KEY); } catch { return null; }
+  });
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(SAVED_PATH_KEY);
-      if (saved) savedPathRef.current = saved;
-    } catch {}
-    try {
-      const saved = localStorage.getItem(DEFAULT_SEMESTER_KEY);
-      if (saved) defaultSemesterRef.current = saved;
-    } catch {}
     const handler = () => {
       try {
         const saved = localStorage.getItem(DEFAULT_SEMESTER_KEY);
-        defaultSemesterRef.current = saved;
+        setDefaultSemester(saved);
       } catch {}
     };
     window.addEventListener("default-semester-change", handler);
@@ -61,7 +59,7 @@ export function SiteNav() {
       try {
         localStorage.setItem(SAVED_PATH_KEY, fullPath);
       } catch {}
-      savedPathRef.current = fullPath;
+      setSavedPath(fullPath);
     }
   }, [pathname]);
 
@@ -71,26 +69,23 @@ export function SiteNav() {
       if (level > 0) {
         e.preventDefault();
         if (level >= 2) {
-          const def = defaultSemesterRef.current;
-          router.push(def ? `/subjects/${def}` : "/subjects");
+          router.push(defaultSemester ? `/subjects/${defaultSemester}` : "/subjects");
         } else {
           router.push("/subjects");
         }
         return;
       }
-      const saved = savedPathRef.current;
-      if (saved && getLevel(saved) >= 2) {
+      if (savedPath && getLevel(savedPath) >= 2) {
         e.preventDefault();
-        router.push(saved);
+        router.push(savedPath);
         return;
       }
-      const def = defaultSemesterRef.current;
-      if (def) {
+      if (defaultSemester) {
         e.preventDefault();
-        router.push(`/subjects/${def}`);
+        router.push(`/subjects/${defaultSemester}`);
       }
     },
-    [pathname, router]
+    [pathname, router, savedPath, defaultSemester]
   );
 
   const isDimmed = pathname.startsWith("/view-pdf");
