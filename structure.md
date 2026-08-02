@@ -24,6 +24,7 @@
 15. [PWA & Offline Architecture](#15-pwa--offline-architecture)
 16. [Environment Variables](#16-environment-variables)
 17. [Subject Quiz System & Auto-Seeding](#17-subject-quiz-system--auto-seeding)
+18. [Landing Page Click-Optimization Plan (no-code)](18-landing-page-click-optimization-plan-nocode)
 
 ---
 
@@ -1712,6 +1713,24 @@ Settings:
 | PDF.js worker | `bca-nepal-static-v9` | Cache-first | — | unpkg.com CDN worker |
 | Analytics | — | Bypass (not intercepted) | — | GTM, GA4 |
 
+### 🌐 Offline Behaviour
+
+- Every `event.respondWith(...)` in `public/sw.js` is wrapped with
+  `.catch(() => offlineFallback(request, url))`, so a rejected strategy (e.g. an
+  uncached static asset on a first offline visit) degrades gracefully instead of
+  showing a blank browser error page.
+- `offlineFallback`:
+  - `mode === "navigate"` → returns the cached path (`url.origin + pathname`) or
+    `caches.match("/offline.html")` (the BCA Nepal offline shell).
+  - Other requests → returns an existing cached copy if present, otherwise a
+    defined `503` response (so callers handling errors still get a typed value).
+- `staleWhileRevalidate` (same-origin pages/RSC) now returns `offline.html` for
+  navigations instead of an empty `Response("", { status: 503 })` that previously
+  rendered a blank page offline.
+- Auto SW `controllerchange` reload was removed (it caused a reload loop in dev
+  when `sw.js` recompiled with `skipWaiting()`); updates now apply via the manual
+  "Refresh" toast button only.
+
 ### 📡 Background Sync
 
 ```javascript
@@ -1879,6 +1898,83 @@ No paid APIs — uses the free Google Gemini tier through native REST (`:generat
   - `oop-in-java` — 52
   - `ux-ui-design` — 30
   - `principles-of-management` — 20
+
+---
+
+18. [Landing Page Click-Optimization Plan (no-code)](18-landing-page-click-optimization-plan-nocode)
+
+---
+
+## 18. Landing Page Click-Optimization Plan (no-code)
+
+> Goal: increase CTR / first-click engagement on `/` (Home) without a redesign and
+> **without abandoning the mobile-first PWA** (`AppHeader` + `SiteNav` tab bar +
+> SSG subject grid). Entrance/mock-test stays untouched.
+
+### 🧭 Current State of Home
+- `src/app/page.tsx` renders a hero (`welcome-hero`) + `subject-stack` grid of
+  subject cards → links to `/subjects/[sem]/[subject]`.
+- Hero message is generic. No direct "Quizzes" link surfaced on home
+  (quiz entry lives only inside each subject page). No search/jump, no
+  continue-point, no progress indicator for returners.
+- Data is **static/bundled** (`content/`), so any new home element is free (no API).
+
+### ✅ Prioritized Actions (UX only; reuse existing classes)
+
+1. **Sharpen the hero value prop** — replace the generic tagline with a single
+   scannable line + a primary CTA button: *"{subject} Quiz · Notes · Lectures —
+   start learning"* → scrolls to `#subjects` / jumps to selected semester.
+   Taps first-click friction to zero.
+
+2. **Surface "Practice Quizzes" on home** — add ONE prominent accent card in the
+   hero area (not the grid) linking to a quiz entry, e.g.
+   `/quiz/semester-2/oop-in-java`. Quizzes are the highest-engagement surface;
+   the entrance system already proves MCQs convert. Make the card visually
+   distinct (accent border, quiz icon).
+
+3. **Reduce choice paralysis in the grid** — show sem1 + sem2 first on the
+   initial viewport; render older semesters below the fold (already paginated by
+   accordion/scroller). Smaller visible choice set → higher click rate per card.
+
+4. **Social proof on subject cards** — badge each `app-card` with unit count
+   (e.g. `5 units`) and a "Quiz ready 🔹" marker where `subject_questions` exist,
+   so users see value before clicking.
+
+5. **Hover affordance (desktop only)** — on ≥1024px, subject cards reveal a
+   subtle *"View notes →"* chevron/underline on hover (no JS; pure CSS). Mobile
+   keeps tap targets unchanged.
+
+6. **Search/quick jump bar** — add a sticky input (`placeholder="Search subjects / quizzes…"`,
+   hot key `s`) wired to a client-side filter over the static subject list; on
+   select, scroll to that card. Greatly lifts CTR for users who know what they
+   want. No API needed (filters static `content/subjects`).
+
+7. **"Continue where you left off" strip** — read last-open subject/unit from
+   localStorage progress and show a small personalized row above the grid for
+   returning users (single tap → resume). High CTR because it's personalized.
+
+8. **Progressive hero CTA row (icons)** — under the hero tagline, render the 3
+   main destinations as labeled icon buttons: `Subjects · Quizzes · Lectures ·
+   Bookmarks`, each a direct link. Gives 4 clear first clicks instead of one
+   generic hero.
+
+### 📱 Desktop vs Mobile
+- All actions above are **touch-first** (large tap targets, sticky search).
+- Enhancements (two-column hero CTA, hover chevron) activate at the existing
+  `@media (min-width: 768px)` / `1024px` breakpoints already in `globals.css`
+  — no new breakpoints.
+- No page is capped to a narrow column (full-width hero preserved).
+
+### 📏 Measure (no new tooling)
+- GTM/GA4 already bootstrapped in `layout.tsx` (`GTM-TDJL2X9D`, `G-3MLZFJ1XP5`)
+  and `dataLayer` exposed. Tag the hero CTA + quiz card clicks as
+  `hero_cta_click` / `quiz_card_click` → measure CTR before/after.
+
+### 🚫 Non-goals
+- No redesign of the hero image/logo area.
+- No paid analytics or A/B testing tools.
+- Entrance (`entrance-mock-test`) and `mock-test` engines stay frozen.
+- No CSS rewrite; reuse `welcome-hero`, `subject-stack`, `app-card`, `badge-row`.
 
 ---
 

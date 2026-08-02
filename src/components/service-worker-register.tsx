@@ -64,21 +64,7 @@ export function ServiceWorkerRegister() {
       }
     });
 
-    const handleControllerChange = () => {
-      if (updateAvailable) {
-        try {
-          if (sessionStorage.getItem("bca-nepal-sw-reloaded")) return;
-          sessionStorage.setItem("bca-nepal-sw-reloaded", "1");
-        } catch {}
-        window.location.reload();
-      }
-    };
-    navigator.serviceWorker.addEventListener("controllerchange", handleControllerChange);
-
-    return () => {
-      navigator.serviceWorker.removeEventListener("controllerchange", handleControllerChange);
-    };
-  }, [updateAvailable]);
+    }, [updateAvailable]);
 
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {

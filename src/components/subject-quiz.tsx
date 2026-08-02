@@ -230,7 +230,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
           <p>Configure your quiz and start practicing.</p>
         </section>
 
-        <div className="subject-stack">
+        <div className="quiz-setup">
           <div className="app-card" style={{ flexDirection: "column", alignItems: "stretch", gap: "1.25rem", padding: "1.25rem" }}>
             <div>
               <label style={{ fontWeight: 600, fontSize: "0.85rem", display: "block", marginBottom: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
@@ -324,7 +324,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
             <span>Results</span>
           </button>
         </nav>
-        <div className="subject-stack" style={{ padding: "0 1rem 2rem" }}>
+        <div className="quiz-answers" style={{ padding: "0 1rem 2rem" }}>
           <section className="welcome-hero" style={{ marginBottom: 0, textAlign: "center" }}>
             <div style={{ fontSize: "2.8rem", fontWeight: 800, color: gradeColor, lineHeight: 1 }}>
               {percent}%
@@ -424,7 +424,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
 
                     <div style={{ fontSize: "0.85rem", fontWeight: 600, lineHeight: 1.5 }}>{q_.question}</div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                    <div className="quiz-options" style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
                       {q_.options.map((opt, oi) => {
                         const isSelected = oi === userChoice;
                         const isRightAnswer = opt === q_.correct_answer;
@@ -520,7 +520,8 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
           <div style={{ height: 4, background: "var(--slate-200)" }}>
             <div style={{ height: "100%", width: `${progressPct}%`, background: "var(--primary)", transition: "width 0.3s" }} />
           </div>
-          <div ref={dotsRef} style={{ display: "flex", gap: "5px", padding: "0.7rem 0.85rem", overflowX: "auto", scrollbarWidth: "none" }}>
+          <div className="quiz-dots" style={{ display: "flex", gap: "5px", padding: "0.7rem 0.85rem", overflowX: "auto", scrollbarWidth: "none" }}
+              ref={dotsRef}>
             {questions.map((_, i) => {
               const isCurrent = i === index;
               const isAns = answers[i] !== undefined;
@@ -557,7 +558,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
             <div style={{ fontWeight: 600, fontSize: "0.92rem", lineHeight: 1.6, paddingTop: "0.25rem" }}>{q.question}</div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div className="quiz-options" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             {q.options.map((opt, oi) => {
               const selected = answers[index] === oi;
               return (

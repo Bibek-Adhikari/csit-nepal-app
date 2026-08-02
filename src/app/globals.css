@@ -654,6 +654,47 @@ html.dark .pill-btn {
   animation: fadeInUp 0.25s ease forwards;
 }
 
+.quiz-container {
+  width: 100%;
+  margin: 0 auto;
+}
+.quiz-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0 1rem;
+}
+/* Results / View Answers screen: a single vertical stack (NOT subject-stack's
+   3-col grid, which would fragment answer cards on desktop). */
+.quiz-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0 1rem 2rem;
+}
+@media (min-width: 768px) {
+  .quiz-setup,
+  .quiz-answers {
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+  }
+}
+@media (min-width: 900px) {
+  /* Answer options: 2-col grid so they use full width instead of one long column */
+  .quiz-options {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  /* Question dots: wrap into a tidy multi-column block */
+  .quiz-dots {
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+  }
+}
+
 .app-card {
   display: flex;
   align-items: center;
