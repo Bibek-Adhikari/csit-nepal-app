@@ -66,6 +66,10 @@ export function ServiceWorkerRegister() {
 
     const handleControllerChange = () => {
       if (updateAvailable) {
+        try {
+          if (sessionStorage.getItem("bca-nepal-sw-reloaded")) return;
+          sessionStorage.setItem("bca-nepal-sw-reloaded", "1");
+        } catch {}
         window.location.reload();
       }
     };

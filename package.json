@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:quiz": "node --env-file=.env.local scripts/seed-questions.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

@@ -91,26 +91,53 @@ export default async function SubjectPage({
             <i className="bx bx-chevron-right card-chevron"></i>
           </Link>
         ))}
-        {subjectData.labReports.length > 0 && (
-          <Link
-            href={`/notes/${semester}/${subject}/lab-reports`}
-            className="app-card"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div className="card-left">
-              <span className="card-code">LAB</span>
-              <span className="card-title">Lab Reports</span>
-            </div>
-            <i className="bx bx-chevron-right card-chevron"></i>
-          </Link>
-        )}
       </div>
+
+      <h3 className="section-headline">Quiz</h3>
+      <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+        <Link
+          href={`/quiz/${semester}/${subject}`}
+          className="app-card quiz-card"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div className="card-left">
+            <span className="card-code">QUIZ</span>
+            <span className="card-title">Take Quiz</span>
+          </div>
+          <i className="bx bx-chevron-right card-chevron"></i>
+        </Link>
+      </div>
+
+      {subjectData.labReports.length > 0 && (
+        <>
+          <h3 className="section-headline">Lab Reports</h3>
+          <div className="subject-stack" style={{ paddingBottom: "1rem" }}>
+            <Link
+              href={`/notes/${semester}/${subject}/lab-reports`}
+              className="app-card"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div className="card-left">
+                <span className="card-code">LAB</span>
+                <span className="card-title">Lab Reports</span>
+              </div>
+              <i className="bx bx-chevron-right card-chevron"></i>
+            </Link>
+          </div>
+        </>
+      )}
     </>
   );
 }
