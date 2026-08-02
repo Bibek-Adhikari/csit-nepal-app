@@ -27,6 +27,29 @@ CREATE POLICY "public_read_notes" ON notes
   FOR SELECT TO public USING (true);
 
 CREATE POLICY "service_full_access_notes" ON notes
+  FOR ALL TO service_role USING (true) WITH CHECK (true);
+
+-- Subject unit quiz questions (independent from entrance_questions)
+CREATE TABLE IF NOT EXISTS subject_questions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  semester_key TEXT NOT NULL,
+  subject_slug TEXT NOT NULL,
+  unit_slug TEXT NOT NULL,
+  question TEXT NOT NULL,
+  options JSONB NOT NULL,
+  correct_answer TEXT NOT NULL,
+  explanation TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_subject_questions_unit
+  ON subject_questions(semester_key, subject_slug, unit_slug);
+ALTER TABLE subject_questions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "public_read_subject_questions" ON subject_questions
+  FOR SELECT TO public USING (true);
+
+CREATE POLICY "service_full_access_subject_questions" ON subject_questions
   FOR ALL TO service_role USING (true) WITH CHECK (true);`;
 
 export async function POST() {

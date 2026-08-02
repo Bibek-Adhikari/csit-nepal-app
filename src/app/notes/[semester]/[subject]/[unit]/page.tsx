@@ -184,6 +184,17 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
         <h1 className="unit-hero-title">{unitData.title}</h1>
       </section>
 
+      <div className="unit-quiz-cta">
+        <Link
+          href={`/quiz/${semester}/${subject}`}
+          className="pill-btn"
+          style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
+        >
+          <i className="bx bx-question-mark"></i>
+          Take {subjectData.title} Quiz
+        </Link>
+      </div>
+
       {pdfNotes.length > 0 && (
         <section className="unit-notes-section">
           <h3 className="section-headline"><i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>PDF &mdash; Course</h3>
