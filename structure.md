@@ -23,6 +23,7 @@
 14. [Database & Storage Schema](#14-database--storage-schema)
 15. [PWA & Offline Architecture](#15-pwa--offline-architecture)
 16. [Environment Variables](#16-environment-variables)
+17. [Subject Quiz System & Auto-Seeding](#17-subject-quiz-system--auto-seeding)
 
 ---
 
@@ -1773,6 +1774,111 @@ Service Worker messages:
 | `NEXT_PUBLIC_SENTRY_DSN` | Optional | Sentry config | ❌ Public | Sentry error reporting |
 | `NEXT_PUBLIC_VAPID_KEY` | Optional | `service-worker-register.tsx` | ❌ Public | Push notifications |
 | `VERCEL_URL` | Auto (Vercel) | `layout.tsx`, `sitemap.ts` | ❌ Auto | Vercel deployment URL |
+
+---
+
+## 17. Subject Quiz System & Auto-Seeding
+
+> ⚠️ **Standalone from the entrance system.** This quiz/chapter system is completely independent of the
+> [Entrance Preparation System](#8-entrance-preparation-system) (`entrance-mock-test`) and the mock-test engine
+> (`src/app/mock-test/[subject]`). Entrance questions remain frozen and are never reused here.
+
+The subject quiz system provides per-subject MCQ practice for course chapters. It is complemented by an
+auto-seeding script that turns existing study PDFs into multiple-choice questions using a **free** Google
+Gemini API key (no paid subscriptions).
+
+### 🧭 Architecture Overview
+
+```
+[PDFs in Supabase Storage "notes" bucket]
+                 │  (text layer extraction / optional OCR)
+                 ▼
+[ scripts/seed-questions.mjs ]   ← node --env-file=.env.local (npm run seed:quiz)
+                 │  (LLM generates MCQs → validated JSON)
+                 ▼
+[ Supabase table: subject_questions ]
+                 │  (GET via REST, RLS public read)
+                 ▼
+[ /api/subject-questions ]  (GET/POST admin)
+                 ▼
+[ /quiz/[semester]/[subject] ]  →  [ client: subject-quiz.tsx ]
+                                        (config screen → timed quiz → results)
+```
+
+### 🗃️ `subject_questions` Table
+
+Appended to `src/app/api/db/init/route.ts` and typed in `src/lib/database.types.ts`:
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | uuid PK | default gen_random_uuid() |
+| `semester_key` | text | e.g. `sem2` |
+| `subject_slug` | text | e.g. `oop-in-java` |
+| `unit_slug` | text | e.g. `unit-1` (used for per-unit filtering) |
+| `question` | text | The MCQ stem |
+| `options` | jsonb | Array of 4 answer choices |
+| `correct_answer` | text | The correct option text (index kept implicit) |
+| `explanation` | text | Short explanation for answer-review |
+| `created_at` | timestamptz | default now() |
+
+- **RLS**: `SELECT` open to public (anon), writes restricted to the service role (admin). No auth/entrance linkage.
+- Quiz is **per-subject** (one table; not one table per subject). Unit filtering is done at query time.
+
+### 🌐 API — `/api/subject-questions`
+
+- `GET` — optional query params `semester`, `subject`, `unit`; a count cap (200) is applied to bound
+  payload size for the client quiz engine. Combined filters used when configuring a quiz.
+- `POST` — admin only (guarded by admin/service-role auth) used by the seeding script to insert batches.
+
+### 🖥 Quiz Page `/quiz/[semester]/[subject]`
+
+- `src/app/quiz/[semester]/[subject]/page.tsx` — server component that resolves the subject title for
+  linking/labels.
+- `src/components/subject-quiz.tsx` — the client engine, which provides:
+  - **Setup/config screen** (mirrors the entrance mock-test config UX): self-select the **number of
+    questions** (10 / 20 / 30) and an optional **Unit filter**, then Start.
+  - **Timed quiz** with per-question dot navigation.
+  - **Results** including score, per-unit breakdown, and a note comparing difficulty/format to the
+    entrance mock-test.
+  - **Buttons**: Settings / Retake / View Answers / Change Settings.
+- Removed: the older per-unit route `/quiz/[semester]/[subject]/[unit]` and `unit-quiz.tsx`. The subject
+  page now shows exactly one "QUIZ / Take Quiz" card (between Units and Lab Reports) linking to this page;
+  the per-unit "?" buttons were removed in favour of this single entry point. The unit notes page button
+  uses the label `Take {subjectData.title} Quiz`.
+
+### 📥 Seeding Script `scripts/seed-questions.mjs`
+
+Run via `node --env-file=.env.local scripts/seed-questions.mjs` (npm script `seed:quiz`).
+
+- **Pipeline** (resumable via `.seed-state.json`):
+  1. Walk the `notes` bucket for right subject PDFs.
+  2. Extract text with pdf.js; if a PDF has no text layer (scanned/handwritten) it is flagged **"needs OCR"**
+     and skipped (optional `OCR_SPACE_API_KEY` fallback).
+  3. Ask the LLM to produce MCQs as validated JSON.
+  4. Insert into `subject_questions` via `/api/subject-questions`.
+- **Flags**: `--force` (ignore processed state), `--limit <n>` (subset), `--questions-per-doc <n>`,
+  `--dry-run` (report only, no writes). The state file makes re-runs only pick up new/remaining documents.
+
+### 🤖 Free-Tier LLM Integration
+
+No paid APIs — uses the free Google Gemini tier through native REST (`:generateContent`, keyed via
+`x-goog-api-key`), NOT the OpenAI-compat endpoint, which the free key type does not accept.
+
+| Env var | Purpose |
+|---|---|
+| `LLM_PROVIDER=gemini` | Selects the Gemini native provider |
+| `OPENAI_API_KEY` | The free Gemini key value |
+| `OPENAI_BASE_URL` | `https://generativelanguage.googleapis.com/v1beta` |
+| `OPENAI_MODEL` | `gemini-3.5-flash` (older models 404 for new users) |
+| `OCR_SPACE_API_KEY` | Optional OCR fallback for scanned PDFs |
+
+### 📊 Seeding Status (current)
+
+- ~46 of 59 PDFs are scanned/handwritten (no text layer) → **"needs OCR"**.
+- 102 questions in total; only **sem2** seeded so far:
+  - `oop-in-java` — 52
+  - `ux-ui-design` — 30
+  - `principles-of-management` — 20
 
 ---
 

@@ -16,7 +16,6 @@ type QuizQuestion = {
 type Answers = Record<number, number>;
 
 const LETTERS = ["A", "B", "C", "D"];
-const DEFAULT_COUNT = 10;
 
 type SubjectQuizProps = {
   semester: string;
@@ -38,8 +37,10 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
   const router = useRouter();
 
   const [selectedUnit, setSelectedUnit] = useState<string>("all");
+  const [count, setCount] = useState(10);
+  const [started, setStarted] = useState(false);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [noQuestions, setNoQuestions] = useState(false);
 
@@ -53,7 +54,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
 
-  const totalMinutes = questions.length <= 10 ? 10 : questions.length <= 20 ? 20 : 30;
+  const totalMinutes = count <= 10 ? 10 : count <= 20 ? 20 : 30;
   const totalSeconds = totalMinutes * 60;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = questions.length > 0 && answeredCount === questions.length;
@@ -61,6 +62,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
   const unitTitleOf = (slug: string) => units.find((u) => u.slug === slug)?.title || slug;
 
   useEffect(() => {
+    if (!started) return;
     let cancelled = false;
 
     async function loadQuestions() {
@@ -83,10 +85,8 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
             setNoQuestions(true);
             setQuestions([]);
           } else {
-            const pool = selectedUnit === "all"
-              ? shuffleArray(data.questions)
-              : shuffleArray(data.questions.slice(0, DEFAULT_COUNT));
-            setQuestions(pool.slice(0, DEFAULT_COUNT));
+            const pool = shuffleArray(data.questions);
+            setQuestions(pool.slice(0, count));
             setStartTime(Date.now());
             setTimeLeft(totalSeconds);
           }
@@ -102,7 +102,7 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
 
     loadQuestions();
     return () => { cancelled = true; };
-  }, [semester, subject, selectedUnit, totalSeconds]);
+  }, [semester, subject, selectedUnit, count, started, totalSeconds]);
 
   const finishTest = useCallback(() => {
     setSubmitted(true);
@@ -133,6 +133,18 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
   const handleBack = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     router.push(backHref);
+  };
+
+  const startQuiz = () => {
+    setNoQuestions(false);
+    setStarted(true);
+  };
+
+  const goToSetup = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setStarted(false);
+    setSubmitted(false);
+    setShowAnswers(false);
   };
 
   if (error) {
@@ -185,8 +197,16 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
         <section className="unit-notes-section">
           <div className="unit-coming-soon">
             <i className="bx bx-time-five"></i>
-            <span>Quiz questions for this subject are being prepared &mdash; check back soon!</span>
+            <span>No questions for this selection yet &mdash; pick another unit or check back soon!</span>
           </div>
+          <button
+            className="upload-btn upload-btn-secondary"
+            onClick={goToSetup}
+            style={{ marginTop: "1rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}
+          >
+            <i className="bx bx-sliders-alt"></i>
+            Change Settings
+          </button>
         </section>
       </>
     );
@@ -196,6 +216,86 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
   const fmtTime = `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60).padStart(2, "0")}`;
   const progressPct = questions.length ? ((index + 1) / questions.length) * 100 : 0;
   const timerColor = timeLeft < 60 ? "var(--danger)" : timeLeft < 300 ? "var(--warning, #d97706)" : "var(--primary)";
+
+  if (!started) {
+    const COUNT_OPTIONS = [10, 20, 30];
+    return (
+      <>
+        <BackNav href={backHref} label={backLabel} />
+        <section className="welcome-hero">
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <i className="bx bx-edit-alt" style={{ fontSize: "1.6rem", color: "var(--primary)" }}></i>
+            <h2 style={{ margin: 0 }}>{subjectTitle} Quiz</h2>
+          </div>
+          <p>Configure your quiz and start practicing.</p>
+        </section>
+
+        <div className="subject-stack">
+          <div className="app-card" style={{ flexDirection: "column", alignItems: "stretch", gap: "1.25rem", padding: "1.25rem" }}>
+            <div>
+              <label style={{ fontWeight: 600, fontSize: "0.85rem", display: "block", marginBottom: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                <i className="bx bx-question-mark" style={{ marginRight: "0.3rem" }}></i>Questions
+              </label>
+              <div className="badge-row" style={{ gap: "0.5rem", flexWrap: "wrap" }}>
+                {COUNT_OPTIONS.map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setCount(n)}
+                    className={`sheet-badge${count === n ? " accent" : ""}`}
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: "0.4rem 0.85rem" }}
+                  >
+                    {n} Questions
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label style={{ fontWeight: 600, fontSize: "0.85rem", display: "block", marginBottom: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                <i className="bx bx-library" style={{ marginRight: "0.3rem" }}></i>Unit
+              </label>
+              <div className="badge-row" style={{ gap: "0.5rem", flexWrap: "wrap" }}>
+                {[{ slug: "all", title: "All Units" }, ...units].map((u) => {
+                  const active = selectedUnit === u.slug;
+                  return (
+                    <button
+                      key={u.slug}
+                      onClick={() => setSelectedUnit(u.slug)}
+                      className={`sheet-badge${active ? " accent" : ""}`}
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: "0.4rem 0.85rem" }}
+                    >
+                      {u.title}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div style={{ display: "flex", gap: "1rem", fontSize: "0.82rem", color: "var(--text-muted)", paddingTop: "0.25rem", flexWrap: "wrap" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <i className="bx bx-time"></i> {totalMinutes} min
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <i className="bx bx-question-mark"></i> {count} questions
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <i className="bx bx-library"></i> {units.find((u) => u.slug === selectedUnit)?.title ?? "All Units"}
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={startQuiz}
+            className="upload-btn"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem" }}
+          >
+            <i className="bx bx-play-circle" style={{ fontSize: "1.2rem" }}></i>
+            Start Quiz
+          </button>
+        </div>
+      </>
+    );
+  }
 
   if (submitted) {
     const timeTaken = endTime - startTime;
@@ -284,10 +384,17 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
             </button>
             <button
               className="upload-btn"
-              onClick={() => { setSubmitted(false); setQuestions(prev => shuffleArray(prev).slice(0, DEFAULT_COUNT)); setIndex(0); setAnswers({}); setShowAnswers(false); setStartTime(Date.now()); setTimeLeft(totalSeconds); }}
+              onClick={() => { setSubmitted(false); setQuestions(prev => shuffleArray(prev).slice(0, count)); setIndex(0); setAnswers({}); setShowAnswers(false); setStartTime(Date.now()); setTimeLeft(totalSeconds); }}
               style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}>
               <i className="bx bx-refresh"></i>
               Retake
+            </button>
+            <button
+              className="upload-btn upload-btn-secondary"
+              onClick={goToSetup}
+              style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}>
+              <i className="bx bx-sliders-alt"></i>
+              Settings
             </button>
           </div>
 
@@ -369,24 +476,18 @@ export function SubjectQuiz({ semester, subject, subjectTitle, units }: SubjectQ
 
   const unitFilter = (
     <div style={{ display: "flex", gap: "0.5rem", padding: "0.5rem 1rem 0", overflowX: "auto", scrollbarWidth: "none" }}>
-      {[{ slug: "all", title: "All Units" }, ...units].map((u) => {
-        const active = selectedUnit === u.slug;
-        return (
-          <button
-            key={u.slug}
-            onClick={() => setSelectedUnit(u.slug)}
-            style={{
-              flexShrink: 0, border: "none", cursor: "pointer",
-              padding: "0.5rem 0.85rem", borderRadius: 999,
-              fontSize: "0.78rem", fontWeight: 600, transition: "all 0.15s",
-              background: active ? "var(--primary)" : "var(--slate-200)",
-              color: active ? "white" : "var(--slate-500)",
-            }}
-          >
-            {u.title}
-          </button>
-        );
-      })}
+      <button
+        onClick={goToSetup}
+        style={{
+          flexShrink: 0, border: "1px solid var(--border)", cursor: "pointer",
+          padding: "0.5rem 0.85rem", borderRadius: 999,
+          fontSize: "0.78rem", fontWeight: 600,
+          background: "var(--bg-card)", color: "var(--text-muted)",
+        }}
+      >
+        <i className="bx bx-sliders-alt" style={{ marginRight: "0.3rem", verticalAlign: "middle" }}></i>
+        {units.find((u) => u.slug === selectedUnit)?.title ?? "All Units"}
+      </button>
     </div>
   );
 
