@@ -2564,275 +2564,269 @@ html.dark .unit-coming-soon {
   margin-left: auto;
 }
 
-@layer components {
+.text-content-section {
+  padding: 0 0.85rem 2rem;
+}
+
+.text-content-body {
+  line-height: 1.7;
+  color: var(--text-main);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.text-content-body h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  color: var(--primary);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.text-content-body h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--text-main);
+}
+
+.text-content-body h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+  color: var(--text-main);
+}
+
+.text-content-body p {
+  margin: 0.75rem 0;
+}
+
+.text-content-body ul,
+.text-content-body ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.text-content-body li {
+  margin: 0.3rem 0;
+  line-height: 1.6;
+}
+
+.text-content-body strong {
+  color: var(--text-main);
+}
+
+.text-content-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.88rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.text-content-body th,
+.text-content-body td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.text-content-body th {
+  background: var(--bg-app-2);
+  font-weight: 600;
+}
+
+.text-content-body pre {
+  background: var(--bg-app-2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+
+.text-content-body code {
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.85rem;
+  background: var(--bg-app-2);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  color: var(--primary);
+}
+
+.text-content-body pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
   .text-content-section {
-    padding: 0 0.85rem 2rem;
+    padding: 0 1.35rem 2rem;
   }
+}
 
-  .text-content-body {
-    line-height: 1.7;
-    color: var(--text-main);
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
+@media (max-width: 640px) {
   .text-content-body h2 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin: 2rem 0 1rem;
-    color: var(--primary);
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border);
+    font-size: 1.25rem;
   }
 
   .text-content-body h3 {
-    font-size: 1.15rem;
-    font-weight: 600;
-    margin: 1.5rem 0 0.75rem;
-    color: var(--text-main);
+    font-size: 1.05rem;
   }
+}
 
-  .text-content-body h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 1rem 0 0.5rem;
-    color: var(--text-main);
-  }
+/* ── Text Content: Highlight Classes (from intro-java.html) ── */
+.text-content-body .hl-keyword {
+  color: #60a5fa;
+  font-weight: 600;
+}
 
-  .text-content-body p {
-    margin: 0.75rem 0;
-  }
+.text-content-body .hl-term {
+  color: #a78bfa;
+  font-weight: 500;
+}
 
-  .text-content-body ul,
-  .text-content-body ol {
-    margin: 0.75rem 0;
-    padding-left: 1.5rem;
-  }
+.text-content-body .hl-code {
+  background: #1e293b;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.82em;
+  color: #cbd5e1;
+  border: 1px solid #2d3a52;
+}
 
-  .text-content-body li {
-    margin: 0.3rem 0;
-    line-height: 1.6;
-  }
-
-  .text-content-body strong {
-    color: var(--text-main);
-  }
-
-  .text-content-body table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
-    font-size: 0.88rem;
-    overflow-x: auto;
-    display: block;
-  }
-
-  .text-content-body th,
-  .text-content-body td {
-    border: 1px solid var(--border);
-    padding: 0.5rem 0.75rem;
-    text-align: left;
-  }
-
-  .text-content-body th {
-    background: var(--bg-app-2);
-    font-weight: 600;
-  }
-
-  .text-content-body pre {
-    background: var(--bg-app-2);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    overflow-x: auto;
-    margin: 1rem 0;
-    border: 1px solid var(--border);
-  }
-
-  .text-content-body code {
-    font-family: "Fira Code", "Consolas", "Monaco", monospace;
-    font-size: 0.85rem;
-    background: var(--bg-app-2);
-    padding: 0.15rem 0.35rem;
-    border-radius: 0.25rem;
-    color: var(--primary);
-  }
-
-  .text-content-body pre code {
-    background: none;
-    padding: 0;
-    color: var(--text-main);
-    font-size: 0.85rem;
-  }
-
-  @media (min-width: 768px) {
-    .text-content-section {
-      padding: 0 1.35rem 2rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .text-content-body h2 {
-      font-size: 1.25rem;
-    }
-
-    .text-content-body h3 {
-      font-size: 1.05rem;
-    }
-  }
-
-  /* ── Text Content: Highlight Classes (from intro-java.html) ── */
-  .text-content-body .hl-keyword {
-    color: #60a5fa;
-    font-weight: 600;
-  }
-
-  .text-content-body .hl-term {
-    color: #a78bfa;
-    font-weight: 500;
-  }
-
-  .text-content-body .hl-code {
-    background: #1e293b;
-    padding: 0.1rem 0.5rem;
-    border-radius: 6px;
-    font-family: "Fira Code", "Consolas", "Monaco", monospace;
-    font-size: 0.82em;
-    color: #cbd5e1;
-    border: 1px solid #2d3a52;
-  }
-
-  html.dark .text-content-body .hl-code {
-    background: #0f172a;
-    border-color: #1e293b;
-  }
+html.dark .text-content-body .hl-code {
+  background: #0f172a;
+  border-color: #1e293b;
 }
 
 /* ── Text Content: Card Container (matches intro-java.html topic-card) ── */
-@layer components {
-  .text-content-body .text-content-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-    margin: 1rem 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    transition: border-color 0.2s;
-  }
+.text-content-body .text-content-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  padding: 1.25rem 1.5rem !important;
+  margin: 1rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s;
+}
 
-  .text-content-body .text-content-card:hover {
-    border-color: var(--primary);
-  }
+.text-content-body .text-content-card:hover {
+  border-color: var(--primary) !important;
+}
 
-  .text-content-body .text-content-card h3 {
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0;
-    border-bottom: none;
-    color: var(--text-main);
-    font-size: 1.15rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+.text-content-body .text-content-card h3 {
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  .text-content-body .text-content-card h3 .tc-badge {
-    background: var(--bg-app-2);
-    color: var(--text-muted);
-    font-size: 0.6rem;
-    font-weight: 600;
-    padding: 0.15rem 0.6rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-  }
+.text-content-body .text-content-card h3 .tc-badge {
+  background: var(--bg-app-2) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--border) !important;
+}
 
-  .text-content-body .text-content-card p {
-    color: var(--text-main);
-    line-height: 1.7;
-  }
+.text-content-body .text-content-card p {
+  color: var(--text-main);
+  line-height: 1.7;
+}
 
-  .text-content-body .text-content-card strong {
-    color: var(--primary);
-    font-weight: 600;
-  }
+.text-content-body .text-content-card strong {
+  color: var(--primary);
+  font-weight: 600;
+}
 
-  .text-content-body .text-content-card .hl-term {
-    color: #7c3aed;
-    font-weight: 500;
-  }
+.text-content-body .text-content-card .hl-term {
+  color: #7c3aed;
+  font-weight: 500;
+}
 
-  .text-content-body .text-content-card .hl-code {
-    background: var(--bg-app-2);
-    padding: 0.1rem 0.5rem;
-    border-radius: 6px;
-    font-family: "Fira Code", "Consolas", "Monaco", monospace;
-    font-size: 0.82em;
-    color: var(--text-main);
-    border: 1px solid var(--border);
-  }
+.text-content-body .text-content-card .hl-code {
+  background: var(--bg-app-2) !important;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.82em;
+  color: var(--text-main);
+  border: 1px solid var(--border) !important;
+}
 
-  .text-content-body .text-content-card pre {
-    background: #f8fafc !important;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin: 0.75rem 0 0;
-    overflow-x: auto;
-  }
+.text-content-body .text-content-card pre {
+  background: #f8fafc !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 0.75rem 0 0;
+  overflow-x: auto;
+}
 
-  .text-content-body .text-content-card pre code {
-    background: none !important;
-    padding: 0;
-    color: #1e293b;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
+.text-content-body .text-content-card pre code {
+  background: none !important;
+  padding: 0;
+  color: #1e293b;
+  font-size: 0.85rem;
+  line-height: 1.6;
 }
 
 /* ── Dark mode overrides ── */
-@layer components {
-  html.dark .text-content-body .text-content-card {
-    background: #111b2e;
-    border-color: #1e2a41;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-  }
+html.dark .text-content-body .text-content-card {
+  background: #111b2e !important;
+  border-color: #1e2a41 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
 
-  html.dark .text-content-body .text-content-card h3 {
-    color: #e8edf5;
-  }
+html.dark .text-content-body .text-content-card h3 {
+  color: #e8edf5;
+}
 
-  html.dark .text-content-body .text-content-card h3 .tc-badge {
-    background: #1e2a41;
-    color: #94a3b8;
-    border-color: #2d3a52;
-  }
+html.dark .text-content-body .text-content-card h3 .tc-badge {
+  background: #1e2a41 !important;
+  color: #94a3b8 !important;
+  border-color: #2d3a52 !important;
+}
 
-  html.dark .text-content-body .text-content-card p {
-    color: #d1d9e8;
-  }
+html.dark .text-content-body .text-content-card p {
+  color: #d1d9e8;
+}
 
-  html.dark .text-content-body .text-content-card strong {
-    color: #60a5fa;
-  }
+html.dark .text-content-body .text-content-card strong {
+  color: #60a5fa;
+}
 
-  html.dark .text-content-body .text-content-card .hl-term {
-    color: #a78bfa;
-  }
+html.dark .text-content-body .text-content-card .hl-term {
+  color: #a78bfa;
+}
 
-  html.dark .text-content-body .text-content-card .hl-code {
-    background: #1e293b;
-    color: #cbd5e1;
-    border-color: #2d3a52;
-  }
+html.dark .text-content-body .text-content-card .hl-code {
+  background: #1e293b !important;
+  color: #cbd5e1;
+  border-color: #2d3a52 !important;
+}
 
-  html.dark .text-content-body .text-content-card pre {
-    background: #0d1524 !important;
-    border-color: #1e2a41;
-  }
+html.dark .text-content-body .text-content-card pre {
+  background: #0d1524 !important;
+  border-color: #1e2a41 !important;
+}
 
-  html.dark .text-content-body .text-content-card pre code {
-    color: #e2e8f0;
-  }
+html.dark .text-content-body .text-content-card pre code {
+  color: #e2e8f0;
 }
 
 /* ── Text Content: Enhanced Code Blocks (PrismJS style) ── */
