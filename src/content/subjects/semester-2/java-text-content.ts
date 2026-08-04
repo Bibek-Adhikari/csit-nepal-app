@@ -3,33 +3,33 @@ export const javaTextContent: Record<string, string> = {
 <div class="text-content-card">
 <h3>Introduction <span class="tc-badge">1/21</span></h3>
 <p><strong>Java</strong> is a high-level, robust, object-oriented, secure programming language developed by <strong>Sun Microsystems</strong> (1995).</p>
-<p>It is <strong>platform-independent</strong> — compiled to <code>bytecode</code> run on <strong>JVM</strong>.</p>
+<p>It is <strong>platform-independent</strong> &mdash; compiled to <code>bytecode</code> run on <strong>JVM</strong>.</p>
 <p>Syntax similar to C/C++ but <strong>no pointers</strong>; not pure OOP due to primitive types.</p>
 <p><strong>Platform</strong> = runtime environment (JRE) + API.</p>
 </div>
 
 <div class="text-content-card">
 <h3>Highlights <span class="tc-badge">2/21</span></h3>
-<p>Developed by <strong>James Gosling</strong> (Sun → Oracle).</p>
+<p>Developed by <strong>James Gosling</strong> (Sun &rarr; Oracle).</p>
 <p>Combines <strong>C</strong> format + <strong>C++</strong> OOP features.</p>
-<p><strong>WORA</strong> (Write Once, Run Anywhere) — no recompilation across platforms.</p>
+<p><strong>WORA</strong> (Write Once, Run Anywhere) &mdash; no recompilation across platforms.</p>
 <p><code>JVM</code> executes bytecode; JVM itself is <strong>platform-specific</strong> (C/C++/ASM).</p>
 </div>
 
 <div class="text-content-card">
 <h3>Creation &amp; History <span class="tc-badge">3/21</span></h3>
 <p>Created by <strong>Gosling, Naughton, Sheridan</strong> at Sun in <strong>1991</strong> (18 months).</p>
-<p>Originally called <code>Oak</code> → renamed <strong>Java</strong> in 1995 (trademark conflict).</p>
+<p>Originally called <code>Oak</code> &rarr; renamed <strong>Java</strong> in 1995 (trademark conflict).</p>
 <p>Designed for <strong>interactive TV</strong> but found success on the <strong>internet</strong>.</p>
 <p>Goal: <strong>"Simple, Robust, Portable, Secure, High Performance, Multithreaded"</strong>.</p>
 </div>
 
 <div class="text-content-card">
 <h3>Version History <span class="tc-badge">4/21</span></h3>
-<p><strong>JDK 1.0</strong> (1996) → <strong>J2SE 5.0</strong> (2004) → <strong>Java SE 8</strong> (2014) → <strong>Java SE 17</strong> (2021).</p>
+<p><strong>JDK 1.0</strong> (1996) &rarr; <strong>J2SE 5.0</strong> (2004) &rarr; <strong>Java SE 8</strong> (2014) &rarr; <strong>Java SE 17</strong> (2021).</p>
 <p>Major releases: <code>Java 11</code> (LTS), <code>Java 17</code> (LTS).</p>
 <p>Current stable: <strong>Java SE 18</strong> (March 2022).</p>
-<p>Evolution: <strong>JDK → J2SE → Java SE</strong>.</p>
+<p>Evolution: <strong>JDK &rarr; J2SE &rarr; Java SE</strong>.</p>
 </div>
 
 <div class="text-content-card">
@@ -42,41 +42,41 @@ export const javaTextContent: Record<string, string> = {
 
 <div class="text-content-card">
 <h3>Types of Java Applications <span class="tc-badge">6/21</span></h3>
-<p><strong>Web</strong> — server-side (Servlet, JSP, Struts, JSF).</p>
-<p><strong>Standalone</strong> — desktop (AWT, Swing) e.g. media player, antivirus.</p>
-<p><strong>Enterprise</strong> — distributed, high-security, load-balancing (EJB).</p>
-<p><strong>Mobile</strong> — Java ME, Android (Google).</p>
+<p><strong>Web</strong> &mdash; server-side (Servlet, JSP, Struts, JSF).</p>
+<p><strong>Standalone</strong> &mdash; desktop (AWT, Swing) e.g. media player, antivirus.</p>
+<p><strong>Enterprise</strong> &mdash; distributed, high-security, load-balancing (EJB).</p>
+<p><strong>Mobile</strong> &mdash; Java ME, Android (Google).</p>
 </div>
 
 <div class="text-content-card">
 <h3>Features of Java <span class="tc-badge">7/21</span></h3>
-<p><strong>Object-Oriented</strong> — simple object model.</p>
-<p><strong>Platform Independent</strong> — bytecode runs anywhere.</p>
-<p><strong>Secure</strong> — virus/malware protection.</p>
-<p><strong>Robust</strong> — early error detection.</p>
-<p><strong>Multi-threaded</strong> — concurrent tasks.</p>
-<p><strong>Distributed</strong> — TCP/IP protocol support.</p>
+<p><strong>Object-Oriented</strong> &mdash; simple object model.</p>
+<p><strong>Platform Independent</strong> &mdash; bytecode runs anywhere.</p>
+<p><strong>Secure</strong> &mdash; virus/malware protection.</p>
+<p><strong>Robust</strong> &mdash; early error detection.</p>
+<p><strong>Multi-threaded</strong> &mdash; concurrent tasks.</p>
+<p><strong>Distributed</strong> &mdash; TCP/IP protocol support.</p>
 </div>
 
 <div class="text-content-card">
-<h3>JDK — Java Dev Kit <span class="tc-badge">8/21</span></h3>
-<p><strong>JDK</strong> = Java Development Kit — physically exists.</p>
+<h3>JDK &mdash; Java Dev Kit <span class="tc-badge">8/21</span></h3>
+<p><strong>JDK</strong> = Java Development Kit &mdash; physically exists.</p>
 <p>Includes: <strong>JRE</strong> + <code>javac</code> (compiler) + <code>java</code> (interpreter) + <code>jar</code> + <code>javadoc</code> + tools.</p>
 <p>Platform-specific: Windows, Linux, Solaris; Mac has its own.</p>
 <p><strong>Use</strong>: development environment for Java apps &amp; applets.</p>
 </div>
 
 <div class="text-content-card">
-<h3>JRE — Runtime Env <span class="tc-badge">9/21</span></h3>
-<p><strong>JRE</strong> = Java Runtime Environment — physically exists.</p>
+<h3>JRE &mdash; Runtime Env <span class="tc-badge">9/21</span></h3>
+<p><strong>JRE</strong> = Java Runtime Environment &mdash; physically exists.</p>
 <p>Provides: core classes, libraries, <strong>JVM</strong>, and components to <strong>run</strong> Java programs.</p>
 <p>Part of JDK but can be downloaded separately.</p>
-<p><code>Cannot</code> be used for development — only for <strong>execution</strong>.</p>
+<p><code>Cannot</code> be used for development &mdash; only for <strong>execution</strong>.</p>
 </div>
 
 <div class="text-content-card">
-<h3>JVM — Virtual Machine <span class="tc-badge">10/21</span></h3>
-<p><strong>JVM</strong> = Java Virtual Machine — executes <code>bytecode</code>.</p>
+<h3>JVM &mdash; Virtual Machine <span class="tc-badge">10/21</span></h3>
+<p><strong>JVM</strong> = Java Virtual Machine &mdash; executes <code>bytecode</code>.</p>
 <p>Resides on your machine; bytecode is JVM's machine language.</p>
 <p>Compiler generates bytecode for JVM, not machine code.</p>
 <p><strong>Key</strong>: JVM makes Java <strong>platform-independent</strong>.</p>
@@ -85,9 +85,9 @@ export const javaTextContent: Record<string, string> = {
 <div class="text-content-card">
 <h3>Bytecode &amp; Mechanism <span class="tc-badge">11/21</span></h3>
 <p><strong>Bytecode</strong> = intermediate machine-independent code.</p>
-<p>Set of instructions for <strong>JVM</strong> — similar to assembler.</p>
-<p>Processed by JVM (not the processor) → <code>.class</code> file runs on any platform.</p>
-<p>Flow: <strong>.java</strong> → compiler → <strong>.class</strong> (bytecode) → JVM → machine code.</p>
+<p>Set of instructions for <strong>JVM</strong> &mdash; similar to assembler.</p>
+<p>Processed by JVM (not the processor) &rarr; <code>.class</code> file runs on any platform.</p>
+<p>Flow: <strong>.java</strong> &rarr; compiler &rarr; <strong>.class</strong> (bytecode) &rarr; JVM &rarr; machine code.</p>
 </div>
 
 <div class="text-content-card">
@@ -100,15 +100,15 @@ export const javaTextContent: Record<string, string> = {
 
 <div class="text-content-card">
 <h3>Compiling &amp; Running <span class="tc-badge">13/21</span></h3>
-<p>Write code in <code>.java</code> file → compile with <strong>javac</strong> → generates <code>.class</code>.</p>
+<p>Write code in <code>.java</code> file &rarr; compile with <strong>javac</strong> &rarr; generates <code>.class</code>.</p>
 <p>Run with <strong>java</strong> command.</p>
-<p><strong>Example</strong>: <code>javac MyFirstJavaProgram.java</code> → <code>java MyFirstJavaProgram</code>.</p>
+<p><strong>Example</strong>: <code>javac MyFirstJavaProgram.java</code> &rarr; <code>java MyFirstJavaProgram</code>.</p>
 <p>Output: <strong>Hello World</strong>.</p>
 </div>
 
 <div class="text-content-card">
 <h3>Naming Conventions <span class="tc-badge">14/21</span></h3>
-<p><strong>Case-sensitive</strong> — <code>Hello</code> ≠ <code>hello</code>.</p>
+<p><strong>Case-sensitive</strong> &mdash; <code>Hello</code> ≠ <code>hello</code>.</p>
 <p><strong>Class names</strong>: UpperCamelCase (e.g. <code>MyFirstJavaClass</code>).</p>
 <p><strong>Method names</strong>: lowerCamelCase (e.g. <code>myMethodName()</code>).</p>
 <p>File name must match <strong>class name</strong> exactly + <code>.java</code>.</p>
@@ -118,14 +118,14 @@ export const javaTextContent: Record<string, string> = {
 <div class="text-content-card">
 <h3>Setting up Environment <span class="tc-badge">15/21</span></h3>
 <p>Set <strong>PATH</strong> variable to run <code>javac</code>, <code>java</code> from any directory.</p>
-<p>Windows: Properties → Advanced → Environment Variables → add <strong>Path</strong>.</p>
+<p>Windows: Properties &rarr; Advanced &rarr; Environment Variables &rarr; add <strong>Path</strong>.</p>
 <p>Value: <code>C:\Program Files\Java\jdk1.7.0_21\bin</code> (adjust to your JDK).</p>
 <p>Without PATH: must type full path each time.</p>
 </div>
 
 <div class="text-content-card">
 <h3>Code Example <span class="tc-badge">16/21</span></h3>
-<p>Complete <strong>Hello World</strong> program — the entry point for every Java developer.</p>
+<p>Complete <strong>Hello World</strong> program &mdash; the entry point for every Java developer.</p>
 <p>Class name: <strong>MyFirstJavaProgram</strong> &bull; file: <code>MyFirstJavaProgram.java</code>.</p>
 <p><strong>main()</strong> method is public, static, void, with <code>String[] args</code>.</p>
 <p><strong>System.out.println()</strong> prints to console.</p>
@@ -143,10 +143,10 @@ public class MyFirstJavaProgram {
 
 <div class="text-content-card">
 <h3>OOP Concepts <span class="tc-badge">17/21</span></h3>
-<p><strong>Encapsulation</strong> — bundling data and methods, hiding internals.</p>
-<p><strong>Inheritance</strong> — subclass inherits from superclass (extends).</p>
-<p><strong>Polymorphism</strong> — same method name, different behaviours (overloading/overriding).</p>
-<p><strong>Abstraction</strong> — hiding implementation details (abstract classes &amp; interfaces).</p>
+<p><strong>Encapsulation</strong> &mdash; bundling data and methods, hiding internals.</p>
+<p><strong>Inheritance</strong> &mdash; subclass inherits from superclass (extends).</p>
+<p><strong>Polymorphism</strong> &mdash; same method name, different behaviours (overloading/overriding).</p>
+<p><strong>Abstraction</strong> &mdash; hiding implementation details (abstract classes &amp; interfaces).</p>
 </div>
 
 <div class="text-content-card">
@@ -159,26 +159,26 @@ public class MyFirstJavaProgram {
 
 <div class="text-content-card">
 <h3>Collections Framework <span class="tc-badge">19/21</span></h3>
-<p><strong>List</strong> — ordered, duplicates allowed (ArrayList, LinkedList).</p>
-<p><strong>Set</strong> — no duplicates (HashSet, TreeSet).</p>
-<p><strong>Map</strong> — key-value pairs (HashMap, TreeMap).</p>
-<p><strong>Queue</strong> — FIFO (PriorityQueue, ArrayDeque).</p>
+<p><strong>List</strong> &mdash; ordered, duplicates allowed (ArrayList, LinkedList).</p>
+<p><strong>Set</strong> &mdash; no duplicates (HashSet, TreeSet).</p>
+<p><strong>Map</strong> &mdash; key-value pairs (HashMap, TreeMap).</p>
+<p><strong>Queue</strong> &mdash; FIFO (PriorityQueue, ArrayDeque).</p>
 </div>
 
 <div class="text-content-card">
 <h3>Multithreading</h3>
-<p><strong>Thread</strong> — lightweight process, concurrent execution.</p>
+<p><strong>Thread</strong> &mdash; lightweight process, concurrent execution.</p>
 <p>Create by extending <strong>Thread</strong> or implementing <strong>Runnable</strong>.</p>
-<p>Synchronization — <code>synchronized</code> keyword for thread-safe access.</p>
+<p>Synchronization &mdash; <code>synchronized</code> keyword for thread-safe access.</p>
 <p>Methods: <strong>start()</strong>, <code>run()</code>, <code>sleep()</code>, <code>join()</code>, <code>wait()</code>/<code>notify()</code>.</p>
 </div>
 
 <div class="text-content-card">
 <h3>I/O Streams <span class="tc-badge">21/21</span></h3>
-<p><strong>InputStream</strong>/<strong>OutputStream</strong> — byte streams.</p>
-<p><strong>Reader</strong>/<strong>Writer</strong> — character streams.</p>
+<p><strong>InputStream</strong>/<strong>OutputStream</strong> &mdash; byte streams.</p>
+<p><strong>Reader</strong>/<strong>Writer</strong> &mdash; character streams.</p>
 <p>Common classes: <code>FileInputStream</code>, <code>FileOutputStream</code>, <code>BufferedReader</code>, <code>PrintWriter</code>.</p>
-<p>Serialization — <strong>Serializable</strong> interface to persist objects.</p>
+<p>Serialization &mdash; <strong>Serializable</strong> interface to persist objects.</p>
 </div>
 `,
 
@@ -491,10 +491,10 @@ class Car extends Vehicle {
 
 <h3>Types of Inheritance</h3>
 <ul>
-  <li><strong>Single:</strong> One parent → One child</li>
+  <li><strong>Single:</strong> One parent &rarr; One child</li>
   <li><strong>Multiple:</strong> Not supported in Java (handled via interfaces)</li>
-  <li><strong>Multilevel:</strong> Parent → Child → Grandchild</li>
-  <li><strong>Hierarchical:</strong> One parent → Multiple children</li>
+  <li><strong>Multilevel:</strong> Parent &rarr; Child &rarr; Grandchild</li>
+  <li><strong>Hierarchical:</strong> One parent &rarr; Multiple children</li>
   <li><strong>Hybrid:</strong> Combination of multiple types</li>
 </ul>
 
@@ -665,8 +665,8 @@ It prevents program crashes and provides meaningful error messages.
 
 <h4>Exception Hierarchy</h4>
 <p>
-Throwable (root) → Exception (recoverable) / Error (not recoverable)<br>
-Exception → RuntimeException (unchecked) / IOException (checked)
+Throwable (root) &rarr; Exception (recoverable) / Error (not recoverable)<br>
+Exception &rarr; RuntimeException (unchecked) / IOException (checked)
 </p>
 
 <h4>Try-Catch-Finally</h4>

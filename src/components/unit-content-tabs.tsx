@@ -3,6 +3,12 @@
 import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
 
+declare global {
+  interface Window {
+    Prism?: { highlightAll: () => void };
+  }
+}
+
 interface NoteItem {
   href: string;
   title: string;
