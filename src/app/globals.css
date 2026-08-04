@@ -1,5 +1,8 @@
 @import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
+@import "prismjs/themes/prism.css";
+@import "prismjs/themes/prism-dark.css";
 
 :root {
   --primary: #2563eb;
@@ -3557,4 +3560,152 @@ html.dark .admin-badge-hw {
 
 .legal-content a:hover {
   opacity: 0.8;
+}
+
+/* ─── Quiz / Subject Content (AI-generated readable HTML) ─── */
+.quiz-content-body {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  color: var(--text);
+}
+
+/* Organized, bordered container for each content section */
+.quiz-content-body.content-card {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+  padding: 1.4rem 1.1rem 1.6rem;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.04);
+}
+html.dark .quiz-content-body.content-card {
+  border-color: rgba(30, 41, 59, 0.8);
+  background: rgba(15, 23, 42, 0.82);
+}
+
+@media (min-width: 768px) {
+  .quiz-content-body.content-card {
+    padding: 1.75rem 1.4rem 2rem;
+  }
+}
+
+.quiz-content-body h1,
+.quiz-content-body h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 1.5rem 0 0.6rem;
+  line-height: 1.2;
+}
+.quiz-content-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.1rem 0 0.5rem;
+}
+.quiz-content-body h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.quiz-content-body p {
+  line-height: 1.6;
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+}
+.quiz-content-body ul,
+.quiz-content-body ol {
+  margin: 0 0 0.85rem 0;
+  padding-left: 1.4rem;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+.quiz-content-body li {
+  margin-bottom: 0.3rem;
+}
+
+.quiz-content-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.85rem 0;
+  font-size: 0.86rem;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.quiz-content-body th,
+.quiz-content-body td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+.quiz-content-body thead th {
+  background: var(--slate-100);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+html.dark .quiz-content-body thead th {
+  background: var(--slate-800);
+}
+
+.quiz-content-body pre {
+  background: var(--slate-100);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  overflow-x: auto;
+  margin: 0.85rem 0;
+}
+html.dark .quiz-content-body pre {
+  background: var(--slate-900);
+}
+.quiz-content-body pre code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Prism token colors */
+.quiz-content-body .token.comment, .quiz-content-body .token.prolog, .quiz-content-body .token.cdata {
+  color: var(--text-muted); font-style: italic;
+}
+.quiz-content-body .token.keyword, .quiz-content-body .token.param {
+  color: var(--primary); font-weight: 600;
+}
+.quiz-content-body .token.selector-class, .quiz-content-body .token.attr-name, .quiz-content-body .token.string,
+.quiz-content-body .token.regex {
+  color: var(--success);
+}
+.quiz-content-body .token.punctuation, .quiz-content-body .token.operator {
+  color: var(--text);
+}
+.quiz-content-body .token.tag, .quiz-content-body .token.boolean, .quiz-content-body .token.number {
+  color: var(--warning, #d97706);
+}
+.quiz-content-body .token.function-name, .quiz-content-body .token.class-name {
+  color: var(--danger); font-weight: 600;
+}
+
+.quiz-content-body .callout {
+  border-left: 4px solid var(--primary);
+  background: var(--primary-light);
+  padding: 0.7rem 0.95rem;
+  border-radius: 10px;
+  margin: 0.9rem 0;
+}
+.quiz-content-body .callout p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.quiz-content-body .section-headline {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 1.75rem 0 0.6rem;
+}
+
+@media (max-width: 640px) {
+  .quiz-content-body {
+    padding: 0 0.5rem 1.5rem;
+  }
 }
