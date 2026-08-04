@@ -184,6 +184,19 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
         <h1 className="unit-hero-title">{unitData.title}</h1>
       </section>
 
+      {unitData.textContent && (
+        <nav className="unit-subnav">
+          <a href="#unit-pdfs" className="subnav-link active">
+            <i className="bx bxs-file-pdf"></i>
+            PDFs
+          </a>
+          <a href="#unit-text-content" className="subnav-link">
+            <i className="bx bxs-book-reader"></i>
+            Text Content
+          </a>
+        </nav>
+      )}
+
       <div className="unit-quiz-cta">
         <Link
           href={`/quiz/${semester}/${subject}`}
@@ -196,7 +209,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
       </div>
 
       {pdfNotes.length > 0 && (
-        <section className="unit-notes-section">
+        <section id="unit-pdfs" className="unit-notes-section">
           <h3 className="section-headline"><i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>PDF &mdash; Course</h3>
           <div className="unit-notes-list">
             {pdfNotes.map((item: NoteItem) => (
@@ -223,6 +236,16 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
             <i className="bx bx-time-five"></i>
             <span>Notes for this unit are being prepared &mdash; check back soon!</span>
           </div>
+        </section>
+      )}
+
+      {unitData.textContent && (
+        <section id="unit-text-content" className="text-content-section">
+          <h3 className="section-headline"><i className="bx bxs-book-reader" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>Text Content</h3>
+          <div
+            className="text-content-body"
+            dangerouslySetInnerHTML={{ __html: unitData.textContent }}
+          />
         </section>
       )}
 

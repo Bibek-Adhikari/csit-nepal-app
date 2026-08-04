@@ -2510,12 +2510,168 @@ html.dark .unit-coming-soon {
     padding: 0.85rem 1.35rem 0;
   }
 
+  .unit-subnav {
+    margin-top: 0.5rem;
+  }
+
   .unit-notes-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 }
+
+/* Unit Sub Navigation */
+.unit-subnav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.subnav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  min-height: 44px;
+}
+
+.subnav-link:hover {
+  background: var(--bg-app-2);
+  color: var(--text-main);
+}
+
+.subnav-link.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.text-content-section {
+  padding: 0 0.85rem 2rem;
+}
+
+.text-content-body {
+  line-height: 1.7;
+  color: var(--text-main);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.text-content-body h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  color: var(--primary);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.text-content-body h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--text-main);
+}
+
+.text-content-body h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+  color: var(--text-main);
+}
+
+.text-content-body p {
+  margin: 0.75rem 0;
+}
+
+.text-content-body ul,
+.text-content-body ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.text-content-body li {
+  margin: 0.3rem 0;
+  line-height: 1.6;
+}
+
+.text-content-body strong {
+  color: var(--text-main);
+}
+
+.text-content-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.88rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.text-content-body th,
+.text-content-body td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.text-content-body th {
+  background: var(--bg-app-2);
+  font-weight: 600;
+}
+
+.text-content-body pre {
+  background: var(--bg-app-2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+
+.text-content-body code {
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.85rem;
+  background: var(--bg-app-2);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  color: var(--primary);
+}
+
+.text-content-body pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .text-content-section {
+    padding: 0 1.35rem 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .text-content-body h2 {
+    font-size: 1.25rem;
+  }
+
+  .text-content-body h3 {
+    font-size: 1.05rem;
+  }
+}
+
+/* Watch Page (YouTube Embed) */
 
 /* Back Navigation */
 .back-nav {
