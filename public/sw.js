@@ -1,8 +1,8 @@
-const CACHE = "bca-nepal-v9";
-const STATIC_CACHE = "bca-nepal-static-v9";
-const API_CACHE = "bca-nepal-api-v9";
-const PDF_CACHE = "bca-nepal-pdf-v9";
-const LECTURE_CACHE = "bca-nepal-lecture-v9";
+const CACHE = "bca-nepal-v10";
+const STATIC_CACHE = "bca-nepal-static-v10";
+const API_CACHE = "bca-nepal-api-v10";
+const PDF_CACHE = "bca-nepal-pdf-v10";
+const LECTURE_CACHE = "bca-nepal-lecture-v10";
 
 const PRECACHE_URLS = [
   "/",
