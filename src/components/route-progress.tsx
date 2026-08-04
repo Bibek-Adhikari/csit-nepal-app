@@ -40,7 +40,7 @@ export function RouteProgress() {
   return (
     <div
       className="route-progress"
-      style={{ width: `${progress}%` }}
+      style={{ width: `${progress}%`, pointerEvents: "none" }}
       aria-hidden="true"
     />
   );

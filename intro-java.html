@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java Quick Revision · BCA Nepal Style</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+
+  <!-- PrismJS (Dark theme + Java) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js">
+  </script>
+
+  <style>
+    /* ── Dark theme (BCA Nepal inspired) ── */
+    body {
+      background: #0b1120;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #e8edf5;
+    }
+
+    .sidebar-scroll {
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 8px;
+    }
+
+    .topic-card {
+      background: #111b2e;
+      border: 1px solid #1e2a41;
+      border-radius: 16px;
+      transition: border-color 0.2s;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+    .topic-card:hover {
+      border-color: #2d4a7a;
+    }
+
+    .hl-keyword {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+    .hl-term {
+      color: #a78bfa;
+      font-weight: 500;
+    }
+    .hl-code {
+      background: #1e293b;
+      padding: 0.1rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      color: #cbd5e1;
+      border: 1px solid #2d3a52;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.875rem;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .nav-link:hover {
+      background: #1a2744;
+      color: #e2e8f0;
+    }
+    .nav-link.active {
+      background: #1a2744;
+      border-left-color: #3b82f6;
+      color: #93bbfc;
+      font-weight: 500;
+    }
+
+    .badge {
+      background: #1e2a41;
+      color: #94a3b8;
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 0.1rem 0.6rem;
+      border-radius: 20px;
+      border: 1px solid #2d3a52;
+    }
+
+    .code-block-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0d1524;
+      border: 1px solid #1e2a41;
+      position: relative;
+    }
+    .code-block-wrapper pre[class*="language-"] {
+      margin: 0;
+      padding: 1.25rem 1.5rem;
+      background: #0d1524 !important;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      border-radius: 0;
+    }
+    .code-block-wrapper code[class*="language-"] {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+      color: #e2e8f0;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #1e2a41;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: 1px solid #2d3a52;
+      font-family: inherit;
+    }
+    .copy-btn:hover {
+      background: #2d4a7a;
+      color: #e8edf5;
+    }
+    .copy-btn.copied {
+      background: #1e4a3a;
+      color: #8fde9a;
+      border-color: #2d6a4f;
+    }
+
+    .app-header {
+      background: #0b1322;
+      border-bottom: 1px solid #1a2744;
+    }
+
+    .sidebar-panel {
+      background: #0d1628;
+      border: 1px solid #1a2744;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .sidebar-panel .panel-head {
+      background: #111b2e;
+      border-bottom: 1px solid #1a2744;
+    }
+
+    .prose-dark {
+      color: #d1d9e8;
+    }
+    .prose-dark p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Summary card */
+    .summary-card {
+      background: #111b2e;
+      border: 1px solid #2d4a7a;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+    .summary-card ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .summary-card li::before {
+      content: "▹ ";
+      color: #60a5fa;
+    }
+
+    @media (max-width: 640px) {
+      .sidebar-scroll {
+        max-height: 160px;
+      }
+      .code-block-wrapper pre[class*="language-"] {
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl font-bold text-[#3b82f6]">☕</span>
+        <h1 class="text-lg sm:text-xl font-semibold text-[#e8edf5] tracking-tight">Java Quick Revision</h1>
+        <span class="badge hidden sm:inline-block">BCA style</span>
+      </div>
+      <div class="flex items-center gap-3 text-sm text-[#64748b]">
+        <span class="hidden sm:inline">📄 20 topics</span>
+        <span>⚡ concise</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row gap-6">
+
+    <!-- SIDEBAR -->
+    <aside class="md:w-64 lg:w-72 flex-shrink-0">
+      <div class="sidebar-panel sticky top-20">
+        <div class="panel-head px-4 py-3 flex items-center gap-2">
+          <span class="text-sm font-medium text-[#94a3b8]">📋 Topics</span>
+          <span class="text-[0.6rem] text-[#475569] bg-[#1a2744] px-2 py-0.5 rounded-full border border-[#2d3a52]">20</span>
+        </div>
+        <nav class="sidebar-scroll px-2 py-2 text-sm" id="topicNav"></nav>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 space-y-5" id="mainContent"></main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#1a2744] bg-[#0b1322] mt-6 py-4 text-center text-xs text-[#475569]">
+    Java Quick Revision &bull; based on <span class="text-[#64748b]">java-basic.pdf</span> &bull; dark theme inspired by
+    <span class="text-[#3b82f6]">BCA Nepal</span>
+  </footer>
+
+
+  <script>
+    // ─── DATA (expanded with more topics) ───
+    const topics = [{
+      id: 'intro',
+      label: 'Introduction',
+      content: `
+        <p><span class="hl-keyword">Java</span> is a high-level, robust, object-oriented, secure programming language developed by <span class="hl-term">Sun Microsystems</span> (1995).</p>
+        <p>It is <span class="hl-keyword">platform-independent</span> — compiled to <span class="hl-code">bytecode</span> run on <span class="hl-term">JVM</span>.</p>
+        <p>Syntax similar to C/C++ but <span class="hl-keyword">no pointers</span>; not pure OOP due to primitive types.</p>
+        <p><span class="hl-term">Platform</span> = runtime environment (JRE) + API.</p>
+      `
+    }, {
+      id: 'highlights',
+      label: 'Highlights',
+      content: `
+        <p>Developed by <span class="hl-term">James Gosling</span> (Sun → Oracle).</p>
+        <p>Combines <span class="hl-keyword">C</span> format + <span class="hl-keyword">C++</span> OOP features.</p>
+        <p><span class="hl-term">WORA</span> (Write Once, Run Anywhere) — no recompilation across platforms.</p>
+        <p><span class="hl-code">JVM</span> executes bytecode; JVM itself is <span class="hl-keyword">platform-specific</span> (C/C++/ASM).</p>
+      `
+    }, {
+      id: 'creation',
+      label: 'Creation & History',
+      content: `
+        <p>Created by <span class="hl-term">Gosling, Naughton, Sheridan</span> at Sun in <span class="hl-keyword">1991</span> (18 months).</p>
+        <p>Originally called <span class="hl-code">Oak</span> → renamed <span class="hl-keyword">Java</span> in 1995 (trademark conflict).</p>
+        <p>Designed for <span class="hl-term">interactive TV</span> but found success on the <span class="hl-keyword">internet</span>.</p>
+        <p>Goal: <span class="hl-term">"Simple, Robust, Portable, Secure, High Performance, Multithreaded"</span>.</p>
+      `
+    }, {
+      id: 'versions',
+      label: 'Version History',
+      content: `
+        <p><span class="hl-keyword">JDK 1.0</span> (1996) → <span class="hl-term">J2SE 5.0</span> (2004) → <span class="hl-keyword">Java SE 8</span> (2014) → <span class="hl-term">Java SE 17</span> (2021).</p>
+        <p>Major releases: <span class="hl-code">Java 11</span> (LTS), <span class="hl-code">Java 17</span> (LTS).</p>
+        <p>Current stable: <span class="hl-keyword">Java SE 18</span> (March 2022).</p>
+        <p>Evolution: <span class="hl-term">JDK → J2SE → Java SE</span>.</p>
+      `
+    }, {
+      id: 'internet',
+      label: 'Java & the Internet',
+      content: `
+        <p>First Java app: <span class="hl-term">HotJava</span> browser; applets run in browsers.</p>
+        <p>Used for <span class="hl-keyword">JSP</span> (dynamic web pages), <span class="hl-keyword">Applets</span>, <span class="hl-keyword">J2EE</span> (enterprise), <span class="hl-keyword">JavaBeans</span> (reusable components).</p>
+        <p>Widely used in <span class="hl-term">mobile</span> (games, apps) and Android development.</p>
+        <p><span class="hl-keyword">3 billion</span> devices run Java (Sun).</p>
+      `
+    }, {
+      id: 'app-types',
+      label: 'Types of Java Applications',
+      content: `
+        <p><span class="hl-keyword">Web</span> — server-side (Servlet, JSP, Struts, JSF).</p>
+        <p><span class="hl-keyword">Standalone</span> — desktop (AWT, Swing) e.g. media player, antivirus.</p>
+        <p><span class="hl-keyword">Enterprise</span> — distributed, high-security, load-balancing (EJB).</p>
+        <p><span class="hl-keyword">Mobile</span> — Java ME, Android (Google).</p>
+      `
+    }, {
+      id: 'features',
+      label: 'Features of Java',
+      content: `
+        <p><span class="hl-term">Object-Oriented</span> — simple object model.</p>
+        <p><span class="hl-keyword">Platform Independent</span> — bytecode runs anywhere.</p>
+        <p><span class="hl-term">Secure</span> — virus/malware protection.</p>
+        <p><span class="hl-keyword">Robust</span> — early error detection.</p>
+        <p><span class="hl-term">Multi-threaded</span> — concurrent tasks.</p>
+        <p><span class="hl-keyword">Distributed</span> — TCP/IP protocol support.</p>
+      `
+    }, {
+      id: 'jdk',
+      label: 'JDK — Java Dev Kit',
+      content: `
+        <p><span class="hl-keyword">JDK</span> = Java Development Kit — physically exists.</p>
+        <p>Includes: <span class="hl-term">JRE</span> + <span class="hl-code">javac</span> (compiler) + <span class="hl-code">java</span> (interpreter) + <span class="hl-code">jar</span> + <span class="hl-code">javadoc</span> + tools.</p>
+        <p>Platform-specific: Windows, Linux, Solaris; Mac has its own.</p>
+        <p><span class="hl-term">Use</span>: development environment for Java apps &amp; applets.</p>
+      `
+    }, {
+      id: 'jre',
+      label: 'JRE — Runtime Env',
+      content: `
+        <p><span class="hl-keyword">JRE</span> = Java Runtime Environment — physically exists.</p>
+        <p>Provides: core classes, libraries, <span class="hl-term">JVM</span>, and components to <span class="hl-keyword">run</span> Java programs.</p>
+        <p>Part of JDK but can be downloaded separately.</p>
+        <p><span class="hl-code">Cannot</span> be used for development — only for <span class="hl-keyword">execution</span>.</p>
+      `
+    }, {
+      id: 'jvm',
+      label: 'JVM — Virtual Machine',
+      content: `
+        <p><span class="hl-keyword">JVM</span> = Java Virtual Machine — executes <span class="hl-code">bytecode</span>.</p>
+        <p>Resides on your machine; bytecode is JVM's machine language.</p>
+        <p>Compiler generates bytecode for JVM, not machine code.</p>
+        <p><span class="hl-term">Key</span>: JVM makes Java <span class="hl-keyword">platform-independent</span>.</p>
+      `
+    }, {
+      id: 'bytecode',
+      label: 'Bytecode & Mechanism',
+      content: `
+        <p><span class="hl-keyword">Bytecode</span> = intermediate machine-independent code.</p>
+        <p>Set of instructions for <span class="hl-term">JVM</span> — similar to assembler.</p>
+        <p>Processed by JVM (not the processor) → <span class="hl-code">.class</span> file runs on any platform.</p>
+        <p>Flow: <span class="hl-term">.java</span> → compiler → <span class="hl-keyword">.class</span> (bytecode) → JVM → machine code.</p>
+      `
+    }, {
+      id: 'procedural-vs-oop',
+      label: 'Procedural vs OOP',
+      content: `
+        <p><span class="hl-keyword">Procedural</span>: divided into <span class="hl-term">functions</span>, top-down, no access specifiers, less secure.</p>
+        <p><span class="hl-keyword">OOP</span>: divided into <span class="hl-term">objects</span>, bottom-up, access specifiers, data hiding, inheritance.</p>
+        <p>OOP supports <span class="hl-code">overloading</span> &amp; code reusability; procedural does not.</p>
+        <p>Procedural: C, Pascal, BASIC &nbsp;|&nbsp; OOP: <span class="hl-keyword">Java</span>, C++, Python, C#.</p>
+      `
+    }, {
+      id: 'compile-run',
+      label: 'Compiling & Running',
+      content: `
+        <p>Write code in <span class="hl-code">.java</span> file → compile with <span class="hl-term">javac</span> → generates <span class="hl-code">.class</span>.</p>
+        <p>Run with <span class="hl-keyword">java</span> command.</p>
+        <p><span class="hl-term">Example</span>: <span class="hl-code">javac MyFirstJavaProgram.java</span> → <span class="hl-code">java MyFirstJavaProgram</span>.</p>
+        <p>Output: <span class="hl-keyword">Hello World</span>.</p>
+      `
+    }, {
+      id: 'naming',
+      label: 'Naming Conventions',
+      content: `
+        <p><span class="hl-keyword">Case-sensitive</span> — <span class="hl-code">Hello</span> ≠ <span class="hl-code">hello</span>.</p>
+        <p><span class="hl-term">Class names</span>: UpperCamelCase (e.g. <span class="hl-code">MyFirstJavaClass</span>).</p>
+        <p><span class="hl-term">Method names</span>: lowerCamelCase (e.g. <span class="hl-code">myMethodName()</span>).</p>
+        <p>File name must match <span class="hl-keyword">class name</span> exactly + <span class="hl-code">.java</span>.</p>
+        <p><span class="hl-term">main()</span> is mandatory: <span class="hl-code">public static void main(String[] args)</span>.</p>
+      `
+    }, {
+      id: 'setup',
+      label: 'Setting up Environment',
+      content: `
+        <p>Set <span class="hl-keyword">PATH</span> variable to run <span class="hl-code">javac</span>, <span class="hl-code">java</span> from any directory.</p>
+        <p>Windows: Properties → Advanced → Environment Variables → add <span class="hl-term">Path</span>.</p>
+        <p>Value: <span class="hl-code">C:\\Program Files\\Java\\jdk1.7.0_21\\bin</span> (adjust to your JDK).</p>
+        <p>Without PATH: must type full path each time.</p>
+      `
+    }, {
+      id: 'code-example',
+      label: '📝 Code Example',
+      content: `
+        <p>Complete <span class="hl-keyword">Hello World</span> program — the entry point for every Java developer.</p>
+        <p>Class name: <span class="hl-term">MyFirstJavaProgram</span> &bull; file: <span class="hl-code">MyFirstJavaProgram.java</span>.</p>
+        <p><span class="hl-keyword">main()</span> method is public, static, void, with <span class="hl-code">String[] args</span>.</p>
+        <p><span class="hl-term">System.out.println()</span> prints to console.</p>
+      `
+    },
+    // ─── NEW TOPICS ───
+    {
+      id: 'oop-concepts',
+      label: 'OOP Concepts',
+      content: `
+        <p><span class="hl-keyword">Encapsulation</span> — bundling data and methods, hiding internals.</p>
+        <p><span class="hl-term">Inheritance</span> — subclass inherits from superclass (extends).</p>
+        <p><span class="hl-keyword">Polymorphism</span> — same method name, different behaviours (overloading/overriding).</p>
+        <p><span class="hl-term">Abstraction</span> — hiding implementation details (abstract classes & interfaces).</p>
+      `
+    }, {
+      id: 'exception-handling',
+      label: 'Exception Handling',
+      content: `
+        <p>Errors and exceptions are handled using <span class="hl-keyword">try-catch-finally</span> blocks.</p>
+        <p><span class="hl-term">Checked</span> exceptions (compile-time) vs <span class="hl-term">Unchecked</span> (runtime).</p>
+        <p>Use <span class="hl-code">throws</span> to declare exceptions, <span class="hl-code">throw</span> to raise them.</p>
+        <p>Custom exceptions extend <span class="hl-keyword">Exception</span> class.</p>
+      `
+    }, {
+      id: 'collections',
+      label: 'Collections Framework',
+      content: `
+        <p><span class="hl-keyword">List</span> — ordered, duplicates allowed (ArrayList, LinkedList).</p>
+        <p><span class="hl-term">Set</span> — no duplicates (HashSet, TreeSet).</p>
+        <p><span class="hl-keyword">Map</span> — key-value pairs (HashMap, TreeMap).</p>
+        <p><span class="hl-term">Queue</span> — FIFO (PriorityQueue, ArrayDeque).</p>
+      `
+    }, {
+      id: 'multithreading',
+      label: 'Multithreading',
+      content: `
+        <p><span class="hl-keyword">Thread</span> — lightweight process, concurrent execution.</p>
+        <p>Create by extending <span class="hl-term">Thread</span> or implementing <span class="hl-term">Runnable</span>.</p>
+        <p>Synchronization — <span class="hl-code">synchronized</span> keyword for thread-safe access.</p>
+        <p>Methods: <span class="hl-keyword">start()</span>, <span class="hl-code">run()</span>, <span class="hl-code">sleep()</span>, <span class="hl-code">join()</span>, <span class="hl-code">wait()</span>/<span class="hl-code">notify()</span>.</p>
+      `
+    }, {
+      id: 'io-streams',
+      label: 'I/O Streams',
+      content: `
+        <p><span class="hl-keyword">InputStream</span>/<span class="hl-term">OutputStream</span> — byte streams.</p>
+        <p><span class="hl-keyword">Reader</span>/<span class="hl-term">Writer</span> — character streams.</p>
+        <p>Common classes: <span class="hl-code">FileInputStream</span>, <span class="hl-code">FileOutputStream</span>, <span class="hl-code">BufferedReader</span>, <span class="hl-code">PrintWriter</span>.</p>
+        <p>Serialization — <span class="hl-term">Serializable</span> interface to persist objects.</p>
+      `
+    }];
+
+    // Code snippets for copy buttons
+    const codeSnippets = {
+      'code-example': `public class MyFirstJavaProgram {\n    /* This is my first java program.\n     * This will print 'Hello World' as the output\n     */\n    public static void main(String[] args) {\n        System.out.println("Hello World"); // prints Hello World\n    }\n}`,
+      'compile-run': `// Compile:  javac MyFirstJavaProgram.java\n// Run:      java MyFirstJavaProgram\n// Output:   Hello World\n\npublic class MyFirstJavaProgram {\n    public static void main(String[] args) {\n        System.out.println("Hello World");\n    }\n}`,
+      'bytecode': `// ─── Bytecode Flow ───\n// 1. Source:  MyFirstJavaProgram.java\n// 2. Compile: javac → MyFirstJavaProgram.class (bytecode)\n// 3. Run:     java → JVM interprets bytecode\n// 4. Output:  platform-specific machine code\n\npublic class Demo {\n    public static void main(String[] args) {\n        int a = 10;\n        int b = 20;\n        System.out.println(a + b);\n    }\n}`
+    };
+
+    // ─── RENDER ───
+    const navEl = document.getElementById('topicNav');
+    const mainEl = document.getElementById('mainContent');
+
+    function render() {
+      // sidebar
+      navEl.innerHTML = topics.map((t, i) =>
+        `<a href="#topic-${t.id}" data-index="${i}" class="nav-link ${i === 0 ? 'active' : ''}">${t.label}</a>`
+      ).join('');
+
+      // main content
+      let html = topics.map((t, i) => {
+        let codeBlock = '';
+        if (t.id === 'code-example' || t.id === 'compile-run' || t.id === 'bytecode') {
+          const code = codeSnippets[t.id] || '';
+          codeBlock = `
+            <div class="mt-4 code-block-wrapper" data-code="${encodeURIComponent(code)}">
+              <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+              <pre><code class="language-java">${code}</code></pre>
+            </div>
+          `;
+        }
+        return `
+          <section id="topic-${t.id}" class="topic-card p-5 sm:p-6 scroll-mt-20" data-index="${i}">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-[#e8edf5] font-bold text-lg">${t.label}</span>
+              <span class="badge">${i + 1}/${topics.length}</span>
+            </div>
+            <div class="prose-dark text-[#d1d9e8] leading-relaxed space-y-2 text-[0.95rem]">
+              ${t.content}
+            </div>
+            ${codeBlock}
+          </section>
+        `;
+      }).join('');
+
+      // ─── ADD SUMMARY CARD ───
+      html += `
+        <section id="summary" class="summary-card p-5 sm:p-6 scroll-mt-20">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-[#e8edf5] font-bold text-lg">📌 Quick Summary</span>
+            <span class="badge">key points</span>
+          </div>
+          <ul class="text-[#d1d9e8] space-y-2 text-sm">
+            <li><span class="hl-keyword">Java</span> is platform-independent, compiled to bytecode for JVM.</li>
+            <li><span class="hl-term">OOP</span> principles: Encapsulation, Inheritance, Polymorphism, Abstraction.</li>
+            <li><span class="hl-keyword">JDK</span> = dev tools + JRE; <span class="hl-term">JRE</span> = JVM + libraries; <span class="hl-keyword">JVM</span> executes bytecode.</li>
+            <li>Exception handling via <span class="hl-code">try-catch</span>, <span class="hl-term">checked</span> vs <span class="hl-term">unchecked</span>.</li>
+            <li>Collections: <span class="hl-keyword">List</span>, <span class="hl-keyword">Set</span>, <span class="hl-keyword">Map</span>, <span class="hl-keyword">Queue</span>.</li>
+            <li>Multithreading: <span class="hl-term">Thread</span> and <span class="hl-term">Runnable</span>, synchronization with <span class="hl-code">synchronized</span>.</li>
+          </ul>
+        </section>
+      `;
+
+      mainEl.innerHTML = html;
+
+      // highlight all code blocks
+      Prism.highlightAll();
+    }
+
+    // ─── COPY FUNCTION ───
+    window.copyCode = function(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      const code = wrapper.getAttribute('data-code');
+      if (!code) return;
+      const decoded = decodeURIComponent(code);
+      navigator.clipboard.writeText(decoded).then(() => {
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        // fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = decoded;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    };
+
+    // ─── NAVIGATION ───
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('.nav-link');
+      if (!link) return;
+      e.preventDefault();
+      const idx = link.dataset.index;
+      const target = document.getElementById(`topic-${topics[idx].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+
+    // ─── SCROLL SPY ───
+    let scrollTimeout;
+    document.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const sections = document.querySelectorAll('section[id^="topic-"]');
+        let current = -1;
+        sections.forEach((sec, i) => {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top <= 100) current = i;
+        });
+        if (current >= 0) {
+          document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+          const links = document.querySelectorAll('.nav-link');
+          if (links[current]) links[current].classList.add('active');
+        }
+      }, 80);
+    });
+
+    // ─── INIT ───
+    document.addEventListener('DOMContentLoaded', render);
+    document.addEventListener('DOMContentLoaded', () => setTimeout(Prism.highlightAll, 200));
+  </script>
+
+</body>
+</html>

@@ -24,8 +24,7 @@
 15. [PWA & Offline Architecture](#15-pwa--offline-architecture)
 16. [Environment Variables](#16-environment-variables)
 17. [Subject Quiz System & Auto-Seeding](#17-subject-quiz-system--auto-seeding)
-18. [Subject Content (Readable HTML) System](#18-subject-content-readable-html-system)
-19. [Landing Page Click-Optimization Plan (no-code)](#19-landing-page-click-optimization-plan-nocode)
+18. [Landing Page Click-Optimization Plan (no-code)](18-landing-page-click-optimization-plan-nocode)
 
 ---
 
@@ -1714,6 +1713,24 @@ Settings:
 | PDF.js worker | `bca-nepal-static-v9` | Cache-first | — | unpkg.com CDN worker |
 | Analytics | — | Bypass (not intercepted) | — | GTM, GA4 |
 
+### 🌐 Offline Behaviour
+
+- Every `event.respondWith(...)` in `public/sw.js` is wrapped with
+  `.catch(() => offlineFallback(request, url))`, so a rejected strategy (e.g. an
+  uncached static asset on a first offline visit) degrades gracefully instead of
+  showing a blank browser error page.
+- `offlineFallback`:
+  - `mode === "navigate"` → returns the cached path (`url.origin + pathname`) or
+    `caches.match("/offline.html")` (the BCA Nepal offline shell).
+  - Other requests → returns an existing cached copy if present, otherwise a
+    defined `503` response (so callers handling errors still get a typed value).
+- `staleWhileRevalidate` (same-origin pages/RSC) now returns `offline.html` for
+  navigations instead of an empty `Response("", { status: 503 })` that previously
+  rendered a blank page offline.
+- Auto SW `controllerchange` reload was removed (it caused a reload loop in dev
+  when `sw.js` recompiled with `skipWaiting()`); updates now apply via the manual
+  "Refresh" toast button only.
+
 ### 📡 Background Sync
 
 ```javascript
@@ -1781,26 +1798,30 @@ Service Worker messages:
 
 ## 17. Subject Quiz System & Auto-Seeding
 
-> ⚠️ **Standalone from the entrance system.** This per-subject MCQ quiz system is completely independent of the [Entrance Preparation System](#8-entrance-preparation-system) (`entrance-mock-test`) and the mock-test engine (`src/app/mock-test/[subject]`). Entrance questions remain frozen and are never reused here.
+> ⚠️ **Standalone from the entrance system.** This quiz/chapter system is completely independent of the
+> [Entrance Preparation System](#8-entrance-preparation-system) (`entrance-mock-test`) and the mock-test engine
+> (`src/app/mock-test/[subject]`). Entrance questions remain frozen and are never reused here.
 
-The subject quiz system provides per-subject MCQ practice. It is complemented by an auto-seeding script that generates questions from existing Supabase PDFs using a **free** Google Gemini API key (no paid subscriptions).
+The subject quiz system provides per-subject MCQ practice for course chapters. It is complemented by an
+auto-seeding script that turns existing study PDFs into multiple-choice questions using a **free** Google
+Gemini API key (no paid subscriptions).
 
 ### 🧭 Architecture Overview
 
 ```
 [PDFs in Supabase Storage "notes" bucket]
-        │  (text extraction via pdfjs / optional OCR)
-        ▼
-[ scripts/seed-questions.mjs ]  ← node --env-file=.env.local (npm run seed:quiz)
-        │  (LLM generates MCQs → validated JSON)
-        ▼
+                 │  (text layer extraction / optional OCR)
+                 ▼
+[ scripts/seed-questions.mjs ]   ← node --env-file=.env.local (npm run seed:quiz)
+                 │  (LLM generates MCQs → validated JSON)
+                 ▼
 [ Supabase table: subject_questions ]
-        │  (GET via REST, RLS public-read + service-role writes)
-        ▼
-[ /api/subject-questions ]          (GET/POST admin)
-        ▼
+                 │  (GET via REST, RLS public read)
+                 ▼
+[ /api/subject-questions ]  (GET/POST admin)
+                 ▼
 [ /quiz/[semester]/[subject] ]  →  [ client: subject-quiz.tsx ]
-                                     (config screen → timed quiz → results)
+                                        (config screen → timed quiz → results)
 ```
 
 ### 🗃️ `subject_questions` Table
@@ -1812,138 +1833,148 @@ Appended to `src/app/api/db/init/route.ts` and typed in `src/lib/database.types.
 | `id` | uuid PK | default gen_random_uuid() |
 | `semester_key` | text | e.g. `sem2` |
 | `subject_slug` | text | e.g. `oop-in-java` |
-| `unit_slug` | text | e.g. `unit-1` (unit-level filtering in-app) |
+| `unit_slug` | text | e.g. `unit-1` (used for per-unit filtering) |
 | `question` | text | The MCQ stem |
 | `options` | jsonb | Array of 4 answer choices |
-| `correct_answer` | text | Must equal exactly one `options` entry |
+| `correct_answer` | text | The correct option text (index kept implicit) |
 | `explanation` | text | Short explanation for answer-review |
 | `created_at` | timestamptz | default now() |
 
-- **RLS**: `SELECT` open to public (anon); writes restricted to the service role (admin). No auth/entrance linkage.
-- Quiz is **per-subject** (one table; not one table per subject). Unit selection is an in-app config filter.
+- **RLS**: `SELECT` open to public (anon), writes restricted to the service role (admin). No auth/entrance linkage.
+- Quiz is **per-subject** (one table; not one table per subject). Unit filtering is done at query time.
 
 ### 🌐 API — `/api/subject-questions`
 
-- `GET` — optional query params `semester`, `subject`, `unit`; a count cap (200) bounds the payload. Combined filters used when configuring a quiz.
+- `GET` — optional query params `semester`, `subject`, `unit`; a count cap (200) is applied to bound
+  payload size for the client quiz engine. Combined filters used when configuring a quiz.
 - `POST` — admin only (guarded by admin/service-role auth) used by the seeding script to insert batches.
 
 ### 🖥 Quiz Page `/quiz/[semester]/[subject]`
 
-- `src/app/quiz/[semester]/[subject]/page.tsx` — server component resolving the subject title.
-- `src/components/subject-quiz.tsx` — the client engine:
-  - **Setup/config screen** (mirrors the entrance mock-test config UX): select **number of questions** (10 / 20 / 30) and an optional **Unit filter**, then Start.
+- `src/app/quiz/[semester]/[subject]/page.tsx` — server component that resolves the subject title for
+  linking/labels.
+- `src/components/subject-quiz.tsx` — the client engine, which provides:
+  - **Setup/config screen** (mirrors the entrance mock-test config UX): self-select the **number of
+    questions** (10 / 20 / 30) and an optional **Unit filter**, then Start.
   - **Timed quiz** with per-question dot navigation.
-  - **Results**: score, per-unit breakdown, grade, and a note comparing difficulty/format to the entrance mock-test.
+  - **Results** including score, per-unit breakdown, and a note comparing difficulty/format to the
+    entrance mock-test.
   - **Buttons**: Settings / Retake / View Answers / Change Settings.
-- The subject page exposes the three Learning Resources cards (Quiz, Content, Lab Reports) instead of a per-unit "?" button.
+- Removed: the older per-unit route `/quiz/[semester]/[subject]/[unit]` and `unit-quiz.tsx`. The subject
+  page now shows exactly one "QUIZ / Take Quiz" card (between Units and Lab Reports) linking to this page;
+  the per-unit "?" buttons were removed in favour of this single entry point. The unit notes page button
+  uses the label `Take {subjectData.title} Quiz`.
 
 ### 📥 Seeding Script `scripts/seed-questions.mjs`
 
-Run: `node --env-file=.env.local scripts/seed-questions.mjs` (npm script `seed:quiz`).
+Run via `node --env-file=.env.local scripts/seed-questions.mjs` (npm script `seed:quiz`).
 
-- Pipeline (resumable via `.seed-state.json`):
-  1. Walk the `notes` bucket for the target subject PDFs.
-  2. Extract text via pdfjs; scanned/handwritten PDFs (no text layer) are flagged "needs OCR" and skipped (optional `OCR_SPACE_API_KEY` fallback).
+- **Pipeline** (resumable via `.seed-state.json`):
+  1. Walk the `notes` bucket for right subject PDFs.
+  2. Extract text with pdf.js; if a PDF has no text layer (scanned/handwritten) it is flagged **"needs OCR"**
+     and skipped (optional `OCR_SPACE_API_KEY` fallback).
   3. Ask the LLM to produce MCQs as validated JSON.
   4. Insert into `subject_questions` via `/api/subject-questions`.
-- Flags: `--semester`, `--subject`, `--limit`, `--questions-per-doc`, `--dry-run`, `--force`. The state file makes re-runs only pick up new/remaining documents.
+- **Flags**: `--force` (ignore processed state), `--limit <n>` (subset), `--questions-per-doc <n>`,
+  `--dry-run` (report only, no writes). The state file makes re-runs only pick up new/remaining documents.
 
 ### 🤖 Free-Tier LLM Integration
 
-No paid APIs — uses the free Google Gemini tier via **native REST** (`:generateContent`, `x-goog-api-key`), not the OpenAI-compat `/chat/completions` endpoint (free key type isn't accepted there).
+No paid APIs — uses the free Google Gemini tier through native REST (`:generateContent`, keyed via
+`x-goog-api-key`), NOT the OpenAI-compat endpoint, which the free key type does not accept.
 
 | Env var | Purpose |
 |---|---|
 | `LLM_PROVIDER=gemini` | Selects the Gemini native provider |
-| `OPENAI_API_KEY` | Free Gemini key value (note: a *different* `AIzaSy...` key found in the wild is invalid/expired) |
+| `OPENAI_API_KEY` | The free Gemini key value |
 | `OPENAI_BASE_URL` | `https://generativelanguage.googleapis.com/v1beta` |
 | `OPENAI_MODEL` | `gemini-3.5-flash` (older models 404 for new users) |
 | `OCR_SPACE_API_KEY` | Optional OCR fallback for scanned PDFs |
 
 ### 📊 Seeding Status (current)
 
-- ~46 of 59 PDFs are scanned/handwritten (no text layer) → "needs OCR".
-- 102 questions total; sem2 only seeded:
+- ~46 of 59 PDFs are scanned/handwritten (no text layer) → **"needs OCR"**.
+- 102 questions in total; only **sem2** seeded so far:
   - `oop-in-java` — 52
   - `ux-ui-design` — 30
   - `principles-of-management` — 20
 
-### 🌐 Offline Behaviour (SW hardening applied)
+---
 
-- Every `event.respondWith(...)` in `public/sw.js` is wrapped with `.catch(() => offlineFallback(...))`, so a rejected strategy (e.g. an uncached static asset on a first offline visit) degrades gracefully instead of a blank error page.
-- `offlineFallback`: navigations → cached path or `/offline.html`; other requests → cached copy if present, otherwise a defined 503.
-- `staleWhileRevalidate` now returns `/offline.html` for navigations instead of an empty 503 that rendered blank offline.
-- Auto `controllerchange` reload removed (caused a dev reload loop); updates apply via the manual "Refresh" toast button.
+18. [Landing Page Click-Optimization Plan (no-code)](18-landing-page-click-optimization-plan-nocode)
 
 ---
 
-## 18. Subject Content (Readable HTML) System
+## 18. Landing Page Click-Optimization Plan (no-code)
 
-A lightweight, AI-readable content layer for each subject (MDN-style), using **Prism.js** (syntax highlighting) + **KaTeX** (math) instead of Monaco — to keep bundle size small.
-
-### 🗺️ Routing
-- Subject page `/subjects/[sem]/[sub]` now has a **"Learning Resources"** section with three SSG cards: **Quiz → Content → Lab Reports** (full-width, no capping).
-- Content page `/notes/[sem]/[sub]/content` renders AI-generated, SEO-friendly HTML. Only subjects with a generated module have static content; others get a graceful "content coming soon" fallback (no 404).
-
-### 📁 Data
-- `src/content/generated/oop-in-java.ts` — demo content module: `{ title, overview, sections: [{ slug, heading, html }] }`.
-- `src/app/notes/[semester]/[subject]/content/page.tsx` — SSG server component; `generateStaticParams` only emits routes for subjects that have generated content.
-
-### 🧩 Client Rendering
-- `src/components/content-body.tsx` — parses section HTML, extracts `<pre><code class="language-*">` → `<CodeBlock>` (Prism), and inline/`$$` math → `MathInline`/`MathBlock` (KaTeX).
-- `src/components/code-block.tsx` — lazy loads Prism + Java/JS/TS/JSON/Bash/CSS/SVG/SQL language components.
-- `src/components/katex-renderer.tsx` — renders `$...$` and `$$...$$`.
-
-### 🎨 CSS (`globals.css`)
-- `@import` Prism (`prism.css`, `prism-dark.css`) + KaTeX at root.
-- `.quiz-content-body` (`.content-card`) — padded, bordered card; MDN-style typography (h1–h4, tables, callouts, `pre`/`code`, Prism token colors, dark-mode variants) under `@media (max-width: 640px)`.
-
----
-
-## 19. Landing Page Click-Optimization Plan (no-code)
-
-> Goal: lift first-click engagement on `/` (Home) without a redesign and
+> Goal: increase CTR / first-click engagement on `/` (Home) without a redesign and
 > **without abandoning the mobile-first PWA** (`AppHeader` + `SiteNav` tab bar +
 > SSG subject grid). Entrance/mock-test stays untouched.
 
 ### 🧭 Current State of Home
 - `src/app/page.tsx` renders a hero (`welcome-hero`) + `subject-stack` grid of
   subject cards → links to `/subjects/[sem]/[subject]`.
-- Hero message is generic; no direct Quiz link surfaced on home (quiz entry lives
-  only inside each subject page); no search/jump, no continue-point.
+- Hero message is generic. No direct "Quizzes" link surfaced on home
+  (quiz entry lives only inside each subject page). No search/jump, no
+  continue-point, no progress indicator for returners.
 - Data is **static/bundled** (`content/`), so any new home element is free (no API).
 
 ### ✅ Prioritized Actions (UX only; reuse existing classes)
 
-1. **Sharpen the hero value prop** — single scannable line + a primary CTA
-   button (e.g. "Practice quizzes · Notes · Lectures — start learning") that
-   scrolls to `#subjects`.
-2. **Surface "Practice Quizzes" on home** — one accent card in the hero linking
-   to `/quiz/semester-2/oop-in-java` (highest-engagement surface).
-3. **Reduce choice paralysis** — show sem1 + sem2 first; older semesters below
-   the fold (already paginated by semester scroller).
-4. **Badge subject cards** — unit count + a "Quiz ready" marker where
-   `subject_questions` exist.
-5. **Hover affordance (desktop)** — subtle `→` reveal on subject cards (pure CSS).
-6. **Search / quick-jump bar** — sticky input (hot key `s`) filtering the static
-   subject list in `content/subjects`; no API needed.
-7. **"Continue where you left off"** — read last-open subject/unit from
-   localStorage and show a small personalized row above the grid for returners.
-8. **Icon-label CTA row** — `Subjects · Quizzes · Lectures · Bookmarks` under the
-   hero (4 clear first clicks instead of one generic hero).
+1. **Sharpen the hero value prop** — replace the generic tagline with a single
+   scannable line + a primary CTA button: *"{subject} Quiz · Notes · Lectures —
+   start learning"* → scrolls to `#subjects` / jumps to selected semester.
+   Taps first-click friction to zero.
+
+2. **Surface "Practice Quizzes" on home** — add ONE prominent accent card in the
+   hero area (not the grid) linking to a quiz entry, e.g.
+   `/quiz/semester-2/oop-in-java`. Quizzes are the highest-engagement surface;
+   the entrance system already proves MCQs convert. Make the card visually
+   distinct (accent border, quiz icon).
+
+3. **Reduce choice paralysis in the grid** — show sem1 + sem2 first on the
+   initial viewport; render older semesters below the fold (already paginated by
+   accordion/scroller). Smaller visible choice set → higher click rate per card.
+
+4. **Social proof on subject cards** — badge each `app-card` with unit count
+   (e.g. `5 units`) and a "Quiz ready 🔹" marker where `subject_questions` exist,
+   so users see value before clicking.
+
+5. **Hover affordance (desktop only)** — on ≥1024px, subject cards reveal a
+   subtle *"View notes →"* chevron/underline on hover (no JS; pure CSS). Mobile
+   keeps tap targets unchanged.
+
+6. **Search/quick jump bar** — add a sticky input (`placeholder="Search subjects / quizzes…"`,
+   hot key `s`) wired to a client-side filter over the static subject list; on
+   select, scroll to that card. Greatly lifts CTR for users who know what they
+   want. No API needed (filters static `content/subjects`).
+
+7. **"Continue where you left off" strip** — read last-open subject/unit from
+   localStorage progress and show a small personalized row above the grid for
+   returning users (single tap → resume). High CTR because it's personalized.
+
+8. **Progressive hero CTA row (icons)** — under the hero tagline, render the 3
+   main destinations as labeled icon buttons: `Subjects · Quizzes · Lectures ·
+   Bookmarks`, each a direct link. Gives 4 clear first clicks instead of one
+   generic hero.
 
 ### 📱 Desktop vs Mobile
-- All actions are **touch-first** (big tap targets, sticky search).
-- Enhancements (hover chevron) activate at existing ≥1024 breakpoints in
-  `globals.css` — no new breakpoints.
+- All actions above are **touch-first** (large tap targets, sticky search).
+- Enhancements (two-column hero CTA, hover chevron) activate at the existing
+  `@media (min-width: 768px)` / `1024px` breakpoints already in `globals.css`
+  — no new breakpoints.
 - No page is capped to a narrow column (full-width hero preserved).
 
 ### 📏 Measure (no new tooling)
-- GTM/GA4 already in `layout.tsx` (`GTM-TDJL2X9D`, `G-3MLZFJ1XP5`) + `dataLayer`.
-  Tag hero CTA + quiz card clicks as `hero_cta_click` / `quiz_card_click`.
+- GTM/GA4 already bootstrapped in `layout.tsx` (`GTM-TDJL2X9D`, `G-3MLZFJ1XP5`)
+  and `dataLayer` exposed. Tag the hero CTA + quiz card clicks as
+  `hero_cta_click` / `quiz_card_click` → measure CTR before/after.
 
 ### 🚫 Non-goals
-- No hero/logo redesign; no paid analytics; entrance + mock-test frozen; no CSS rewrite.
+- No redesign of the hero image/logo area.
+- No paid analytics or A/B testing tools.
+- Entrance (`entrance-mock-test`) and `mock-test` engines stay frozen.
+- No CSS rewrite; reuse `welcome-hero`, `subject-stack`, `app-card`, `badge-row`.
 
 ---
 
@@ -1971,11 +2002,6 @@ A lightweight, AI-readable content layer for each subject (MDN-style), using **P
 | `src/app/watch/[videoId]/page.tsx` | 123 | Client component |
 | `src/components/video-notes.tsx` | 121 | Client component |
 | `src/content/entrance/questionBank.ts` | 439 | Offline question data |
-| `src/app/notes/[semester]/[subject]/content/page.tsx` | 151 | SSG content page |
-| `src/components/content-body.tsx` | 73 | Client component (Prism + KaTeX) |
-| `src/components/code-block.tsx` | 33 | Prism syntax highlight wrapper |
-| `src/components/katex-renderer.tsx` | 42 | KaTeX inline/block math |
-| `src/content/generated/oop-in-java.ts` | — | AI-readable content (demo) |
 
 ### 🎨 CSS Stats
 

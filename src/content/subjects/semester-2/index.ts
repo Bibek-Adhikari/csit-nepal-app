@@ -1,4 +1,5 @@
 import type { Semester } from "../types";
+import { javaTextContent } from "./java-text-content";
 
 export const semester2: Semester = {
   key: "semester-2",
@@ -143,48 +144,56 @@ export const semester2: Semester = {
           title: "Introduction to Java and OOP Concept",
           summary: "OOP principles, Java platform, JVM, JDK, basic syntax, and object-oriented paradigm overview.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["intro-java-oop"],
         },
         {
           slug: "basic-java-programming",
           title: "Basic of Java Programming",
           summary: "Data types, variables, operators, control structures, arrays, and input/output fundamentals.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["basic-java-programming"],
         },
         {
           slug: "classes-objects",
           title: "Class and Objects in Java",
           summary: "Class definition, constructors, static members, access modifiers, packages, nested classes, and garbage collection.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["classes-objects"],
         },
         {
           slug: "inheritance-polymorphism",
           title: "Inheritance and Polymorphism",
           summary: "Single/multilevel/hierarchical inheritance, method overriding, abstract classes, interfaces, and dynamic dispatch.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["inheritance-polymorphism"],
         },
         {
           slug: "exception-handling-multithreading",
           title: "Exception Handling and Multithreading",
           summary: "Try-catch, custom exceptions, thread creation, synchronization, inter-thread communication, and concurrency utilities.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["exception-handling-multithreading"],
         },
         {
           slug: "file-handling-java",
           title: "File Handling in Java",
           summary: "Byte/character streams, file I/O, serialization, buffered streams, and NIO basics.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["file-handling-java"],
         },
         {
           slug: "collections-generics",
           title: "Collections and Generics",
           summary: "Collections Framework (List, Set, Map, Queue), iterators, generics, type safety, and utility classes.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["collections-generics"],
         },
         {
           slug: "advanced-oop-concepts",
           title: "Advanced OOP Concepts in Java",
           summary: "Lambda expressions, streams API, functional interfaces, annotations, reflection, and design patterns.",
           notes: { pdf: [], handwritten: [] },
+          textContent: javaTextContent["advanced-oop-concepts"],
         },
       ],
       labReports: [

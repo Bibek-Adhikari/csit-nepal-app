@@ -1,8 +1,8 @@
-const CACHE = "bca-nepal-v9";
-const STATIC_CACHE = "bca-nepal-static-v9";
-const API_CACHE = "bca-nepal-api-v9";
-const PDF_CACHE = "bca-nepal-pdf-v9";
-const LECTURE_CACHE = "bca-nepal-lecture-v9";
+const CACHE = "bca-nepal-v10";
+const STATIC_CACHE = "bca-nepal-static-v10";
+const API_CACHE = "bca-nepal-api-v10";
+const PDF_CACHE = "bca-nepal-pdf-v10";
+const LECTURE_CACHE = "bca-nepal-lecture-v10";
 
 const PRECACHE_URLS = [
   "/",
@@ -150,6 +150,28 @@ function isPdfjsWorker(url) {
 
 // ─── Fetch Strategy ──────────────────────────────────────
 
+// ─── Fetch Handler ────────────────────────────────────────
+
+// Network- / strategy-agnostic fallback.
+//  - Navigations gracefully resolve to the offline page
+//    (so a thrown strategy never shows a blank browser error).
+//  - Other requests degrade to an empty Response with a 503 so
+//    callers that expect a body (e.g. RSC) get a defined rejection,
+//    while the page itself still renders the cached shell.
+async function offlineFallback(request, url) {
+  if (request.mode === "navigate") {
+    const cached = await caches.match(url.origin + url.pathname);
+    if (cached) return cached;
+    return caches.match("/offline.html");
+  }
+  // Already-cached copy wins if we have it
+  const pathCached = url ? await caches.match(url.origin + url.pathname) : null;
+  if (pathCached) return pathCached;
+  const anyCached = await caches.match(request);
+  if (anyCached) return anyCached;
+  return new Response("", { status: 503, statusText: "Offline" });
+}
+
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   const req = event.request;
@@ -163,7 +185,7 @@ self.addEventListener("fetch", (event) => {
       event.respondWith(caches.match("/offline.html"));
       return;
     }
-    event.respondWith(staleWhileRevalidateNav(req, url));
+    event.respondWith(staleWhileRevalidateNav(req, url).catch(() => offlineFallback(req, url)));
     return;
   }
 
@@ -175,7 +197,7 @@ self.addEventListener("fetch", (event) => {
 
   // Next.js optimized images: cache-first with original source lookup
   if (isNextImage(url)) {
-    event.respondWith(nextImageStrategy(req, url));
+    event.respondWith(nextImageStrategy(req, url).catch(() => offlineFallback(req, url)));
     return;
   }
 
@@ -184,50 +206,50 @@ self.addEventListener("fetch", (event) => {
     if (url.pathname === "/view-pdf") {
       event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
     } else {
-      event.respondWith(staleWhileRevalidateRsc(req, url));
+      event.respondWith(staleWhileRevalidateRsc(req, url).catch(() => offlineFallback(req, url)));
     }
     return;
   }
 
   // API: network-first with cache fallback
   if (isApi(url)) {
-    event.respondWith(networkFirstCache(req, API_CACHE));
+    event.respondWith(networkFirstCache(req, API_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // PDFs and Supabase storage: cache-first with refresh
   if (isPdf(url) || isSupabase(url)) {
-    event.respondWith(cacheFirstWithRefresh(req, PDF_CACHE));
+    event.respondWith(cacheFirstWithRefresh(req, PDF_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // YouTube thumbnails: cache-first
   if (isYt(url)) {
-    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // Lecture pages: network-first with lecture cache
   if (isLecturePage(url)) {
-    event.respondWith(networkFirstCache(req, LECTURE_CACHE));
+    event.respondWith(networkFirstCache(req, LECTURE_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // Static assets (JS, CSS, images): cache-first
   if (isStatic(url)) {
-    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // PDF.js worker from CDN: cache-first (needed for offline PDF viewing)
   if (isPdfjsWorker(url)) {
-    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE));
+    event.respondWith(cacheFirstWithRefresh(req, STATIC_CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
   // Same-origin (pages, RSC payloads, etc.): stale-while-revalidate
   if (isSameOrigin(url)) {
-    event.respondWith(staleWhileRevalidate(req, CACHE));
+    event.respondWith(staleWhileRevalidate(req, CACHE).catch(() => offlineFallback(req, url)));
     return;
   }
 
@@ -283,7 +305,18 @@ async function staleWhileRevalidate(request, cacheName) {
     return cached;
   }
 
-  return fetchPromise || new Response("", { status: 503 });
+  const url = new URL(request.url);
+  const pathCached = await cache.match(url.origin + url.pathname);
+  if (pathCached) return pathCached;
+
+  const fresh = await fetchPromise;
+  if (fresh) return fresh;
+
+  // Offline with nothing cached: navigate -> offline page, else a defined 503.
+  if (request.mode === "navigate") {
+    return caches.match("/offline.html");
+  }
+  return new Response("", { status: 503 });
 }
 
 async function staleWhileRevalidateRsc(request, url) {

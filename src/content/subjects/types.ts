@@ -17,6 +17,7 @@ export type Unit = {
     pdf: NoteItem[];
     handwritten: NoteItem[];
   };
+  textContent?: string;
 };
 
 export type Subject = {

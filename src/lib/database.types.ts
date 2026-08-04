@@ -18,6 +18,11 @@ export interface Database {
         Insert: EntrancePDFInsert;
         Update: EntrancePDFUpdate;
       };
+      subject_questions: {
+        Row: SubjectQuestionRow;
+        Insert: SubjectQuestionInsert;
+        Update: SubjectQuestionUpdate;
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -89,3 +94,22 @@ export type EntrancePDFInsert = Omit<EntrancePDFRow, "id" | "created_at"> & {
 };
 
 export type EntrancePDFUpdate = Partial<EntrancePDFInsert>;
+
+export interface SubjectQuestionRow {
+  id: string;
+  semester_key: string;
+  subject_slug: string;
+  unit_slug: string;
+  question: string;
+  options: string[];
+  correct_answer: string;
+  explanation: string | null;
+  created_at: string;
+}
+
+export type SubjectQuestionInsert = Omit<SubjectQuestionRow, "id" | "created_at"> & {
+  id?: string;
+  created_at?: string;
+};
+
+export type SubjectQuestionUpdate = Partial<SubjectQuestionInsert>;
