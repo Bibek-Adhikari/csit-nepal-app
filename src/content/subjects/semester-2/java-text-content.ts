@@ -183,9 +183,8 @@ public class MyFirstJavaProgram {
 `,
 
   "basic-java-programming": `
-<h2>Basic Java Programming</h2>
-
-<h3>Data Types</h3>
+<div class="text-content-card">
+<h3>Data Types <span class="tc-badge">1/5</span></h3>
 <p>Java has two categories of data types:</p>
 
 <h4>Primitive Data Types</h4>
@@ -203,8 +202,10 @@ public class MyFirstJavaProgram {
 
 <h4>Reference Data Types</h4>
 <p>String, Array, class, interface, etc.</p>
+</div>
 
-<h3>Variables</h3>
+<div class="text-content-card">
+<h3>Variables <span class="tc-badge">2/5</span></h3>
 <pre><code class="language-java">
 // Variable declaration
 int age;
@@ -215,8 +216,10 @@ String name;
 age = 20;
 double salary = 25000.50;
 </code></pre>
+</div>
 
-<h3>Operators</h3>
+<div class="text-content-card">
+<h3>Operators <span class="tc-badge">3/5</span></h3>
 <ul>
   <li><strong>Arithmetic:</strong> +, -, *, /, %, ++, --</li>
   <li><strong>Relational:</strong> ==, !=, >, <, >=, <=</li>
@@ -224,8 +227,10 @@ double salary = 25000.50;
   <li><strong>Assignment:</strong> =, +=, -=, *=, /=, %=</li>
   <li><strong>Bitwise:</strong> &, |, ^, ~, <<, >>, >>></li>
 </ul>
+</div>
 
-<h3>Control Structures</h3>
+<div class="text-content-card">
+<h3>Control Structures <span class="tc-badge">4/5</span></h3>
 
 <h4>Conditional Statements</h4>
 <pre><code class="language-java">
@@ -268,8 +273,10 @@ do {
     i++;
 } while (i < 10);
 </code></pre>
+</div>
 
-<h3>Arrays</h3>
+<div class="text-content-card">
+<h3>Arrays &amp; I/O <span class="tc-badge">5/5</span></h3>
 <pre><code class="language-java">
 // Declaration
 int[] numbers;
@@ -283,7 +290,6 @@ int[] numbers = {1, 2, 3, 4, 5};
 System.out.println(numbers[0]); // First element
 </code></pre>
 
-<h3>Input/Output</h3>
 <pre><code class="language-java">
 import java.util.Scanner;
 
@@ -294,12 +300,12 @@ System.out.print("Enter your age: ");
 int age = scanner.nextInt();
 scanner.close();
 </code></pre>
+</div>
 `,
 
   "classes-objects": `
-<h2>Classes and Objects in Java</h2>
-
-<h3>Classes</h3>
+<div class="text-content-card">
+<h3>Classes <span class="tc-badge">1/6</span></h3>
 <p>
 A class is a blueprint or template for creating objects. It defines the data (attributes) 
 and code (methods) that an object of that class will have.
@@ -336,8 +342,10 @@ public class Student {
     }
 }
 </code></pre>
+</div>
 
-<h3>Objects</h3>
+<div class="text-content-card">
+<h3>Objects <span class="tc-badge">2/6</span></h3>
 <p>
 An object is an instance of a class. Objects are created using the 'new' keyword.
 </p>
@@ -351,8 +359,10 @@ Student student2 = new Student("Jane Smith", 102, "Pokhara");
 student1.displayInfo();
 student2.displayInfo();
 </code></pre>
+</div>
 
-<h3>Constructors</h3>
+<div class="text-content-card">
+<h3>Constructors <span class="tc-badge">3/6</span></h3>
 <p>
 Constructors are special methods used to initialize objects. They have the same name 
 as the class and no return type.</p>
@@ -381,8 +391,10 @@ public class Rectangle {
     }
 }
 </code></pre>
+</div>
 
-<h3>Static Members</h3>
+<div class="text-content-card">
+<h3>Static Members <span class="tc-badge">4/6</span></h3>
 <p>
 Static members belong to the class rather than instances. They can be accessed 
 without creating an object.</p>
@@ -406,8 +418,10 @@ public class Counter {
     }
 }
 </code></pre>
+</div>
 
-<h3>Access Modifiers</h3>
+<div class="text-content-card">
+<h3>Access Modifiers &amp; Packages <span class="tc-badge">5/6</span></h3>
 <ul>
   <li><strong>private:</strong> Accessible only within the same class</li>
   <li><strong>default:</strong> Accessible within the same package</li>
@@ -415,7 +429,6 @@ public class Counter {
   <li><strong>public:</strong> Accessible everywhere</li>
 </ul>
 
-<h3>Packages</h3>
 <p>
 Packages organize classes and provide a namespace. They also control access 
 through access modifiers.</p>
@@ -427,23 +440,24 @@ public class Student {
     // class body
 }
 </code></pre>
+</div>
 
-<h3>Nested Classes</h3>
+<div class="text-content-card">
+<h3>Nested Classes &amp; Garbage Collection <span class="tc-badge">6/6</span></h3>
 <p>
 Classes defined within another class. Types include: member classes, 
 local classes, anonymous classes, and nested classes.</p>
 
-<h3>Garbage Collection</h3>
 <p>
 Java automatically manages memory through garbage collection. Objects that are no 
 longer referenced become eligible for garbage collection. The finalize() method can 
 be used for cleanup before an object is garbage collected.</p>
+</div>
 `,
 
   "inheritance-polymorphism": `
-<h2>Inheritance and Polymorphism</h2>
-
-<h3>Inheritance</h3>
+<div class="text-content-card">
+<h3>Inheritance &amp; Types <span class="tc-badge">1/6</span></h3>
 <p>
 Inheritance is a mechanism that allows a new class (subclass/child class) to inherit 
 properties and methods from an existing class (superclass/parent class).
@@ -489,7 +503,7 @@ class Car extends Vehicle {
 }
 </code></pre>
 
-<h3>Types of Inheritance</h3>
+<h4>Types of Inheritance</h4>
 <ul>
   <li><strong>Single:</strong> One parent &rarr; One child</li>
   <li><strong>Multiple:</strong> Not supported in Java (handled via interfaces)</li>
@@ -497,8 +511,11 @@ class Car extends Vehicle {
   <li><strong>Hierarchical:</strong> One parent &rarr; Multiple children</li>
   <li><strong>Hybrid:</strong> Combination of multiple types</li>
 </ul>
+</div>
 
-<h3>Method Overriding</h3>
+<div class="text-content-card">
+<h3>Method Overriding &amp; Overloading <span class="tc-badge">2/6</span></h3>
+<h4>Method Overriding</h4>
 <p>
 When a child class provides a specific implementation of a method that is already 
 defined in its parent class. Rules:</p>
@@ -511,7 +528,7 @@ defined in its parent class. Rules:</p>
   <li>Can use @Override annotation</li>
 </ul>
 
-<h3>Method Overloading</h3>
+<h4>Method Overloading</h4>
 <p>
 Multiple methods with the same name but different parameters. It occurs at compile time.</p>
 
@@ -530,8 +547,10 @@ class Calculator {
     }
 }
 </code></pre>
+</div>
 
-<h3>Polymorphism</h3>
+<div class="text-content-card">
+<h3>Polymorphism <span class="tc-badge">3/6</span></h3>
 <p>
 Polymorphism means "many forms". It allows objects of different types to be treated 
 as instances of the same type through a common interface.</p>
@@ -564,8 +583,10 @@ Animal animal2 = new Cat();
 animal1.sound(); // "Dog barks"
 animal2.sound(); // "Cat meows"
 </code></pre>
+</div>
 
-<h3>Abstract Classes</h3>
+<div class="text-content-card">
+<h3>Abstract Classes <span class="tc-badge">4/6</span></h3>
 <p>
 Abstract classes cannot be instantiated and may contain abstract methods (methods 
 without body). They provide a common base for subclasses.</p>
@@ -607,8 +628,10 @@ class Circle extends Shape {
     }
 }
 </code></pre>
+</div>
 
-<h3>Interfaces</h3>
+<div class="text-content-card">
+<h3>Interfaces <span class="tc-badge">5/6</span></h3>
 <p>
 Interfaces define a contract that implementing classes must follow. From Java 8, 
 interfaces can have default and static methods.</p>
@@ -646,18 +669,20 @@ class Rectangle implements Drawable {
     }
 }
 </code></pre>
+</div>
 
-<h3>Dynamic Method Dispatch</h3>
+<div class="text-content-card">
+<h3>Dynamic Method Dispatch <span class="tc-badge">6/6</span></h3>
 <p>
 Runtime method resolution in Java. When an overridden method is called through a 
 reference variable, Java determines at runtime which method to call based on 
 the actual object type.</p>
+</div>
 `,
 
   "exception-handling-multithreading": `
-<h2>Exception Handling and Multithreading</h2>
-
-<h3>Exception Handling</h3>
+<div class="text-content-card">
+<h3>Exception Handling Overview &amp; Hierarchy <span class="tc-badge">1/7</span></h3>
 <p>
 Exception handling handles runtime errors to maintain normal application flow. 
 It prevents program crashes and provides meaningful error messages.
@@ -668,8 +693,10 @@ It prevents program crashes and provides meaningful error messages.
 Throwable (root) &rarr; Exception (recoverable) / Error (not recoverable)<br>
 Exception &rarr; RuntimeException (unchecked) / IOException (checked)
 </p>
+</div>
 
-<h4>Try-Catch-Finally</h4>
+<div class="text-content-card">
+<h3>Try-Catch-Finally &amp; Try-With-Resources <span class="tc-badge">2/7</span></h3>
 <pre><code class="language-java">
 try {
     int result = 10 / 0;
@@ -690,8 +717,10 @@ try (FileInputStream fis = new FileInputStream("file.txt");
     System.out.println("Error: " + e.getMessage());
 }
 </code></pre>
+</div>
 
-<h4>Throw vs Throws</h4>
+<div class="text-content-card">
+<h3>Throw vs Throws &amp; Custom Exceptions <span class="tc-badge">3/7</span></h3>
 <pre><code class="language-java">
 public void checkAge(int age) throws InvalidAgeException {
     if (age < 18) {
@@ -707,8 +736,10 @@ class InvalidAgeException extends Exception {
     }
 }
 </code></pre>
+</div>
 
-<h4>Common Exceptions</h4>
+<div class="text-content-card">
+<h3>Common Exceptions <span class="tc-badge">4/7</span></h3>
 <ul>
   <li>ArithmeticException: Division by zero</li>
   <li>NullPointerException: Accessing null object</li>
@@ -717,16 +748,16 @@ class InvalidAgeException extends Exception {
   <li>FileNotFoundException: File not found</li>
   <li>IOException: General I/O errors</li>
 </ul>
+</div>
 
-<h3>Multithreading</h3>
+<div class="text-content-card">
+<h3>Creating Threads <span class="tc-badge">5/7</span></h3>
 <p>
 Multithreading allows concurrent execution of parts of a program for maximum 
 CPU utilization. Each thread is a lightweight sub-process.
 </p>
 
-<h4>Creating Threads</h4>
-
-<h5>Extending Thread Class</h5>
+<h4>Extending Thread Class</h4>
 <pre><code class="language-java">
 class MyThread extends Thread {
     @Override
@@ -749,7 +780,7 @@ t1.start();
 t2.start();
 </code></pre>
 
-<h5>Implementing Runnable Interface</h5>
+<h4>Implementing Runnable Interface</h4>
 <pre><code class="language-java">
 class MyRunnable implements Runnable {
     @Override
@@ -762,8 +793,10 @@ class MyRunnable implements Runnable {
 Thread thread = new Thread(new MyRunnable());
 thread.start();
 </code></pre>
+</div>
 
-<h4>Synchronization</h4>
+<div class="text-content-card">
+<h3>Synchronization &amp; Inter-thread Communication <span class="tc-badge">6/7</span></h3>
 <p>
 Synchronization prevents thread interference and ensures thread safety when 
 multiple threads access shared resources.</p>
@@ -818,8 +851,11 @@ class ProducerConsumer {
     }
 }
 </code></pre>
+</div>
 
-<h4>Concurrency Utilities (java.util.concurrent)</h4>
+<div class="text-content-card">
+<h3>Concurrency Utilities <span class="tc-badge">7/7</span></h3>
+<h4>java.util.concurrent</h4>
 <ul>
   <li>ExecutorService: Thread pool management</li>
   <li>Future: Handle results asynchronously</li>
@@ -829,19 +865,21 @@ class ProducerConsumer {
   <li>Semaphore: Limit concurrent access</li>
   <li>ThreadLocal: Per-thread variable</li>
 </ul>
+</div>
 `,
 
   "file-handling-java": `
-<h2>File Handling in Java</h2>
-
-<h3>File I/O Overview</h3>
+<div class="text-content-card">
+<h3>File I/O Overview <span class="tc-badge">1/5</span></h3>
 <p>
 Java provides comprehensive support for file handling through the java.io and 
 java.nio.file packages. File I/O operations include reading, writing, creating, 
 and deleting files.
 </p>
+</div>
 
-<h3>Byte Streams</h3>
+<div class="text-content-card">
+<h3>Byte Streams <span class="tc-badge">2/5</span></h3>
 <p>
 Byte streams handle binary data (8-bit bytes). They inherit from InputStream and OutputStream.</p>
 
@@ -872,8 +910,10 @@ try (FileOutputStream fos = new FileOutputStream("output.txt")) {
     System.out.println("Error: " + e.getMessage());
 }
 </code></pre>
+</div>
 
-<h3>Character Streams</h3>
+<div class="text-content-card">
+<h3>Character Streams &amp; Buffered Streams <span class="tc-badge">3/5</span></h3>
 <p>
 Character streams handle character data (16-bit Unicode). They inherit from Reader and Writer.</p>
 
@@ -901,7 +941,7 @@ try (FileWriter fw = new FileWriter("output.txt")) {
 }
 </code></pre>
 
-<h3>Buffered Streams</h3>
+<h4>Buffered Streams</h4>
 <p>
 Buffered streams improve performance by reducing the number of I/O operations. 
 They use an internal buffer.</p>
@@ -932,8 +972,10 @@ try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
     System.out.println("Error: " + e.getMessage());
 }
 </code></pre>
+</div>
 
-<h3>Serialization</h3>
+<div class="text-content-card">
+<h3>Serialization <span class="tc-badge">4/5</span></h3>
 <p>
 Serialization is the process of converting an object's state into a byte stream. 
 The Serializable interface must be implemented.</p>
@@ -973,8 +1015,11 @@ try (ObjectInputStream ois = new ObjectInputStream(
     System.out.println("Error: " + e.getMessage());
 }
 </code></pre>
+</div>
 
-<h3>NIO (New I/O) - java.nio.file</h3>
+<div class="text-content-card">
+<h3>NIO &amp; File Class <span class="tc-badge">5/5</span></h3>
+<h4>NIO (New I/O) - java.nio.file</h4>
 <p>
 NIO.2 provides modern file handling capabilities with Path and Files classes.</p>
 
@@ -1022,7 +1067,7 @@ try {
 }
 </code></pre>
 
-<h3>File Class</h3>
+<h4>File Class</h4>
 <p>
 The File class represents file and directory pathnames. It provides methods to 
 create, delete, and manage files and directories.</p>
@@ -1042,12 +1087,12 @@ if (!dir.exists()) {
     dir.mkdir();
 }
 </code></pre>
+</div>
 `,
 
   "collections-generics": `
-<h2>Collections and Generics</h2>
-
-<h3>The Collections Framework</h3>
+<div class="text-content-card">
+<h3>Collections Framework Overview <span class="tc-badge">1/7</span></h3>
 <p>
 The Java Collections Framework is a single unified architecture for representing 
 and manipulating groups of objects. It includes interfaces, implementations, and algorithms.
@@ -1063,8 +1108,10 @@ and manipulating groups of objects. It includes interfaces, implementations, and
   <tr><td>Deque</td><td>Double-ended queue</td></tr>
   <tr><td>Map</td><td>Key-value pairs (not extends Collection)</td></tr>
 </table>
+</div>
 
-<h3>List Interface</h3>
+<div class="text-content-card">
+<h3>List <span class="tc-badge">2/7</span></h3>
 
 <h4>ArrayList</h4>
 <pre><code class="language-java">
@@ -1089,8 +1136,10 @@ list.add(20);
 ((LinkedList&lt;Integer&gt;)list).addLast(100);
 ((LinkedList&lt;Integer&gt;)list).removeFirst();
 </code></pre>
+</div>
 
-<h3>Set Interface</h3>
+<div class="text-content-card">
+<h3>Set <span class="tc-badge">3/7</span></h3>
 
 <h4>HashSet</h4>
 <pre><code class="language-java">
@@ -1115,8 +1164,10 @@ set.add(20);
 Set&lt;String&gt; set = new LinkedHashSet&lt;&gt;();
 // Maintains insertion order
 </code></pre>
+</div>
 
-<h3>Queue Interface</h3>
+<div class="text-content-card">
+<h3>Queue &amp; Deque <span class="tc-badge">4/7</span></h3>
 
 <h4>PriorityQueue</h4>
 <pre><code class="language-java">
@@ -1136,8 +1187,10 @@ deque.offerLast("Last");
 String first = deque.peekFirst();
 String last = deque.peekLast();
 </code></pre>
+</div>
 
-<h3>Map Interface</h3>
+<div class="text-content-card">
+<h3>Map <span class="tc-badge">5/7</span></h3>
 
 <h4>HashMap</h4>
 <pre><code class="language-java">
@@ -1158,8 +1211,10 @@ map.forEach((k, v) -&gt; System.out.println(k + "=" + v));
 Map&lt;String, Integer&gt; map = new TreeMap&lt;&gt;();
 // Keys are sorted in natural order
 </code></pre>
+</div>
 
-<h3>Iterators</h3>
+<div class="text-content-card">
+<h3>Iterators &amp; Collections Utility <span class="tc-badge">6/7</span></h3>
 <pre><code class="language-java">
 List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList("A", "B", "C"));
 
@@ -1180,7 +1235,7 @@ listIt.add("New"); // Add at current position
 listIt.set("Updated"); // Replace current element
 </code></pre>
 
-<h3>Collections Utility Class</h3>
+<h4>Collections Utility Class</h4>
 <pre><code class="language-java">
 List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(5, 2, 8, 1, 9));
 
@@ -1191,8 +1246,11 @@ int min = Collections.min(list);
 int max = Collections.max(list);
 int freq = Collections.frequency(list, 5);
 </code></pre>
+</div>
 
-<h3>Generics</h3>
+<div class="text-content-card">
+<h3>Generics, Comparable/Comparator &amp; Streams <span class="tc-badge">7/7</span></h3>
+<h4>Generics</h4>
 <p>
 Generics add type safety and enable type erasure for backward compatibility.</p>
 
@@ -1250,7 +1308,7 @@ public static void printNumbers(List&lt;? extends Number&gt; numbers) {
 }
 </code></pre>
 
-<h3>Comparable and Comparator</h3>
+<h4>Comparable and Comparator</h4>
 <pre><code class="language-java">
 class Student implements Comparable&lt;Student&gt; {
     private String name;
@@ -1269,7 +1327,7 @@ students.sort(Comparator.comparing(Student::getMarks)
                         .thenComparing(Student::getName));
 </code></pre>
 
-<h3>Streams API</h3>
+<h4>Streams API</h4>
 <pre><code class="language-java">
 List&lt;String&gt; names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -1284,12 +1342,12 @@ names.parallelStream()
      .filter(name -&gt; name.startsWith("A"))
      .forEach(System.out::println);
 </code></pre>
+</div>
 `,
 
   "advanced-oop-concepts": `
-<h2>Advanced OOP Concepts in Java</h2>
-
-<h3>Lambda Expressions (Java 8)</h3>
+<div class="text-content-card">
+<h3>Lambda Expressions &amp; Method References <span class="tc-badge">1/5</span></h3>
 <p>
 Lambda expressions provide a concise way to implement functional interfaces 
 (single abstract method interfaces). They enable functional programming in Java.
@@ -1323,7 +1381,28 @@ Calculator multiply = (a, b) -&gt; a * b;
 System.out.println(add.calculate(5, 3)); // 8
 </code></pre>
 
-<h3>Functional Interfaces</h3>
+<h4>Method References</h4>
+<p>
+Method references provide a way to call existing methods using shorthand syntax.</p>
+
+<pre><code class="language-java">
+// Static method reference
+Function&lt;String, Integer&gt; parseInt = Integer::parseInt;
+
+// Instance method reference
+String str = "Hello";
+Supplier&lt;Integer&gt; length = str::length;
+
+// Constructor reference
+Function&lt;String, Person&gt; personFactory = Person::new;
+
+// Class instance method reference
+Function&lt;Person, String&gt; getName = Person::getName;
+</code></pre>
+</div>
+
+<div class="text-content-card">
+<h3>Functional Interfaces <span class="tc-badge">2/5</span></h3>
 <p>
 Functional interfaces have exactly one abstract method. Common ones in java.util.function:</p>
 <ul>
@@ -1339,8 +1418,10 @@ Function&lt;String, Integer&gt; parseInt = str -&gt; Integer.parseInt(str);
 Consumer&lt;String&gt; print = str -&gt; System.out.println(str);
 Supplier&lt;String&gt; getMessage = () -&gt; "Hello, World!";
 </code></pre>
+</div>
 
-<h3>Streams API (Java 8)</h3>
+<div class="text-content-card">
+<h3>Streams API <span class="tc-badge">3/5</span></h3>
 <p>
 Streams provide a functional approach to processing collections of objects. They support 
 filtering, mapping, and reducing operations.</p>
@@ -1373,34 +1454,17 @@ people.parallelStream()
     .filter(p -&gt; p.getAge() &gt; 30)
     .collect(Collectors.toList());
 </code></pre>
+</div>
 
-<h3>Method References</h3>
-<p>
-Method references provide a way to call existing methods using shorthand syntax.</p>
-
-<pre><code class="language-java">
-// Static method reference
-Function&lt;String, Integer&gt; parseInt = Integer::parseInt;
-
-// Instance method reference
-String str = "Hello";
-Supplier&lt;Integer&gt; length = str::length;
-
-// Constructor reference
-Function&lt;String, Person&gt; personFactory = Person::new;
-
-// Class instance method reference
-Function&lt;Person, String&gt; getName = Person::getName;
-</code></pre>
-
-<h3>Annotations (Java 5)</h3>
+<div class="text-content-card">
+<h3>Annotations &amp; Reflection API <span class="tc-badge">4/5</span></h3>
+<h4>Annotations (Java 5)</h4>
 <p>
 Annotations are metadata that provide data about a program but are not actual program 
 logic. They can be processed at compile time or runtime.</p>
 
 <pre><code class="language-java">
 // Built-in annotations
-@Override
 @Override
 public String toString() {
     return "Student{name='" + name + "'}";
@@ -1434,7 +1498,7 @@ public class MyClass {
 }
 </code></pre>
 
-<h3>Reflection API</h3>
+<h4>Reflection API</h4>
 <p>
 Reflection allows programs to examine and dynamically call classes, interfaces, 
 fields, and methods at runtime.</p>
@@ -1460,8 +1524,10 @@ setName.invoke(personObject, "Alice");
 Constructor&lt;?&gt; constructor = clazz.getDeclaredConstructor();
 Object instance = constructor.newInstance();
 </code></pre>
+</div>
 
-<h3>Design Patterns</h3>
+<div class="text-content-card">
+<h3>Design Patterns <span class="tc-badge">5/5</span></h3>
 
 <h4>Singleton Pattern</h4>
 <pre><code class="language-java">
@@ -1554,7 +1620,7 @@ class NewsAgency {
 }
 </code></pre>
 
-<h4>Builder Pattern</h3>
+<h4>Builder Pattern</h4>
 <pre><code class="language-java">
 class Computer {
     private String CPU;
@@ -1600,5 +1666,6 @@ Computer computer = new Computer.Builder()
     .setStorage(512)
     .build();
 </code></pre>
+</div>
 `
 };
