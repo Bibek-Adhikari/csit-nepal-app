@@ -1,60 +1,185 @@
 export const javaTextContent: Record<string, string> = {
   "intro-java-oop": `
-<h2>Introduction to Java and OOP Concepts</h2>
+<div class="text-content-card">
+<h3>Introduction <span class="tc-badge">1/21</span></h3>
+<p><strong>Java</strong> is a high-level, robust, object-oriented, secure programming language developed by <strong>Sun Microsystems</strong> (1995).</p>
+<p>It is <strong>platform-independent</strong> — compiled to <code>bytecode</code> run on <strong>JVM</strong>.</p>
+<p>Syntax similar to C/C++ but <strong>no pointers</strong>; not pure OOP due to primitive types.</p>
+<p><strong>Platform</strong> = runtime environment (JRE) + API.</p>
+</div>
 
-<h3>What is Object-Oriented Programming?</h3>
-<p>
-Object-Oriented Programming (OOP) is a programming paradigm that organizes software design 
-around objects rather than functions and logic. An object is a unit of code that has both 
-attributes (data) and methods (functions).
-</p>
+<div class="text-content-card">
+<h3>Highlights <span class="tc-badge">2/21</span></h3>
+<p>Developed by <strong>James Gosling</strong> (Sun → Oracle).</p>
+<p>Combines <strong>C</strong> format + <strong>C++</strong> OOP features.</p>
+<p><strong>WORA</strong> (Write Once, Run Anywhere) — no recompilation across platforms.</p>
+<p><code>JVM</code> executes bytecode; JVM itself is <strong>platform-specific</strong> (C/C++/ASM).</p>
+</div>
 
-<h3>Java Platform Overview</h3>
-<p>
-Java is a high-level, class-based, object-oriented programming language designed to have 
-as few implementation dependencies as possible. It was developed by James Gosling at Sun 
-Microsystems and released in 1995.
-</p>
+<div class="text-content-card">
+<h3>Creation &amp; History <span class="tc-badge">3/21</span></h3>
+<p>Created by <strong>Gosling, Naughton, Sheridan</strong> at Sun in <strong>1991</strong> (18 months).</p>
+<p>Originally called <code>Oak</code> → renamed <strong>Java</strong> in 1995 (trademark conflict).</p>
+<p>Designed for <strong>interactive TV</strong> but found success on the <strong>internet</strong>.</p>
+<p>Goal: <strong>"Simple, Robust, Portable, Secure, High Performance, Multithreaded"</strong>.</p>
+</div>
 
-<h3>JVM, JDK, and JRE</h3>
-<ul>
-  <li><strong>JVM (Java Virtual Machine):</strong> An abstract computing machine that enables 
-      a computer to run Java programs. It provides runtime environment for code execution.</li>
-  <li><strong>JDK (Java Development Kit):</strong> A development environment used to build 
-      apps and applets. It includes JVM, Java compiler, and other development tools.</li>
-  <li><strong>JRE (Java Runtime Environment):</strong> A package containing everything needed 
-      to run Java programs. It includes JVM and Java libraries.</li>
-</ul>
+<div class="text-content-card">
+<h3>Version History <span class="tc-badge">4/21</span></h3>
+<p><strong>JDK 1.0</strong> (1996) → <strong>J2SE 5.0</strong> (2004) → <strong>Java SE 8</strong> (2014) → <strong>Java SE 17</strong> (2021).</p>
+<p>Major releases: <code>Java 11</code> (LTS), <code>Java 17</code> (LTS).</p>
+<p>Current stable: <strong>Java SE 18</strong> (March 2022).</p>
+<p>Evolution: <strong>JDK → J2SE → Java SE</strong>.</p>
+</div>
 
-<h3>OOP Principles in Java</h3>
-<ol>
-  <li><strong>Encapsulation:</strong> Bundling data and methods within a class, controlling 
-      access through access modifiers (private, public, protected).</li>
-  <li><strong>Inheritance:</strong> A mechanism where a child class inherits properties 
-      and methods from a parent class.</li>
-  <li><strong>Polymorphism:</strong> The ability to perform different actions based on 
-      the object type, including method overriding and overloading.</li>
-  <li><strong>Abstraction:</strong> Hiding complex implementation details and showing only 
-      the necessary functionality through abstract classes and interfaces.</li>
-</ol>
+<div class="text-content-card">
+<h3>Java &amp; the Internet <span class="tc-badge">5/21</span></h3>
+<p>First Java app: <strong>HotJava</strong> browser; applets run in browsers.</p>
+<p>Used for <strong>JSP</strong> (dynamic web pages), <strong>Applets</strong>, <strong>J2EE</strong> (enterprise), <strong>JavaBeans</strong> (reusable components).</p>
+<p>Widely used in <strong>mobile</strong> (games, apps) and Android development.</p>
+<p><strong>3 billion</strong> devices run Java (Sun).</p>
+</div>
 
-<h3>Java Basic Syntax</h3>
+<div class="text-content-card">
+<h3>Types of Java Applications <span class="tc-badge">6/21</span></h3>
+<p><strong>Web</strong> — server-side (Servlet, JSP, Struts, JSF).</p>
+<p><strong>Standalone</strong> — desktop (AWT, Swing) e.g. media player, antivirus.</p>
+<p><strong>Enterprise</strong> — distributed, high-security, load-balancing (EJB).</p>
+<p><strong>Mobile</strong> — Java ME, Android (Google).</p>
+</div>
+
+<div class="text-content-card">
+<h3>Features of Java <span class="tc-badge">7/21</span></h3>
+<p><strong>Object-Oriented</strong> — simple object model.</p>
+<p><strong>Platform Independent</strong> — bytecode runs anywhere.</p>
+<p><strong>Secure</strong> — virus/malware protection.</p>
+<p><strong>Robust</strong> — early error detection.</p>
+<p><strong>Multi-threaded</strong> — concurrent tasks.</p>
+<p><strong>Distributed</strong> — TCP/IP protocol support.</p>
+</div>
+
+<div class="text-content-card">
+<h3>JDK — Java Dev Kit <span class="tc-badge">8/21</span></h3>
+<p><strong>JDK</strong> = Java Development Kit — physically exists.</p>
+<p>Includes: <strong>JRE</strong> + <code>javac</code> (compiler) + <code>java</code> (interpreter) + <code>jar</code> + <code>javadoc</code> + tools.</p>
+<p>Platform-specific: Windows, Linux, Solaris; Mac has its own.</p>
+<p><strong>Use</strong>: development environment for Java apps &amp; applets.</p>
+</div>
+
+<div class="text-content-card">
+<h3>JRE — Runtime Env <span class="tc-badge">9/21</span></h3>
+<p><strong>JRE</strong> = Java Runtime Environment — physically exists.</p>
+<p>Provides: core classes, libraries, <strong>JVM</strong>, and components to <strong>run</strong> Java programs.</p>
+<p>Part of JDK but can be downloaded separately.</p>
+<p><code>Cannot</code> be used for development — only for <strong>execution</strong>.</p>
+</div>
+
+<div class="text-content-card">
+<h3>JVM — Virtual Machine <span class="tc-badge">10/21</span></h3>
+<p><strong>JVM</strong> = Java Virtual Machine — executes <code>bytecode</code>.</p>
+<p>Resides on your machine; bytecode is JVM's machine language.</p>
+<p>Compiler generates bytecode for JVM, not machine code.</p>
+<p><strong>Key</strong>: JVM makes Java <strong>platform-independent</strong>.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Bytecode &amp; Mechanism <span class="tc-badge">11/21</span></h3>
+<p><strong>Bytecode</strong> = intermediate machine-independent code.</p>
+<p>Set of instructions for <strong>JVM</strong> — similar to assembler.</p>
+<p>Processed by JVM (not the processor) → <code>.class</code> file runs on any platform.</p>
+<p>Flow: <strong>.java</strong> → compiler → <strong>.class</strong> (bytecode) → JVM → machine code.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Procedural vs OOP <span class="tc-badge">12/21</span></h3>
+<p><strong>Procedural</strong>: divided into <strong>functions</strong>, top-down, no access specifiers, less secure.</p>
+<p><strong>OOP</strong>: divided into <strong>objects</strong>, bottom-up, access specifiers, data hiding, inheritance.</p>
+<p>OOP supports <code>overloading</code> &amp; code reusability; procedural does not.</p>
+<p>Procedural: C, Pascal, BASIC &nbsp;|&nbsp; OOP: <strong>Java</strong>, C++, Python, C#.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Compiling &amp; Running <span class="tc-badge">13/21</span></h3>
+<p>Write code in <code>.java</code> file → compile with <strong>javac</strong> → generates <code>.class</code>.</p>
+<p>Run with <strong>java</strong> command.</p>
+<p><strong>Example</strong>: <code>javac MyFirstJavaProgram.java</code> → <code>java MyFirstJavaProgram</code>.</p>
+<p>Output: <strong>Hello World</strong>.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Naming Conventions <span class="tc-badge">14/21</span></h3>
+<p><strong>Case-sensitive</strong> — <code>Hello</code> ≠ <code>hello</code>.</p>
+<p><strong>Class names</strong>: UpperCamelCase (e.g. <code>MyFirstJavaClass</code>).</p>
+<p><strong>Method names</strong>: lowerCamelCase (e.g. <code>myMethodName()</code>).</p>
+<p>File name must match <strong>class name</strong> exactly + <code>.java</code>.</p>
+<p><strong>main()</strong> is mandatory: <code>public static void main(String[] args)</code>.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Setting up Environment <span class="tc-badge">15/21</span></h3>
+<p>Set <strong>PATH</strong> variable to run <code>javac</code>, <code>java</code> from any directory.</p>
+<p>Windows: Properties → Advanced → Environment Variables → add <strong>Path</strong>.</p>
+<p>Value: <code>C:\Program Files\Java\jdk1.7.0_21\bin</code> (adjust to your JDK).</p>
+<p>Without PATH: must type full path each time.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Code Example <span class="tc-badge">16/21</span></h3>
+<p>Complete <strong>Hello World</strong> program — the entry point for every Java developer.</p>
+<p>Class name: <strong>MyFirstJavaProgram</strong> &bull; file: <code>MyFirstJavaProgram.java</code>.</p>
+<p><strong>main()</strong> method is public, static, void, with <code>String[] args</code>.</p>
+<p><strong>System.out.println()</strong> prints to console.</p>
 <pre><code class="language-java">
-public class HelloWorld {
+public class MyFirstJavaProgram {
+    /* This is my first java program.
+     * This will print 'Hello World' as the output
+     */
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        System.out.println("Hello World"); // prints Hello World
     }
 }
 </code></pre>
+</div>
 
-<h4>Key Points:</h4>
-<ul>
-  <li>Every Java application is a class</li>
-  <li>main() method is the entry point</li>
-  <li>Classes are defined with 'class' keyword</li>
-  <li>Methods are defined with return type, name, and parameters</li>
-  <li>Statements end with semicolons</li>
-</ul>
+<div class="text-content-card">
+<h3>OOP Concepts <span class="tc-badge">17/21</span></h3>
+<p><strong>Encapsulation</strong> — bundling data and methods, hiding internals.</p>
+<p><strong>Inheritance</strong> — subclass inherits from superclass (extends).</p>
+<p><strong>Polymorphism</strong> — same method name, different behaviours (overloading/overriding).</p>
+<p><strong>Abstraction</strong> — hiding implementation details (abstract classes &amp; interfaces).</p>
+</div>
+
+<div class="text-content-card">
+<h3>Exception Handling</h3>
+<p>Errors and exceptions are handled using <strong>try-catch-finally</strong> blocks.</p>
+<p><strong>Checked</strong> exceptions (compile-time) vs <strong>Unchecked</strong> (runtime).</p>
+<p>Use <code>throws</code> to declare exceptions, <code>throw</code> to raise them.</p>
+<p>Custom exceptions extend <strong>Exception</strong> class.</p>
+</div>
+
+<div class="text-content-card">
+<h3>Collections Framework <span class="tc-badge">19/21</span></h3>
+<p><strong>List</strong> — ordered, duplicates allowed (ArrayList, LinkedList).</p>
+<p><strong>Set</strong> — no duplicates (HashSet, TreeSet).</p>
+<p><strong>Map</strong> — key-value pairs (HashMap, TreeMap).</p>
+<p><strong>Queue</strong> — FIFO (PriorityQueue, ArrayDeque).</p>
+</div>
+
+<div class="text-content-card">
+<h3>Multithreading</h3>
+<p><strong>Thread</strong> — lightweight process, concurrent execution.</p>
+<p>Create by extending <strong>Thread</strong> or implementing <strong>Runnable</strong>.</p>
+<p>Synchronization — <code>synchronized</code> keyword for thread-safe access.</p>
+<p>Methods: <strong>start()</strong>, <code>run()</code>, <code>sleep()</code>, <code>join()</code>, <code>wait()</code>/<code>notify()</code>.</p>
+</div>
+
+<div class="text-content-card">
+<h3>I/O Streams <span class="tc-badge">21/21</span></h3>
+<p><strong>InputStream</strong>/<strong>OutputStream</strong> — byte streams.</p>
+<p><strong>Reader</strong>/<strong>Writer</strong> — character streams.</p>
+<p>Common classes: <code>FileInputStream</code>, <code>FileOutputStream</code>, <code>BufferedReader</code>, <code>PrintWriter</code>.</p>
+<p>Serialization — <strong>Serializable</strong> interface to persist objects.</p>
+</div>
 `,
 
   "basic-java-programming": `

@@ -5,6 +5,7 @@ import { CompletionToggle } from "@/components/completion-toggle";
 import { RelatedLectures } from "@/components/related-lectures";
 import { getSupabaseServer } from "@/lib/supabase";
 import { BackNav } from "@/components/back-nav";
+import { UnitContentTabs } from "@/components/unit-content-tabs";
 
 interface NoteItem {
   href: string;
@@ -184,70 +185,48 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
         <h1 className="unit-hero-title">{unitData.title}</h1>
       </section>
 
-      {unitData.textContent && (
-        <nav className="unit-subnav">
-          <a href="#unit-pdfs" className="subnav-link active">
-            <i className="bx bxs-file-pdf"></i>
-            PDFs
-          </a>
-          <a href="#unit-text-content" className="subnav-link">
-            <i className="bx bxs-book-reader"></i>
-            Text Content
-          </a>
-        </nav>
-      )}
-
-      <div className="unit-quiz-cta">
-        <Link
-          href={`/quiz/${semester}/${subject}`}
-          className="pill-btn"
-          style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
-        >
-          <i className="bx bx-question-mark"></i>
-          Take {subjectData.title} Quiz
-        </Link>
-      </div>
-
-      {pdfNotes.length > 0 && (
-        <section id="unit-pdfs" className="unit-notes-section">
-          <h3 className="section-headline"><i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>PDF &mdash; Course</h3>
-          <div className="unit-notes-list">
-            {pdfNotes.map((item: NoteItem) => (
-              <NoteCard key={item.href} item={item} type="pdf" semester={semester} subject={subject} unit={unit} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {handwrittenNotes.length > 0 && (
-        <section className="unit-notes-section">
-          <h3 className="section-headline"><i className="bx bxs-pencil" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>Handwritten</h3>
-          <div className="unit-notes-list">
-            {handwrittenNotes.map((item: NoteItem) => (
-              <NoteCard key={item.href} item={item} type="handwritten" semester={semester} subject={subject} unit={unit} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {pdfNotes.length === 0 && handwrittenNotes.length === 0 && (
-        <section className="unit-notes-section">
-          <div className="unit-coming-soon">
-            <i className="bx bx-time-five"></i>
-            <span>Notes for this unit are being prepared &mdash; check back soon!</span>
-          </div>
-        </section>
-      )}
-
-      {unitData.textContent && (
-        <section id="unit-text-content" className="text-content-section">
-          <h3 className="section-headline"><i className="bx bxs-book-reader" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>Text Content</h3>
-          <div
-            className="text-content-body"
-            dangerouslySetInnerHTML={{ __html: unitData.textContent }}
-          />
-        </section>
-      )}
+      <UnitContentTabs
+        pdfNotes={pdfNotes}
+        handwrittenNotes={handwrittenNotes}
+        textContent={unitData.textContent || null}
+        semester={semester}
+        subject={subject}
+        unit={unit}
+        quizUrl={`/quiz/${semester}/${subject}`}
+        subjectTitle={subjectData.title}
+        pdfSection={
+          <>
+            {pdfNotes.length > 0 && (
+              <section id="unit-pdfs" className="unit-notes-section">
+                <h3 className="section-headline"><i className="bx bxs-file-pdf" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>PDF &mdash; Course</h3>
+                <div className="unit-notes-list">
+                  {pdfNotes.map((item: NoteItem) => (
+                    <NoteCard key={item.href} item={item} type="pdf" semester={semester} subject={subject} unit={unit} />
+                  ))}
+                </div>
+              </section>
+            )}
+            {handwrittenNotes.length > 0 && (
+              <section className="unit-notes-section">
+                <h3 className="section-headline"><i className="bx bxs-pencil" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>Handwritten</h3>
+                <div className="unit-notes-list">
+                  {handwrittenNotes.map((item: NoteItem) => (
+                    <NoteCard key={item.href} item={item} type="handwritten" semester={semester} subject={subject} unit={unit} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        }
+        comingSoonSection={
+          <section className="unit-notes-section">
+            <div className="unit-coming-soon">
+              <i className="bx bx-time-five"></i>
+              <span>Notes for this unit are being prepared &mdash; check back soon!</span>
+            </div>
+          </section>
+        }
+      />
 
       <RelatedLectures semesterKey={semester} subjectSlug={subject} />
 

@@ -2543,6 +2543,9 @@ html.dark .unit-coming-soon {
   transition: all 0.2s ease;
   border: 1px solid transparent;
   min-height: 44px;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
 }
 
 .subnav-link:hover {
@@ -2554,6 +2557,10 @@ html.dark .unit-coming-soon {
   background: var(--primary-light);
   color: var(--primary);
   border-color: var(--primary);
+}
+
+.subnav-link-quiz {
+  margin-left: auto;
 }
 
 .text-content-section {
@@ -2669,6 +2676,346 @@ html.dark .unit-coming-soon {
   .text-content-body h3 {
     font-size: 1.05rem;
   }
+}
+
+/* ── Text Content: Highlight Classes (from intro-java.html) ── */
+.text-content-body .hl-keyword {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.text-content-body .hl-term {
+  color: #a78bfa;
+  font-weight: 500;
+}
+
+.text-content-body .hl-code {
+  background: #1e293b;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.82em;
+  color: #cbd5e1;
+  border: 1px solid #2d3a52;
+}
+
+html.dark .text-content-body .hl-code {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+/* ── Text Content: Card Container (matches intro-java.html topic-card) ── */
+.text-content-body .text-content-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s;
+}
+
+.text-content-body .text-content-card:hover {
+  border-color: var(--primary);
+}
+
+.text-content-body .text-content-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-content-body .text-content-card h3 .tc-badge {
+  background: var(--bg-app-2);
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.text-content-body .text-content-card p {
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.text-content-body .text-content-card strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.text-content-body .text-content-card .hl-term {
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+.text-content-body .text-content-card .hl-code {
+  background: var(--bg-app-2);
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.82em;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+.text-content-body .text-content-card pre {
+  background: #f8fafc !important;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 0.75rem 0 0;
+  overflow-x: auto;
+}
+
+.text-content-body .text-content-card pre code {
+  background: none !important;
+  padding: 0;
+  color: #1e293b;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* ── Dark mode overrides ── */
+html.dark .text-content-body .text-content-card {
+  background: #111b2e;
+  border-color: #1e2a41;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .text-content-body .text-content-card h3 {
+  color: #e8edf5;
+}
+
+html.dark .text-content-body .text-content-card h3 .tc-badge {
+  background: #1e2a41;
+  color: #94a3b8;
+  border-color: #2d3a52;
+}
+
+html.dark .text-content-body .text-content-card p {
+  color: #d1d9e8;
+}
+
+html.dark .text-content-body .text-content-card strong {
+  color: #60a5fa;
+}
+
+html.dark .text-content-body .text-content-card .hl-term {
+  color: #a78bfa;
+}
+
+html.dark .text-content-body .text-content-card .hl-code {
+  background: #1e293b;
+  color: #cbd5e1;
+  border-color: #2d3a52;
+}
+
+html.dark .text-content-body .text-content-card pre {
+  background: #0d1524 !important;
+  border-color: #1e2a41;
+}
+
+html.dark .text-content-body .text-content-card pre code {
+  color: #e2e8f0;
+}
+
+/* ── Text Content: Enhanced Code Blocks (PrismJS style) ── */
+.text-content-body pre {
+  background: #f8fafc !important;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.text-content-body pre code {
+  background: none !important;
+  padding: 0;
+  color: #1e293b;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+html.dark .text-content-body pre {
+  background: #0d1524;
+  border-color: #1e2a41;
+}
+
+html.dark .text-content-body pre code {
+  color: #e2e8f0;
+}
+
+/* PrismJS token overrides to blend with app theme */
+.text-content-body pre[class*="language-"],
+.text-content-body pre {
+  background: #f8fafc !important;
+}
+
+.text-content-body code[class*="language-"],
+.text-content-body code {
+  font-family: "Fira Code", "Consolas", "Monaco", monospace !important;
+  color: #1e293b;
+}
+
+html.dark .text-content-body pre[class*="language-"],
+html.dark .text-content-body pre {
+  background: #0d1524 !important;
+}
+
+html.dark .text-content-body code[class*="language-"],
+html.dark .text-content-body code {
+  color: #e2e8f0;
+}
+
+/* ── PrismJS Light Theme Token Colors ── */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6a737d;
+}
+
+.token.punctuation {
+  color: #24292e;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #005cc5;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #22863a;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d73a49;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #d73a49;
+}
+
+.token.function,
+.token.class-name {
+  color: #6f42c1;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #e36209;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+/* ── PrismJS Dark Theme Token Colors ── */
+html.dark .token.comment,
+html.dark .token.prolog,
+html.dark .token.doctype,
+html.dark .token.cdata {
+  color: #6a737d;
+}
+
+html.dark .token.punctuation {
+  color: #e1e4e8;
+}
+
+html.dark .token.property,
+html.dark .token.tag,
+html.dark .token.boolean,
+html.dark .token.number,
+html.dark .token.constant,
+html.dark .token.symbol,
+html.dark .token.deleted {
+  color: #79b8ff;
+}
+
+html.dark .token.selector,
+html.dark .token.attr-name,
+html.dark .token.string,
+html.dark .token.char,
+html.dark .token.builtin,
+html.dark .token.inserted {
+  color: #85e89d;
+}
+
+html.dark .token.operator,
+html.dark .token.entity,
+html.dark .token.url,
+html.dark .language-css .token.string,
+html.dark .style .token.string {
+  color: #f97583;
+}
+
+html.dark .token.atrule,
+html.dark .token.attr-value,
+html.dark .token.keyword {
+  color: #f97583;
+}
+
+html.dark .token.function,
+html.dark .token.class-name {
+  color: #b392f0;
+}
+
+html.dark .token.regex,
+html.dark .token.important,
+html.dark .token.variable {
+  color: #ffab70;
+}
+
+/* ── Text Content: Topic h3 with accent border ── */
+.text-content-body h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+  color: var(--text-main);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Text Content: Ordered list numbering ── */
+.text-content-body ol {
+  list-style-type: decimal;
+}
+
+.text-content-body ol li {
+  margin: 0.4rem 0;
 }
 
 /* Watch Page (YouTube Embed) */
