@@ -2565,14 +2565,17 @@ html.dark .unit-coming-soon {
 }
 
 .text-content-section {
-  padding: 0 0.85rem 2rem;
+  padding: 0 0.85rem 2rem !important;
+  max-width: 100%;
 }
 
 .text-content-body {
-  line-height: 1.7;
-  color: var(--text-main);
-  max-width: 720px;
-  margin: 0 auto;
+  line-height: 1.7 !important;
+  color: var(--text-main) !important;
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
 }
 
 .text-content-body h2 {
