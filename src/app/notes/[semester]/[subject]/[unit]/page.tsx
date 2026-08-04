@@ -5,6 +5,7 @@ import { CompletionToggle } from "@/components/completion-toggle";
 import { RelatedLectures } from "@/components/related-lectures";
 import { getSupabaseServer } from "@/lib/supabase";
 import { BackNav } from "@/components/back-nav";
+import IntroJavaContent from "./intro-java-content";
 
 interface NoteItem {
   href: string;
@@ -194,6 +195,8 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
           Take {subjectData.title} Quiz
         </Link>
       </div>
+
+      <IntroJavaContent />
 
       {pdfNotes.length > 0 && (
         <section className="unit-notes-section">
