@@ -1,5 +1,6 @@
 import type { Semester } from "../types";
 import { javaTextContent } from "./java-text-content";
+import { uiUxTextContent } from "./ui-ux-text-content";
 
 export const semester2: Semester = {
   key: "semester-2",
@@ -267,48 +268,56 @@ export const semester2: Semester = {
           title: "Introduction",
           summary: "Overview of UX and UI design, importance, design thinking process, and industry relevance.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["introduction"],
         },
         {
           slug: "user-interaction-design",
           title: "User Interaction Design",
           summary: "Interaction principles, user goals, task flows, mental models, and interaction paradigms.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["user-interaction-design"],
         },
         {
           slug: "user-interface-design",
           title: "User Interface Design",
           summary: "Visual design principles, layout, typography, color theory, visual hierarchy, and consistency.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["user-interface-design"],
         },
         {
           slug: "ui-components",
           title: "UI Components",
           summary: "Buttons, forms, navigation, cards, modals, inputs, and component libraries.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["ui-components"],
         },
         {
           slug: "ui-design-considerations",
           title: "UI Design Considerations",
           summary: "Accessibility, responsive design, cross-platform considerations, performance, and design systems.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["ui-design-considerations"],
         },
         {
           slug: "wireframing-prototyping",
           title: "Wireframing and Prototyping",
           summary: "Low and high-fidelity wireframes, interactive prototyping, tools, and user testing of prototypes.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["wireframing-prototyping"],
         },
         {
           slug: "design-evaluations",
           title: "Design Evaluations",
           summary: "Usability testing, heuristic evaluation, A/B testing, analytics, and iterative design improvement.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["design-evaluations"],
         },
         {
           slug: "advanced-techniques-vui-nlp",
           title: "Advanced Techniques: VUI and NLP based UI",
           summary: "Voice user interfaces, natural language processing in UI, conversational design, and emerging interaction patterns.",
           notes: { pdf: [], handwritten: [] },
+          textContent: uiUxTextContent["advanced-techniques-vui-nlp"],
         },
       ],
       labReports: [
