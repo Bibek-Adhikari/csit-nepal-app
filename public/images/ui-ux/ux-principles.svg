@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">UX Design Principles</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="13">Five core principles for great user experience</text>
+
+  <!-- Principle 1: Usability -->
+  <rect x="40" y="95" width="330" height="80" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="60" y="120" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="14">1. Usability</text>
+  <text x="60" y="142" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Can users accomplish their goals efficiently?</text>
+  <text x="60" y="160" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Easy to learn and use.</text>
+
+  <!-- Principle 2: Desirability -->
+  <rect x="400" y="95" width="330" height="80" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+  <text x="420" y="120" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="14">2. Desirability</text>
+  <text x="420" y="142" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Does it evoke positive emotions?</text>
+  <text x="420" y="160" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Meaningful connection with users.</text>
+
+  <!-- Principle 3: Accessibility -->
+  <rect x="40" y="195" width="330" height="80" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="60" y="220" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="14">3. Accessibility</text>
+  <text x="60" y="242" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Can people with disabilities use it?</text>
+  <text x="60" y="260" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">WCAG compliance is essential.</text>
+
+  <!-- Principle 4: Credibility -->
+  <rect x="400" y="195" width="330" height="80" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" />
+  <text x="420" y="220" font-family="system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="14">4. Credibility</text>
+  <text x="420" y="242" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Does the product look trustworthy?</text>
+  <text x="420" y="260" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Professional design builds confidence.</text>
+
+  <!-- Principle 5: Value -->
+  <rect x="200" y="295" width="330" height="80" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" />
+  <text x="220" y="320" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="14">5. Value</text>
+  <text x="220" y="342" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Does it provide real utility?</text>
+  <text x="220" y="360" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Solves genuine problems for the audience.</text>
+</svg>

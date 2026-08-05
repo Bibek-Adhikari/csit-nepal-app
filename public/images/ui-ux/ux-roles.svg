@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">Roles in UX/UI Design</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="13">Specialized roles in the design team</text>
+
+  <!-- UX Researcher -->
+  <rect x="40" y="95" width="160" height="130" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" />
+  <circle cx="120" cy="130" r="18" fill="#3b82f6" />
+  <text x="120" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">R</text>
+  <text x="120" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="13">UX Researcher</text>
+  <text x="120" y="195" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">User interviews</text>
+  <text x="120" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Data analysis</text>
+
+  <!-- UI Designer -->
+  <rect x="240" y="95" width="160" height="130" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+  <circle cx="320" cy="130" r="18" fill="#10b981" />
+  <text x="320" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">D</text>
+  <text x="320" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="13">UI Designer</text>
+  <text x="320" y="195" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Visual design</text>
+  <text x="320" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Typography</text>
+
+  <!-- UX Writer -->
+  <rect x="440" y="95" width="160" height="130" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+  <circle cx="520" cy="130" r="18" fill="#f59e0b" />
+  <text x="520" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">W</text>
+  <text x="520" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="13">UX Writer</text>
+  <text x="520" y="195" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Microcopy</text>
+  <text x="520" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Content strategy</text>
+
+  <!-- Interaction Designer -->
+  <rect x="40" y="255" width="160" height="130" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" />
+  <circle cx="120" cy="290" r="18" fill="#ec4899" />
+  <text x="120" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">I</text>
+  <text x="120" y="325" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="13">Interaction Designer</text>
+  <text x="120" y="350" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Animations</text>
+  <text x="120" y="367" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Prototyping</text>
+
+  <!-- Product Designer -->
+  <rect x="240" y="255" width="160" height="130" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" />
+  <circle cx="320" cy="290" r="18" fill="#8b5cf6" />
+  <text x="320" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">P</text>
+  <text x="320" y="325" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="13">Product Designer</text>
+  <text x="320" y="350" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">End-to-end</text>
+  <text x="320" y="367" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Strategy</text>
+
+  <!-- Design Lead -->
+  <rect x="440" y="255" width="160" height="130" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5" />
+  <circle cx="520" cy="290" r="18" fill="#06b6d4" />
+  <text x="520" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">L</text>
+  <text x="520" y="325" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#22d3ee" font-size="13">Design Lead</text>
+  <text x="520" y="350" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Team management</text>
+  <text x="520" y="367" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Design vision</text>
+</svg>

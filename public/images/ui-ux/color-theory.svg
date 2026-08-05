@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; text-anchor: middle; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #94a3b8; text-anchor: middle; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Color Theory in UI</text>
+  <text x="40" y="75" class="subtitle">Understanding color relationships for accessible, beautiful interfaces</text>
+
+  <!-- Color Wheel -->
+  <g transform="translate(400, 250)">
+    <!-- Outer ring - 12 segments -->
+    <path d="M 0 -130 A 130 130 0 0 1 113 -65 L 88 -52 A 104 104 0 0 0 0 -104 Z" fill="#ef4444" />
+    <path d="M 113 -65 A 130 130 0 0 1 130 0 L 104 0 A 104 104 0 0 0 88 -52 Z" fill="#f97316" />
+    <path d="M 130 0 A 130 130 0 0 1 113 65 L 88 52 A 104 104 0 0 0 104 0 Z" fill="#fbbf24" />
+    <path d="M 113 65 A 130 130 0 0 1 65 113 L 52 88 A 104 104 0 0 0 88 52 Z" fill="#84cc16" />
+    <path d="M 65 113 A 130 130 0 0 1 0 130 L 0 104 A 104 104 0 0 0 52 88 Z" fill="#22c55e" />
+    <path d="M 0 130 A 130 130 0 0 1 -65 113 L -52 88 A 104 104 0 0 0 0 104 Z" fill="#14b8a6" />
+    <path d="M -65 113 A 130 130 0 0 1 -130 0 L -104 0 A 104 104 0 0 0 -52 88 Z" fill="#06b6d4" />
+    <path d="M -130 0 A 130 130 0 0 1 -113 -65 L -88 -52 A 104 104 0 0 0 -104 0 Z" fill="#3b82f6" />
+    <path d="M -113 -65 A 130 130 0 0 1 -65 -113 L -52 -88 A 104 104 0 0 0 -88 -52 Z" fill="#6366f1" />
+    <path d="M -65 -113 A 130 130 0 0 1 0 -130 L 0 -104 A 104 104 0 0 0 -52 -88 Z" fill="#8b5cf6" />
+    <path d="M 0 -130 A 130 130 0 0 1 65 -113 L 52 -88 A 104 104 0 0 0 0 -104 Z" fill="#d946ef" />
+    <path d="M 65 -113 A 130 130 0 0 1 113 -65 L 88 -52 A 104 104 0 0 0 52 -88 Z" fill="#ec4899" />
+
+    <!-- Inner circle -->
+    <circle cx="0" cy="0" r="40" fill="#1e293b" />
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#475569" stroke-width="1.5" />
+    <text x="0" y="5" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="700" fill="#f8fafc" font-size="11">RGB</text>
+  </g>
+
+  <!-- Color Harmony Labels -->
+  <g transform="translate(80, 120)">
+    <rect x="0" y="0" width="180" height="35" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="90" y="23" class="label" fill="#fbbf24">Complementary</text>
+    <text x="90" y="55" class="desc">Opposite on wheel</text>
+  </g>
+
+  <g transform="translate(80, 180)">
+    <rect x="0" y="0" width="180" height="35" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="90" y="23" class="label" fill="#34d399">Analogous</text>
+    <text x="90" y="55" class="desc">Adjacent colors</text>
+  </g>
+
+  <g transform="translate(80, 240)">
+    <rect x="0" y="0" width="180" height="35" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="90" y="23" class="label" fill="#f472b6">Triadic</text>
+    <text x="90" y="55" class="desc">3 equidistant</text>
+  </g>
+
+  <!-- Right side: WCAG Contrast -->
+  <g transform="translate(600, 100)">
+    <rect x="0" y="0" width="160" height="50" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="80" y="22" class="label" fill="#60a5fa">WCAG AA</text>
+    <text x="80" y="40" class="desc">Min 4.5:1 ratio</text>
+  </g>
+
+  <g transform="translate(600, 170)">
+    <rect x="0" y="0" width="160" height="50" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="80" y="22" class="label" fill="#34d399">WCAG AAA</text>
+    <text x="80" y="40" class="desc">Min 7:1 ratio</text>
+  </g>
+
+  <g transform="translate(600, 240)">
+    <rect x="0" y="0" width="160" height="50" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="80" y="22" class="label" fill="#fbbf24">60-30-10 Rule</text>
+    <text x="80" y="40" class="desc">Primary/Secondary/Accent</text>
+  </g>
+</svg>

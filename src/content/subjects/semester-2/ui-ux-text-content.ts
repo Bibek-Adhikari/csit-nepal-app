@@ -4,6 +4,7 @@
 <h3>What is UX? <span class="tc-badge">1/8</span></h3>
 <p><strong>User Experience (UX)</strong> encompasses all aspects of a user's interaction with a company, its services, and its products. It focuses on the overall experience &mdash; not just usability, but how the product feels, how easy it is to accomplish tasks, and how it meets user needs.</p>
 <p><strong>UX vs UI</strong>: UX is about the <em>experience</em> (problem-solving, research, flow), while UI is about the <em>visual presentation</em> (colors, typography, buttons). UX comes first; UI supports the UX strategy.</p>
+<img src="/images/ui-ux/ux-vs-ui.svg" alt="UX vs UI Comparison" />
 <p>A well-designed UX increases <strong>customer satisfaction</strong>, reduces support costs, and improves <strong>conversion rates</strong>. Poor UX leads to abandoned carts, frustrated users, and lost revenue.</p>
 <p><strong>Key definition</strong> (Don Norman): &ldquo;User experience encompasses all aspects of the end-user&rsquo;s interaction with the company, its services, and its products.&rdquo;</p>
 </div>
@@ -11,6 +12,7 @@
 <div class="text-content-card">
 <h3>What is UI? <span class="tc-badge">2/8</span></h3>
 <p><strong>User Interface (UI)</strong> is the point of interaction between the user and a digital product. It includes everything the user sees and touches &mdash; screens, buttons, icons, typography, color palettes, and visual layouts.</p>
+<img src="/images/ui-ux/ui-elements.svg" alt="UI Elements" />
 <p>UI design translates the UX strategy into a <strong>tangible, visual interface</strong>. It ensures consistency in design language across all screens and platforms.</p>
 <p><strong>Visual design elements</strong> of UI include: layout structure, color schemes, typography choices, iconography, imagery, spacing, and interactive elements like buttons and forms.</p>
 <p>The goal of UI design is to create an interface that is both <strong>visually appealing</strong> and <strong>functionally intuitive</strong>, guiding the user toward their goals efficiently.</p>
@@ -19,6 +21,7 @@
 <div class="text-content-card">
 <h3>History of UX/UI <span class="tc-badge">3/8</span></h3>
 <p>The field of UX evolved from <strong>Human-Computer Interaction (HCI)</strong> research in the 1970s-80s. Early computing focused on machine efficiency, not human comfort.</p>
+<img src="/images/ui-ux/ux-history.svg" alt="History of UX/UI" />
 <p><strong>Don Norman</strong> coined the term &ldquo;User Experience&rdquo; in 1993 while at Apple. The rise of the World Wide Web in the 1990s created demand for web usability experts.</p>
 <p><strong>Key milestones</strong>: Jakob Nielsen&rsquo;s usability heuristics (1994), Steve Krug&rsquo;s <em>Don&rsquo;t Make Me Think</em> (2000), the iPhone launch (2007) which popularized mobile UX, and the modern design systems era (2010s).</p>
 <p>Today, UX/UI design is a <strong>multi-billion dollar industry</strong> with specialized roles, tools, and methodologies. It spans web, mobile, voice, AR/VR, and emerging interfaces.</p>
@@ -27,6 +30,7 @@
 <div class="text-content-card">
 <h3>UX Design Principles <span class="tc-badge">4/8</span></h3>
 <p><strong>Usability</strong> &mdash; Can users accomplish their goals efficiently? Is the product easy to learn and use?</p>
+<img src="/images/ui-ux/ux-principles.svg" alt="UX Design Principles" />
 <p><strong>Desirability</strong> &mdash; Does the product evoke positive emotions? Does it create a meaningful connection with users?</p>
 <p><strong>Accessibility</strong> &mdash; Can people with disabilities (visual, motor, cognitive) use the product? Compliance with <strong>WCAG</strong> guidelines is essential.</p>
 <p><strong>Credibility</strong> &mdash; Does the product look trustworthy? Professional design builds user confidence.</p>
@@ -37,6 +41,7 @@
 <h3>User-Centered Design <span class="tc-badge">5/8</span></h3>
 <p><strong>User-Centered Design (UCD)</strong> is an iterative design philosophy that puts the end user at the center of every decision. The process involves understanding users, their contexts, and their goals.</p>
 <p><strong>UCD Process</strong>: Understand context of use &rarr; Specify user requirements &rarr; Produce design solutions &rarr; Evaluate against requirements. This cycle repeats until goals are met.</p>
+<img src="/images/ui-ux/ucd-process.svg" alt="User-Centered Design Process" />
 <p><strong>Iterative design</strong> means designing, testing, learning, and refining in small cycles. Each iteration brings the product closer to user needs and business goals.</p>
 <p>Key activities include <strong>user research</strong> (interviews, surveys), <strong>personas</strong> (user archetypes), <strong>journey mapping</strong>, and <strong>usability testing</strong> with real users.</p>
 </div>
@@ -45,6 +50,7 @@
 <h3>UX Design Process <span class="tc-badge">6/8</span></h3>
 <p>The UX design process typically follows these phases:</p>
 <h4>Research &rarr; Define &rarr; Ideate &rarr; Prototype &rarr; Test</h4>
+<img src="/images/ui-ux/ux-process.svg" alt="UX Design Process" />
 <p><strong>Research</strong>: Gather data about users, business goals, and competition through interviews, surveys, analytics, and observation.</p>
 <p><strong>Define</strong>: Synthesize research into personas, journey maps, and problem statements that guide design decisions.</p>
 <p><strong>Ideate</strong>: Brainstorm multiple solutions through sketching, wireframing, and collaborative workshops. Quantity over quality at this stage.</p>
@@ -54,6 +60,7 @@
 <div class="text-content-card">
 <h3>Roles in UX/UI <span class="tc-badge">7/8</span></h3>
 <p><strong>UX Researcher</strong> &mdash; Conducts user interviews, surveys, and usability tests. Analyzes data to uncover user needs and pain points.</p>
+<img src="/images/ui-ux/ux-roles.svg" alt="Roles in UX/UI" />
 <p><strong>UI Designer</strong> &mdash; Creates visual designs, component libraries, and style guides. Ensures visual consistency and brand alignment.</p>
 <p><strong>UX Designer</strong> &mdash; Bridges research and design. Creates wireframes, prototypes, and information architectures. Focuses on user flow and task completion.</p>
 <p><strong>UX Writer</strong> &mdash; Crafts microcopy, error messages, and content strategy. Ensures the product communicates clearly and consistently.</p>
@@ -63,6 +70,7 @@
 <div class="text-content-card">
 <h3>Tools of the Trade <span class="tc-badge">8/8</span></h3>
 <p><strong>Figma</strong> &mdash; Industry-leading collaborative design tool. Supports real-time collaboration, prototyping, and design systems. Browser-based with desktop apps.</p>
+<img src="/images/ui-ux/ux-tools.svg" alt="UX/UI Design Tools" />
 <p><strong>Adobe XD</strong> &mdash; Part of Adobe Creative Cloud. Offers prototyping, sharing, and integration with Photoshop and Illustrator.</p>
 <p><strong>Sketch</strong> &mdash; Mac-only design tool. Pioneered many modern design features. Strong plugin ecosystem.</p>
 <p><strong>InVision</strong> &mdash; Prototyping and collaboration platform. Popular for interactive prototypes and stakeholder presentations.</p>
@@ -126,6 +134,7 @@
 <div class="text-content-card">
 <h3>Emotional Design <span class="tc-badge">7/7</span></h3>
 <p><strong>Don Norman&rsquo;s Three Levels of Emotional Design</strong>:</p>
+<img src="/images/ui-ux/emotional-design.svg" alt="Don Norman's 3 Levels of Emotional Design" />
 <h4>Visceral Level</h4>
 <p>The immediate, gut reaction to a product&rsquo;s appearance. Beautiful, aesthetically pleasing designs create positive first impressions. &ldquo;Wow, this looks amazing!&rdquo;</p>
 <h4>Behavioral Level</h4>
@@ -159,6 +168,7 @@
 <div class="text-content-card">
 <h3>Color Theory in UI <span class="tc-badge">3/7</span></h3>
 <p><strong>Color Psychology</strong>: Colors evoke emotions and associations. Blue = trust, calm; Red = urgency, passion; Green = growth, success; Purple = luxury, creativity.</p>
+<img src="/images/ui-ux/color-theory.svg" alt="Color Theory in UI" />
 <p><strong>Accessibility &amp; Contrast</strong>: <strong>WCAG 2.1</strong> requires minimum contrast ratios: <strong>4.5:1</strong> for normal text, <strong>3:1</strong> for large text (18px+). Use tools like WebAIM Contrast Checker.</p>
 <p><strong>Color combinations</strong>: Primary + secondary + accent colors. Limit to 3-5 colors. Use neutral colors (grays) for backgrounds and text.</p>
 <p><strong>Color blindness</strong>: Approximately 8% of men and 0.5% of women have some form of color vision deficiency. Never use color as the only way to convey information. Pair colors with icons, text labels, or patterns.</p>
@@ -178,6 +188,7 @@
 <h3>Layout & Grid Systems <span class="tc-badge">5/7</span></h3>
 <p><strong>8px Grid System</strong>: All spacing and sizing uses multiples of 8px (8, 16, 24, 32, 48). Creates consistent, harmonious layouts. Used by Google Material Design and many design systems.</p>
 <p><strong>Responsive Grids</strong>: 12-column grid for desktop, 8-column for tablet, 4-column for mobile. Columns are flexible; gutters (spacing between columns) remain fixed.</p>
+<img src="/images/ui-ux/grid-system.svg" alt="Layout and Grid Systems" />
 <p><strong>Whitespace</strong>: Also called &ldquo;negative space,&rdquo; it is not empty space &mdash; it is an active design element. It groups related content, improves readability, and creates visual breathing room.</p>
 <p><strong>F-pattern and Z-pattern</strong>: Users scan content in predictable patterns. F-pattern for text-heavy pages (blogs, articles). Z-pattern for landing pages and simple layouts.</p>
 <p><strong>Visual weight</strong>: Larger, darker, more colorful, or more contrasted elements attract attention first. Use this to establish hierarchy and guide the user&rsquo;s eye.</p>
@@ -209,6 +220,7 @@
 <h3>Buttons <span class="tc-badge">1/8</span></h3>
 <p><strong>Button types</strong>: Primary (main action), Secondary (supporting action), Tertiary (text-only), Ghost (borderless), Danger (destructive actions). Each has a distinct visual weight.</p>
 <p><strong>Button states</strong>: Default (idle), Hover (cursor over), Active/Pressed (clicked), Focused (keyboard accessible), Disabled (unavailable). Each state must be visually distinct.</p>
+<img src="/images/ui-ux/button-states.svg" alt="Button States" />
 <p><strong>Best practices</strong>: Use clear, action-oriented labels (&ldquo;Save Changes&rdquo; not &ldquo;Submit&rdquo;). One primary button per view. Maintain consistent sizing (small, medium, large). Ensure minimum touch target of 44&times;44px.</p>
 <p><strong>Loading state</strong>: Show a spinner when a button triggers a server request. Disable the button to prevent duplicate submissions. Consider adding a confirmation message after success.</p>
 </div>
@@ -221,6 +233,7 @@
 <p><strong>Radio buttons</strong> &mdash; Select exactly one option from a list. Use circular buttons. Always show all options &mdash; never hide radio options in dropdowns.</p>
 <p><strong>Toggle</strong> &mdash; Binary on/off switch. Best for immediate state changes (notifications, dark mode). Avoid for actions that require confirmation.</p>
 <p><strong>Validation</strong> &mdash; Show errors inline, next to the field. Validate on blur (when user leaves field), not on every keystroke. Use red color + icon + descriptive message.</p>
+<img src="/images/ui-ux/form-states.svg" alt="Form Input States" />
 </div>
 
 <div class="text-content-card">
@@ -283,6 +296,7 @@
 <div class="text-content-card">
 <h3>Accessibility (a11y) <span class="tc-badge">1/6</span></h3>
 <p><strong>WCAG Guidelines</strong> (Web Content Accessibility Guidelines) define accessibility standards. The current version is <strong>WCAG 2.1</strong> with three conformance levels: A (minimum), AA (standard), AAA (highest).</p>
+<img src="/images/ui-ux/accessibility-pour.svg" alt="WCAG POUR Principles" />
 <p><strong>Screen readers</strong> &mdash; Assistive technology that reads screen content aloud. Design for screen readers by using semantic HTML, proper heading hierarchy, alt text for images, and ARIA labels.</p>
 <p><strong>Keyboard navigation</strong> &mdash; All interactive elements must be reachable and operable via keyboard (Tab, Enter, Space, Arrow keys). Visible focus indicators are essential.</p>
 <p><strong>Color contrast</strong> &mdash; Minimum 4.5:1 ratio for normal text, 3:1 for large text. Never use color alone to convey information &mdash; pair with icons or text labels.</p>
@@ -319,6 +333,7 @@
 <div class="text-content-card">
 <h3>Microinteractions <span class="tc-badge">5/6</span></h3>
 <p><strong>Trigger</strong> &mdash; What initiates the microinteraction. Can be user-initiated (button click, swipe) or system-initiated (notification, timer).</p>
+<img src="/images/ui-ux/microinteractions.svg" alt="Microinteractions" />
 <p><strong>Rules</strong> &mdash; What happens once the microinteraction is triggered. Defines the logic and sequence of events. Hidden from the user but determines behavior.</p>
 <p><strong>Feedback</strong> &mdash; How the user knows what&rsquo;s happening. Visual, auditory, or haptic cues that communicate the result of the interaction. A button changes color, a toggle animates, a success message appears.</p>
 <p><strong>Loops &amp; Modes</strong> &mdash; The meta-rules of the microinteraction. How it changes over time (daily reminder frequency) or if the user&rsquo;s behavior changes the interaction (first-time tutorial vs. experienced user).</p>
@@ -360,6 +375,7 @@
 <div class="text-content-card">
 <h3>Prototyping Basics <span class="tc-badge">3/6</span></h3>
 <p><strong>Interactive prototypes</strong> simulate the final product&rsquo;s behavior. Users can click, scroll, and navigate through screens as if using the real application.</p>
+<img src="/images/ui-ux/wireframe-vs-prototype.svg" alt="Wireframe vs Prototype" />
 <p><strong>Clickable prototypes</strong> &mdash; Screen-based prototypes where clicking hotspots navigates to the next screen. Quick to create, useful for testing navigation flows and information architecture.</p>
 <p><strong>Coded prototypes</strong> &mdash; Built with actual code (HTML/CSS/JS). Most realistic but time-consuming. Useful for testing complex interactions, animations, and performance.</p>
 <p><strong>Fidelity levels</strong>: Low-fidelity prototypes test concepts and flows. High-fidelity prototypes test specific interactions and visual details. Choose fidelity based on what you need to validate.</p>
@@ -398,6 +414,7 @@
 <div class="text-content-card">
 <h3>Usability Heuristics <span class="tc-badge">1/6</span></h3>
 <p><strong>Nielsen&rsquo;s 10 Usability Heuristics</strong> are general rules of thumb for interaction design. They are the most widely used set of usability principles.</p>
+<img src="/images/ui-ux/nielsen-heuristics.svg" alt="Nielsen's 10 Usability Heuristics" />
 <h4>The 10 Heuristics</h4>
 <p><strong>1. Visibility of system status</strong> &mdash; Keep users informed about what is happening through appropriate feedback within reasonable time.</p>
 <p><strong>2. Match between system and real world</strong> &mdash; Use language familiar to the user, follow real-world conventions, and make information appear in natural order.</p>
@@ -471,6 +488,7 @@
 <div class="text-content-card">
 <h3>VUI Design Process <span class="tc-badge">2/6</span></h3>
 <p><strong>Conversation design</strong> &mdash; Design voice interactions as natural conversations. Script dialog flows, anticipate user responses, and plan for interruptions and corrections.</p>
+<img src="/images/ui-ux/vui-conversation.svg" alt="VUI Conversation Flow" />
 <p><strong>Intents</strong> &mdash; The user&rsquo;s goal or purpose. Example: &ldquo;Play music,&rdquo; &ldquo;Set alarm,&rdquo; &ldquo;What&rsquo;s the weather?&rdquo; Each intent triggers a specific system action.</p>
 <p><strong>Entities</strong> &mdash; Specific parameters within an intent. &ldquo;Play <em>Bohemian Rhapsody</em> by <em>Queen</em>&rdquo; &mdash; the song name and artist are entities.</p>
 <p><strong>Dialog flows</strong> &mdash; Map out conversation paths including happy paths, error handling, and follow-up questions. Use flowcharts to visualize multi-turn conversations.</p>

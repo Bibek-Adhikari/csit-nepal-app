@@ -2785,11 +2785,30 @@ html.dark .text-content-body .hl-code {
   line-height: 1.6;
 }
 
-/* ΓöÇΓöÇ Dark mode overrides ΓöÇΓöÇ */
+.text-content-body .text-content-card img {
+  border-radius: 12px;
+  margin: 1rem 0;
+  display: block;
+  object-fit: contain;
+  max-height: 400px;
+  min-height: 200px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  background: var(--bg-app-2) !important;
+}
+
+/* ── Dark mode overrides ── */
 html.dark .text-content-body .text-content-card {
   background: #111b2e !important;
   border-color: #1e2a41 !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .text-content-body .text-content-card img {
+  border-color: #1e2a41 !important;
+  background: #0d1524 !important;
 }
 
 html.dark .text-content-body .text-content-card h3 {

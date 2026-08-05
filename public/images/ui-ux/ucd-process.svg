@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="researchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.05" />
+    </linearGradient>
+    <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.05" />
+    </linearGradient>
+    <linearGradient id="protoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.05" />
+    </linearGradient>
+    <linearGradient id="evalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#be185d" stop-opacity="0.05" />
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="24">User-Centered Design (UCD) Process</text>
+  <text x="40" y="75" font-family="'Segoe UI', system-ui, sans-serif" fill="#94a3b8" font-size="14">An iterative process prioritizing user needs at every stage</text>
+
+  <!-- Central Hub -->
+  <circle cx="400" cy="250" r="55" fill="#1e293b" stroke="#475569" stroke-width="2" />
+  <text x="400" y="248" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" fill="#f1f5f9" font-size="18">UCD</text>
+  <text x="400" y="265" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="500" fill="#94a3b8" font-size="11">ITERATIVE</text>
+
+  <!-- Connecting Arrows (simple lines with triangle ends) -->
+  <!-- Top Right -->
+  <line x1="440" y1="148" x2="565" y2="210" stroke="#475569" stroke-width="2" stroke-dasharray="6,4" />
+  <polygon points="570,213 560,215 563,205" fill="#475569" />
+  <!-- Bottom Right -->
+  <line x1="565" y1="295" x2="440" y2="352" stroke="#475569" stroke-width="2" stroke-dasharray="6,4" />
+  <polygon points="435,355 445,357 442,347" fill="#475569" />
+  <!-- Bottom Left -->
+  <line x1="360" y1="352" x2="235" y2="295" stroke="#475569" stroke-width="2" stroke-dasharray="6,4" />
+  <polygon points="230,292 228,302 238,298" fill="#475569" />
+  <!-- Top Left -->
+  <line x1="235" y1="210" x2="360" y2="148" stroke="#475569" stroke-width="2" stroke-dasharray="6,4" />
+  <polygon points="365,145 355,143 358,153" fill="#475569" />
+
+  <!-- STEP 1: Research (Top) -->
+  <g transform="translate(300, 100)">
+    <rect x="0" y="0" width="200" height="75" rx="12" fill="url(#researchGrad)" stroke="#3b82f6" stroke-width="1.5" filter="url(#glow)" />
+    <circle cx="25" cy="25" r="10" fill="#3b82f6" />
+    <text x="25" y="29" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" fill="#ffffff" font-size="11">1</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="16">Research</text>
+    <text x="20" y="48" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; User Interviews &amp; Surveys</text>
+    <text x="20" y="62" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Personas &amp; User Stories</text>
+  </g>
+
+  <!-- STEP 2: Design (Right) -->
+  <g transform="translate(520, 212)">
+    <rect x="0" y="0" width="200" height="75" rx="12" fill="url(#designGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#glow)" />
+    <circle cx="25" cy="25" r="10" fill="#10b981" />
+    <text x="25" y="29" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" fill="#ffffff" font-size="11">2</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="16">Design</text>
+    <text x="20" y="48" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Information Architecture</text>
+    <text x="20" y="62" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Low-fi/Mid-fi Wireframes</text>
+  </g>
+
+  <!-- STEP 3: Prototype (Bottom) -->
+  <g transform="translate(300, 325)">
+    <rect x="0" y="0" width="200" height="75" rx="12" fill="url(#protoGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#glow)" />
+    <circle cx="25" cy="25" r="10" fill="#f59e0b" />
+    <text x="25" y="29" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" fill="#ffffff" font-size="11">3</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="16">Prototype</text>
+    <text x="20" y="48" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Clickable Flows (Figma)</text>
+    <text x="20" y="62" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; High-Fidelity UI Mockups</text>
+  </g>
+
+  <!-- STEP 4: Evaluate (Left) -->
+  <g transform="translate(80, 212)">
+    <rect x="0" y="0" width="200" height="75" rx="12" fill="url(#evalGrad)" stroke="#ec4899" stroke-width="1.5" filter="url(#glow)" />
+    <circle cx="25" cy="25" r="10" fill="#ec4899" />
+    <text x="25" y="29" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" fill="#ffffff" font-size="11">4</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="16">Evaluate</text>
+    <text x="20" y="48" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Usability Testing</text>
+    <text x="20" y="62" font-family="'Segoe UI', system-ui, sans-serif" fill="#cbd5e1" font-size="11">&#8226; Heuristic Review &amp; Audits</text>
+  </g>
+</svg>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <!-- Phone body gradient -->
+    <linearGradient id="phoneGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <!-- High fidelity button gradient -->
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <!-- Profile card gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .side-label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 18px; text-anchor: middle; }
+    .side-sublabel { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 12px; fill: #64748b; text-anchor: middle; }
+    .ui-text { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 11px; }
+    .ui-bold { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f1f5f9; font-size: 13px; }
+  </style>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="40" y="50" class="title">Wireframe vs Prototype</text>
+  <text x="40" y="75" class="subtitle">Contrasting low-fidelity blueprints with high-fidelity interactive designs</text>
+
+  <!-- Split Screen Divider -->
+  <line x1="400" y1="100" x2="400" y2="410" stroke="#334155" stroke-width="2" stroke-dasharray="8,6" />
+
+  <!-- LEFT SIDE: Wireframe (Low-Fi Blueprint) -->
+  <g transform="translate(0, 0)">
+    <text x="200" y="125" class="side-label" fill="#94a3b8">Low-Fidelity Wireframe</text>
+    <text x="200" y="145" class="side-sublabel">Focus: Structure, Content &amp; Hierarchy</text>
+
+    <!-- Wireframe Phone Wrapper -->
+    <rect x="95" y="165" width="210" height="235" rx="20" fill="none" stroke="#475569" stroke-width="2.5" />
+    <rect x="105" y="175" width="190" height="215" rx="12" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+
+    <!-- Wireframe UI elements -->
+    <!-- Avatar circle with placeholder 'X' -->
+    <circle cx="200" cy="225" r="28" fill="none" stroke="#475569" stroke-width="1.5" />
+    <line x1="180" y1="205" x2="220" y2="245" stroke="#475569" stroke-width="1" />
+    <line x1="180" y1="245" x2="220" y2="205" stroke="#475569" stroke-width="1" />
+
+    <!-- Name placeholder bar -->
+    <rect x="140" y="265" width="120" height="12" rx="4" fill="none" stroke="#475569" stroke-dasharray="4,2" stroke-width="1.5" />
+    <!-- Bio placeholder lines -->
+    <line x1="125" y1="295" x2="275" y2="295" stroke="#475569" stroke-width="1.5" />
+    <line x1="140" y1="310" x2="260" y2="310" stroke="#475569" stroke-width="1.5" />
+
+    <!-- Action button with placeholder diagonal crosses -->
+    <rect x="135" y="335" width="130" height="26" rx="6" fill="none" stroke="#475569" stroke-width="1.5" />
+    <line x1="135" y1="335" x2="265" y2="361" stroke="#475569" stroke-width="1" opacity="0.4" />
+    <line x1="135" y1="361" x2="265" y2="335" stroke="#475569" stroke-width="1" opacity="0.4" />
+    <text x="200" y="352" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569" font-weight="700">BUTTON</text>
+  </g>
+
+  <!-- RIGHT SIDE: High-Fidelity Prototype -->
+  <g transform="translate(400, 0)">
+    <text x="200" y="125" class="side-label" fill="#60a5fa">High-Fidelity Prototype</text>
+    <text x="200" y="145" class="side-sublabel">Focus: Visuals, Brand &amp; Real Interaction</text>
+
+    <!-- Prototype Phone Wrapper -->
+    <rect x="95" y="165" width="210" height="235" rx="20" fill="url(#phoneGrad)" stroke="#1e293b" stroke-width="2.5" />
+    <rect x="105" y="175" width="190" height="215" rx="12" fill="#0b0f19" stroke="#334155" stroke-width="1" />
+
+    <!-- High-Fi Profile Content -->
+    <!-- Real Avatar Image Mockup (with soft blue back glow) -->
+    <circle cx="200" cy="225" r="28" fill="#1d4ed8" opacity="0.2" />
+    <circle cx="200" cy="225" r="26" fill="#3b82f6" />
+    <!-- Happy vector smile avatar -->
+    <path d="M 190 220 A 4 4 0 0 1 198 220" fill="none" stroke="#ffffff" stroke-width="2" />
+    <path d="M 202 220 A 4 4 0 0 1 210 220" fill="none" stroke="#ffffff" stroke-width="2" />
+    <path d="M 192 232 Q 200 241 208 232" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Real styled name text -->
+    <text x="200" y="274" text-anchor="middle" class="ui-bold">Alex Mercer</text>
+    <text x="200" y="288" text-anchor="middle" class="ui-text" style="fill: #3b82f6; font-size: 10px; font-weight: 700;">UI/UX DESIGNER</text>
+    
+    <!-- Real Bio description -->
+    <text x="200" y="306" text-anchor="middle" class="ui-text" style="font-size: 10px; fill: #94a3b8;">Crafting interactive mobile apps</text>
+    <text x="200" y="318" text-anchor="middle" class="ui-text" style="font-size: 10px; fill: #94a3b8;">and delightful experiences.</text>
+
+    <!-- High-fidelity button with gradient and drop shadow -->
+    <rect x="135" y="335" width="130" height="26" rx="13" fill="url(#btnGrad)" />
+    <text x="200" y="352" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#ffffff" font-weight="700">Follow User</text>
+  </g>
+</svg>

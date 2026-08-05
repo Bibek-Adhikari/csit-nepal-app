@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <!-- Glass gradients -->
+    <linearGradient id="uxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="uiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#6d28d9" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Glow filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 600; font-size: 14px; fill: #e2e8f0; }
+    .badge-title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 32px; }
+    .list-item { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; fill: #cbd5e1; }
+    .center-text { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 16px; fill: #f1f5f9; }
+  </style>
+
+  <!-- Dark Theme Friendly Background -->
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="40" y="50" class="title">UX vs UI Design</text>
+  <text x="40" y="75" class="subtitle">Comparing User Experience (Flow) &amp; User Interface (Visuals)</text>
+
+  <!-- UX Circle Group -->
+  <g transform="translate(100, 20)">
+    <circle cx="200" cy="220" r="160" fill="url(#uxGrad)" stroke="#3b82f6" stroke-width="2.5" filter="url(#glowBlue)" />
+    <text x="110" y="110" class="badge-title" fill="#3b82f6" opacity="0.9">UX</text>
+    <text x="110" y="135" class="label" fill="#93c5fd">User Experience</text>
+    
+    <!-- UX List -->
+    <g transform="translate(90, 160)">
+      <circle cx="10" cy="10" r="4" fill="#3b82f6" />
+      <text x="25" y="14" class="list-item">User Research &amp; Personas</text>
+      
+      <circle cx="10" cy="35" r="4" fill="#3b82f6" />
+      <text x="25" y="39" class="list-item">Information Architecture</text>
+      
+      <circle cx="10" cy="60" r="4" fill="#3b82f6" />
+      <text x="25" y="64" class="list-item">Wireframing &amp; Flows</text>
+      
+      <circle cx="10" cy="85" r="4" fill="#3b82f6" />
+      <text x="25" y="89" class="list-item">Usability Testing</text>
+    </g>
+  </g>
+
+  <!-- UI Circle Group -->
+  <g transform="translate(300, 20)">
+    <circle cx="200" cy="220" r="160" fill="url(#uiGrad)" stroke="#a78bfa" stroke-width="2.5" filter="url(#glowPurple)" />
+    <text x="230" y="110" class="badge-title" fill="#a78bfa" opacity="0.9">UI</text>
+    <text x="230" y="135" class="label" fill="#ddd6fe">User Interface</text>
+    
+    <!-- UI List -->
+    <g transform="translate(190, 160)">
+      <circle cx="10" cy="10" r="4" fill="#a78bfa" />
+      <text x="25" y="14" class="list-item">Visual Design &amp; Layout</text>
+      
+      <circle cx="10" cy="35" r="4" fill="#a78bfa" />
+      <text x="25" y="39" class="list-item">Color Theory &amp; Contrast</text>
+      
+      <circle cx="10" cy="60" r="4" fill="#a78bfa" />
+      <text x="25" y="64" class="list-item">Typography &amp; Scale</text>
+      
+      <circle cx="10" cy="85" r="4" fill="#a78bfa" />
+      <text x="25" y="89" class="list-item">Interactions &amp; Motion</text>
+    </g>
+  </g>
+
+  <!-- Overlap Intersection -->
+  <g transform="translate(0, 0)">
+    <!-- Overlap Details (Visual Design, Prototyping) -->
+    <rect x="365" y="165" width="70" height="150" fill="none" />
+    <text x="400" y="195" text-anchor="middle" class="center-text">Product</text>
+    <text x="400" y="215" text-anchor="middle" class="center-text">Design</text>
+    <line x1="375" y1="235" x2="425" y2="235" stroke="#475569" stroke-width="1" />
+    <text x="400" y="260" text-anchor="middle" class="list-item" style="font-weight: 600; fill: #f1f5f9;">Wireframes</text>
+    <text x="400" y="280" text-anchor="middle" class="list-item" style="font-weight: 600; fill: #f1f5f9;">Prototypes</text>
+  </g>
+</svg>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .principle { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 16px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #94a3b8; }
+    .number { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 32px; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Nielsen's 10 Usability Heuristics</text>
+  <text x="40" y="75" class="subtitle">Jakob Nielsen's widely-used principles for interface evaluation</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#3b82f6">01</text>
+    <text x="15" y="50" class="principle" fill="#60a5fa">Visibility of</text>
+    <text x="15" y="65" class="principle" fill="#60a5fa">System Status</text>
+  </g>
+
+  <g transform="translate(220, 100)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#10b981">02</text>
+    <text x="15" y="50" class="principle" fill="#34d399">Match System</text>
+    <text x="15" y="65" class="principle" fill="#34d399">&amp; Real World</text>
+  </g>
+
+  <g transform="translate(400, 100)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#f59e0b">03</text>
+    <text x="15" y="50" class="principle" fill="#fbbf24">User Control</text>
+    <text x="15" y="65" class="principle" fill="#fbbf24">&amp; Freedom</text>
+  </g>
+
+  <g transform="translate(580, 100)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#ec4899">04</text>
+    <text x="15" y="50" class="principle" fill="#f472b6">Consistency</text>
+    <text x="15" y="65" class="principle" fill="#f472b6">&amp; Standards</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(40, 200)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#8b5cf6">05</text>
+    <text x="15" y="50" class="principle" fill="#a78bfa">Error</text>
+    <text x="15" y="65" class="principle" fill="#a78bfa">Prevention</text>
+  </g>
+
+  <g transform="translate(220, 200)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#06b6d4">06</text>
+    <text x="15" y="50" class="principle" fill="#22d3ee">Recognition</text>
+    <text x="15" y="65" class="principle" fill="#22d3ee">Over Recall</text>
+  </g>
+
+  <g transform="translate(400, 200)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#f97316">07</text>
+    <text x="15" y="50" class="principle" fill="#fb923c">Flexibility &amp;</text>
+    <text x="15" y="65" class="principle" fill="#fb923c">Efficiency</text>
+  </g>
+
+  <g transform="translate(580, 200)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#14b8a6" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#14b8a6">08</text>
+    <text x="15" y="50" class="principle" fill="#2dd4bf">Aesthetic &amp;</text>
+    <text x="15" y="65" class="principle" fill="#2dd4bf">Minimalist</text>
+  </g>
+
+  <!-- Row 3 -->
+  <g transform="translate(130, 300)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#e11d48" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#e11d48">09</text>
+    <text x="15" y="50" class="principle" fill="#fb7185">Help Users</text>
+    <text x="15" y="65" class="principle" fill="#fb7185">Recover</text>
+  </g>
+
+  <g transform="translate(310, 300)">
+    <rect x="0" y="0" width="160" height="75" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1.5" />
+    <text x="15" y="30" class="number" fill="#a855f7">10</text>
+    <text x="15" y="50" class="principle" fill="#c084fc">Help &amp;</text>
+    <text x="15" y="65" class="principle" fill="#c084fc">Documentation</text>
+  </g>
+
+  <text x="400" y="420" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#64748b" font-size="12">Use these heuristics to evaluate any interface</text>
+</svg>

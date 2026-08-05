@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="24">VUI Conversation Flow</text>
+  <text x="40" y="75" font-family="'Segoe UI', system-ui, sans-serif" fill="#94a3b8" font-size="14">Voice User Interface dialog between user and system</text>
+
+  <!-- Flow arrows -->
+  <line x1="400" y1="115" x2="400" y2="145" stroke="#475569" stroke-width="2" />
+  <polygon points="400,150 396,142 404,142" fill="#475569" />
+  <line x1="400" y1="195" x2="400" y2="225" stroke="#475569" stroke-width="2" />
+  <polygon points="400,230 396,222 404,222" fill="#475569" />
+  <line x1="400" y1="275" x2="400" y2="305" stroke="#475569" stroke-width="2" />
+  <polygon points="400,310 396,302 404,302" fill="#475569" />
+  <line x1="400" y1="355" x2="400" y2="385" stroke="#475569" stroke-width="2" />
+  <polygon points="400,390 396,382 404,382" fill="#475569" />
+
+  <!-- User: Weather -->
+  <g transform="translate(420, 100)">
+    <rect x="0" y="0" width="340" height="48" rx="24" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <circle cx="24" cy="24" r="12" fill="#3b82f6" />
+    <text x="24" y="28" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#fff" font-size="11">U</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" fill="#60a5fa" font-size="13">"Hey, what's the weather today?"</text>
+  </g>
+
+  <!-- System: Processing -->
+  <g transform="translate(20, 170)">
+    <rect x="0" y="0" width="340" height="48" rx="24" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <circle cx="24" cy="24" r="12" fill="#10b981" />
+    <text x="24" y="28" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#fff" font-size="11">S</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" fill="#34d399" font-size="13">Processing: intent=weather, location=current</text>
+  </g>
+
+  <!-- User: Rain? -->
+  <g transform="translate(420, 250)">
+    <rect x="0" y="0" width="340" height="48" rx="24" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <circle cx="24" cy="24" r="12" fill="#3b82f6" />
+    <text x="24" y="28" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#fff" font-size="11">U</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" fill="#60a5fa" font-size="13">"Will it rain this afternoon?"</text>
+  </g>
+
+  <!-- System: Response -->
+  <g transform="translate(20, 330)">
+    <rect x="0" y="0" width="340" height="48" rx="24" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <circle cx="24" cy="24" r="12" fill="#10b981" />
+    <text x="24" y="28" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-weight="700" fill="#fff" font-size="11">S</text>
+    <text x="45" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" fill="#34d399" font-size="13">"22&#176;C, cloudy, 60% chance of rain at 3 PM."</text>
+  </g>
+</svg>

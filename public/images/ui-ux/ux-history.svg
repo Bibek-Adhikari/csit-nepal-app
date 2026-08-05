@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">History of UX/UI Design</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="13">Evolution from HCI to modern UX</text>
+
+  <!-- Timeline -->
+  <!-- 1970s -->
+  <circle cx="100" cy="140" r="8" fill="#3b82f6" />
+  <text x="100" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="14">1970s</text>
+  <text x="100" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">HCI Research</text>
+  <text x="100" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Xerox PARC</text>
+
+  <!-- 1980s -->
+  <line x1="110" y1="140" x2="200" y2="140" stroke="#334155" stroke-width="2" />
+  <circle cx="210" cy="140" r="8" fill="#10b981" />
+  <text x="210" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="14">1980s</text>
+  <text x="210" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">GUI Era</text>
+  <text x="210" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Apple Macintosh</text>
+
+  <!-- 1990s -->
+  <line x1="220" y1="140" x2="310" y2="140" stroke="#334155" stroke-width="2" />
+  <circle cx="320" cy="140" r="8" fill="#f59e0b" />
+  <text x="320" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="14">1990s</text>
+  <text x="320" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Web Usability</text>
+  <text x="320" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Jakob Nielsen</text>
+
+  <!-- 2000s -->
+  <line x1="330" y1="140" x2="420" y2="140" stroke="#334155" stroke-width="2" />
+  <circle cx="430" cy="140" r="8" fill="#ec4899" />
+  <text x="430" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="14">2000s</text>
+  <text x="430" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">UX Emergence</text>
+  <text x="430" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Don Norman</text>
+
+  <!-- 2007 -->
+  <line x1="440" y1="140" x2="530" y2="140" stroke="#334155" stroke-width="2" />
+  <circle cx="540" cy="140" r="8" fill="#8b5cf6" />
+  <text x="540" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="14">2007</text>
+  <text x="540" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Mobile UX</text>
+  <text x="540" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">iPhone Launch</text>
+
+  <!-- 2010s+ -->
+  <line x1="550" y1="140" x2="640" y2="140" stroke="#334155" stroke-width="2" />
+  <circle cx="650" cy="140" r="8" fill="#06b6d4" />
+  <text x="650" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#22d3ee" font-size="14">2010s+</text>
+  <text x="650" y="165" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Design Systems</text>
+  <text x="650" y="182" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">AI &amp; Voice UI</text>
+
+  <!-- Key milestones -->
+  <text x="40" y="240" font-family="system-ui, sans-serif" font-weight="700" fill="#f1f5f9" font-size="15">Key Milestones:</text>
+  <text x="40" y="268" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; 1993: Don Norman coins "User Experience" at Apple</text>
+  <text x="40" y="290" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; 1994: Nielsen's 10 Usability Heuristics published</text>
+  <text x="40" y="312" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; 2000: Steve Krug's "Don't Make Me Think" released</text>
+  <text x="40" y="334" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; 2007: iPhone launch popularizes mobile UX</text>
+  <text x="40" y="356" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; 2010s: Design systems era (Material Design, etc.)</text>
+</svg>

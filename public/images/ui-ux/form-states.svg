@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Form Input States</text>
+  <text x="40" y="75" class="subtitle">Visual feedback for every interaction state</text>
+
+  <!-- Default -->
+  <g transform="translate(40, 110)">
+    <text x="0" y="15" class="label" fill="#f1f5f9">Default</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+    <text x="12" y="52" class="desc">Placeholder text...</text>
+  </g>
+
+  <!-- Focus -->
+  <g transform="translate(280, 110)">
+    <text x="0" y="15" class="label" fill="#3b82f6">Focus</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2.5" />
+    <rect x="-2" y="23" width="204" height="48" rx="10" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.5" />
+    <text x="12" y="52" class="desc" style="fill: #60a5fa;">Typing...</text>
+  </g>
+
+  <!-- Filled -->
+  <g transform="translate(520, 110)">
+    <text x="0" y="15" class="label" fill="#10b981">Filled</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+    <text x="12" y="52" class="desc" style="fill: #e2e8f0;">john@example.com</text>
+  </g>
+
+  <!-- Error -->
+  <g transform="translate(40, 220)">
+    <text x="0" y="15" class="label" fill="#ef4444">Error</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="2" />
+    <text x="12" y="52" class="desc" style="fill: #e2e8f0;">invalid-email</text>
+    <text x="12" y="82" class="desc" style="fill: #ef4444; font-size: 10px;">&#9888; Please enter a valid email address</text>
+  </g>
+
+  <!-- Disabled -->
+  <g transform="translate(280, 220)">
+    <text x="0" y="15" class="label" fill="#64748b">Disabled</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="12" y="52" class="desc" style="fill: #475569;">Unavailable</text>
+  </g>
+
+  <!-- Success -->
+  <g transform="translate(520, 220)">
+    <text x="0" y="15" class="label" fill="#10b981">Success</text>
+    <rect x="0" y="25" width="200" height="44" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="12" y="52" class="desc" style="fill: #e2e8f0;">john@example.com</text>
+    <circle cx="185" cy="47" r="8" fill="#10b981" />
+    <text x="185" y="51" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="700" fill="#fff" font-size="11">&#10003;</text>
+  </g>
+
+  <!-- Info box at bottom -->
+  <g transform="translate(40, 340)">
+    <rect x="0" y="0" width="680" height="50" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="340" y="22" text-anchor="middle" class="label" fill="#f8fafc">Always provide clear, specific error messages</text>
+    <text x="340" y="40" text-anchor="middle" class="desc">Help users understand what went wrong and how to fix it</text>
+  </g>
+</svg>
