@@ -7,6 +7,7 @@ import { SiteNav } from "@/components/site-nav";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { OfflineBanner } from "@/components/offline-banner";
 import { RouteProgress } from "@/components/route-progress";
+import { JsonLd, developerSchema } from "@/components/json-ld";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -87,6 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
+        <JsonLd data={developerSchema} />
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
