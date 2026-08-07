@@ -4171,3 +4171,139 @@ body.gallery-fullscreen .app-main {
   padding: 0 !important;
   min-height: 100svh;
 }
+
+/* ─── Gallery Overlay ──────────────────────────────────── */
+
+.gallery-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overscroll-behavior: none;
+}
+
+.gallery-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.85);
+  min-height: 52px;
+  flex-shrink: 0;
+}
+
+.gallery-icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+
+.gallery-icon-btn:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.gallery-counter {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.gallery-swipe-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.gallery-image-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 8px 56px;
+  box-sizing: border-box;
+}
+
+.gallery-full-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  transition: transform 0.2s ease;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 52px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gallery-nav:active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.gallery-nav:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.gallery-nav-prev {
+  left: 0;
+}
+
+.gallery-nav-next {
+  right: 0;
+}
+
+.gallery-bottom-bar {
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.85);
+  text-align: center;
+  min-height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-filename {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

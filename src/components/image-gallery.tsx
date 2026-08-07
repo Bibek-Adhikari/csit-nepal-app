@@ -393,143 +393,58 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
 
       {fullscreen && filteredImages.length > 0 && (
         <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 9999,
-            background: "#000",
-            display: "flex",
-            flexDirection: "column",
-          }}
+          className="gallery-overlay"
+          onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0.5rem 0.75rem",
-              background: "rgba(0,0,0,0.8)",
-              minHeight: 48,
-            }}
-          >
-            <button
-              onClick={() => setFullscreen(false)}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#fff",
-                fontSize: 24,
-                cursor: "pointer",
-                padding: "0.25rem 0.5rem",
-              }}
-            >
+          <div className="gallery-top-bar">
+            <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}>
               <i className="bx bx-arrow-back"></i>
             </button>
-            <span style={{ color: "#fff", fontSize: "0.85rem", fontWeight: 500 }}>
+            <span className="gallery-counter">
               {activeIndex + 1} / {filteredImages.length}
             </span>
-            <span
-              onClick={() => handleDelete(filteredImages[activeIndex].id)}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#fff",
-                fontSize: 20,
-                cursor: "pointer",
-                padding: "0.25rem 0.5rem",
-              }}
-            >
+            <button className="gallery-icon-btn" onClick={() => handleDelete(filteredImages[activeIndex].id)}>
               <i className="bx bx-trash"></i>
-            </span>
+            </button>
           </div>
 
-          <div style={{ flex: 1, display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
-            <button
-              onClick={goPrev}
-              disabled={activeIndex === 0}
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: 48,
-                background: "rgba(255,255,255,0.08)",
-                border: "none",
-                color: activeIndex === 0 ? "rgba(255,255,255,0.2)" : "#fff",
-                fontSize: 28,
-                cursor: activeIndex === 0 ? "default" : "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 2,
-              }}
-            >
+          <div
+            className="gallery-swipe-area"
+            onTouchStart={(e) => {
+              (e.currentTarget as any)._startX = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              const startX = (e.currentTarget as any)._startX;
+              if (!startX) return;
+              const diff = e.changedTouches[0].clientX - startX;
+              if (Math.abs(diff) > 50) {
+                if (diff < 0) goNext();
+                else goPrev();
+              }
+              (e.currentTarget as any)._startX = null;
+            }}
+          >
+            <button className="gallery-nav gallery-nav-prev" onClick={goPrev} disabled={activeIndex === 0}>
               <i className="bx bx-chevron-left"></i>
             </button>
 
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                padding: "0 48px",
-              }}
-            >
+            <div className="gallery-image-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={thumbnails[filteredImages[activeIndex].id] || ""}
                 alt={filteredImages[activeIndex].name}
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "contain",
-                  userSelect: "none",
-                  transition: "opacity 0.2s ease",
-                }}
+                className="gallery-full-img"
                 draggable={false}
               />
             </div>
 
-            <button
-              onClick={goNext}
-              disabled={activeIndex === filteredImages.length - 1}
-              style={{
-                position: "absolute",
-                right: 0,
-                top: 0,
-                bottom: 0,
-                width: 48,
-                background: "rgba(255,255,255,0.08)",
-                border: "none",
-                color: activeIndex === filteredImages.length - 1 ? "rgba(255,255,255,0.2)" : "#fff",
-                fontSize: 28,
-                cursor: activeIndex === filteredImages.length - 1 ? "default" : "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 2,
-              }}
-            >
+            <button className="gallery-nav gallery-nav-next" onClick={goNext} disabled={activeIndex === filteredImages.length - 1}>
               <i className="bx bx-chevron-right"></i>
             </button>
           </div>
 
-          <div
-            style={{
-              padding: "0.5rem 0.75rem",
-              background: "rgba(0,0,0,0.8)",
-              textAlign: "center",
-              minHeight: 40,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.75rem" }}>
-              {filteredImages[activeIndex].name}
-            </span>
+          <div className="gallery-bottom-bar">
+            <span className="gallery-filename">{filteredImages[activeIndex].name}</span>
           </div>
         </div>
       )}
