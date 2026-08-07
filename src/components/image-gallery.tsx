@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { getSharedImages, deleteSharedImage } from "@/lib/db";
 import type { SharedImage } from "@/lib/db";
@@ -391,63 +392,65 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
         </div>
       )}
 
-      {fullscreen && filteredImages.length > 0 && (
-        <div
-          className="gallery-overlay"
-          onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}
-        >
-          <div className="gallery-top-bar">
-            <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}>
-              <i className="bx bx-arrow-back"></i>
-            </button>
-            <span className="gallery-counter">
-              {activeIndex + 1} / {filteredImages.length}
-            </span>
-            <button className="gallery-icon-btn" onClick={() => handleDelete(filteredImages[activeIndex].id)}>
-              <i className="bx bx-trash"></i>
-            </button>
-          </div>
-
+      {fullscreen && filteredImages.length > 0 &&
+        createPortal(
           <div
-            className="gallery-swipe-area"
-            onTouchStart={(e) => {
-              (e.currentTarget as any)._startX = e.touches[0].clientX;
-            }}
-            onTouchEnd={(e) => {
-              const startX = (e.currentTarget as any)._startX;
-              if (!startX) return;
-              const diff = e.changedTouches[0].clientX - startX;
-              if (Math.abs(diff) > 50) {
-                if (diff < 0) goNext();
-                else goPrev();
-              }
-              (e.currentTarget as any)._startX = null;
-            }}
+            className="gallery-overlay"
+            onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}
           >
-            <button className="gallery-nav gallery-nav-prev" onClick={goPrev} disabled={activeIndex === 0}>
-              <i className="bx bx-chevron-left"></i>
-            </button>
-
-            <div className="gallery-image-wrap">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={thumbnails[filteredImages[activeIndex].id] || ""}
-                alt={filteredImages[activeIndex].name}
-                className="gallery-full-img"
-                draggable={false}
-              />
+            <div className="gallery-top-bar">
+              <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}>
+                <i className="bx bx-arrow-back"></i>
+              </button>
+              <span className="gallery-counter">
+                {activeIndex + 1} / {filteredImages.length}
+              </span>
+              <button className="gallery-icon-btn" onClick={() => handleDelete(filteredImages[activeIndex].id)}>
+                <i className="bx bx-trash"></i>
+              </button>
             </div>
 
-            <button className="gallery-nav gallery-nav-next" onClick={goNext} disabled={activeIndex === filteredImages.length - 1}>
-              <i className="bx bx-chevron-right"></i>
-            </button>
-          </div>
+            <div
+              className="gallery-swipe-area"
+              onTouchStart={(e) => {
+                (e.currentTarget as any)._startX = e.touches[0].clientX;
+              }}
+              onTouchEnd={(e) => {
+                const startX = (e.currentTarget as any)._startX;
+                if (!startX) return;
+                const diff = e.changedTouches[0].clientX - startX;
+                if (Math.abs(diff) > 50) {
+                  if (diff < 0) goNext();
+                  else goPrev();
+                }
+                (e.currentTarget as any)._startX = null;
+              }}
+            >
+              <button className="gallery-nav gallery-nav-prev" onClick={goPrev} disabled={activeIndex === 0}>
+                <i className="bx bx-chevron-left"></i>
+              </button>
 
-          <div className="gallery-bottom-bar">
-            <span className="gallery-filename">{filteredImages[activeIndex].name}</span>
-          </div>
-        </div>
-      )}
+              <div className="gallery-image-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={thumbnails[filteredImages[activeIndex].id] || ""}
+                  alt={filteredImages[activeIndex].name}
+                  className="gallery-full-img"
+                  draggable={false}
+                />
+              </div>
+
+              <button className="gallery-nav gallery-nav-next" onClick={goNext} disabled={activeIndex === filteredImages.length - 1}>
+                <i className="bx bx-chevron-right"></i>
+              </button>
+            </div>
+
+            <div className="gallery-bottom-bar">
+              <span className="gallery-filename">{filteredImages[activeIndex].name}</span>
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }
