@@ -1,8 +1,11 @@
-const CACHE = "bca-nepal-v11";
-const STATIC_CACHE = "bca-nepal-static-v11";
-const API_CACHE = "bca-nepal-api-v11";
-const PDF_CACHE = "bca-nepal-pdf-v11";
-const LECTURE_CACHE = "bca-nepal-lecture-v11";
+const CACHE = "bca-nepal-v12";
+const STATIC_CACHE = "bca-nepal-static-v12";
+const API_CACHE = "bca-nepal-api-v12";
+const PDF_CACHE = "bca-nepal-pdf-v12";
+const LECTURE_CACHE = "bca-nepal-lecture-v12";
+const SHARE_DB_NAME = "bca-nepal-offline";
+const SHARE_DB_VERSION = 4;
+const PENDING_SHARES_STORE = "pending-shares";
 
 const PRECACHE_URLS = [
   "/",
@@ -43,6 +46,7 @@ const PRECACHE_URLS = [
   "/privacy-policy",
   "/terms-and-conditions",
   "/view-pdf",
+  "/share",
   "/offline",
   "/offline.html",
   "/manifest.json",
@@ -178,6 +182,12 @@ self.addEventListener("fetch", (event) => {
 
   // Bypass analytics
   if (isAnalytics(url)) return;
+
+  // Web Share Target: intercept POST to /share, store files in IndexedDB, redirect to GET
+  if (url.pathname === "/share" && req.method === "POST") {
+    event.respondWith(handleShareTarget(req));
+    return;
+  }
 
   // Navigation: stale-while-revalidate (instant from cache, update in background)
   if (isNavigation(req)) {
@@ -454,6 +464,65 @@ async function fetchAndUpdateCache(request, cacheName) {
 async function cacheUrls(urls) {
   const cache = await caches.open(STATIC_CACHE);
   await cache.addAll(urls);
+}
+
+// ─── Web Share Target Handler ────────────────────────────
+
+async function handleShareTarget(request) {
+  try {
+    const formData = await request.formData();
+    const files = formData.getAll("images").filter((f) => f instanceof File && f.type.startsWith("image/"));
+
+    if (files.length > 0) {
+      await storePendingShares(files);
+    }
+
+    return Response.redirect(new URL("/share?shared=1", self.location.origin).toString(), 303);
+  } catch {
+    return Response.redirect(new URL("/share?shared=0", self.location.origin).toString(), 303);
+  }
+}
+
+function storePendingShares(files) {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(SHARE_DB_NAME, SHARE_DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(PENDING_SHARES_STORE)) {
+        db.createObjectStore(PENDING_SHARES_STORE, { keyPath: "id" });
+      }
+    };
+    req.onsuccess = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(PENDING_SHARES_STORE)) {
+        db.close();
+        resolve();
+        return;
+      }
+      const tx = db.transaction(PENDING_SHARES_STORE, "readwrite");
+      const store = tx.objectStore(PENDING_SHARES_STORE);
+      store.clear();
+      for (let i = 0; i < files.length; i++) {
+        store.put({
+          id: `pending-${Date.now()}-${i}`,
+          name: files[i].name || `image-${i + 1}.jpg`,
+          blob: files[i],
+          type: files[i].type,
+          size: files[i].size,
+          sharedAt: Date.now(),
+        });
+      }
+      tx.oncomplete = () => {
+        db.close();
+        resolve();
+      };
+      tx.onerror = () => {
+        db.close();
+        reject(tx.error);
+      };
+    };
+    req.onerror = () => reject(req.error);
+  });
 }
 
 // ─── Background Sync ─────────────────────────────────────

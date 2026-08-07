@@ -1,7 +1,9 @@
 const DB_NAME = "bca-nepal-offline";
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const STORE_NAME = "pdfs";
 const SYNC_STORE = "sync-queue";
+const SHARED_STORE = "shared-images";
+const PENDING_SHARES_STORE = "pending-shares";
 
 export interface StoredPDF {
   id: string;
@@ -38,6 +40,15 @@ function openDB(): Promise<IDBDatabase> {
         const syncStore = db.createObjectStore(SYNC_STORE, { keyPath: "id" });
         syncStore.createIndex("type", "type");
         syncStore.createIndex("synced", "synced");
+      }
+      if (!db.objectStoreNames.contains(SHARED_STORE)) {
+        const sharedStore = db.createObjectStore(SHARED_STORE, { keyPath: "id" });
+        sharedStore.createIndex("semester", "semester");
+        sharedStore.createIndex("subject", "subject");
+        sharedStore.createIndex("savedAt", "savedAt");
+      }
+      if (!db.objectStoreNames.contains(PENDING_SHARES_STORE)) {
+        db.createObjectStore(PENDING_SHARES_STORE, { keyPath: "id" });
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -222,6 +233,93 @@ export async function clearOldSyncItems(maxAge: number = 7 * 24 * 60 * 60 * 1000
         cursor.continue();
       }
     };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+// ─── Shared Images (Web Share Target) ─────────────────────
+
+export interface SharedImage {
+  id: string;
+  name: string;
+  blob: Blob;
+  semester: string;
+  subject: string;
+  savedAt: number;
+}
+
+export interface PendingShare {
+  id: string;
+  name: string;
+  blob: Blob;
+  type: string;
+  size: number;
+  sharedAt: number;
+}
+
+export async function savePendingShares(shares: PendingShare[]): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PENDING_SHARES_STORE, "readwrite");
+    const store = tx.objectStore(PENDING_SHARES_STORE);
+    store.clear();
+    for (const share of shares) {
+      store.put(share);
+    }
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function getPendingShares(): Promise<PendingShare[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PENDING_SHARES_STORE, "readonly");
+    const req = tx.objectStore(PENDING_SHARES_STORE).getAll();
+    req.onsuccess = () => resolve((req.result || []) as PendingShare[]);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+export async function clearPendingShares(): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PENDING_SHARES_STORE, "readwrite");
+    tx.objectStore(PENDING_SHARES_STORE).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function saveSharedImages(images: SharedImage[]): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SHARED_STORE, "readwrite");
+    const store = tx.objectStore(SHARED_STORE);
+    for (const img of images) {
+      store.put(img);
+    }
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function getSharedImages(): Promise<SharedImage[]> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SHARED_STORE, "readonly");
+    const req = tx.objectStore(SHARED_STORE).getAll();
+    req.onsuccess = () => resolve((req.result || []) as SharedImage[]);
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function deleteSharedImage(id: string): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SHARED_STORE, "readwrite");
+    tx.objectStore(SHARED_STORE).delete(id);
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });

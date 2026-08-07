@@ -4150,3 +4150,24 @@ html.dark .admin-badge-hw {
 .legal-content a:hover {
   opacity: 0.8;
 }
+
+/* ─── Gallery Fullscreen ───────────────────────────────── */
+
+body.gallery-fullscreen .site-nav,
+body.gallery-fullscreen .app-header,
+body.gallery-fullscreen .offline-banner,
+body.gallery-fullscreen .route-progress {
+  display: none !important;
+}
+
+body.gallery-fullscreen {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+body.gallery-fullscreen .app-main {
+  padding: 0 !important;
+  min-height: 100svh;
+}
