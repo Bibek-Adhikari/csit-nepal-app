@@ -49,21 +49,31 @@ function SharePageContent() {
     ? semesters.find((s) => s.key === selectedSemester)?.subjects || []
     : [];
 
+  const [error, setError] = useState("");
+
   const handleConfirm = async () => {
     if (!selectedSemester || !selectedSubject || pending.length === 0) return;
     setSaving(true);
-    const images: SharedImage[] = pending.map((p, i) => ({
-      id: `shared-${Date.now()}-${i}`,
-      name: p.name,
-      blob: p.blob,
-      semester: selectedSemester,
-      subject: selectedSubject,
-      savedAt: Date.now(),
-    }));
-    await saveSharedImages(images);
-    await clearPendingShares();
-    setSaving(false);
-    setSaved(true);
+    setError("");
+    try {
+      const images: SharedImage[] = pending.map((p, i) => ({
+        id: `shared-${Date.now()}-${i}`,
+        name: p.name,
+        blob: p.blob,
+        semester: selectedSemester,
+        subject: selectedSubject,
+        savedAt: Date.now(),
+      }));
+      await Promise.all([
+        saveSharedImages(images),
+        clearPendingShares(),
+      ]);
+      setSaved(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save images");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDiscard = async () => {
@@ -206,6 +216,13 @@ function SharePageContent() {
             ))}
           </select>
         </div>
+
+        {error && (
+          <div style={{ marginBottom: "0.75rem", padding: "0.6rem 0.85rem", borderRadius: 10, background: "rgba(220, 38, 38, 0.1)", color: "#dc2626", fontSize: "0.82rem" }}>
+            <i className="bx bx-error-circle" style={{ marginRight: "0.35rem" }}></i>
+            {error}
+          </div>
+        )}
 
         <div style={{ display: "flex", gap: "0.75rem" }}>
           <button

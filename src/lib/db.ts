@@ -264,11 +264,17 @@ export async function savePendingShares(shares: PendingShare[]): Promise<void> {
     const tx = db.transaction(PENDING_SHARES_STORE, "readwrite");
     const store = tx.objectStore(PENDING_SHARES_STORE);
     store.clear();
-    for (const share of shares) {
-      store.put(share);
+    let i = 0;
+    function putNext() {
+      if (i >= shares.length) return;
+      const req = store.put(shares[i]);
+      req.onsuccess = () => { i++; putNext(); };
+      req.onerror = () => reject(req.error);
     }
+    putNext();
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+    setTimeout(() => reject(new Error("savePendingShares timeout")), 8000);
   });
 }
 
@@ -297,11 +303,17 @@ export async function saveSharedImages(images: SharedImage[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction(SHARED_STORE, "readwrite");
     const store = tx.objectStore(SHARED_STORE);
-    for (const img of images) {
-      store.put(img);
+    let i = 0;
+    function putNext() {
+      if (i >= images.length) return;
+      const req = store.put(images[i]);
+      req.onsuccess = () => { i++; putNext(); };
+      req.onerror = () => reject(req.error);
     }
+    putNext();
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+    setTimeout(() => reject(new Error("saveSharedImages timeout")), 8000);
   });
 }
 
