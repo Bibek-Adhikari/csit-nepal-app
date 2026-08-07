@@ -2,6 +2,59 @@
   "name": "BCA Nepal",
   "short_name": "BCA Nepal",
   "description": "Mobile-first study hub for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
+  "author": "BCA Nepal Team",
+  "owner": "BCA Nepal",
+  "founding_date": "2025",
+  "developer": {
+    "name": "BCA Nepal Team",
+    "url": "https://github.com/Bibek-Adhikari/bca-nepal-app",
+    "team": [
+      {
+        "name": "Rupesh Adhikari",
+        "role": "Co-Founder & Developer",
+        "url": "https://github.com/bcanepal219",
+        "social": {
+          "facebook": "https://www.facebook.com/rupesh.adhikari.219",
+          "instagram": "https://www.instagram.com/rupeshadhikari219",
+          "github": "https://github.com/bcanepal219"
+        }
+      },
+      {
+        "name": "Bibek Adhikari",
+        "role": "Co-Founder & Developer",
+        "url": "https://github.com/Bibek-Adhikari",
+        "social": {
+          "facebook": "https://facebook.com/bibek.adhikari.9279807",
+          "instagram": "https://instagram.com/crazy_bibek22",
+          "linkedin": "https://linkedin.com/in/bibek-adhikari-24149b2b3",
+          "github": "https://github.com/Bibek-Adhikari",
+          "email": "mailto:bibekadhikari0763@gmail.com"
+        }
+      }
+    ]
+  },
+  "credits": [
+    {
+      "name": "Bibek Adhikari",
+      "url": "https://github.com/Bibek-Adhikari",
+      "links": {
+        "facebook": "https://facebook.com/bibek.adhikari.9279807",
+        "instagram": "https://instagram.com/crazy_bibek22",
+        "linkedin": "https://linkedin.com/in/bibek-adhikari-24149b2b3",
+        "github": "https://github.com/Bibek-Adhikari",
+        "email": "mailto:bibekadhikari0763@gmail.com"
+      }
+    },
+    {
+      "name": "Rupesh Adhikari",
+      "url": "https://github.com/bcanepal219",
+      "links": {
+        "facebook": "https://www.facebook.com/rupesh.adhikari.219",
+        "instagram": "https://www.instagram.com/rupeshadhikari219",
+        "github": "https://github.com/bcanepal219"
+      }
+    }
+  ],
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
