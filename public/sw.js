@@ -1,10 +1,10 @@
-const CACHE = "bca-nepal-v12";
-const STATIC_CACHE = "bca-nepal-static-v12";
-const API_CACHE = "bca-nepal-api-v12";
-const PDF_CACHE = "bca-nepal-pdf-v12";
-const LECTURE_CACHE = "bca-nepal-lecture-v12";
+const CACHE = "bca-nepal-v13";
+const STATIC_CACHE = "bca-nepal-static-v13";
+const API_CACHE = "bca-nepal-api-v13";
+const PDF_CACHE = "bca-nepal-pdf-v13";
+const LECTURE_CACHE = "bca-nepal-lecture-v13";
 const SHARE_DB_NAME = "bca-nepal-offline";
-const SHARE_DB_VERSION = 4;
+const SHARE_DB_VERSION = 5;
 const PENDING_SHARES_STORE = "pending-shares";
 
 const PRECACHE_URLS = [

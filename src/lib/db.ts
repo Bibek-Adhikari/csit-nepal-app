@@ -1,9 +1,11 @@
 const DB_NAME = "bca-nepal-offline";
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 const STORE_NAME = "pdfs";
 const SYNC_STORE = "sync-queue";
 const SHARED_STORE = "shared-images";
 const PENDING_SHARES_STORE = "pending-shares";
+
+const REQUIRED_STORES = [STORE_NAME, SYNC_STORE, SHARED_STORE, PENDING_SHARES_STORE];
 
 export interface StoredPDF {
   id: string;
@@ -25,35 +27,63 @@ export interface SyncItem {
   synced: boolean;
 }
 
-function openDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
+function createStores(db: IDBDatabase) {
+  if (!db.objectStoreNames.contains(STORE_NAME)) {
+    const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+    store.createIndex("semester", "semester");
+    store.createIndex("subject", "subject");
+    store.createIndex("bookmarked", "bookmarked");
+  }
+  if (!db.objectStoreNames.contains(SYNC_STORE)) {
+    const syncStore = db.createObjectStore(SYNC_STORE, { keyPath: "id" });
+    syncStore.createIndex("type", "type");
+    syncStore.createIndex("synced", "synced");
+  }
+  if (!db.objectStoreNames.contains(SHARED_STORE)) {
+    const sharedStore = db.createObjectStore(SHARED_STORE, { keyPath: "id" });
+    sharedStore.createIndex("semester", "semester");
+    sharedStore.createIndex("subject", "subject");
+    sharedStore.createIndex("savedAt", "savedAt");
+  }
+  if (!db.objectStoreNames.contains(PENDING_SHARES_STORE)) {
+    db.createObjectStore(PENDING_SHARES_STORE, { keyPath: "id" });
+  }
+}
+
+function hasAllStores(db: IDBDatabase): boolean {
+  return REQUIRED_STORES.every((s) => db.objectStoreNames.contains(s));
+}
+
+function deleteDatabase(): Promise<void> {
+  return new Promise((resolve) => {
+    const req = indexedDB.deleteDatabase(DB_NAME);
+    req.onsuccess = () => resolve();
+    req.onerror = () => resolve();
+    req.onblocked = () => resolve();
+  });
+}
+
+async function openDB(): Promise<IDBDatabase> {
+  const db = await new Promise<IDBDatabase>((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
-        store.createIndex("semester", "semester");
-        store.createIndex("subject", "subject");
-        store.createIndex("bookmarked", "bookmarked");
-      }
-      if (!db.objectStoreNames.contains(SYNC_STORE)) {
-        const syncStore = db.createObjectStore(SYNC_STORE, { keyPath: "id" });
-        syncStore.createIndex("type", "type");
-        syncStore.createIndex("synced", "synced");
-      }
-      if (!db.objectStoreNames.contains(SHARED_STORE)) {
-        const sharedStore = db.createObjectStore(SHARED_STORE, { keyPath: "id" });
-        sharedStore.createIndex("semester", "semester");
-        sharedStore.createIndex("subject", "subject");
-        sharedStore.createIndex("savedAt", "savedAt");
-      }
-      if (!db.objectStoreNames.contains(PENDING_SHARES_STORE)) {
-        db.createObjectStore(PENDING_SHARES_STORE, { keyPath: "id" });
-      }
-    };
+    req.onupgradeneeded = () => createStores(req.result);
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
+    req.onblocked = () => reject(new Error("DB open blocked"));
   });
+
+  if (!hasAllStores(db)) {
+    db.close();
+    await deleteDatabase();
+    return new Promise<IDBDatabase>((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = () => createStores(req.result);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  return db;
 }
 
 export async function savePDF(
