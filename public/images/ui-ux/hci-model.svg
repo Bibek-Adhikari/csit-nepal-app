@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" stroke="#475569" stroke-width="2" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">Human-Computer Interaction (HCI)</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="13">Input/Output model and evaluation criteria</text>
+
+  <!-- Input/Output Loop -->
+  <circle cx="400" cy="200" r="100" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="8,4" />
+
+  <!-- Input side -->
+  <rect x="100" y="160" width="140" height="80" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="170" y="190" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="14">INPUT</text>
+  <text x="170" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Keyboard, Mouse</text>
+  <text x="170" y="228" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Touch, Voice</text>
+
+  <!-- Arrow from Input to System -->
+  <line x1="245" y1="200" x2="295" y2="200" stroke="#3b82f6" stroke-width="2" />
+  <polygon points="298,200 292,196 292,204" fill="#3b82f6" />
+
+  <!-- System center -->
+  <circle cx="400" cy="200" r="40" fill="#0f172a" stroke="#8b5cf6" stroke-width="2" />
+  <text x="400" y="196" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="12">SYSTEM</text>
+  <text x="400" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="9">Processing</text>
+
+  <!-- Arrow from System to Output -->
+  <line x1="445" y1="200" x2="495" y2="200" stroke="#10b981" stroke-width="2" />
+  <polygon points="498,200 492,196 492,204" fill="#10b981" />
+
+  <!-- Output side -->
+  <rect x="520" y="160" width="140" height="80" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+  <text x="590" y="190" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="14">OUTPUT</text>
+  <text x="590" y="212" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Screen, Sound</text>
+  <text x="590" y="228" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Haptic Feedback</text>
+
+  <!-- Evaluation Criteria -->
+  <text x="40" y="330" font-family="system-ui, sans-serif" font-weight="700" fill="#f1f5f9" font-size="15">HCI Evaluation Criteria:</text>
+  <text x="40" y="358" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; Learnability — How easy to learn</text>
+  <text x="40" y="380" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; Efficiency — How fast tasks can be done</text>
+  <text x="40" y="402" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; Memorability — How easy to remember</text>
+  <text x="400" y="358" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; Error handling — Prevention and recovery</text>
+  <text x="400" y="380" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="12">&#8226; Satisfaction — How pleasant the experience</text>
+</svg>

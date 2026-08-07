@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">User Actions &amp; Feedback</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="13">Every action should produce clear feedback</text>
+
+  <!-- Click -->
+  <rect x="40" y="95" width="160" height="120" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="120" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="14">Click</text>
+  <text x="120" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Fundamental desktop</text>
+  <text x="120" y="168" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Single, Double, Right</text>
+
+  <!-- Hover -->
+  <rect x="220" y="95" width="160" height="120" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+  <text x="300" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="14">Hover</text>
+  <text x="300" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Preview info</text>
+  <text x="300" y="168" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">No touch devices</text>
+
+  <!-- Scroll -->
+  <rect x="400" y="95" width="160" height="120" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="480" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="14">Scroll</text>
+  <text x="480" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Vertical/Horizontal</text>
+  <text x="480" y="168" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Infinite vs Pagination</text>
+
+  <!-- Gesture -->
+  <rect x="580" y="95" width="160" height="120" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" />
+  <text x="660" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="14">Gesture</text>
+  <text x="660" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Tap, Swipe, Pinch</text>
+  <text x="660" y="168" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Long-press, Rotate</text>
+
+  <!-- Micro-interactions -->
+  <rect x="40" y="240" width="700" height="100" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" />
+  <text x="390" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="14">Micro-interactions</text>
+  <text x="390" y="295" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Small, contained moments that accomplish a single task</text>
+  <text x="390" y="318" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Toggle switch animation | Button press feedback | Loading spinners | Like button heart</text>
+</svg>

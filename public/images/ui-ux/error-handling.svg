@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" />
+  <rect width="800" height="450" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">Error Prevention &amp; Recovery</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="13">Strategies to prevent and recover from user errors</text>
+
+  <!-- Prevention -->
+  <rect x="40" y="95" width="220" height="130" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="150" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="14">Prevention</text>
+  <text x="150" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Better than correction</text>
+  <text x="150" y="175" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Disable unavailable actions</text>
+  <text x="150" y="193" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Limit input to valid values</text>
+  <text x="150" y="211" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Smart defaults</text>
+
+  <!-- Undo -->
+  <rect x="290" y="95" width="220" height="130" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+  <text x="400" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="14">Undo</text>
+  <text x="400" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Most powerful recovery</text>
+  <text x="400" y="175" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Gmail "Undo Send"</text>
+  <text x="400" y="193" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Ctrl+Z in applications</text>
+  <text x="400" y="211" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Gives confidence to explore</text>
+
+  <!-- Confirmation -->
+  <rect x="540" y="95" width="220" height="130" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="650" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="14">Confirmation</text>
+  <text x="650" y="150" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">Use for destructive actions</text>
+  <text x="650" y="175" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Delete, discard changes</text>
+  <text x="650" y="193" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Avoid overuse</text>
+  <text x="650" y="211" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Dialog fatigue</text>
+
+  <!-- Graceful Error Handling -->
+  <rect x="40" y="260" width="720" height="100" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" />
+  <text x="400" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="14">Graceful Error Handling</text>
+  <text x="400" y="315" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="11">When errors occur: provide clear, friendly messages that explain what happened and how to fix it.</text>
+  <text x="400" y="338" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="11">Bad: "Error 404" | Good: "Page not found. Check the URL or go back to the homepage."</text>
+</svg>

@@ -82,6 +82,7 @@
 <div class="text-content-card">
 <h3>Interaction Design Basics <span class="tc-badge">1/7</span></h3>
 <p><strong>Interaction Design (IxD)</strong> focuses on designing the behavior of interactive systems. It defines how a product responds to user actions and creates meaningful relationships between users and products.</p>
+<img src="/images/ui-ux/interaction-basics.svg" alt="Interaction Design Core Principles" />
 <p><strong>Goals of IxD</strong>: Create products that support users in achieving their objectives in an effective, efficient, and satisfying way.</p>
 <p><strong>Core principles</strong>: <strong>Visibility</strong> (important functions are visible), <strong>Feedback</strong> (system responds to actions), <strong>Consistency</strong> (similar operations have similar results), and <strong>Constraints</strong> (limiting possible actions to prevent errors).</p>
 <p>Interaction design sits at the intersection of <strong>user research</strong>, <strong>visual design</strong>, and <strong>technology</strong>, ensuring products are both usable and delightful.</p>
@@ -90,6 +91,7 @@
 <div class="text-content-card">
 <h3>Human-Computer Interaction <span class="tc-badge">2/7</span></h3>
 <p><strong>Human-Computer Interaction (HCI)</strong> is the foundational discipline for UX/UI. It studies how people interact with computers and designs technologies that let humans interact with machines in new ways.</p>
+<img src="/images/ui-ux/hci-model.svg" alt="HCI Input/Output Model" />
 <p><strong>Input/Output Model</strong>: Users provide <strong>input</strong> (keyboard, mouse, touch, voice) and the system provides <strong>output</strong> (screen display, sound, haptic feedback). The quality of this loop determines user experience.</p>
 <p><strong>HCI Evaluation Criteria</strong>: <strong>Learnability</strong> (how easy to learn), <strong>Efficiency</strong> (how fast tasks can be done), <strong>Memorability</strong> (how easy to remember), <strong>Error handling</strong> (how errors are prevented and recovered), and <strong>Satisfaction</strong> (how pleasant the experience is).</p>
 <p>Key HCI concepts include <strong>cognitive load</strong>, <strong>Fitts&rsquo;s Law</strong> (time to reach a target), and <strong>Hick&rsquo;s Law</strong> (decision time increases with choices).</p>
@@ -98,6 +100,7 @@
 <div class="text-content-card">
 <h3>Interaction Models <span class="tc-badge">3/7</span></h3>
 <p><strong>WIMP</strong> (Windows, Icons, Menus, Pointer) &mdash; The traditional desktop paradigm. Still dominant in desktop computing but being supplemented by newer models.</p>
+<img src="/images/ui-ux/interaction-models.svg" alt="Interaction Models" />
 <p><strong>NUI</strong> (Natural User Interface) &mdash; Intuitive interfaces that feel natural to use. Includes touch, gesture, and voice interaction. Examples: smartphones, Microsoft Kinect.</p>
 <p><strong>Conversational UI</strong> &mdash; Interface based on natural language. Includes chatbots, voice assistants (Alexa, Siri), and messaging-based interactions.</p>
 <p><strong>Spatial UI</strong> &mdash; Emerging paradigm for AR/VR environments. Users interact with 3D objects in virtual or augmented spaces using gaze, gesture, and controller input.</p>
@@ -107,6 +110,7 @@
 <div class="text-content-card">
 <h3>User Actions & Feedback <span class="tc-badge">4/7</span></h3>
 <p><strong>Click</strong> &mdash; The fundamental action for desktop interfaces. Includes single click, double-click, and right-click. Each has distinct behaviors and expectations.</p>
+<img src="/images/ui-ux/user-actions.svg" alt="User Actions and Feedback" />
 <p><strong>Hover</strong> &mdash; Provides preview information without commitment. Reveals tooltips, dropdown menus, and interactive states. Not available on touch devices.</p>
 <p><strong>Scroll</strong> &mdash; Vertical and horizontal navigation through content. Infinite scroll vs. pagination &mdash; each has trade-offs for different content types.</p>
 <p><strong>Gesture</strong> &mdash; Touch-based actions: tap, swipe, pinch, long-press, rotate. Critical for mobile design. Must be discoverable and have clear feedback.</p>
@@ -116,6 +120,7 @@
 <div class="text-content-card">
 <h3>Affordances & Signifiers <span class="tc-badge">5/7</span></h3>
 <p><strong>Affordance</strong> (Don Norman) &mdash; A relationship between an object and a person that determines possible actions. A button <em>affords</em> pressing; a handle <em>affords</em> pulling.</p>
+<img src="/images/ui-ux/affordances.svg" alt="Affordances and Signifiers" />
 <p><strong>Perceived Affordance</strong> &mdash; What the user <em>thinks</em> they can do with an object. A screen button may look clickable but have no physical affordance. Design must communicate affordances visually.</p>
 <p><strong>Signifier</strong> &mdash; A visual or auditory cue that communicates where action should take place. Arrows, underlined text, shadows, and color changes all serve as signifiers.</p>
 <p>The gap between <strong>affordance</strong> and <strong>perceived affordance</strong> is where many design failures occur. Good signifiers bridge this gap by clearly communicating what actions are possible.</p>
@@ -125,6 +130,7 @@
 <div class="text-content-card">
 <h3>Error Prevention & Recovery <span class="tc-badge">6/7</span></h3>
 <p><strong>Prevention over correction</strong> &mdash; It is better to design interfaces that prevent errors from occurring than to provide recovery mechanisms after errors happen.</p>
+<img src="/images/ui-ux/error-handling.svg" alt="Error Prevention and Recovery" />
 <p><strong>Undo</strong> &mdash; The most powerful error recovery mechanism. Gmail&rsquo;s &ldquo;Undo Send&rdquo; and Ctrl+Z in most applications give users confidence to explore.</p>
 <p><strong>Confirmation dialogs</strong> &mdash; Use for destructive actions (delete, discard changes). But avoid overuse &mdash; too many confirmations create &ldquo;dialog fatigue&rdquo; where users click without reading.</p>
 <p><strong>Graceful error handling</strong> &mdash; When errors do occur, provide clear, friendly messages that explain what happened and how to fix it. Avoid technical jargon like &ldquo;Error 404&rdquo; &mdash; instead say &ldquo;Page not found. Check the URL or go back to the homepage.&rdquo;</p>

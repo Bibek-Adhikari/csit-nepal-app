@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="16" fill="url(#bgGrad)" stroke="#475569" stroke-width="2" />
+
+  <text x="40" y="45" font-family="system-ui, sans-serif" font-weight="700" fill="#f8fafc" font-size="22">Interaction Design Basics</text>
+  <text x="40" y="68" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="13">Core principles that guide interactive behavior</text>
+
+  <!-- Visibility -->
+  <rect x="40" y="95" width="160" height="130" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
+  <circle cx="120" cy="125" r="16" fill="#3b82f6" />
+  <text x="120" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">V</text>
+  <text x="120" y="160" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#60a5fa" font-size="13">Visibility</text>
+  <text x="120" y="185" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Important functions</text>
+  <text x="120" y="202" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">are visible</text>
+
+  <!-- Feedback -->
+  <rect x="240" y="95" width="160" height="130" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+  <circle cx="320" cy="125" r="16" fill="#10b981" />
+  <text x="320" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">F</text>
+  <text x="320" y="160" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#34d399" font-size="13">Feedback</text>
+  <text x="320" y="185" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">System responds</text>
+  <text x="320" y="202" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">to actions</text>
+
+  <!-- Consistency -->
+  <rect x="440" y="95" width="160" height="130" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
+  <circle cx="520" cy="125" r="16" fill="#f59e0b" />
+  <text x="520" y="130" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">C</text>
+  <text x="520" y="160" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fbbf24" font-size="13">Consistency</text>
+  <text x="520" y="185" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Similar operations</text>
+  <text x="520" y="202" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">have similar results</text>
+
+  <!-- Constraints -->
+  <rect x="40" y="255" width="160" height="130" rx="10" fill="#0f172a" stroke="#ec4899" stroke-width="1.5" />
+  <circle cx="120" cy="285" r="16" fill="#ec4899" />
+  <text x="120" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#fff" font-size="14">L</text>
+  <text x="120" y="315" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#f472b6" font-size="13">Constraints</text>
+  <text x="120" y="340" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">Limit possible</text>
+  <text x="120" y="357" text-anchor="middle" font-family="system-ui, sans-serif" fill="#94a3b8" font-size="10">actions</text>
+
+  <!-- Goals -->
+  <rect x="240" y="255" width="360" height="130" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5" />
+  <text x="420" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" fill="#a78bfa" font-size="14">Goals of Interaction Design</text>
+  <text x="420" y="315" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="12">Effective — Users achieve objectives efficiently</text>
+  <text x="420" y="338" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="12">Efficient — Tasks can be completed quickly</text>
+  <text x="420" y="361" text-anchor="middle" font-family="system-ui, sans-serif" fill="#cbd5e1" font-size="12">Satisfying — The experience is enjoyable</text>
+</svg>
