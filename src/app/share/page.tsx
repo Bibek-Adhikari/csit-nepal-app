@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -12,7 +12,7 @@ import type { PendingShare, SharedImage } from "@/lib/db";
 import { semesters } from "@/content/subjects";
 import type { SemesterKey } from "@/content/subjects";
 
-export default function SharePage() {
+function SharePageContent() {
   const searchParams = useSearchParams();
   const shared = searchParams.get("shared");
 
@@ -244,5 +244,18 @@ export default function SharePage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function SharePage() {
+  return (
+    <Suspense fallback={
+      <section className="welcome-hero">
+        <h1>Shared Images</h1>
+        <p>Loading shared files...</p>
+      </section>
+    }>
+      <SharePageContent />
+    </Suspense>
   );
 }
