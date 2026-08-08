@@ -16,6 +16,7 @@ interface BeforeInstallPromptEvent extends Event {
 export function ServiceWorkerRegister() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstall, setShowInstall] = useState(false);
   const [installDismissed, setInstallDismissed] = useState(false);
@@ -28,13 +29,9 @@ export function ServiceWorkerRegister() {
       navigator.storage.persist().then(() => {});
     }
 
-    let registration: ServiceWorkerRegistration | null = null;
-
     navigator.serviceWorker
       .register("/sw.js")
       .then((reg) => {
-        registration = reg;
-
         if (reg.waiting) {
           setUpdateAvailable(true);
         }
@@ -52,6 +49,11 @@ export function ServiceWorkerRegister() {
       })
       .catch(() => {});
 
+    const handleControllerChange = () => {
+      window.location.reload();
+    };
+    navigator.serviceWorker.addEventListener("controllerchange", handleControllerChange);
+
     navigator.serviceWorker.addEventListener("message", (event) => {
       if (event.data?.type === "SYNC_BOOKMARKS") {
         window.dispatchEvent(new Event("sw-sync-bookmarks"));
@@ -64,7 +66,10 @@ export function ServiceWorkerRegister() {
       }
     });
 
-    }, [updateAvailable]);
+    return () => {
+      navigator.serviceWorker.removeEventListener("controllerchange", handleControllerChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
@@ -122,6 +127,15 @@ export function ServiceWorkerRegister() {
     }
   }, [updateAvailable, dismissed]);
 
+  const handleUpdate = useCallback(() => {
+    setUpdating(true);
+    navigator.serviceWorker.getRegistration().then((reg) => {
+      if (reg?.waiting) {
+        reg.waiting.postMessage({ type: "SKIP_WAITING" });
+      }
+    });
+  }, []);
+
   const handleInstall = useCallback(async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
@@ -144,12 +158,16 @@ export function ServiceWorkerRegister() {
     <>
       {updateAvailable && !dismissed && (
         <div className="sw-update-toast" role="alert">
-          <span>A new version is available.</span>
-          <button onClick={() => window.location.reload()}>Refresh</button>
+          <span>{updating ? "Updating..." : "New version available"}</span>
+          {!updating && (
+            <button onClick={handleUpdate} className="sw-update-btn">
+              Update
+            </button>
+          )}
           <button
             onClick={() => setDismissed(true)}
             aria-label="Dismiss"
-            style={{ padding: "0.25rem", borderRadius: 6, border: "none", background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: "0.9rem", cursor: "pointer", lineHeight: 1 }}
+            className="sw-update-dismiss"
           >
             ×
           </button>
