@@ -149,7 +149,7 @@ export default async function SubjectPage({
             {solutionNotes.map((item) => (
               <Link
                 key={item.href}
-                href={`/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}&semester=${encodeURIComponent(semester)}&subject=${encodeURIComponent(subject)}`}
+                href={`/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}&semester=${encodeURIComponent(semester)}&subject=${encodeURIComponent(subject)}&returnTo=/subjects/${semester}/${subject}`}
                 className="app-card"
                 style={{
                   textDecoration: "none",
