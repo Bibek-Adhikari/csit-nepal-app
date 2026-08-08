@@ -5,7 +5,6 @@ import { semesters } from "@/content/subjects";
 import { getTotalUnits } from "@/lib/progress";
 import { BackNav } from "@/components/back-nav";
 import { getBookmarkedPDFs } from "@/lib/db";
-import ImageGallery from "@/components/image-gallery";
 import Link from "next/link";
 
 const storageKey = "bca-nepal-completed-units";
@@ -15,7 +14,6 @@ export default function ProfilePage() {
   const [completedUnits, setCompletedUnits] = useState<string[]>([]);
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [sharedCount, setSharedCount] = useState(0);
-  const [showSharedImages, setShowSharedImages] = useState(false);
   const [defaultSemester, setDefaultSemester] = useState("");
   const [showAndroid, setShowAndroid] = useState(false);
   const [showIos, setShowIos] = useState(false);
@@ -124,7 +122,7 @@ export default function ProfilePage() {
 
       <h3 className="section-headline">BCA Gallery</h3>
       <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
-        <div className="app-card" style={{ cursor: "pointer" }} onClick={() => setShowSharedImages(!showSharedImages)}>
+        <Link href="/gallery" className="app-card" style={{ textDecoration: "none", color: "inherit" }}>
           <div className="card-left">
             <span className="card-code">Gallery</span>
             <span className="card-title">
@@ -134,13 +132,12 @@ export default function ProfilePage() {
             </span>
             <span className="card-meta-inline">
               {sharedCount > 0
-                ? "Tap to view with lightbox"
+                ? "Tap to view gallery"
                 : "Share images from your gallery to BCA Nepal"}
             </span>
           </div>
-          <i className={`bx bx-chevron-${showSharedImages ? "up" : "down"} card-chevron`}></i>
-        </div>
-        {showSharedImages && <ImageGallery onCountChange={setSharedCount} />}
+          <i className="bx bx-chevron-right card-chevron"></i>
+        </Link>
       </div>
 
       <h3 className="section-headline">Preferences</h3>

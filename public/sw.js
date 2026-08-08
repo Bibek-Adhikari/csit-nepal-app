@@ -47,6 +47,7 @@ const PRECACHE_URLS = [
   "/terms-and-conditions",
   "/view-pdf",
   "/share",
+  "/gallery",
   "/offline",
   "/offline.html",
   "/manifest.json",
