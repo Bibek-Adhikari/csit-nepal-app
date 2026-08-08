@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       file_path: filePath,
       file_size: (body.fileSize as number) || 0,
       mime_type: (body.fileType as string) || "application/pdf",
-      format: format as "pdf" | "handwritten",
+      format: format as "pdf" | "handwritten" | "solution",
       bucket,
       semester_key: folder.split("/")[0] || "",
       subject_slug: folder.split("/")[1] || "",

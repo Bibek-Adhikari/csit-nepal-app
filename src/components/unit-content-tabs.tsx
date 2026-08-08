@@ -25,6 +25,8 @@ interface UnitContentTabsProps {
   subjectTitle: string;
   pdfSection: ReactNode;
   comingSoonSection: ReactNode;
+  solutionsNotes?: NoteItem[];
+  solutionsSection?: ReactNode;
 }
 
 export function UnitContentTabs({
@@ -38,11 +40,14 @@ export function UnitContentTabs({
   subjectTitle,
   pdfSection,
   comingSoonSection,
+  solutionsNotes = [],
+  solutionsSection,
 }: UnitContentTabsProps) {
-  const [active, setActive] = useState<"pdfs" | "content">("pdfs");
+  const [active, setActive] = useState<"pdfs" | "content" | "solutions">("pdfs");
 
   const hasPdfs = pdfNotes.length > 0 || handwrittenNotes.length > 0;
   const hasContent = !!textContent;
+  const hasSolutions = solutionsNotes.length > 0;
 
   useEffect(() => {
     if (active === "content" && hasContent && typeof window !== "undefined" && window.Prism) {
@@ -67,6 +72,15 @@ export function UnitContentTabs({
           >
             <i className="bx bxs-book-reader"></i>
             Content
+          </button>
+        )}
+        {hasSolutions && (
+          <button
+            className={`subnav-link${active === "solutions" ? " active" : ""}`}
+            onClick={() => setActive("solutions")}
+          >
+            <i className="bx bxs-badge-check"></i>
+            Solutions
           </button>
         )}
         <Link
@@ -99,6 +113,8 @@ export function UnitContentTabs({
           />
         </section>
       )}
+
+      {active === "solutions" && hasSolutions && solutionsSection}
     </>
   );
 }

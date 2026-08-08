@@ -87,7 +87,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
     notFound();
   }
 
-  const supabaseNotes: { pdf: NoteItem[]; handwritten: NoteItem[] } = { pdf: [], handwritten: [] };
+  const supabaseNotes: { pdf: NoteItem[]; handwritten: NoteItem[]; solutions: NoteItem[] } = { pdf: [], handwritten: [], solutions: [] };
 
   try {
     const supabase = getSupabaseServer();
@@ -124,24 +124,32 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
 
         let title: string;
         let href: string;
-        let format: "pdf" | "handwritten";
+        let format: "pdf" | "handwritten" | "solution";
 
         if (dbNote) {
           title = dbNote.title || formatNoteTitle(file.name);
           href = dbNote.public_url;
-          format = dbNote.format as "pdf" | "handwritten";
+          format = dbNote.format as "pdf" | "handwritten" | "solution";
         } else {
           const { data: urlData } = supabase.storage.from("notes").getPublicUrl(fullPath);
           title = formatNoteTitle(file.name);
           href = urlData.publicUrl;
           const lowerName = file.name.toLowerCase();
-          format = (lowerName.includes("handwritten") || lowerName.includes("hw")) ? "handwritten" : "pdf";
+          if (lowerName.includes("solution") || lowerName.includes("exam") || lowerName.includes("answer")) {
+            format = "solution";
+          } else if (lowerName.includes("handwritten") || lowerName.includes("hw")) {
+            format = "handwritten";
+          } else {
+            format = "pdf";
+          }
         }
 
         const noteItem: NoteItem = { title, href };
 
         if (format === "handwritten") {
           supabaseNotes.handwritten.push(noteItem);
+        } else if (format === "solution") {
+          supabaseNotes.solutions.push(noteItem);
         } else {
           supabaseNotes.pdf.push(noteItem);
         }
@@ -153,6 +161,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
 
   const pdfNotes = [...unitData.notes.pdf, ...supabaseNotes.pdf];
   const handwrittenNotes = [...unitData.notes.handwritten, ...supabaseNotes.handwritten];
+  const solutionNotes = [...supabaseNotes.solutions];
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.vercel.app";
 
@@ -225,6 +234,22 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
               <span>Notes for this unit are being prepared &mdash; check back soon!</span>
             </div>
           </section>
+        }
+        solutionsNotes={solutionNotes}
+        solutionsSection={
+          solutionNotes.length > 0 ? (
+            <section id="unit-solutions" className="unit-notes-section">
+              <h3 className="section-headline">
+                <i className="bx bxs-badge-check" style={{ marginRight: "0.35rem", color: "var(--primary)" }}></i>
+                Exam Paper Solutions
+              </h3>
+              <div className="unit-notes-list">
+                {solutionNotes.map((item: NoteItem) => (
+                  <NoteCard key={item.href} item={item} type="pdf" semester={semester} subject={subject} unit={unit} />
+                ))}
+              </div>
+            </section>
+          ) : undefined
         }
       />
 

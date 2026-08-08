@@ -3,6 +3,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSemester, getSubject, semesters, type SemesterKey } from "@/content/subjects";
 import { BackNav } from "@/components/back-nav";
+import { getSupabaseServer } from "@/lib/supabase";
+
+interface NoteItem {
+  title: string;
+  href: string;
+  unitSlug: string;
+}
 
 export function generateStaticParams() {
   return semesters.flatMap((semester) =>
@@ -36,6 +43,27 @@ export default async function SubjectPage({
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.vercel.app";
+
+  let solutionNotes: NoteItem[] = [];
+  try {
+    const supabase = getSupabaseServer();
+    const { data: solutions } = await supabase
+      .from("notes")
+      .select("title, public_url, unit_slug")
+      .eq("semester_key", semester)
+      .eq("subject_slug", subject)
+      .eq("format", "solution");
+
+    if (solutions) {
+      solutionNotes = solutions.map((s: { title: string; public_url: string; unit_slug: string }) => ({
+        title: s.title || "Exam Solution",
+        href: s.public_url,
+        unitSlug: s.unit_slug,
+      }));
+    }
+  } catch (err) {
+    console.error("Failed to fetch solutions:", err);
+  }
 
   return (
     <>
@@ -113,6 +141,34 @@ export default async function SubjectPage({
           <i className="bx bx-chevron-right card-chevron"></i>
         </Link>
       </div>
+
+      {solutionNotes.length > 0 && (
+        <>
+          <h3 className="section-headline">Exam Paper Solutions</h3>
+          <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
+            {solutionNotes.map((item) => (
+              <Link
+                key={item.href}
+                href={`/view-pdf?url=${encodeURIComponent(item.href)}&title=${encodeURIComponent(item.title)}&semester=${encodeURIComponent(semester)}&subject=${encodeURIComponent(subject)}`}
+                className="app-card"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div className="card-left">
+                  <span className="card-code">SOLUTION</span>
+                  <span className="card-title">{item.title}</span>
+                </div>
+                <i className="bx bx-chevron-right card-chevron"></i>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
 
       {subjectData.labReports.length > 0 && (
         <>
