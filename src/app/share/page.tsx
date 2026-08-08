@@ -11,6 +11,7 @@ import {
 import type { PendingShare, SharedImage } from "@/lib/db";
 import { semesters } from "@/content/subjects";
 import type { SemesterKey } from "@/content/subjects";
+import ImageGallery from "@/components/image-gallery";
 
 function SharePageContent() {
   const searchParams = useSearchParams();
@@ -86,17 +87,12 @@ function SharePageContent() {
       <>
         <section className="welcome-hero">
           <h1>Images Saved!</h1>
-          <p>Your shared images have been saved to the selected subject&apos;s notes.</p>
+          <p>Tap any image to view fullscreen. Your images are stored locally.</p>
         </section>
+        <div style={{ padding: "0 1rem 1.5rem" }}>
+          <ImageGallery />
+        </div>
         <div style={{ padding: "0 1rem 1.5rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          <Link
-            href="/profile"
-            className="unit-note-card"
-            style={{ textDecoration: "none", color: "inherit", justifyContent: "center" }}
-          >
-            <i className="bx bx-user" style={{ color: "var(--primary)" }}></i>
-            <span className="unit-note-title">View in Profile</span>
-          </Link>
           <Link
             href="/"
             className="unit-note-card"
