@@ -81,7 +81,15 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
       delete next[id];
       return next;
     });
-  }, []);
+    if (fullscreen) {
+      const remaining = images.filter((img) => img.id !== id);
+      if (remaining.length === 0) {
+        setFullscreen(false);
+      } else if (activeIndex >= remaining.length) {
+        setActiveIndex(remaining.length - 1);
+      }
+    }
+  }, [fullscreen, images, activeIndex]);
 
   const open = (index: number) => { setActiveIndex(index); setFullscreen(true); };
   const prev = () => setActiveIndex((i) => Math.max(0, i - 1));
@@ -196,7 +204,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
         </div>
       )}
 
-      {fullscreen && filtered.length > 0 &&
+      {fullscreen && filtered.length > 0 && activeIndex < filtered.length &&
         createPortal(
           <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}>
             <div className="gallery-top-bar">
