@@ -4198,13 +4198,15 @@ body.gallery-fullscreen .app-main {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99999;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 2147483647;
   background: #000;
   display: flex;
   flex-direction: column;
   overscroll-behavior: none;
+  contain: strict;
 }
 
 .gallery-top-bar {
@@ -4251,6 +4253,7 @@ body.gallery-fullscreen .app-main {
   position: relative;
   overflow: hidden;
   min-height: 0;
+  width: 100%;
 }
 
 .gallery-image-wrap {
@@ -4258,19 +4261,23 @@ body.gallery-fullscreen .app-main {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 100%;
-  padding: 8px 56px;
+  padding: 0 56px;
   box-sizing: border-box;
+  min-height: 0;
 }
 
 .gallery-full-img {
-  max-width: 100%;
+  max-width: calc(100vw - 112px);
   max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
-  transition: transform 0.2s ease;
+  pointer-events: none;
 }
 
 .gallery-nav {
