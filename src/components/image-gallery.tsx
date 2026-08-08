@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { getSharedImages, deleteSharedImage } from "@/lib/db";
 import type { SharedImage } from "@/lib/db";
 import { semesters } from "@/content/subjects";
@@ -13,12 +12,11 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
   const [images, setImages] = useState<SharedImage[]>([]);
-  const [thumbnails, setThumbnails] = useState<Record<string, string>>({});
+  const [blobUrls, setBlobUrls] = useState<Record<string, string>>({});
   const [fullscreen, setFullscreen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [loadedThumbs, setLoadedThumbs] = useState<Set<string>>(new Set());
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const loadImages = useCallback(async () => {
@@ -28,125 +26,66 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
     onCountChange?.(imgs.length);
   }, [onCountChange]);
 
-  useEffect(() => {
-    loadImages();
-  }, [loadImages]);
+  useEffect(() => { loadImages(); }, [loadImages]);
 
   useEffect(() => {
-    if (fullscreen) {
-      document.body.classList.add("gallery-fullscreen");
-    } else {
-      document.body.classList.remove("gallery-fullscreen");
-    }
+    document.body.classList.toggle("gallery-fullscreen", fullscreen);
     return () => document.body.classList.remove("gallery-fullscreen");
   }, [fullscreen]);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const filteredImages = useMemo(
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (!fullscreen) return;
+      if (e.key === "ArrowLeft") setActiveIndex((i) => Math.max(0, i - 1));
+      if (e.key === "ArrowRight") setActiveIndex((i) => Math.min(filtered.length - 1, i + 1));
+      if (e.key === "Escape") setFullscreen(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [fullscreen]);
+
+  const filtered = useMemo(
     () => (selectedSubjects.length > 0 ? images.filter((img) => selectedSubjects.includes(img.subject)) : images),
     [images, selectedSubjects]
   );
 
   useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (!fullscreen) return;
-      if (e.key === "ArrowLeft") setActiveIndex((i) => Math.max(0, i - 1));
-      if (e.key === "ArrowRight") setActiveIndex((i) => Math.min(filteredImages.length - 1, i + 1));
-      if (e.key === "Escape") setFullscreen(false);
-    }
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [fullscreen, filteredImages.length]);
-
-  const createThumbnail = useCallback((img: SharedImage) => {
-    if (thumbnails[img.id] || loadedThumbs.has(img.id)) return;
-    setLoadedThumbs((prev) => new Set(prev).add(img.id));
-
-    if (img.blob.type === "image/svg+xml") {
-      const url = URL.createObjectURL(img.blob);
-      setThumbnails((prev) => ({ ...prev, [img.id]: url }));
-      return;
-    }
-
-    const url = URL.createObjectURL(img.blob);
-    const imgEl = new Image();
-    imgEl.onload = () => {
-      const canvas = document.createElement("canvas");
-      const maxSize = 200;
-      let w = imgEl.naturalWidth;
-      let h = imgEl.naturalHeight;
-      if (w > maxSize || h > maxSize) {
-        if (w > h) {
-          h = Math.round((h * maxSize) / w);
-          w = maxSize;
-        } else {
-          w = Math.round((w * maxSize) / h);
-          h = maxSize;
-        }
-      }
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      ctx?.drawImage(imgEl, 0, 0, w, h);
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            const thumbUrl = URL.createObjectURL(blob);
-            setThumbnails((prev) => ({ ...prev, [img.id]: thumbUrl }));
-          }
-          URL.revokeObjectURL(url);
-        },
-        "image/jpeg",
-        0.65
-      );
-    };
-    imgEl.onerror = () => {
-      URL.revokeObjectURL(url);
-    };
-    imgEl.src = url;
-  }, [thumbnails, loadedThumbs]);
-
-  useEffect(() => {
+    const urls: Record<string, string> = {};
     for (const img of images) {
-      createThumbnail(img);
+      urls[img.id] = URL.createObjectURL(img.blob);
     }
-  }, [images, createThumbnail]);
-
-  useEffect(() => {
+    setBlobUrls(urls);
     return () => {
-      for (const url of Object.values(thumbnails)) {
+      for (const url of Object.values(urls)) {
         URL.revokeObjectURL(url);
       }
     };
-  }, [thumbnails]);
+  }, [images]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = useCallback(async (id: string) => {
     await deleteSharedImage(id);
     setImages((prev) => prev.filter((img) => img.id !== id));
-    setThumbnails((prev) => {
+    setBlobUrls((prev) => {
+      if (prev[id]) URL.revokeObjectURL(prev[id]);
       const next = { ...prev };
-      if (next[id]) URL.revokeObjectURL(next[id]);
       delete next[id];
       return next;
     });
-  };
+  }, []);
 
-  const openFullscreen = (index: number) => {
-    setActiveIndex(index);
-    setFullscreen(true);
-  };
-
-  const goPrev = () => setActiveIndex((i) => Math.max(0, i - 1));
-  const goNext = () => setActiveIndex((i) => Math.min(filteredImages.length - 1, i + 1));
+  const open = (index: number) => { setActiveIndex(index); setFullscreen(true); };
+  const prev = () => setActiveIndex((i) => Math.max(0, i - 1));
+  const next = () => setActiveIndex((i) => Math.min(filtered.length - 1, i + 1));
 
   const toggleSubject = (slug: string) => {
     setSelectedSubjects((prev) =>
@@ -154,7 +93,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
     );
   };
 
-  const getSubjectLabel = (slug: string) => {
+  const label = (slug: string) => {
     for (const sem of semesters) {
       const sub = sem.subjects.find((s) => s.slug === slug);
       if (sub) return sub.title;
@@ -194,89 +133,25 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
     <>
       <div style={{ marginBottom: "0.5rem" }}>
         <div ref={dropdownRef} style={{ position: "relative" }}>
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            style={{
-              width: "100%",
-              padding: "0.5rem 0.75rem",
-              borderRadius: 10,
-              border: "1px solid var(--border)",
-              background: dropdownOpen ? "var(--bg-muted)" : "var(--bg-app)",
-              color: "var(--text)",
-              fontSize: "0.82rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={() => setDropdownOpen(!dropdownOpen)} className="gallery-filter-btn">
             <span style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
               <i className="bx bx-filter-alt" style={{ color: "var(--primary)", fontSize: 15 }}></i>
-              {selectedSubjects.length === 0
-                ? "Filter by subject"
-                : `${selectedSubjects.length} selected`}
+              {selectedSubjects.length === 0 ? "Filter by subject" : `${selectedSubjects.length} selected`}
             </span>
             <i className={`bx bx-chevron-${dropdownOpen ? "up" : "down"}`} style={{ fontSize: 14 }}></i>
           </button>
 
           {dropdownOpen && (
-            <div
-              style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                right: 0,
-                marginTop: 4,
-                borderRadius: 12,
-                border: "1px solid var(--border)",
-                background: "var(--bg-app)",
-                boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
-                zIndex: 50,
-                maxHeight: 300,
-                overflowY: "auto",
-              }}
-            >
+            <div className="gallery-dropdown">
               {semesters.map((sem) => (
                 <div key={sem.key}>
-                  <div
-                    style={{
-                      padding: "0.5rem 0.75rem 0.3rem",
-                      fontSize: "0.68rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      color: "var(--text-muted)",
-                      background: "var(--bg-muted)",
-                      position: "sticky",
-                      top: 0,
-                    }}
-                  >
-                    {sem.label}
-                  </div>
-                  {sem.subjects.map((sub) => {
-                    const isSelected = selectedSubjects.includes(sub.slug);
-                    return (
-                      <label
-                        key={sub.slug}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.55rem",
-                          padding: "0.5rem 0.75rem",
-                          cursor: "pointer",
-                          background: isSelected ? "var(--bg-muted)" : "transparent",
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => toggleSubject(sub.slug)}
-                          style={{ width: 15, height: 15, accentColor: "#2563eb" }}
-                        />
-                        <span style={{ fontSize: "0.78rem" }}>{sub.title}</span>
-                      </label>
-                    );
-                  })}
+                  <div className="gallery-dropdown-head">{sem.label}</div>
+                  {sem.subjects.map((sub) => (
+                    <label key={sub.slug} className={`gallery-dropdown-item${selectedSubjects.includes(sub.slug) ? " active" : ""}`}>
+                      <input type="checkbox" checked={selectedSubjects.includes(sub.slug)} onChange={() => toggleSubject(sub.slug)} />
+                      <span>{sub.title}</span>
+                    </label>
+                  ))}
                 </div>
               ))}
             </div>
@@ -284,170 +159,74 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
         </div>
 
         {selectedSubjects.length > 0 && (
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.4rem" }}>
+          <div className="gallery-chips">
             {selectedSubjects.map((slug) => (
-              <span
-                key={slug}
-                onClick={() => toggleSubject(slug)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.25rem",
-                  padding: "0.25rem 0.5rem",
-                  borderRadius: 999,
-                  background: "var(--primary)",
-                  color: "#fff",
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                {getSubjectLabel(slug).split(" ").slice(0, 2).join(" ")}
-                <i className="bx bx-x" style={{ fontSize: 11 }}></i>
+              <span key={slug} className="gallery-chip" onClick={() => toggleSubject(slug)}>
+                {label(slug).split(" ").slice(0, 2).join(" ")}
+                <i className="bx bx-x"></i>
               </span>
             ))}
-            <span
-              onClick={() => setSelectedSubjects([])}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "0.25rem 0.5rem",
-                borderRadius: 999,
-                background: "var(--bg-muted)",
-                color: "var(--text-muted)",
-                fontSize: "0.68rem",
-                cursor: "pointer",
-              }}
-            >
-              Clear
-            </span>
+            <span className="gallery-chip-clear" onClick={() => setSelectedSubjects([])}>Clear</span>
           </div>
         )}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))",
-          gap: 2,
-        }}
-      >
-        {filteredImages.map((img, index) => (
-          <div
-            key={img.id}
-            onClick={() => openFullscreen(index)}
-            style={{
-              position: "relative",
-              aspectRatio: "1",
-              background: "var(--bg-muted)",
-              cursor: "pointer",
-              borderRadius: 4,
-              overflow: "hidden",
-            }}
-          >
-            {thumbnails[img.id] ? (
+      <div className="gallery-grid">
+        {filtered.map((img, i) => (
+          <div key={img.id} onClick={() => open(i)} className="gallery-item">
+            {blobUrls[img.id] ? (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={thumbnails[img.id]}
-                  alt={img.name}
-                  loading="lazy"
-                  decoding="async"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <span
-                  onClick={(e) => { e.stopPropagation(); handleDelete(img.id); }}
-                  style={{
-                    position: "absolute",
-                    top: 2,
-                    right: 2,
-                    width: 18,
-                    height: 18,
-                    borderRadius: "50%",
-                    background: "rgba(0,0,0,0.5)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                  }}
-                  role="button"
-                  aria-label="Delete"
-                >
-                  <i className="bx bx-x" style={{ color: "#fff", fontSize: 10 }}></i>
-                </span>
+                <img src={blobUrls[img.id]} alt={img.name} loading="lazy" decoding="async" className="gallery-thumb" />
+                <button className="gallery-del" onClick={(e) => { e.stopPropagation(); handleDelete(img.id); }} aria-label="Delete">
+                  <i className="bx bx-x"></i>
+                </button>
               </>
             ) : (
-              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <i className="bx bx-image" style={{ color: "var(--text-muted)", fontSize: 18 }}></i>
-              </div>
+              <div className="gallery-placeholder"><i className="bx bx-image"></i></div>
             )}
           </div>
         ))}
       </div>
 
-      {filteredImages.length === 0 && selectedSubjects.length > 0 && (
+      {filtered.length === 0 && selectedSubjects.length > 0 && (
         <div className="empty-state" style={{ padding: "1.5rem 1rem" }}>
           <i className="bx bx-image" style={{ fontSize: "2rem", color: "var(--text-muted)" }}></i>
           <p>No images for selected subject{selectedSubjects.length > 1 ? "s" : ""}.</p>
         </div>
       )}
 
-      {fullscreen && filteredImages.length > 0 &&
+      {fullscreen && filtered.length > 0 &&
         createPortal(
-          <div
-            className="gallery-overlay"
-            onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}
-          >
+          <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}>
             <div className="gallery-top-bar">
-              <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}>
-                <i className="bx bx-arrow-back"></i>
-              </button>
-              <span className="gallery-counter">
-                {activeIndex + 1} / {filteredImages.length}
-              </span>
-              <button className="gallery-icon-btn" onClick={() => handleDelete(filteredImages[activeIndex].id)}>
-                <i className="bx bx-trash"></i>
-              </button>
+              <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}><i className="bx bx-arrow-back"></i></button>
+              <span className="gallery-counter">{activeIndex + 1} / {filtered.length}</span>
+              <button className="gallery-icon-btn" onClick={() => handleDelete(filtered[activeIndex].id)}><i className="bx bx-trash"></i></button>
             </div>
-
             <div
               className="gallery-swipe-area"
-              onTouchStart={(e) => {
-                (e.currentTarget as any)._startX = e.touches[0].clientX;
-              }}
+              onTouchStart={(e) => { (e.currentTarget as any)._sx = e.touches[0].clientX; }}
               onTouchEnd={(e) => {
-                const startX = (e.currentTarget as any)._startX;
-                if (!startX) return;
-                const diff = e.changedTouches[0].clientX - startX;
-                if (Math.abs(diff) > 50) {
-                  if (diff < 0) goNext();
-                  else goPrev();
-                }
-                (e.currentTarget as any)._startX = null;
+                const sx = (e.currentTarget as any)._sx;
+                if (!sx) return;
+                const diff = e.changedTouches[0].clientX - sx;
+                if (Math.abs(diff) > 50) { diff < 0 ? next() : prev(); }
+                (e.currentTarget as any)._sx = null;
               }}
             >
-              <button className="gallery-nav gallery-nav-prev" onClick={goPrev} disabled={activeIndex === 0}>
+              <button className="gallery-nav gallery-nav-prev" onClick={prev} disabled={activeIndex === 0}>
                 <i className="bx bx-chevron-left"></i>
               </button>
-
               <div className="gallery-image-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={thumbnails[filteredImages[activeIndex].id] || ""}
-                  alt={filteredImages[activeIndex].name}
-                  className="gallery-full-img"
-                  draggable={false}
-                />
+                <img src={blobUrls[filtered[activeIndex].id] || ""} alt={filtered[activeIndex].name} className="gallery-full-img" draggable={false} />
               </div>
-
-              <button className="gallery-nav gallery-nav-next" onClick={goNext} disabled={activeIndex === filteredImages.length - 1}>
+              <button className="gallery-nav gallery-nav-next" onClick={next} disabled={activeIndex === filtered.length - 1}>
                 <i className="bx bx-chevron-right"></i>
               </button>
             </div>
-
-            <div className="gallery-bottom-bar">
-              <span className="gallery-filename">{filteredImages[activeIndex].name}</span>
-            </div>
+            <div className="gallery-bottom-bar"><span className="gallery-filename">{filtered[activeIndex].name}</span></div>
           </div>,
           document.body
         )}
