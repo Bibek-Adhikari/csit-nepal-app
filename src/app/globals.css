@@ -4263,56 +4263,18 @@ body.gallery-fullscreen .app-main {
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 0 56px;
   box-sizing: border-box;
   min-height: 0;
 }
 
 .gallery-full-img {
-  max-width: calc(100vw - 112px);
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 100%;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
   pointer-events: none;
-}
-
-.gallery-nav {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 52px;
-  background: rgba(255, 255, 255, 0.06);
-  border: none;
-  color: #fff;
-  font-size: 32px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  transition: background 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.gallery-nav:active {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.gallery-nav:disabled {
-  opacity: 0.2;
-  cursor: default;
-}
-
-.gallery-nav-prev {
-  left: 0;
-}
-
-.gallery-nav-next {
-  right: 0;
 }
 
 .gallery-bottom-bar {

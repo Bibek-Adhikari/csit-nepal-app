@@ -223,16 +223,10 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
                 (e.currentTarget as any)._sx = null;
               }}
             >
-              <button className="gallery-nav gallery-nav-prev" onClick={prev} disabled={activeIndex === 0}>
-                <i className="bx bx-chevron-left"></i>
-              </button>
               <div className="gallery-image-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={blobUrls[filtered[activeIndex].id] || ""} alt={filtered[activeIndex].name} className="gallery-full-img" draggable={false} />
               </div>
-              <button className="gallery-nav gallery-nav-next" onClick={next} disabled={activeIndex === filtered.length - 1}>
-                <i className="bx bx-chevron-right"></i>
-              </button>
             </div>
             <div className="gallery-bottom-bar"><span className="gallery-filename">{filtered[activeIndex].name}</span></div>
           </div>,
