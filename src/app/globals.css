@@ -4176,20 +4176,37 @@ html.dark .admin-badge-hw {
 body.gallery-fullscreen .site-nav,
 body.gallery-fullscreen .app-header,
 body.gallery-fullscreen .offline-banner,
-body.gallery-fullscreen .route-progress {
+body.gallery-fullscreen .route-progress,
+body.gallery-fullscreen .welcome-hero,
+body.gallery-fullscreen .section-headline,
+body.gallery-fullscreen .subject-stack,
+body.gallery-fullscreen .app-card,
+body.gallery-fullscreen .back-nav,
+body.gallery-fullscreen footer {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
 
 body.gallery-fullscreen {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: #000 !important;
 }
 
-body.gallery-fullscreen .app-main {
+body.gallery-fullscreen .app-shell,
+body.gallery-fullscreen .app-main,
+body.gallery-fullscreen main {
   padding: 0 !important;
-  min-height: 100svh;
+  margin: 0 !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  background: #000 !important;
 }
 
 /* ─── Gallery Overlay ──────────────────────────────────── */
