@@ -52,7 +52,7 @@ function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: nu
   );
 }
 
-export default function PdfViewer({ url, title, semester, subject, unit }: { url: string; title: string; semester: string; subject: string; unit: string }) {
+export default function PdfViewer({ url, title, semester, subject, unit, returnTo }: { url: string; title: string; semester: string; subject: string; unit: string; returnTo?: string }) {
   const router = useRouter();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -67,6 +67,18 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackingRef = useRef(false);
   const pdfId = url;
+
+  const goBack = () => {
+    if (returnTo) {
+      router.replace(returnTo);
+      return;
+    }
+    if (semester && subject && unit) {
+      router.replace(`/notes/${semester}/${subject}/${unit}`);
+    } else {
+      router.back();
+    }
+  };
 
   useEffect(() => {
     setPageWidth(Math.min(window.innerWidth - 16, 800));
@@ -169,7 +181,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   if (dlState === "error" || (dlState === "none" && loadError)) {
     return (
       <div className="pdf-viewer-root">
-        <button className="pdf-viewer-back" onClick={() => router.push(semester && subject && unit ? `/notes/${semester}/${subject}/${unit}` : "/subjects")} aria-label="Go back">
+        <button className="pdf-viewer-back" onClick={goBack} aria-label="Go back">
           <i className="bx bx-arrow-back"></i>
         </button>
         <div className="empty-state" style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
@@ -183,7 +195,7 @@ export default function PdfViewer({ url, title, semester, subject, unit }: { url
   return (
     <div className="pdf-viewer-root">
       <div className="pdf-viewer-top-bar">
-        <button className="pdf-viewer-back" onClick={() => router.push(semester && subject && unit ? `/notes/${semester}/${subject}/${unit}` : "/subjects")} aria-label="Go back">
+        <button className="pdf-viewer-back" onClick={goBack} aria-label="Go back">
           <i className="bx bx-arrow-back"></i>
         </button>
         {numPages > 0 && <span className="pdf-viewer-page-info">{currentPage} / {numPages}</span>}

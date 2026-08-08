@@ -33,7 +33,13 @@ function ViewPdfContent() {
     <>
       <nav className="back-nav">
         <button
-          onClick={() => router.push(backUrl)}
+          onClick={() => {
+            if (returnTo) {
+              router.replace(returnTo);
+            } else {
+              router.back();
+            }
+          }}
           className="back-nav-link"
           style={{ background: "none", border: "none", cursor: "pointer" }}
         >
@@ -41,7 +47,7 @@ function ViewPdfContent() {
           <span>{title}</span>
         </button>
       </nav>
-      <PdfViewer url={url} title={title} semester={semester} subject={subject} unit={unit} />
+      <PdfViewer url={url} title={title} semester={semester} subject={subject} unit={unit} returnTo={returnTo} />
     </>
   );
 }
