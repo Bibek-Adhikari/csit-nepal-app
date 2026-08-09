@@ -259,27 +259,22 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         </div>
       </div>
 
-      {menuOpen && cropPreview && (
-        <div className="gallery-menu">
-          <button className="gallery-menu-btn" onClick={undoCrop}>
-            <i className="bx bx-undo"></i> Undo Crop
-          </button>
-          <button className="gallery-menu-btn gallery-menu-save" onClick={saveCrop}>
-            <i className="bx bx-check"></i> Save Changes
-          </button>
-        </div>
-      )}
-
       <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         {cropPreview ? (
           <div className="gallery-compare">
-            <div className="gallery-compare-half">
-              <span className="gallery-compare-label">Original</span>
-              <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-compare-img" draggable={false} />
+            <div className="gallery-compare-row">
+              <div className="gallery-compare-half">
+                <span className="gallery-compare-label">Original</span>
+                <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-compare-img" draggable={false} />
+              </div>
+              <div className="gallery-compare-half">
+                <span className="gallery-compare-label">Cropped</span>
+                <img src={cropPreview} alt="" className="gallery-compare-img" draggable={false} />
+              </div>
             </div>
-            <div className="gallery-compare-half">
-              <span className="gallery-compare-label">Cropped</span>
-              <img src={cropPreview} alt="" className="gallery-compare-img" draggable={false} />
+            <div className="gallery-compare-actions">
+              <button className="gallery-compare-btn" onClick={undoCrop}>Undo Crop</button>
+              <button className="gallery-compare-btn gallery-compare-btn-apply" onClick={saveCrop}>Save Changes</button>
             </div>
           </div>
         ) : cropping ? (
