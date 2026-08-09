@@ -4338,6 +4338,60 @@ body.gallery-fullscreen main {
   max-width: 100%;
 }
 
+.gallery-menu {
+  position: absolute;
+  top: 52px;
+  right: 0.5rem;
+  background: rgba(20, 20, 20, 0.95);
+  border-radius: 12px;
+  padding: 0.5rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 160px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.gallery-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.gallery-menu-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.gallery-menu-btn i {
+  font-size: 16px;
+}
+
+.gallery-menu-save {
+  background: #2563eb;
+  margin-top: 0.2rem;
+}
+
+.gallery-menu-save:hover {
+  background: #1d4ed8 !important;
+}
+
 /* ─── Gallery Grid & Items ─────────────────────────────── */
 
 .gallery-grid {

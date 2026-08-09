@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
-import { getSharedImages, deleteSharedImage } from "@/lib/db";
+import { getSharedImages, deleteSharedImage, saveSharedImages } from "@/lib/db";
 import type { SharedImage } from "@/lib/db";
 import { semesters } from "@/content/subjects";
 
@@ -22,8 +22,31 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   const slideRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
+  const [savedRotation, setSavedRotation] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const dragging = useRef(false);
   const pinchDist = useRef(0);
   const panStart = useRef({ x: 0, y: 0 });
+
+  const rotateCW = () => setRotation((r) => (r + 90) % 360);
+  const rotateCCW = () => setRotation((r) => (r - 90 + 360) % 360);
+  const undoRotation = () => setRotation(savedRotation);
+
+  const saveRotation = async () => {
+    setSaving(true);
+    const img = images[activeIndex];
+    const store = await getSharedImages();
+    const existing = store.find((s) => s.id === img.id);
+    if (existing) {
+      const updated = { ...existing, rotation };
+      await saveSharedImages([updated]);
+    }
+    setSavedRotation(rotation);
+    setSaving(false);
+    setMenuOpen(false);
+  };
 
   const handleScroll = useCallback(() => {
     if (trackRef.current && zoom === 1) {
@@ -35,6 +58,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   }, [activeIndex, images.length, onIndexChange, zoom]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    dragging.current = true;
     if (e.touches.length === 2) {
       pinchDist.current = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
@@ -65,6 +89,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   }, [zoom]);
 
   const handleTouchEnd = useCallback(() => {
+    dragging.current = false;
     if (zoom < 1) setZoom(1);
     if (zoom > 4) setZoom(4);
   }, [zoom]);
@@ -83,8 +108,27 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       <div className="gallery-top-bar">
         <button className="gallery-icon-btn" onClick={onClose}><i className="bx bx-arrow-back"></i></button>
         <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
+        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)}><i className="bx bx-rotate-right"></i></button>
         <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
       </div>
+
+      {menuOpen && (
+        <div className="gallery-menu">
+          <button className="gallery-menu-btn" onClick={rotateCCW}>
+            <i className="bx bx-rotate-left"></i> Rotate Left
+          </button>
+          <button className="gallery-menu-btn" onClick={rotateCW}>
+            <i className="bx bx-rotate-right"></i> Rotate Right
+          </button>
+          <button className="gallery-menu-btn" onClick={undoRotation} disabled={rotation === savedRotation}>
+            <i className="bx bx-undo"></i> Undo
+          </button>
+          <button className="gallery-menu-btn gallery-menu-save" onClick={saveRotation} disabled={rotation === savedRotation || saving}>
+            <i className="bx bx-check"></i> {saving ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      )}
+
       <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div
           ref={trackRef}
@@ -98,8 +142,8 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
                 ref={i === activeIndex ? slideRef : null}
                 className="gallery-img-inner"
                 style={i === activeIndex ? {
-                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-                  transition: zoom === 1 ? "transform 0.3s ease" : "none",
+                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom}) rotate(${rotation}deg)`,
+                  transition: (zoom === 1 && !dragging.current) ? "transform 0.3s ease" : "none",
                 } : undefined}
               >
                 <img src={blobUrls[img.id] || ""} alt={img.name} className="gallery-full-img" draggable={false} />
@@ -109,7 +153,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         </div>
       </div>
       <div className="gallery-bottom-bar">
-        <span className="gallery-filename">{images[activeIndex].name}</span>
+        <span className="gallery-filename">{images[activeIndex].name} {rotation !== 0 && `(${rotation}°)`}</span>
       </div>
     </div>
   );

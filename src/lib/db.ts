@@ -277,6 +277,7 @@ export interface SharedImage {
   semester: string;
   subject: string;
   savedAt: number;
+  rotation?: number;
 }
 
 export interface PendingShare {
