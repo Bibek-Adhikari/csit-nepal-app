@@ -194,7 +194,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   };
 
   const isRotated = rotation === 90 || rotation === 270;
-  const [imgSize, setImgSize] = useState({ w: 1, h: 1 });
+  const [rotScale, setRotScale] = useState(1);
 
   useEffect(() => {
     if (trackRef.current) {
@@ -203,16 +203,18 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   }, [activeIndex]);
 
   useEffect(() => {
+    if (!isRotated) { setRotScale(1); return; }
     const url = blobUrls[images[activeIndex]?.id];
     if (!url) return;
     const img = new Image();
-    img.onload = () => setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
+    img.onload = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const scale = Math.max(vw / img.naturalHeight, vh / img.naturalWidth);
+      setRotScale(scale);
+    };
     img.src = url;
-  }, [activeIndex, blobUrls]);
-
-  const rotScale = isRotated
-    ? Math.min(window.innerWidth / imgSize.h, window.innerHeight / imgSize.w)
-    : 1;
+  }, [isRotated, activeIndex, blobUrls]);
 
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
