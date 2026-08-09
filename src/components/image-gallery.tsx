@@ -26,6 +26,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   const [menuOpen, setMenuOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [cropping, setCropping] = useState(false);
+  const [cropPreview, setCropPreview] = useState<string | null>(null);
   const [cropArea, setCropArea] = useState({ x: 10, y: 10, w: 80, h: 80 });
   const cropStart = useRef({ x: 0, y: 0 });
   const pinchDist = useRef(0);
@@ -150,10 +151,9 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     activeHandle.current = null;
   };
 
-  const applyCrop = async () => {
+  const applyCrop = () => {
     const img = images[activeIndex];
-    const blob = img.blob;
-    const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(img.blob);
     const imageEl = new Image();
     imageEl.onload = () => {
       const canvas = document.createElement("canvas");
@@ -166,19 +166,31 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.drawImage(imageEl, cx, cy, cw, ch, 0, 0, cw, ch);
-        canvas.toBlob(async (newBlob) => {
-          if (newBlob) {
-            const updated = { ...img, blob: newBlob, name: `cropped_${img.name}` };
-            await saveSharedImages([updated]);
-            setCropping(false);
-            setMenuOpen(false);
-            window.location.reload();
-          }
-        }, "image/jpeg", 0.9);
+        const previewUrl = canvas.toDataURL("image/jpeg", 0.9);
+        setCropPreview(previewUrl);
+        setCropping(false);
+        setMenuOpen(true);
       }
       URL.revokeObjectURL(url);
     };
     imageEl.src = url;
+  };
+
+  const undoCrop = () => {
+    setCropPreview(null);
+    setMenuOpen(false);
+  };
+
+  const saveCrop = async () => {
+    if (!cropPreview) return;
+    const img = images[activeIndex];
+    const response = await fetch(cropPreview);
+    const newBlob = await response.blob();
+    const updated = { ...img, blob: newBlob, name: `cropped_${img.name}` };
+    await saveSharedImages([updated]);
+    setCropPreview(null);
+    setMenuOpen(false);
+    window.location.reload();
   };
 
   const isRotated = rotation === 90 || rotation === 270;
@@ -207,31 +219,40 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       <div className="gallery-top-bar">
         <button className="gallery-icon-btn" onClick={onClose}><i className="bx bx-arrow-back"></i></button>
         <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
-        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)}><i className="bx bx-cog"></i></button>
-        <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
+        <div className="gallery-top-bar-right">
+          <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate"><i className="bx bx-rotate-right"></i></button>
+          <button className="gallery-icon-btn" onClick={startCrop} title="Crop"><i className="bx bx-crop"></i></button>
+          <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)} title="Delete"><i className="bx bx-trash"></i></button>
+          {cropPreview && (
+            <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)} title="Options"><i className="bx bx-dots-vertical-rounded"></i></button>
+          )}
+        </div>
       </div>
 
-      <div className="gallery-top-bar-right">
-        <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate"><i className="bx bx-rotate-right"></i></button>
-        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)} title="Settings"><i className="bx bx-dots-vertical-rounded"></i></button>
-      </div>
-
-      {menuOpen && !cropping && (
+      {menuOpen && cropPreview && (
         <div className="gallery-menu">
-          <button className="gallery-menu-btn" onClick={startCrop}>
-            <i className="bx bx-crop"></i> Crop
+          <button className="gallery-menu-btn" onClick={undoCrop}>
+            <i className="bx bx-undo"></i> Undo Crop
           </button>
-          <button className="gallery-menu-btn" onClick={undoRotation} disabled={rotation === savedRotation}>
-            <i className="bx bx-undo"></i> Undo
-          </button>
-          <button className="gallery-menu-btn gallery-menu-save" onClick={saveRotation} disabled={rotation === savedRotation || saving}>
-            <i className="bx bx-check"></i> {saving ? "Saving..." : "Save Changes"}
+          <button className="gallery-menu-btn gallery-menu-save" onClick={saveCrop}>
+            <i className="bx bx-check"></i> Save Changes
           </button>
         </div>
       )}
 
       <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-        {cropping ? (
+        {cropPreview ? (
+          <div className="gallery-compare">
+            <div className="gallery-compare-half">
+              <span className="gallery-compare-label">Original</span>
+              <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-compare-img" draggable={false} />
+            </div>
+            <div className="gallery-compare-half">
+              <span className="gallery-compare-label">Cropped</span>
+              <img src={cropPreview} alt="" className="gallery-compare-img" draggable={false} />
+            </div>
+          </div>
+        ) : cropping ? (
           <div className="gallery-crop-container">
             <div className="gallery-crop-area" onTouchMove={handleCropTouchMove} onTouchEnd={handleCropTouchEnd}>
               <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-crop-img" draggable={false} />
