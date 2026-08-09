@@ -4318,6 +4318,15 @@ body.gallery-fullscreen main {
   transform-origin: center center;
 }
 
+.gallery-slide-rotated {
+  overflow: visible;
+}
+
+.gallery-slide-rotated .gallery-img-inner {
+  width: 100vh;
+  height: 100vw;
+}
+
 .gallery-full-img {
   width: 100%;
   height: 100%;

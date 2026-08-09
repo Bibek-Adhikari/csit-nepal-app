@@ -239,7 +239,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const scale = Math.max(vw / img.naturalHeight, vh / img.naturalWidth);
-      setRotScale(scale * 0.95);
+      setRotScale(scale);
     };
     img.src = url;
   }, [isRotated, activeIndex, blobUrls]);
@@ -296,7 +296,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
             style={{ scrollSnapType: zoom > 1 ? "none" : "x mandatory" }}
           >
             {images.map((img, i) => (
-              <div key={img.id} className="gallery-slide" onDoubleClick={handleDoubleClick}>
+              <div key={img.id} className={`gallery-slide${isRotated ? " gallery-slide-rotated" : ""}`} onDoubleClick={handleDoubleClick}>
                 <div
                   ref={i === activeIndex ? slideRef : undefined}
                   className="gallery-img-inner"
