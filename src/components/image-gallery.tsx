@@ -77,6 +77,10 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     }
   };
 
+  const w = typeof window !== "undefined" ? window.innerWidth : 375;
+  const progress = Math.min(Math.abs(offset) / w, 1);
+  const peekOpacity = progress * 0.9;
+
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="gallery-top-bar">
@@ -90,6 +94,18 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
+        {offset < 0 && activeIndex < images.length - 1 && (
+          <div className="gallery-peek gallery-peek-next" style={{ opacity: peekOpacity }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={blobUrls[images[activeIndex + 1].id] || ""} alt="" draggable={false} />
+          </div>
+        )}
+        {offset > 0 && activeIndex > 0 && (
+          <div className="gallery-peek gallery-peek-prev" style={{ opacity: peekOpacity }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={blobUrls[images[activeIndex - 1].id] || ""} alt="" draggable={false} />
+          </div>
+        )}
         <div
           className="gallery-image-wrap"
           style={{
