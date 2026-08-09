@@ -4295,11 +4295,22 @@ body.gallery-fullscreen main {
   justify-content: center;
   scroll-snap-align: center;
   scroll-snap-stop: always;
+  overflow: hidden;
+}
+
+.gallery-img-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform-origin: center center;
 }
 
 .gallery-full-img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;

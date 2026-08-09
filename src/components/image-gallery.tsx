@@ -19,21 +19,64 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   onDelete: (id: string) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-
-  const scrollTo = useCallback((index: number) => {
-    if (trackRef.current) {
-      trackRef.current.scrollTo({ left: index * window.innerWidth, behavior: "smooth" });
-    }
-  }, []);
+  const slideRef = useRef<HTMLDivElement>(null);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const pinchDist = useRef(0);
+  const panStart = useRef({ x: 0, y: 0 });
 
   const handleScroll = useCallback(() => {
-    if (trackRef.current) {
+    if (trackRef.current && zoom === 1) {
       const idx = Math.round(trackRef.current.scrollLeft / window.innerWidth);
       if (idx !== activeIndex && idx >= 0 && idx < images.length) {
         onIndexChange(idx);
       }
     }
-  }, [activeIndex, images.length, onIndexChange]);
+  }, [activeIndex, images.length, onIndexChange, zoom]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      pinchDist.current = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    } else if (e.touches.length === 1 && zoom > 1) {
+      panStart.current = { x: e.touches[0].clientX - pan.x, y: e.touches[0].clientY - pan.y };
+    }
+  }, [zoom, pan]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const newZoom = Math.min(Math.max(1, (dist / pinchDist.current) * zoom), 4);
+      setZoom(newZoom);
+      if (newZoom === 1) setPan({ x: 0, y: 0 });
+    } else if (e.touches.length === 1 && zoom > 1) {
+      e.preventDefault();
+      setPan({
+        x: e.touches[0].clientX - panStart.current.x,
+        y: e.touches[0].clientY - panStart.current.y,
+      });
+    }
+  }, [zoom]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (zoom < 1) setZoom(1);
+    if (zoom > 4) setZoom(4);
+  }, [zoom]);
+
+  const handleDoubleClick = useCallback(() => {
+    if (zoom > 1) {
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+    } else {
+      setZoom(2.5);
+    }
+  }, [zoom]);
 
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -42,15 +85,25 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
         <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
       </div>
-      <div className="gallery-swipe-area">
+      <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <div
           ref={trackRef}
           className="gallery-track"
           onScroll={handleScroll}
+          style={{ scrollSnapType: zoom > 1 ? "none" : "x mandatory" }}
         >
           {images.map((img, i) => (
-            <div key={img.id} className="gallery-slide">
-              <img src={blobUrls[img.id] || ""} alt={img.name} className="gallery-full-img" draggable={false} />
+            <div key={img.id} className="gallery-slide" onDoubleClick={handleDoubleClick}>
+              <div
+                ref={i === activeIndex ? slideRef : null}
+                className="gallery-img-inner"
+                style={i === activeIndex ? {
+                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                  transition: zoom === 1 ? "transform 0.3s ease" : "none",
+                } : undefined}
+              >
+                <img src={blobUrls[img.id] || ""} alt={img.name} className="gallery-full-img" draggable={false} />
+              </div>
             </div>
           ))}
         </div>
