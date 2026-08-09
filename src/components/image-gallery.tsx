@@ -182,6 +182,19 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   };
 
   const isRotated = rotation === 90 || rotation === 270;
+  const [imgSize, setImgSize] = useState({ w: 1, h: 1 });
+
+  useEffect(() => {
+    const url = blobUrls[images[activeIndex]?.id];
+    if (!url) return;
+    const img = new Image();
+    img.onload = () => setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
+    img.src = url;
+  }, [activeIndex, blobUrls]);
+
+  const rotScale = isRotated
+    ? Math.min(window.innerWidth / imgSize.h, window.innerHeight / imgSize.w)
+    : 1;
 
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -192,19 +205,17 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
       </div>
 
+      <div className="gallery-top-bar-right">
+        <button className="gallery-icon-btn" onClick={rotateCCW} title="Rotate Left"><i className="bx bx-rotate-left"></i></button>
+        <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate Right"><i className="bx bx-rotate-right"></i></button>
+        <button className="gallery-icon-btn" onClick={startCrop} title="Crop"><i className="bx bx-crop"></i></button>
+        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)} title="More"><i className="bx bx-dots-vertical-rounded"></i></button>
+      </div>
+
       {menuOpen && !cropping && (
         <div className="gallery-menu">
-          <button className="gallery-menu-btn" onClick={rotateCCW}>
-            <i className="bx bx-rotate-left"></i> Rotate Left
-          </button>
-          <button className="gallery-menu-btn" onClick={rotateCW}>
-            <i className="bx bx-rotate-right"></i> Rotate Right
-          </button>
           <button className="gallery-menu-btn" onClick={undoRotation} disabled={rotation === savedRotation}>
-            <i className="bx bx-undo"></i> Undo
-          </button>
-          <button className="gallery-menu-btn" onClick={startCrop}>
-            <i className="bx bx-crop"></i> Crop
+            <i className="bx bx-undo"></i> Undo Rotation
           </button>
           <button className="gallery-menu-btn gallery-menu-save" onClick={saveRotation} disabled={rotation === savedRotation || saving}>
             <i className="bx bx-check"></i> {saving ? "Saving..." : "Save Changes"}
@@ -244,9 +255,9 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
             {images.map((img, i) => (
               <div key={img.id} className="gallery-slide" onDoubleClick={handleDoubleClick}>
                 <div
-                  className={`gallery-img-inner${isRotated ? " gallery-img-rotated" : ""}`}
+                  className="gallery-img-inner"
                   style={i === activeIndex ? {
-                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom}) rotate(${rotation}deg)`,
+                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom * rotScale}) rotate(${rotation}deg)`,
                     transition: zoom === 1 ? "transform 0.3s ease" : "none",
                   } : undefined}
                 >
