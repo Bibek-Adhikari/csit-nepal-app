@@ -4295,7 +4295,7 @@ body.gallery-fullscreen main {
   justify-content: center;
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gallery-img-inner {
@@ -4308,6 +4308,11 @@ body.gallery-fullscreen main {
   transform-origin: center center;
 }
 
+.gallery-img-rotated {
+  width: 100vh;
+  height: 100vw;
+}
+
 .gallery-full-img {
   max-width: 100%;
   max-height: 100%;
@@ -4316,6 +4321,11 @@ body.gallery-fullscreen main {
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
   pointer-events: none;
+}
+
+.gallery-img-rotated .gallery-full-img {
+  max-width: 100vh;
+  max-height: 100vw;
 }
 
 .gallery-bottom-bar {

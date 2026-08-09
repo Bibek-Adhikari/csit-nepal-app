@@ -181,7 +181,6 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   };
 
   const isRotated = rotation === 90 || rotation === 270;
-  const rotScale = isRotated ? 0.7 : 1;
 
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -244,9 +243,9 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
             {images.map((img, i) => (
               <div key={img.id} className="gallery-slide" onDoubleClick={handleDoubleClick}>
                 <div
-                  className="gallery-img-inner"
+                  className={`gallery-img-inner${isRotated ? " gallery-img-rotated" : ""}`}
                   style={i === activeIndex ? {
-                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom * rotScale}) rotate(${rotation}deg)`,
+                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom}) rotate(${rotation}deg)`,
                     transition: zoom === 1 ? "transform 0.3s ease" : "none",
                   } : undefined}
                 >
