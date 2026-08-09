@@ -261,22 +261,12 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
 
       <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         {cropPreview ? (
-          <div className="gallery-compare">
-            <div className="gallery-compare-row">
-              <div className="gallery-compare-half">
-                <span className="gallery-compare-label">Original</span>
-                <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-compare-img" draggable={false} />
-              </div>
-              <div className="gallery-compare-half">
-                <span className="gallery-compare-label">Cropped</span>
-                <img src={cropPreview} alt="" className="gallery-compare-img" draggable={false} />
-              </div>
-            </div>
-            <div className="gallery-compare-actions">
-              <button className="gallery-compare-btn" onClick={undoCrop}>Undo Crop</button>
-              <button className="gallery-compare-btn gallery-compare-btn-apply" onClick={saveCrop}>Save Changes</button>
-            </div>
-          </div>
+          <CropCompare
+            originalSrc={blobUrls[images[activeIndex].id] || ""}
+            croppedSrc={cropPreview}
+            onUndo={undoCrop}
+            onSave={saveCrop}
+          />
         ) : cropping ? (
           <div className="gallery-crop-container">
             <div className="gallery-crop-area" onTouchMove={handleCropTouchMove} onTouchEnd={handleCropTouchEnd}>
@@ -324,6 +314,55 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       </div>
       <div className="gallery-bottom-bar">
         <span className="gallery-filename">{images[activeIndex].name}{rotation !== 0 && ` (${rotation}°)`}</span>
+      </div>
+    </div>
+  );
+}
+
+function CropCompare({ originalSrc, croppedSrc, onUndo, onSave }: {
+  originalSrc: string;
+  croppedSrc: string;
+  onUndo: () => void;
+  onSave: () => void;
+}) {
+  const [heights, setHeights] = useState({ orig: 50, cropped: 50 });
+
+  useEffect(() => {
+    const origImg = new Image();
+    origImg.onload = () => {
+      const cropImg = new Image();
+      cropImg.onload = () => {
+        const origAspect = origImg.naturalWidth / origImg.naturalHeight;
+        const cropAspect = cropImg.naturalWidth / cropImg.naturalHeight;
+        const vw = window.innerWidth;
+        const origHeight = vw / origAspect;
+        const cropHeight = vw / cropAspect;
+        const total = origHeight + cropHeight;
+        setHeights({
+          orig: Math.round((origHeight / total) * 100),
+          cropped: Math.round((cropHeight / total) * 100),
+        });
+      };
+      cropImg.src = croppedSrc;
+    };
+    origImg.src = originalSrc;
+  }, [originalSrc, croppedSrc]);
+
+  return (
+    <div className="gallery-compare">
+      <div className="gallery-compare-row">
+        <div className="gallery-compare-half" style={{ height: `${heights.orig}%` }}>
+          <span className="gallery-compare-label">Original</span>
+          <img src={originalSrc} alt="" className="gallery-compare-img" draggable={false} />
+        </div>
+        <div className="gallery-compare-half" style={{ height: `${heights.cropped}%` }}>
+          <span className="gallery-compare-label">Cropped</span>
+          <img src={croppedSrc} alt="" className="gallery-compare-img" draggable={false} />
+        </div>
+      </div>
+      <div className="gallery-compare-actions">
+        <button className="gallery-compare-btn" onClick={onUndo}>Undo Crop</button>
+        <button className="gallery-compare-btn gallery-compare-btn-apply" onClick={onSave}>Save Changes</button>
       </div>
     </div>
   );
