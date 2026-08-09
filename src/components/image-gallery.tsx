@@ -99,22 +99,54 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     setMenuOpen(false);
   };
 
+  const [activeHandle, setActiveHandle] = useState<string | null>(null);
+
   const startCrop = () => {
     setCropping(true);
     setMenuOpen(false);
-    setCropArea({ x: 15, y: 15, w: 70, h: 70 });
+    setCropArea({ x: 10, y: 10, w: 80, h: 80 });
   };
 
-  const handleCropDrag = (e: React.TouchEvent) => {
+  const handleCropTouchStart = (handle: string) => (e: React.TouchEvent) => {
+    e.stopPropagation();
+    setActiveHandle(handle);
+  };
+
+  const handleCropTouchMove = (e: React.TouchEvent) => {
+    if (!activeHandle) return;
+    e.stopPropagation();
     const touch = e.touches[0];
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = ((touch.clientX - rect.left) / rect.width) * 100;
     const y = ((touch.clientY - rect.top) / rect.height) * 100;
-    setCropArea((prev) => ({
-      ...prev,
-      x: Math.max(0, Math.min(x - prev.w / 2, 100 - prev.w)),
-      y: Math.max(0, Math.min(y - prev.h / 2, 100 - prev.h)),
-    }));
+
+    setCropArea((prev) => {
+      let { x: px, y: py, w, h } = prev;
+      const minSize = 10;
+
+      if (activeHandle.includes("right")) w = Math.max(minSize, Math.min(x - px, 100 - px));
+      if (activeHandle.includes("bottom")) h = Math.max(minSize, Math.min(y - py, 100 - py));
+      if (activeHandle.includes("left")) {
+        const newX = Math.max(0, Math.min(x, px + w - minSize));
+        w = w + px - newX;
+        px = newX;
+      }
+      if (activeHandle.includes("top")) {
+        const newY = Math.max(0, Math.min(y, py + h - minSize));
+        h = h + py - newY;
+        py = newY;
+      }
+      if (activeHandle === "move") {
+        px = Math.max(0, Math.min(x - w / 2, 100 - w));
+        py = Math.max(0, Math.min(y - h / 2, 100 - h));
+      }
+
+      return { x: px, y: py, w, h };
+    });
+  };
+
+  const handleCropTouchEnd = () => {
+    setActiveHandle(null);
   };
 
   const applyCrop = async () => {
@@ -182,13 +214,23 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
 
       <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         {cropping ? (
-          <div className="gallery-crop-area" onTouchMove={handleCropDrag}>
-            <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-crop-img" draggable={false} />
-            <div className="gallery-crop-overlay" style={{ left: `${cropArea.x}%`, top: `${cropArea.y}%`, width: `${cropArea.w}%`, height: `${cropArea.h}%` }}>
-              <div className="gallery-crop-handle" />
+          <div className="gallery-crop-container">
+            <div className="gallery-crop-area" onTouchMove={handleCropTouchMove} onTouchEnd={handleCropTouchEnd}>
+              <img src={blobUrls[images[activeIndex].id] || ""} alt="" className="gallery-crop-img" draggable={false} />
+              <div className="gallery-crop-overlay" style={{ left: `${cropArea.x}%`, top: `${cropArea.y}%`, width: `${cropArea.w}%`, height: `${cropArea.h}%` }}>
+                <div className="gallery-crop-handle gallery-crop-handle-top" onTouchStart={handleCropTouchStart("top")} />
+                <div className="gallery-crop-handle gallery-crop-handle-bottom" onTouchStart={handleCropTouchStart("bottom")} />
+                <div className="gallery-crop-handle gallery-crop-handle-left" onTouchStart={handleCropTouchStart("left")} />
+                <div className="gallery-crop-handle gallery-crop-handle-right" onTouchStart={handleCropTouchStart("right")} />
+                <div className="gallery-crop-handle gallery-crop-handle-tl" onTouchStart={handleCropTouchStart("top-left")} />
+                <div className="gallery-crop-handle gallery-crop-handle-tr" onTouchStart={handleCropTouchStart("top-right")} />
+                <div className="gallery-crop-handle gallery-crop-handle-bl" onTouchStart={handleCropTouchStart("bottom-left")} />
+                <div className="gallery-crop-handle gallery-crop-handle-br" onTouchStart={handleCropTouchStart("bottom-right")} />
+                <div className="gallery-crop-move" onTouchStart={handleCropTouchStart("move")} />
+              </div>
             </div>
             <div className="gallery-crop-actions">
-              <button className="gallery-crop-btn" onClick={() => setCropping(false)}>Cancel</button>
+              <button className="gallery-crop-btn" onClick={() => { setCropping(false); setActiveHandle(null); }}>Cancel</button>
               <button className="gallery-crop-btn gallery-crop-apply" onClick={applyCrop}>Apply Crop</button>
             </div>
           </div>

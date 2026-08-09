@@ -4392,6 +4392,13 @@ body.gallery-fullscreen main {
   background: #1d4ed8 !important;
 }
 
+.gallery-crop-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .gallery-crop-area {
   flex: 1;
   position: relative;
@@ -4400,54 +4407,115 @@ body.gallery-fullscreen main {
   align-items: center;
   justify-content: center;
   background: #000;
+  min-height: 0;
 }
 
 .gallery-crop-img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  opacity: 0.5;
+  opacity: 0.4;
   pointer-events: none;
+  user-select: none;
 }
 
 .gallery-crop-overlay {
   position: absolute;
   border: 2px solid #fff;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+  cursor: move;
+  touch-action: none;
+  z-index: 2;
+}
+
+.gallery-crop-move {
+  position: absolute;
+  inset: 0;
   cursor: move;
   touch-action: none;
 }
 
 .gallery-crop-handle {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: #fff;
   border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  touch-action: none;
+}
+
+.gallery-crop-handle-top {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.gallery-crop-handle-bottom {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.gallery-crop-handle-left {
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.gallery-crop-handle-right {
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.gallery-crop-handle-tl {
+  top: -12px;
+  left: -12px;
+  cursor: nwse-resize;
+}
+
+.gallery-crop-handle-tr {
+  top: -12px;
+  right: -12px;
+  cursor: nesw-resize;
+}
+
+.gallery-crop-handle-bl {
+  bottom: -12px;
+  left: -12px;
+  cursor: nesw-resize;
+}
+
+.gallery-crop-handle-br {
+  bottom: -12px;
+  right: -12px;
+  cursor: nwse-resize;
 }
 
 .gallery-crop-actions {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 0.75rem;
-  z-index: 10;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.85);
+  flex-shrink: 0;
 }
 
 .gallery-crop-btn {
-  padding: 0.6rem 1.5rem;
-  border-radius: 999px;
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
   border: none;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  backdrop-filter: blur(10px);
 }
 
 .gallery-crop-apply {
