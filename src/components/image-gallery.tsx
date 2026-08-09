@@ -19,8 +19,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   onDelete: (id: string) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const slideRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState(0);
   const [savedRotation, setSavedRotation] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,15 +30,28 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   const cropStart = useRef({ x: 0, y: 0 });
   const pinchDist = useRef(0);
   const panStart = useRef({ x: 0, y: 0 });
+  const zoomRef = useRef(1);
+  const panRef = useRef({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (activeIndex !== undefined) {
+      zoomRef.current = 1;
+      panRef.current = { x: 0, y: 0 };
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+    }
+  }, [activeIndex]);
 
   const handleScroll = useCallback(() => {
-    if (trackRef.current && zoom === 1 && !cropping) {
+    if (trackRef.current && zoomRef.current === 1 && !cropping) {
       const idx = Math.round(trackRef.current.scrollLeft / window.innerWidth);
       if (idx !== activeIndex && idx >= 0 && idx < images.length) {
         onIndexChange(idx);
       }
     }
-  }, [activeIndex, images.length, onIndexChange, zoom, cropping]);
+  }, [activeIndex, images.length, onIndexChange, cropping]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (cropping) { e.stopPropagation(); return; }
@@ -48,10 +60,10 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-    } else if (e.touches.length === 1 && zoom > 1) {
-      panStart.current = { x: e.touches[0].clientX - pan.x, y: e.touches[0].clientY - pan.y };
+    } else if (e.touches.length === 1 && zoomRef.current > 1) {
+      panStart.current = { x: e.touches[0].clientX - panRef.current.x, y: e.touches[0].clientY - panRef.current.y };
     }
-  }, [zoom, pan, cropping]);
+  }, [cropping]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (cropping) return;
@@ -61,27 +73,43 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      const newZoom = Math.min(Math.max(1, (dist / pinchDist.current) * zoom), 4);
+      const newZoom = Math.min(Math.max(1, (dist / pinchDist.current) * zoomRef.current), 4);
+      zoomRef.current = newZoom;
       setZoom(newZoom);
-      if (newZoom === 1) setPan({ x: 0, y: 0 });
-    } else if (e.touches.length === 1 && zoom > 1) {
+      if (newZoom === 1) { panRef.current = { x: 0, y: 0 }; setPan({ x: 0, y: 0 }); }
+      if (slideRef.current) {
+        slideRef.current.style.transform = `translate(${panRef.current.x}px, ${panRef.current.y}px) scale(${newZoom}) rotate(${rotation}deg)`;
+      }
+    } else if (e.touches.length === 1 && zoomRef.current > 1) {
       e.preventDefault();
-      setPan({
+      const newPan = {
         x: e.touches[0].clientX - panStart.current.x,
         y: e.touches[0].clientY - panStart.current.y,
-      });
+      };
+      panRef.current = newPan;
+      setPan(newPan);
+      if (slideRef.current) {
+        slideRef.current.style.transform = `translate(${newPan.x}px, ${newPan.y}px) scale(${zoomRef.current}) rotate(${rotation}deg)`;
+      }
     }
-  }, [zoom, cropping]);
+  }, [cropping, rotation]);
 
   const handleTouchEnd = useCallback(() => {
-    if (zoom < 1) setZoom(1);
-    if (zoom > 4) setZoom(4);
-  }, [zoom]);
+    if (zoomRef.current < 1) { zoomRef.current = 1; setZoom(1); }
+    if (zoomRef.current > 4) { zoomRef.current = 4; setZoom(4); }
+  }, []);
 
   const handleDoubleClick = useCallback(() => {
-    if (zoom > 1) { setZoom(1); setPan({ x: 0, y: 0 }); }
-    else setZoom(2.5);
-  }, [zoom]);
+    if (zoomRef.current > 1) {
+      zoomRef.current = 1;
+      panRef.current = { x: 0, y: 0 };
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+    } else {
+      zoomRef.current = 2.5;
+      setZoom(2.5);
+    }
+  }, []);
 
   const rotateCW = () => setRotation((r) => (r + 90) % 360);
   const rotateCCW = () => setRotation((r) => (r - 90 + 360) % 360);
@@ -285,6 +313,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
             {images.map((img, i) => (
               <div key={img.id} className="gallery-slide" onDoubleClick={handleDoubleClick}>
                 <div
+                  ref={i === activeIndex ? slideRef : undefined}
                   className="gallery-img-inner"
                   style={i === activeIndex ? {
                     transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom * rotScale}) rotate(${rotation}deg)`,
