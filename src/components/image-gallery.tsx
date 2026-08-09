@@ -44,12 +44,19 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     }
   }, [activeIndex]);
 
+  const handleScrollEnd = useCallback(() => {
+    if (!trackRef.current || cropping) return;
+    const idx = Math.round(trackRef.current.scrollLeft / window.innerWidth);
+    if (idx >= 0 && idx < images.length && idx !== activeIndex) {
+      onIndexChange(idx);
+    }
+  }, [activeIndex, images.length, onIndexChange, cropping]);
+
   const handleScroll = useCallback(() => {
-    if (trackRef.current && zoomRef.current === 1 && !cropping) {
-      const idx = Math.round(trackRef.current.scrollLeft / window.innerWidth);
-      if (idx !== activeIndex && idx >= 0 && idx < images.length) {
-        onIndexChange(idx);
-      }
+    if (!trackRef.current || cropping) return;
+    const idx = Math.round(trackRef.current.scrollLeft / window.innerWidth);
+    if (idx >= 0 && idx < images.length && idx !== activeIndex) {
+      onIndexChange(idx);
     }
   }, [activeIndex, images.length, onIndexChange, cropping]);
 
@@ -293,6 +300,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
             ref={trackRef}
             className="gallery-track"
             onScroll={handleScroll}
+            onScrollEnd={handleScrollEnd}
             style={{ scrollSnapType: zoom > 1 ? "none" : "x mandatory" }}
           >
             {images.map((img, i) => (
