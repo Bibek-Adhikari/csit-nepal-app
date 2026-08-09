@@ -41,7 +41,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   }, [activeIndex, images.length, onIndexChange, zoom, cropping]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (cropping) return;
+    if (cropping) { e.stopPropagation(); return; }
     if (e.touches.length === 2) {
       pinchDist.current = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
@@ -99,7 +99,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     setMenuOpen(false);
   };
 
-  const [activeHandle, setActiveHandle] = useState<string | null>(null);
+  const activeHandle = useRef<string | null>(null);
 
   const startCrop = () => {
     setCropping(true);
@@ -109,12 +109,12 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
 
   const handleCropTouchStart = (handle: string) => (e: React.TouchEvent) => {
     e.stopPropagation();
-    setActiveHandle(handle);
+    activeHandle.current = handle;
   };
 
   const handleCropTouchMove = (e: React.TouchEvent) => {
-    if (!activeHandle) return;
-    e.stopPropagation();
+    if (!activeHandle.current) return;
+    e.preventDefault();
     const touch = e.touches[0];
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = ((touch.clientX - rect.left) / rect.width) * 100;
@@ -123,20 +123,21 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
     setCropArea((prev) => {
       let { x: px, y: py, w, h } = prev;
       const minSize = 10;
+      const handle = activeHandle.current;
 
-      if (activeHandle.includes("right")) w = Math.max(minSize, Math.min(x - px, 100 - px));
-      if (activeHandle.includes("bottom")) h = Math.max(minSize, Math.min(y - py, 100 - py));
-      if (activeHandle.includes("left")) {
+      if (handle?.includes("right")) w = Math.max(minSize, Math.min(x - px, 100 - px));
+      if (handle?.includes("bottom")) h = Math.max(minSize, Math.min(y - py, 100 - py));
+      if (handle?.includes("left")) {
         const newX = Math.max(0, Math.min(x, px + w - minSize));
         w = w + px - newX;
         px = newX;
       }
-      if (activeHandle.includes("top")) {
+      if (handle?.includes("top")) {
         const newY = Math.max(0, Math.min(y, py + h - minSize));
         h = h + py - newY;
         py = newY;
       }
-      if (activeHandle === "move") {
+      if (handle === "move") {
         px = Math.max(0, Math.min(x - w / 2, 100 - w));
         py = Math.max(0, Math.min(y - h / 2, 100 - h));
       }
@@ -146,7 +147,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   };
 
   const handleCropTouchEnd = () => {
-    setActiveHandle(null);
+    activeHandle.current = null;
   };
 
   const applyCrop = async () => {
@@ -229,7 +230,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
               </div>
             </div>
             <div className="gallery-crop-actions">
-              <button className="gallery-crop-btn" onClick={() => { setCropping(false); setActiveHandle(null); }}>Cancel</button>
+              <button className="gallery-crop-btn" onClick={() => { setCropping(false); activeHandle.current = null; }}>Cancel</button>
               <button className="gallery-crop-btn gallery-crop-apply" onClick={applyCrop}>Apply Crop</button>
             </div>
           </div>

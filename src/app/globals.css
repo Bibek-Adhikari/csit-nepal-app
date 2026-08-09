@@ -4407,6 +4407,7 @@ body.gallery-fullscreen main {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  touch-action: none;
 }
 
 .gallery-crop-area {
@@ -4418,6 +4419,8 @@ body.gallery-fullscreen main {
   justify-content: center;
   background: #000;
   min-height: 0;
+  touch-action: none;
+  user-select: none;
 }
 
 .gallery-crop-img {
@@ -4436,6 +4439,7 @@ body.gallery-fullscreen main {
   cursor: move;
   touch-action: none;
   z-index: 2;
+  user-select: none;
 }
 
 .gallery-crop-move {
