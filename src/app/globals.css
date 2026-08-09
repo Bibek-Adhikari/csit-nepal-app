@@ -4271,6 +4271,8 @@ body.gallery-fullscreen main {
   overflow: hidden;
   min-height: 0;
   width: 100%;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .gallery-image-wrap {

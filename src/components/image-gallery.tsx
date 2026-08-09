@@ -18,68 +18,76 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   onIndexChange: (i: number) => void;
   onDelete: (id: string) => void;
 }) {
-  const [offset, setOffset] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const [transitioning, setTransitioning] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const peekNextRef = useRef<HTMLDivElement>(null);
+  const peekPrevRef = useRef<HTMLDivElement>(null);
+  const offset = useRef(0);
+  const dragging = useRef(false);
+  const transitioning = useRef(false);
   const startX = useRef(0);
   const startY = useRef(0);
   const lockY = useRef(false);
 
-  const goTo = (index: number) => {
+  const applyTransform = useCallback((x: number, animate: boolean) => {
+    offset.current = x;
+    if (wrapRef.current) {
+      wrapRef.current.style.transition = animate ? "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none";
+      wrapRef.current.style.transform = `translate3d(${x}px, 0, 0)`;
+    }
+    const w = typeof window !== "undefined" ? window.innerWidth : 375;
+    const progress = Math.min(Math.abs(x) / w, 1);
+    const opacity = progress * 0.9;
+    if (peekNextRef.current) peekNextRef.current.style.opacity = x < 0 ? String(opacity) : "0";
+    if (peekPrevRef.current) peekPrevRef.current.style.opacity = x > 0 ? String(opacity) : "0";
+  }, []);
+
+  const goTo = useCallback((index: number) => {
     if (index < 0 || index >= images.length) return;
-    setTransitioning(true);
+    transitioning.current = true;
     onIndexChange(index);
     setTimeout(() => {
-      setOffset(0);
-      setTransitioning(false);
+      applyTransform(0, false);
+      transitioning.current = false;
     }, 300);
-  };
+  }, [images.length, onIndexChange, applyTransform]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (transitioning) return;
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (transitioning.current) return;
     startX.current = e.touches[0].clientX;
     startY.current = e.touches[0].clientY;
     lockY.current = false;
-    setDragging(true);
-  };
+    dragging.current = true;
+  }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging || transitioning) return;
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!dragging.current || transitioning.current) return;
     const dx = e.touches[0].clientX - startX.current;
     const dy = e.touches[0].clientY - startY.current;
 
     if (!lockY.current && Math.abs(dy) > Math.abs(dx) * 0.8) {
       lockY.current = true;
-      setDragging(false);
+      dragging.current = false;
       return;
     }
     lockY.current = true;
 
-    const w = typeof window !== "undefined" ? window.innerWidth : 375;
     let limited = dx;
     if (activeIndex === 0 && dx > 0) limited = dx * 0.25;
     if (activeIndex === images.length - 1 && dx < 0) limited = dx * 0.25;
-    setOffset(limited);
-  };
+    applyTransform(limited, false);
+  }, [activeIndex, applyTransform]);
 
-  const handleTouchEnd = () => {
-    if (!dragging) return;
-    setDragging(false);
+  const handleTouchEnd = useCallback(() => {
+    if (!dragging.current) return;
+    dragging.current = false;
     const w = typeof window !== "undefined" ? window.innerWidth : 375;
     const threshold = w * 0.25;
+    const x = offset.current;
 
-    if (offset < -threshold) goTo(activeIndex + 1);
-    else if (offset > threshold) goTo(activeIndex - 1);
-    else {
-      setTransitioning(true);
-      setOffset(0);
-      setTimeout(() => setTransitioning(false), 300);
-    }
-  };
-
-  const w = typeof window !== "undefined" ? window.innerWidth : 375;
-  const progress = Math.min(Math.abs(offset) / w, 1);
-  const peekOpacity = progress * 0.9;
+    if (x < -threshold) goTo(activeIndex + 1);
+    else if (x > threshold) goTo(activeIndex - 1);
+    else applyTransform(0, true);
+  }, [activeIndex, applyTransform, goTo]);
 
   return (
     <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -88,32 +96,14 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
         <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
       </div>
-      <div
-        className="gallery-swipe-area"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {offset < 0 && activeIndex < images.length - 1 && (
-          <div className="gallery-peek gallery-peek-next" style={{ opacity: peekOpacity }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={blobUrls[images[activeIndex + 1].id] || ""} alt="" draggable={false} />
-          </div>
-        )}
-        {offset > 0 && activeIndex > 0 && (
-          <div className="gallery-peek gallery-peek-prev" style={{ opacity: peekOpacity }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={blobUrls[images[activeIndex - 1].id] || ""} alt="" draggable={false} />
-          </div>
-        )}
-        <div
-          className="gallery-image-wrap"
-          style={{
-            transform: `translateX(${offset}px)`,
-            transition: dragging ? "none" : "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+      <div className="gallery-swipe-area" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+        <div ref={peekPrevRef} className="gallery-peek gallery-peek-prev">
+          {activeIndex > 0 && <img src={blobUrls[images[activeIndex - 1].id] || ""} alt="" draggable={false} />}
+        </div>
+        <div ref={peekNextRef} className="gallery-peek gallery-peek-next">
+          {activeIndex < images.length - 1 && <img src={blobUrls[images[activeIndex + 1].id] || ""} alt="" draggable={false} />}
+        </div>
+        <div ref={wrapRef} className="gallery-image-wrap">
           <img src={blobUrls[images[activeIndex].id] || ""} alt={images[activeIndex].name} className="gallery-full-img" draggable={false} />
         </div>
       </div>
