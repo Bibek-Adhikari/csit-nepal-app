@@ -4563,6 +4563,7 @@ body.gallery-fullscreen main {
   flex: 1;
   min-height: 0;
   gap: 0.25rem;
+  padding-bottom: 60px;
 }
 
 .gallery-compare-half {
@@ -4598,11 +4599,16 @@ body.gallery-fullscreen main {
 }
 
 .gallery-compare-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   gap: 0.5rem;
-  padding: 0.4rem;
-  width: 100%;
-  flex-shrink: 0;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 100;
 }
 
 .gallery-compare-btn {
