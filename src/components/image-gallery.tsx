@@ -10,6 +10,111 @@ interface ImageGalleryProps {
   onCountChange?: (count: number) => void;
 }
 
+function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, onDelete }: {
+  images: SharedImage[];
+  activeIndex: number;
+  blobUrls: Record<string, string>;
+  onClose: () => void;
+  onIndexChange: (i: number) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [offset, setOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startX = useRef(0);
+  const startY = useRef(0);
+  const startTime = useRef(0);
+  const lockY = useRef(false);
+
+  const goNext = () => {
+    if (activeIndex < images.length - 1) {
+      onIndexChange(activeIndex + 1);
+    }
+    setOffset(0);
+  };
+
+  const goPrev = () => {
+    if (activeIndex > 0) {
+      onIndexChange(activeIndex - 1);
+    }
+    setOffset(0);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX;
+    startY.current = e.touches[0].clientY;
+    startTime.current = Date.now();
+    lockY.current = false;
+    setDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!dragging) return;
+    const dx = e.touches[0].clientX - startX.current;
+    const dy = e.touches[0].clientY - startY.current;
+
+    if (!lockY.current && Math.abs(dy) > Math.abs(dx)) {
+      lockY.current = true;
+      setDragging(false);
+      return;
+    }
+    lockY.current = true;
+
+    const max = typeof window !== "undefined" ? window.innerWidth : 400;
+    let limited = dx;
+    if (activeIndex === 0 && dx > 0) limited = dx * 0.3;
+    if (activeIndex === images.length - 1 && dx < 0) limited = dx * 0.3;
+
+    setOffset(limited > 0 ? Math.min(limited, max) : Math.max(limited, -max));
+  };
+
+  const handleTouchEnd = () => {
+    setDragging(false);
+    const threshold = (typeof window !== "undefined" ? window.innerWidth : 400) * 0.2;
+    const velocity = Math.abs(offset) / (Date.now() - startTime.current);
+
+    if (offset < -threshold || velocity > 0.5) goNext();
+    else if (offset > threshold || velocity > 0.5) goPrev();
+    else setOffset(0);
+  };
+
+  return (
+    <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="gallery-top-bar">
+        <button className="gallery-icon-btn" onClick={onClose}><i className="bx bx-arrow-back"></i></button>
+        <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
+        <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)}><i className="bx bx-trash"></i></button>
+      </div>
+      <div
+        className="gallery-swipe-area"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className={`gallery-image-wrap${dragging ? "" : " gallery-transition"}`}
+          style={{ transform: `translateX(${offset}px)` }}
+        >
+          {activeIndex > 0 && (
+            <div className="gallery-side-img gallery-side-prev">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={blobUrls[images[activeIndex - 1].id] || ""} alt="" draggable={false} />
+            </div>
+          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={blobUrls[images[activeIndex].id] || ""} alt={images[activeIndex].name} className="gallery-full-img" draggable={false} />
+          {activeIndex < images.length - 1 && (
+            <div className="gallery-side-img gallery-side-next">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={blobUrls[images[activeIndex + 1].id] || ""} alt="" draggable={false} />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="gallery-bottom-bar"><span className="gallery-filename">{images[activeIndex].name}</span></div>
+    </div>
+  );
+}
+
 export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
   const [images, setImages] = useState<SharedImage[]>([]);
   const [blobUrls, setBlobUrls] = useState<Record<string, string>>({});
@@ -206,30 +311,14 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
 
       {fullscreen && filtered.length > 0 && activeIndex < filtered.length &&
         createPortal(
-          <div className="gallery-overlay" onClick={(e) => { if (e.target === e.currentTarget) setFullscreen(false); }}>
-            <div className="gallery-top-bar">
-              <button className="gallery-icon-btn" onClick={() => setFullscreen(false)}><i className="bx bx-arrow-back"></i></button>
-              <span className="gallery-counter">{activeIndex + 1} / {filtered.length}</span>
-              <button className="gallery-icon-btn" onClick={() => handleDelete(filtered[activeIndex].id)}><i className="bx bx-trash"></i></button>
-            </div>
-            <div
-              className="gallery-swipe-area"
-              onTouchStart={(e) => { (e.currentTarget as any)._sx = e.touches[0].clientX; }}
-              onTouchEnd={(e) => {
-                const sx = (e.currentTarget as any)._sx;
-                if (!sx) return;
-                const diff = e.changedTouches[0].clientX - sx;
-                if (Math.abs(diff) > 50) { diff < 0 ? next() : prev(); }
-                (e.currentTarget as any)._sx = null;
-              }}
-            >
-              <div className="gallery-image-wrap">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={blobUrls[filtered[activeIndex].id] || ""} alt={filtered[activeIndex].name} className="gallery-full-img" draggable={false} />
-              </div>
-            </div>
-            <div className="gallery-bottom-bar"><span className="gallery-filename">{filtered[activeIndex].name}</span></div>
-          </div>,
+          <GallerySwiper
+            images={filtered}
+            activeIndex={activeIndex}
+            blobUrls={blobUrls}
+            onClose={() => setFullscreen(false)}
+            onIndexChange={setActiveIndex}
+            onDelete={handleDelete}
+          />,
           document.body
         )}
     </>
