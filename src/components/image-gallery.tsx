@@ -20,61 +20,61 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
 }) {
   const [offset, setOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
   const startX = useRef(0);
   const startY = useRef(0);
-  const startTime = useRef(0);
   const lockY = useRef(false);
 
-  const goNext = () => {
-    if (activeIndex < images.length - 1) {
-      onIndexChange(activeIndex + 1);
-    }
-    setOffset(0);
-  };
-
-  const goPrev = () => {
-    if (activeIndex > 0) {
-      onIndexChange(activeIndex - 1);
-    }
-    setOffset(0);
+  const goTo = (index: number) => {
+    if (index < 0 || index >= images.length) return;
+    setTransitioning(true);
+    onIndexChange(index);
+    setTimeout(() => {
+      setOffset(0);
+      setTransitioning(false);
+    }, 300);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (transitioning) return;
     startX.current = e.touches[0].clientX;
     startY.current = e.touches[0].clientY;
-    startTime.current = Date.now();
     lockY.current = false;
     setDragging(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging) return;
+    if (!dragging || transitioning) return;
     const dx = e.touches[0].clientX - startX.current;
     const dy = e.touches[0].clientY - startY.current;
 
-    if (!lockY.current && Math.abs(dy) > Math.abs(dx)) {
+    if (!lockY.current && Math.abs(dy) > Math.abs(dx) * 0.8) {
       lockY.current = true;
       setDragging(false);
       return;
     }
     lockY.current = true;
 
-    const max = typeof window !== "undefined" ? window.innerWidth : 400;
+    const w = typeof window !== "undefined" ? window.innerWidth : 375;
     let limited = dx;
-    if (activeIndex === 0 && dx > 0) limited = dx * 0.3;
-    if (activeIndex === images.length - 1 && dx < 0) limited = dx * 0.3;
-
-    setOffset(limited > 0 ? Math.min(limited, max) : Math.max(limited, -max));
+    if (activeIndex === 0 && dx > 0) limited = dx * 0.25;
+    if (activeIndex === images.length - 1 && dx < 0) limited = dx * 0.25;
+    setOffset(limited);
   };
 
   const handleTouchEnd = () => {
+    if (!dragging) return;
     setDragging(false);
-    const threshold = (typeof window !== "undefined" ? window.innerWidth : 400) * 0.2;
-    const velocity = Math.abs(offset) / (Date.now() - startTime.current);
+    const w = typeof window !== "undefined" ? window.innerWidth : 375;
+    const threshold = w * 0.25;
 
-    if (offset < -threshold || velocity > 0.5) goNext();
-    else if (offset > threshold || velocity > 0.5) goPrev();
-    else setOffset(0);
+    if (offset < -threshold) goTo(activeIndex + 1);
+    else if (offset > threshold) goTo(activeIndex - 1);
+    else {
+      setTransitioning(true);
+      setOffset(0);
+      setTimeout(() => setTransitioning(false), 300);
+    }
   };
 
   return (
@@ -91,23 +91,14 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         onTouchEnd={handleTouchEnd}
       >
         <div
-          className={`gallery-image-wrap${dragging ? "" : " gallery-transition"}`}
-          style={{ transform: `translateX(${offset}px)` }}
+          className="gallery-image-wrap"
+          style={{
+            transform: `translateX(${offset}px)`,
+            transition: dragging ? "none" : "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
         >
-          {activeIndex > 0 && (
-            <div className="gallery-side-img gallery-side-prev">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={blobUrls[images[activeIndex - 1].id] || ""} alt="" draggable={false} />
-            </div>
-          )}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={blobUrls[images[activeIndex].id] || ""} alt={images[activeIndex].name} className="gallery-full-img" draggable={false} />
-          {activeIndex < images.length - 1 && (
-            <div className="gallery-side-img gallery-side-next">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={blobUrls[images[activeIndex + 1].id] || ""} alt="" draggable={false} />
-            </div>
-          )}
         </div>
       </div>
       <div className="gallery-bottom-bar"><span className="gallery-filename">{images[activeIndex].name}</span></div>
@@ -315,7 +306,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
             images={filtered}
             activeIndex={activeIndex}
             blobUrls={blobUrls}
-            onClose={() => setFullscreen(false)}
+            onClose={() => { setFullscreen(false); if (window.location.hash === "#gallery") window.history.back(); }}
             onIndexChange={setActiveIndex}
             onDelete={handleDelete}
           />,
