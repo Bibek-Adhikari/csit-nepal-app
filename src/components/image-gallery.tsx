@@ -239,7 +239,7 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const scale = Math.max(vw / img.naturalHeight, vh / img.naturalWidth);
-      setRotScale(scale);
+      setRotScale(scale * 0.95);
     };
     img.src = url;
   }, [isRotated, activeIndex, blobUrls]);
