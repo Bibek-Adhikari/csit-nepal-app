@@ -185,6 +185,12 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
   const [imgSize, setImgSize] = useState({ w: 1, h: 1 });
 
   useEffect(() => {
+    if (trackRef.current) {
+      trackRef.current.scrollLeft = activeIndex * window.innerWidth;
+    }
+  }, [activeIndex]);
+
+  useEffect(() => {
     const url = blobUrls[images[activeIndex]?.id];
     if (!url) return;
     const img = new Image();
@@ -206,16 +212,17 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
       </div>
 
       <div className="gallery-top-bar-right">
-        <button className="gallery-icon-btn" onClick={rotateCCW} title="Rotate Left"><i className="bx bx-rotate-left"></i></button>
-        <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate Right"><i className="bx bx-rotate-right"></i></button>
-        <button className="gallery-icon-btn" onClick={startCrop} title="Crop"><i className="bx bx-crop"></i></button>
-        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)} title="More"><i className="bx bx-dots-vertical-rounded"></i></button>
+        <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate"><i className="bx bx-rotate-right"></i></button>
+        <button className="gallery-icon-btn" onClick={() => setMenuOpen(!menuOpen)} title="Settings"><i className="bx bx-dots-vertical-rounded"></i></button>
       </div>
 
       {menuOpen && !cropping && (
         <div className="gallery-menu">
+          <button className="gallery-menu-btn" onClick={startCrop}>
+            <i className="bx bx-crop"></i> Crop
+          </button>
           <button className="gallery-menu-btn" onClick={undoRotation} disabled={rotation === savedRotation}>
-            <i className="bx bx-undo"></i> Undo Rotation
+            <i className="bx bx-undo"></i> Undo
           </button>
           <button className="gallery-menu-btn gallery-menu-save" onClick={saveRotation} disabled={rotation === savedRotation || saving}>
             <i className="bx bx-check"></i> {saving ? "Saving..." : "Save Changes"}
