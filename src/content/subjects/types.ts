@@ -9,6 +9,11 @@ export type NoteItem = {
   bucket?: string;
 };
 
+export type Topic = {
+  title: string;
+  subTopics: string[];
+};
+
 export type Unit = {
   slug: string;
   title: string;
@@ -18,6 +23,7 @@ export type Unit = {
     handwritten: NoteItem[];
   };
   textContent?: string;
+  topics?: Topic[];
 };
 
 export type Subject = {

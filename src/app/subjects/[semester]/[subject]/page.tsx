@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSemester, getSubject, semesters, type SemesterKey } from "@/content/subjects";
 import { BackNav } from "@/components/back-nav";
 import { getSupabaseServer } from "@/lib/supabase";
+import { CourseStructureButton } from "@/components/course-structure-button";
 
 interface NoteItem {
   title: string;
@@ -67,8 +69,10 @@ export default async function SubjectPage({
 
   return (
     <>
-      <script
+      <Script
+        id="breadcrumb-jsonld"
         type="application/ld+json"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
@@ -88,13 +92,13 @@ export default async function SubjectPage({
           <span className="sheet-badge">{subjectData.code}</span>
         </div>
         <h1 style={{ marginTop: "0.5rem" }}>{subjectData.title}</h1>
-        <p>{subjectData.overview}</p>
         <div style={{ marginTop: "1rem" }}>
           <span className="lecture-badge">{subjectData.credits} Credits</span>
           <span className="lecture-badge" style={{ marginLeft: "0.5rem" }}>
             {subjectData.units.length} Units
           </span>
         </div>
+        <CourseStructureButton units={subjectData.units} subjectTitle={subjectData.title} semester={semester} subject={subject} />
       </section>
 
       <h3 className="section-headline">Units</h3>
@@ -119,27 +123,6 @@ export default async function SubjectPage({
             <i className="bx bx-chevron-right card-chevron"></i>
           </Link>
         ))}
-      </div>
-
-      <h3 className="section-headline">Quiz</h3>
-      <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
-        <Link
-          href={`/quiz/${semester}/${subject}`}
-          className="app-card quiz-card"
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div className="card-left">
-            <span className="card-code">QUIZ</span>
-            <span className="card-title">Take Quiz</span>
-          </div>
-          <i className="bx bx-chevron-right card-chevron"></i>
-        </Link>
       </div>
 
       {solutionNotes.length > 0 && (

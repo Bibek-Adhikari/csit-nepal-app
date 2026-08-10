@@ -1,6 +1,11 @@
 import type { Semester } from "../types";
 import { javaTextContent } from "./java-text-content";
 import { uiUxTextContent } from "./ui-ux-text-content";
+import { discreteMathTopics } from "./discrete-topics";
+import { microprocessorTopics } from "./microprocessor-topics";
+import { math2Topics } from "./math2-topics";
+import { uxUiTopics } from "./uxui-topics";
+import { managementTopics } from "./management-topics";
 
 export const semester2: Semester = {
   key: "semester-2",
@@ -10,51 +15,58 @@ export const semester2: Semester = {
     {
       code: "BCA 151",
       slug: "discrete-structure",
-      title: "Discrete Mathematics",
+      title: "Discrete Structure",
       credits: "3",
-      overview: "Set theory, logic, relations, functions, combinatorics, graph theory, and algebraic structures.",
+      overview: "This course is designed to build a strong foundation in discrete mathematics—the kind of math that powers the world of computer science. It sharpens logical thinking, introduces techniques for writing solid mathematical proofs, and strengthens problem-solving skills needed in programming, algorithm design, and system development. Students will dive into key topics like logic, sets, functions, relations, combinatorics, graphs, trees, and Boolean algebra, learning not just the theory but also how these concepts apply in real tech scenarios like databases, circuits, and code structure.",
       units: [
         {
           slug: "set-theory",
           title: "Set Theory",
           summary: "Sets, subsets, power sets, Cartesian products, set operations, Venn diagrams, and set identities.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["set-theory"],
         },
         {
           slug: "logic-propositional-calculus",
           title: "Logic and Propositional Calculus",
           summary: "Propositions, logical operators, truth tables, tautologies, logical equivalence, predicates, quantifiers, and proof methods.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["logic-propositional-calculus"],
         },
         {
           slug: "relations-functions",
           title: "Relations and Functions",
           summary: "Binary relations, equivalence relations, partial orders, functions, injective/surjective/bijective, composition, and inverse.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["relations-functions"],
         },
         {
           slug: "mathematical-reasoning-proofs",
           title: "Mathematical Reasoning and Proof Techniques",
           summary: "Principle of induction, strong induction, recursive definitions, recursive algorithms, direct proof, contradiction, contrapositive, and proof by cases.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["mathematical-reasoning-proofs"],
         },
         {
           slug: "combinatorics-counting",
           title: "Combinatorics and Counting Principles",
           summary: "Basic counting rules, pigeonhole principle, permutations, combinations, binomial coefficients, and recurrence relations.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["combinatorics-counting"],
         },
         {
           slug: "graph-theory-trees",
           title: "Graph Theory and Trees",
           summary: "Graphs, subgraphs, paths, cycles, connectivity, trees, spanning trees, traversals, and graph representations.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["graph-theory-trees"],
         },
         {
           slug: "algebraic-structures",
           title: "Algebraic Structures",
           summary: "Groups, subgroups, cosets, Lagrange's theorem, rings, fields, Boolean algebra, and lattices.",
           notes: { pdf: [], handwritten: [] },
+          topics: discreteMathTopics["algebraic-structures"],
         },
       ],
       labReports: [
@@ -69,61 +81,70 @@ export const semester2: Semester = {
       slug: "microprocessor-architecture",
       title: "Microprocessor and Computer Architecture",
       credits: "3",
-      overview: "Microprocessor architecture, 8085/8086, computer organization, control unit, CPU, arithmetic, memory, and pipelining.",
+      overview: "This course is designed to familiarize the fundamental knowledge about computer architecture, instruction cycle, components of microprocessor, Intel 8085 and assembly programming.",
       units: [
         {
           slug: "intro-microprocessor",
           title: "Introduction to Microprocessor",
           summary: "Microprocessor evolution, types, architecture overview, basic components, and terminology.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["intro-microprocessor"],
         },
         {
           slug: "8085-microprocessor",
           title: "8085 Microprocessor",
           summary: "8085 architecture, registers, pin diagram, instruction set, addressing modes, timing diagram, and interrupts.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["8085-microprocessor"],
         },
         {
           slug: "8086-microprocessor",
           title: "8086 Microprocessor",
           summary: "8086 architecture, register organization, memory segmentation, pin diagram, instruction set, and addressing modes.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["8086-microprocessor"],
         },
         {
           slug: "basic-computer-architecture-design",
           title: "Basic Computer Architecture and Design",
           summary: "Von Neumann and Harvard architectures, CPU components, bus systems, instruction cycle, and performance metrics.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["basic-computer-architecture-design"],
         },
         {
           slug: "microprogrammed-control-unit",
           title: "Microprogrammed Control Unit",
           summary: "Hardwired vs microprogrammed control, control memory, address sequencing, microinstruction format, and nano-programming.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["microprogrammed-control-unit"],
         },
         {
           slug: "central-processing-unit",
           title: "Central Processing Unit",
           summary: "ALU design, register set, instruction formats, addressing modes, RISC vs CISC, and stack organization.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["central-processing-unit"],
         },
         {
           slug: "computer-arithmetic",
           title: "Computer Arithmetic",
           summary: "Addition, subtraction, multiplication, division algorithms, floating-point arithmetic, and IEEE 754 standard.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["computer-arithmetic"],
         },
         {
           slug: "io-memory-organization",
           title: "Input and Output Organization and Memory Organization",
           summary: "I/O interfacing, interrupt handling, DMA, memory hierarchy, cache memory, virtual memory, and memory mapping.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["io-memory-organization"],
         },
         {
           slug: "pipelining",
           title: "Pipelining",
           summary: "Pipeline concepts, hazards, data forwarding, branch prediction, superscalar processors, and multi-core architectures.",
           notes: { pdf: [], handwritten: [] },
+          topics: microprocessorTopics["pipelining"],
         },
       ],
       labReports: [
@@ -136,9 +157,9 @@ export const semester2: Semester = {
     {
       code: "BCA 153",
       slug: "oop-in-java",
-      title: "Object Oriented Programming using Java",
+      title: "OOP in Java",
       credits: "3",
-      overview: "OOP principles, Java programming, classes, inheritance, polymorphism, exceptions, I/O, collections, and advanced concepts.",
+      overview: "This course provides an in-depth introduction to object-oriented programming (OOP) principles and their implementation using the Java programming language. It covers classes, objects, inheritance, polymorphism, abstraction, encapsulation, exception handling, multithreading, collections, generics, file handling, and advanced concepts of OOP.",
       units: [
         {
           slug: "intro-java-oop",
@@ -210,43 +231,49 @@ export const semester2: Semester = {
       slug: "mathematics-ii",
       title: "Mathematics II",
       credits: "3",
-      overview: "Limits, derivatives, integration, differential equations, and computational methods.",
+      overview: "The course covers the concepts of Limit and Continuity, Derivatives of Algebraic, Trigonometric, Exponential, and Logarithmic functions, and their applications. It also covers Integration and its Applications, Volume and Surface Integrals, and Numerical Integration using Trapezoidal and Simpson's Rule. Ordinary and Partial Differential Equations, Optimization Problems like the Simplex Method, and Gauss-Seidel, Gauss Elimination, Matrix Inversion, Bisection, and Newton-Raphson methods are also discussed.",
       units: [
         {
           slug: "limit-continuity",
           title: "Limit and Continuity",
           summary: "Limits of functions, indeterminate forms, continuity, and properties of continuous functions.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["limit-continuity"],
         },
         {
           slug: "derivatives",
           title: "Derivatives",
           summary: "Definition, rules of differentiation, chain rule, implicit differentiation, higher order derivatives, and partial derivatives.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["derivatives"],
         },
         {
           slug: "applications-of-derivatives",
           title: "Applications of Derivatives",
           summary: "Maxima and minima, tangents and normals, L'Hospital's rule, mean value theorems, Taylor and Maclaurin series.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["applications-of-derivatives"],
         },
         {
           slug: "anti-derivative-applications",
           title: "Anti-derivative and its Applications",
           summary: "Indefinite and definite integrals, integration by parts, partial fractions, area under curve, surface and volume integrals.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["anti-derivative-applications"],
         },
         {
           slug: "differential-equations",
           title: "Differential Equations",
           summary: "First and second order ODEs, variable separable, homogeneous, exact equations, and applications.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["differential-equations"],
         },
         {
           slug: "computational-methods",
           title: "Computational Methods",
           summary: "Bisection method, Newton-Raphson method, Gauss elimination, linear programming, and simplex method.",
           notes: { pdf: [], handwritten: [] },
+          topics: math2Topics["computational-methods"],
         },
       ],
       labReports: [
@@ -259,9 +286,9 @@ export const semester2: Semester = {
     {
       code: "BCA 155",
       slug: "ux-ui-design",
-      title: "UX and UI Design",
+      title: "UX/UI Design",
       credits: "3",
-      overview: "UX principles, interaction design, UI design, wireframing, prototyping, and design evaluation.",
+      overview: "This course covers different design principles, concepts and techniques of UX and UI designs focusing on making products with user-centric user interface which is easy to use, efficient and user-friendly. Students are introduced to basic concepts, design techniques and evaluation of UX and UI, including latest concepts used by designers and trends in the UX/UI design.",
       units: [
         {
           slug: "introduction",
@@ -269,6 +296,7 @@ export const semester2: Semester = {
           summary: "Overview of UX and UI design, importance, design thinking process, and industry relevance.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["introduction"],
+          topics: uxUiTopics["introduction"],
         },
         {
           slug: "user-interaction-design",
@@ -276,6 +304,7 @@ export const semester2: Semester = {
           summary: "Interaction principles, user goals, task flows, mental models, and interaction paradigms.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["user-interaction-design"],
+          topics: uxUiTopics["user-interaction-design"],
         },
         {
           slug: "user-interface-design",
@@ -283,6 +312,7 @@ export const semester2: Semester = {
           summary: "Visual design principles, layout, typography, color theory, visual hierarchy, and consistency.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["user-interface-design"],
+          topics: uxUiTopics["user-interface-design"],
         },
         {
           slug: "ui-components",
@@ -290,6 +320,7 @@ export const semester2: Semester = {
           summary: "Buttons, forms, navigation, cards, modals, inputs, and component libraries.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["ui-components"],
+          topics: uxUiTopics["ui-components"],
         },
         {
           slug: "ui-design-considerations",
@@ -297,6 +328,7 @@ export const semester2: Semester = {
           summary: "Accessibility, responsive design, cross-platform considerations, performance, and design systems.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["ui-design-considerations"],
+          topics: uxUiTopics["ui-design-considerations"],
         },
         {
           slug: "wireframing-prototyping",
@@ -304,6 +336,7 @@ export const semester2: Semester = {
           summary: "Low and high-fidelity wireframes, interactive prototyping, tools, and user testing of prototypes.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["wireframing-prototyping"],
+          topics: uxUiTopics["wireframing-prototyping"],
         },
         {
           slug: "design-evaluations",
@@ -311,6 +344,7 @@ export const semester2: Semester = {
           summary: "Usability testing, heuristic evaluation, A/B testing, analytics, and iterative design improvement.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["design-evaluations"],
+          topics: uxUiTopics["design-evaluations"],
         },
         {
           slug: "advanced-techniques-vui-nlp",
@@ -318,6 +352,7 @@ export const semester2: Semester = {
           summary: "Voice user interfaces, natural language processing in UI, conversational design, and emerging interaction patterns.",
           notes: { pdf: [], handwritten: [] },
           textContent: uiUxTextContent["advanced-techniques-vui-nlp"],
+          topics: uxUiTopics["advanced-techniques-vui-nlp"],
         },
       ],
       labReports: [
@@ -332,31 +367,35 @@ export const semester2: Semester = {
       slug: "principles-of-management",
       title: "Principle of Management",
       credits: "1",
-      overview: "Management functions, planning, organizing, leading, and decision making.",
+      overview: "This course introduces the fundamental principles of management by integrating classical concepts with modern practices and emerging issues in management. It introduces students to the core functions of management—planning, organizing, decision-making and leading—while highlighting social dimensions of organizational behavior and the uses of IT in management.",
       units: [
         {
           slug: "intro-management",
           title: "Introduction to Management",
           summary: "Definition, functions, levels, skills, evolution of management thought, and classical/behavioral/modern approaches.",
           notes: { pdf: [], handwritten: [] },
+          topics: managementTopics["intro-management"],
         },
         {
           slug: "planning-decision-making",
           title: "Planning and Decision Making",
           summary: "Planning process, decision making, objectives, strategies, policies, and forecasting.",
           notes: { pdf: [], handwritten: [] },
+          topics: managementTopics["planning-decision-making"],
         },
         {
           slug: "organizing",
           title: "Organizing",
           summary: "Organizational structure, delegation, centralization, decentralization, departmentalization, and organizational culture.",
           notes: { pdf: [], handwritten: [] },
+          topics: managementTopics["organizing"],
         },
         {
           slug: "leading",
           title: "Leading",
           summary: "Leadership styles, motivation theories, communication, team building, and conflict management.",
           notes: { pdf: [], handwritten: [] },
+          topics: managementTopics["leading"],
         },
       ],
       labReports: [
