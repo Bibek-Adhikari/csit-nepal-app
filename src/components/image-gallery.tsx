@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
-import { getSharedImages, deleteSharedImage, saveSharedImages } from "@/lib/db";
+import { getSharedImages, deleteSharedImage, saveSharedImages, setSharedImageFavorite } from "@/lib/db";
 import type { SharedImage } from "@/lib/db";
 import { semesters } from "@/content/subjects";
 
@@ -10,13 +10,14 @@ interface ImageGalleryProps {
   onCountChange?: (count: number) => void;
 }
 
-function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, onDelete }: {
+function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, onDelete, onToggleFavorite }: {
   images: SharedImage[];
   activeIndex: number;
   blobUrls: Record<string, string>;
   onClose: () => void;
   onIndexChange: (i: number) => void;
   onDelete: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const slideRef = useRef<HTMLDivElement>(null);
@@ -257,6 +258,9 @@ function GallerySwiper({ images, activeIndex, blobUrls, onClose, onIndexChange, 
         <button className="gallery-icon-btn" onClick={onClose}><i className="bx bx-arrow-back"></i></button>
         <span className="gallery-counter">{activeIndex + 1} / {images.length}</span>
         <div className="gallery-top-bar-right">
+          <button className={`gallery-icon-btn gallery-fav-btn${images[activeIndex].favorite ? " active" : ""}`} onClick={() => onToggleFavorite(images[activeIndex].id)} title="Favorite">
+            <i className={`bx ${images[activeIndex].favorite ? "bxs-star" : "bx-star"}`}></i>
+          </button>
           <button className="gallery-icon-btn" onClick={rotateCW} title="Rotate"><i className="bx bx-rotate-right"></i></button>
           <button className="gallery-icon-btn" onClick={startCrop} title="Crop"><i className="bx bx-crop"></i></button>
           <button className="gallery-icon-btn" onClick={() => onDelete(images[activeIndex].id)} title="Delete"><i className="bx bx-trash"></i></button>
@@ -383,6 +387,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const loadImages = useCallback(async () => {
@@ -410,9 +415,20 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
   }, []);
 
   const filtered = useMemo(
-    () => (selectedSubjects.length > 0 ? images.filter((img) => selectedSubjects.includes(img.subject)) : images),
-    [images, selectedSubjects]
+    () =>
+      images.filter(
+        (img) =>
+          (selectedSubjects.length === 0 || selectedSubjects.includes(img.subject)) &&
+          (!showFavorites || img.favorite)
+      ),
+    [images, selectedSubjects, showFavorites]
   );
+
+  useEffect(() => {
+    if (activeIndex >= filtered.length) {
+      setActiveIndex(Math.max(0, filtered.length - 1));
+    }
+  }, [filtered.length, activeIndex]);
 
   useEffect(() => {
     const urls: Record<string, string> = {};
@@ -437,6 +453,14 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
       return next;
     });
   }, []);
+
+  const handleToggleFavorite = useCallback((id: string) => {
+    const target = images.find((img) => img.id === id);
+    if (!target) return;
+    const next = !target.favorite;
+    setSharedImageFavorite(id, next);
+    setImages((prev) => prev.map((img) => (img.id === id ? { ...img, favorite: next } : img)));
+  }, [images]);
 
   const open = (index: number) => { setActiveIndex(index); setFullscreen(true); };
   const prev = () => setActiveIndex((i) => Math.max(0, i - 1));
@@ -478,7 +502,8 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
   return (
     <>
       <div style={{ marginBottom: "0.5rem" }}>
-        <div ref={dropdownRef} style={{ position: "relative" }}>
+        <div className="gallery-filter-row">
+        <div ref={dropdownRef} style={{ position: "relative", flex: 1, minWidth: 0 }}>
           <button onClick={() => setDropdownOpen(!dropdownOpen)} className="gallery-filter-btn">
             <span style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
               <i className="bx bx-filter-alt" style={{ color: "var(--primary)", fontSize: 15 }}></i>
@@ -502,6 +527,16 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
             </div>
           )}
         </div>
+        <button
+          className={`gallery-fav-filter${showFavorites ? " active" : ""}`}
+          onClick={() => setShowFavorites((v) => !v)}
+          aria-pressed={showFavorites}
+          title="Show favorites"
+        >
+          <i className={`bx ${showFavorites ? "bxs-star" : "bx-star"}`} style={{ fontSize: 15 }}></i>
+          <span>Favorites</span>
+        </button>
+        </div>
         {selectedSubjects.length > 0 && (
           <div className="gallery-chips">
             {selectedSubjects.map((slug) => (
@@ -520,6 +555,9 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
             {blobUrls[img.id] ? (
               <>
                 <img src={blobUrls[img.id]} alt={img.name} loading="lazy" decoding="async" className="gallery-thumb" />
+                <button className={`gallery-fav${img.favorite ? " active" : ""}`} onClick={(e) => { e.stopPropagation(); handleToggleFavorite(img.id); }} aria-label="Favorite">
+                  <i className={`bx ${img.favorite ? "bxs-star" : "bx-star"}`}></i>
+                </button>
                 <button className="gallery-del" onClick={(e) => { e.stopPropagation(); handleDelete(img.id); }} aria-label="Delete">
                   <i className="bx bx-x"></i>
                 </button>
@@ -531,10 +569,14 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
         ))}
       </div>
 
-      {filtered.length === 0 && selectedSubjects.length > 0 && (
+      {filtered.length === 0 && (selectedSubjects.length > 0 || showFavorites) && (
         <div className="empty-state" style={{ padding: "1.5rem 1rem" }}>
-          <i className="bx bx-image" style={{ fontSize: "2rem", color: "var(--text-muted)" }}></i>
-          <p>No images for selected subject{selectedSubjects.length > 1 ? "s" : ""}.</p>
+          <i className="bx bx-star" style={{ fontSize: "2rem", color: "var(--text-muted)" }}></i>
+          <p>
+            {showFavorites
+              ? "No favorited diagrams yet. Tap the star on a diagram to save it here."
+              : `No images for selected subject${selectedSubjects.length > 1 ? "s" : ""}.`}
+          </p>
         </div>
       )}
 
@@ -547,6 +589,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
             onClose={() => setFullscreen(false)}
             onIndexChange={setActiveIndex}
             onDelete={handleDelete}
+            onToggleFavorite={handleToggleFavorite}
           />,
           document.body
         )}

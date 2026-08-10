@@ -4684,6 +4684,41 @@ body.gallery-fullscreen main {
   font-size: 10px;
 }
 
+.gallery-fav {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  color: #fff;
+  z-index: 2;
+}
+
+.gallery-fav i {
+  font-size: 13px;
+  color: #fff;
+}
+
+.gallery-fav.active {
+  background: rgba(217, 119, 6, 0.92);
+}
+
+.gallery-fav.active i {
+  color: #fde68a;
+}
+
+.gallery-icon-btn.active {
+  color: #fbbf24;
+}
+
 /* ─── Filter UI ────────────────────────────────────────── */
 
 .gallery-filter-btn {
@@ -4698,6 +4733,38 @@ body.gallery-fullscreen main {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+}
+
+.gallery-filter-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.gallery-fav-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-app);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.gallery-fav-filter.active {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: #fbbf24;
+  color: #d97706;
+}
+
+html.dark .gallery-fav-filter.active {
+  background: rgba(250, 204, 21, 0.15);
 }
 
 .gallery-dropdown {

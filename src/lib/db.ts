@@ -278,6 +278,7 @@ export interface SharedImage {
   subject: string;
   savedAt: number;
   rotation?: number;
+  favorite?: boolean;
 }
 
 export interface PendingShare {
@@ -366,4 +367,27 @@ export async function deleteSharedImage(id: string): Promise<void> {
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+}
+
+export async function setSharedImageFavorite(id: string, favorite: boolean): Promise<void> {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(SHARED_STORE, "readwrite");
+    const store = tx.objectStore(SHARED_STORE);
+    const req = store.get(id);
+    req.onsuccess = () => {
+      const data = req.result as SharedImage | undefined;
+      if (data) {
+        data.favorite = favorite;
+        store.put(data);
+      }
+    };
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+export async function getFavoriteSharedImages(): Promise<SharedImage[]> {
+  const all = await getSharedImages();
+  return all.filter((img) => img.favorite).sort((a, b) => b.savedAt - a.savedAt);
 }
