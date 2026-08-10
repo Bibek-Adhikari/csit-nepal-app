@@ -4799,6 +4799,47 @@ body.gallery-fullscreen main {
   background: var(--primary-light);
 }
 
+/* Course PDF toggle in welcome-hero */
+.course-pdf-cta {
+  margin-top: 0.75rem;
+}
+
+.course-pdf-toggle {
+  display: none;
+}
+
+.course-pdf-toggle:checked + .csb-minimal-btn::after {
+  content: "hide";
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-left: 0.4rem;
+  opacity: 0.7;
+  letter-spacing: 0.03em;
+}
+
+.course-pdf-toggle:checked ~ .course-overview-panel {
+  display: block;
+}
+
+.course-overview-panel {
+  display: none;
+  margin-top: 0.65rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-app);
+}
+
+html.dark .course-overview-panel {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.course-overview-coming {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
 /* Course Content Page */
 .cc-units-list {
   padding: 0 0.85rem 2rem;

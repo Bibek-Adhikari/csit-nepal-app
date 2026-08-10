@@ -41,9 +41,30 @@ async function fetchSubjectPdfs(semester: string, subject: string): Promise<Unit
   }
 }
 
+async function fetchOverviewPdf(): Promise<{ title: string; href: string } | null> {
+  try {
+    const supabase = getSupabaseServer();
+    const { data: files, error } = await supabase.storage
+      .from("notes")
+      .list("course-overview", { limit: 100, sortBy: { column: "name", order: "asc" } });
+
+    if (error || !files) return null;
+
+    const pdfFile = files.find((f: { name: string }) => f.name.toLowerCase().endsWith(".pdf"));
+    if (!pdfFile) return null;
+
+    const { data: urlData } = supabase.storage.from("notes").getPublicUrl(`course-overview/${pdfFile.name}`);
+    return { title: pdfFile.name.replace(/\.[^/.]+$/, ""), href: urlData.publicUrl };
+  } catch {
+    return null;
+  }
+}
+
 export default async function CourseContentPage() {
-  const semestersWithPdfs = await Promise.all(
-    semesters.map(async (semester) => {
+  const [overviewPdf, semestersWithPdfs] = await Promise.all([
+    fetchOverviewPdf(),
+    Promise.all(
+      semesters.map(async (semester) => {
       const subjects = await Promise.all(
         semester.subjects.map(async (subject) => {
           const pdfs = await fetchSubjectPdfs(semester.key, subject.slug);
@@ -52,7 +73,8 @@ export default async function CourseContentPage() {
       );
       return { ...semester, subjects };
     })
-  );
+  ),
+  ]);
 
   return (
     <>
@@ -63,6 +85,23 @@ export default async function CourseContentPage() {
         </div>
         <h1 style={{ marginTop: "0.5rem" }}>Full Course Structure</h1>
         <p>All semesters with units &amp; PDF notes.</p>
+
+        <div className="course-pdf-cta">
+          <input type="checkbox" id="course-pdf-toggle" className="course-pdf-toggle" hidden />
+          <label htmlFor="course-pdf-toggle" className="csb-minimal-btn">Course PDF</label>
+          <div className="course-overview-panel">
+            {overviewPdf ? (
+              <Link
+                href={`/view-pdf?url=${encodeURIComponent(overviewPdf.href)}&title=${encodeURIComponent(overviewPdf.title)}`}
+                className="cc-pdf-link"
+              >
+                {overviewPdf.title}
+              </Link>
+            ) : (
+              <span className="course-overview-coming">PDF coming soon</span>
+            )}
+          </div>
+        </div>
       </section>
 
       {semestersWithPdfs.map((semester) => (
