@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS notes (
   file_path TEXT NOT NULL,
   file_size BIGINT,
   mime_type TEXT DEFAULT 'application/pdf',
-  format TEXT NOT NULL CHECK (format IN ('pdf', 'handwritten')),
+  format TEXT NOT NULL CHECK (format IN ('pdf', 'handwritten', 'solution', 'course')),
   bucket TEXT NOT NULL DEFAULT 'notes',
   semester_key TEXT NOT NULL,
   subject_slug TEXT NOT NULL,

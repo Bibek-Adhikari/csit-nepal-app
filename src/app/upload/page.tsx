@@ -18,7 +18,7 @@ export default function UploadPage() {
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedUnit, setSelectedUnit] = useState<string>("");
   const [selectedVideo, setSelectedVideo] = useState<string>("");
-  const [noteType, setNoteType] = useState<"pdf" | "handwritten" | "solution">("pdf");
+  const [noteType, setNoteType] = useState<"pdf" | "handwritten" | "solution" | "course">("pdf");
   const [file, setFile] = useState<File | null>(null);
   const [uploadState, setUploadState] = useState<UploadState>("idle");
   const [result, setResult] = useState<{ path: string; url: string; name: string } | null>(null);
@@ -64,7 +64,7 @@ export default function UploadPage() {
   }
 
   const canSubmit = authenticated && file && (uploadTarget === "notes"
-    ? selectedSemester && selectedSubject && (selectedUnit || noteType === "solution")
+    ? selectedSemester && selectedSubject && (selectedUnit || noteType === "solution" || noteType === "course")
     : selectedVideo);
 
   const handleLogin = async () => {
@@ -113,9 +113,12 @@ export default function UploadPage() {
       folder = `${semesterKey}/${subSlug}/lecture-${selectedLecture.id}`;
       bucket = "lectures";
     } else {
-      folder = noteType === "solution" && !selectedUnit
-        ? `${selectedSemester}/${selectedSubject}`
-        : `${selectedSemester}/${selectedSubject}/${selectedUnit}`;
+      folder =
+        noteType === "solution" && !selectedUnit
+          ? `${selectedSemester}/${selectedSubject}`
+          : noteType === "course"
+            ? `${selectedSemester}/${selectedSubject}`
+            : `${selectedSemester}/${selectedSubject}/${selectedUnit}`;
       bucket = "notes";
     }
 
@@ -346,15 +349,15 @@ export default function UploadPage() {
               {/* Unit */}
               <div className="upload-field">
                 <label className="upload-label">
-                  Unit {noteType === "solution" && <span style={{ color: "var(--text-muted)", fontWeight: 400, fontSize: "0.75rem" }}>(optional for exam solutions)</span>}
+                  Unit {(noteType === "solution" || noteType === "course") && <span style={{ color: "var(--text-muted)", fontWeight: 400, fontSize: "0.75rem" }}>(not required)</span>}
                 </label>
                 <select
                   className="upload-select"
                   value={selectedUnit}
                   onChange={(v) => setSelectedUnit(v.target.value)}
-                  disabled={!subject}
+                  disabled={!subject || noteType === "course"}
                 >
-                  <option value="">{noteType === "solution" ? "— All Units (Exam Paper) —" : "— Select unit —"}</option>
+                  <option value="">{noteType === "course" ? "— Course level (subject root) —" : noteType === "solution" ? "— All Units (Exam Paper) —" : "— Select unit —"}</option>
                   {subject?.units.map((u) => (
                     <option key={u.slug} value={u.slug}>{u.title}</option>
                   ))}
@@ -408,6 +411,10 @@ export default function UploadPage() {
                 className={`upload-radio-btn${noteType === "solution" ? " active" : ""}`}
                 onClick={() => setNoteType("solution")}
               >Exam Solution</button>
+              <button
+                className={`upload-radio-btn${noteType === "course" ? " active" : ""}`}
+                onClick={() => setNoteType("course")}
+              >Course PDF</button>
             </div>
           </div>
 
@@ -554,14 +561,16 @@ export default function UploadPage() {
           )}
 
           {/* Path preview */}
-          {uploadTarget === "notes" && selectedSemester && selectedSubject && (selectedUnit || noteType === "solution") && (
+          {uploadTarget === "notes" && selectedSemester && selectedSubject && (selectedUnit || noteType === "solution" || noteType === "course") && (
             <div className="upload-path-preview">
               <span className="upload-label" style={{ fontSize: "0.72rem", marginBottom: "0.25rem" }}>
                 Storage path preview
               </span>
               <code>{noteType === "solution" && !selectedUnit
                 ? `${selectedSemester}/${selectedSubject}/filename.pdf`
-                : `${selectedSemester}/${selectedSubject}/${selectedUnit}/filename.pdf`
+                : noteType === "course"
+                  ? `${selectedSemester}/${selectedSubject}/filename.pdf`
+                  : `${selectedSemester}/${selectedSubject}/${selectedUnit}/filename.pdf`
               }</code>
             </div>
           )}
