@@ -52,40 +52,18 @@ function SharePageContent() {
 
   const [error, setError] = useState("");
 
-  const convertHeicToJpeg = (blob: Blob, name: string): Promise<{ blob: Blob; name: string }> => {
+  const convertHeicToJpeg = async (blob: Blob, name: string): Promise<{ blob: Blob; name: string }> => {
     const isHeic = blob.type === "image/heic" || blob.type === "image/heif" || name.toLowerCase().endsWith(".heic") || name.toLowerCase().endsWith(".heif");
-    if (!isHeic) return Promise.resolve({ blob, name });
+    if (!isHeic) return { blob, name };
 
-    return new Promise((resolve) => {
-      const url = URL.createObjectURL(blob);
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-          canvas.toBlob((jpegBlob) => {
-            URL.revokeObjectURL(url);
-            if (jpegBlob) {
-              const jpegName = name.replace(/\.heic$/i, ".jpg").replace(/\.heif$/i, ".jpg");
-              resolve({ blob: jpegBlob, name: jpegName });
-            } else {
-              resolve({ blob, name });
-            }
-          }, "image/jpeg", 0.92);
-        } else {
-          URL.revokeObjectURL(url);
-          resolve({ blob, name });
-        }
-      };
-      img.onerror = () => {
-        URL.revokeObjectURL(url);
-        resolve({ blob, name });
-      };
-      img.src = url;
-    });
+    try {
+      const heic2any = (await import("heic2any")).default;
+      const jpegBlob = await heic2any({ blob, toType: "image/jpeg", quality: 0.92 });
+      const jpegName = name.replace(/\.heic$/i, ".jpg").replace(/\.heif$/i, ".jpg");
+      return { blob: jpegBlob as Blob, name: jpegName };
+    } catch {
+      return { blob, name };
+    }
   };
 
   const handleConfirm = async () => {
