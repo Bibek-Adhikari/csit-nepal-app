@@ -1,0 +1,687 @@
+{
+  "semester": "2",
+  "year": "1st",
+  "courses": [
+    {
+      "course_code": "BCA 151",
+      "course_name": "Discrete Mathematics",
+      "credit_hours": 3,
+      "workload": "6 Hrs/Week (Theory: 3 Hrs, Practical: 3 Hrs)",
+      "course_description": "This course is designed to build a strong foundation in discrete mathematics—the kind of math that powers the world of computer science. It sharpens logical thinking, introduces techniques for writing solid mathematical proofs, and strengthens problem-solving skills needed in programming, algorithm design, and system development. Students will dive into key topics like logic, sets, functions, relations, combinatorics, graphs, trees, and Boolean algebra, learning not just the theory but also how these concepts apply in real tech scenarios like databases, circuits, and code structure. Through hands-on practice with tools like Python, Jupyter Notebooks, NetworkX, and Graphviz, students will bring these abstract ideas to life by building models, writing logic-based programs, and exploring how mathematics directly supports computing.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Set Theory",
+          "hours": 6,
+          "topics": [
+            "Basic Concepts: Sets, elements, roster and set-builder notation, cardinality",
+            "Set Relationships: Subsets, Proper subsets, Universal set, Complement, Disjoint sets",
+            "Set Operations: Union, Intersection, Difference, Complement, Symmetric difference",
+            "Venn Diagrams: Visual representation of set relationships and operations",
+            "Set Identities: Proof of identities using algebraic and Venn diagram methods",
+            "Cartesian Products: Ordered pairs, cross product of two or more sets",
+            "Power Sets: Definition and computation of power sets",
+            "Applications: Use of sets in databases, computer programming, and decision structures"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "Logic and Propositional Calculus",
+          "hours": 8,
+          "topics": [
+            "Propositions and Logical Operators: Definition of propositions, types (simple, compound), logical connectives: AND, OR, NOT, IMPLICATION, BICONDITIONAL",
+            "Truth Tables: Constructing truth tables for expressions involving logical operators",
+            "Tautologies, Contradictions, and Contingencies: Identifying always true/false/logical expressions",
+            "Logical Equivalence and Implications: Laws of logic (De Morgan's, distributive, associative, etc.), verifying equivalences",
+            "Predicate Logic and Quantifiers: Introduction to predicates, universal and existential quantifiers",
+            "Rules of Inference: Modus ponens, modus tollens, hypothetical syllogism, and others",
+            "Proof Methods: Direct, indirect, contradiction, contrapositive, and proof by cases"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "Relations and Functions",
+          "hours": 8,
+          "topics": [
+            "Relations: Definition, Binary Relation, Representation, Domain, Range, Universal Relation, Void Relation, Union, Intersection, and Complement Operations on Relations",
+            "Properties of Binary Relations in a Set: Reflexive, Symmetric, Transitive, Anti-symmetric Relations",
+            "Relation Matrix and Graph of a Relation; Partition and Covering of a Set, Equivalence Relation, Equivalence Classes, Compatibility Relation, Maximum Compatibility Block, Composite Relation, Converse of a Relation",
+            "Transitive Closure of a Relation R in Set X, examples from real-world scenarios",
+            "Representation of Relations: Using matrices and directed graphs (digraphs)",
+            "Equivalence and Partial Order Relations: Properties and examples, Simple or Linear Ordering, Totally Ordered Set (Chain), Frequently Used Partially Ordered Relations, Representation of Partially Ordered Sets, Hesse Diagrams, Least & Greatest Members, Minimal & Maximal Members, Least Upper Bound (Supremum), Greatest Lower Bound (infimum), Well-ordered Partially Ordered Sets (Posets). Lattice as Posets, complete, distributive modular and complemented lattices Boolean and pseudo Boolean lattices. (Definitions and simple examples only)",
+            "Closures and Composition of Relations: Reflexive, symmetric, transitive closures",
+            "Functions: Definition, domain, co-domain, range, examples",
+            "Types of Functions: Injective (one-to-one), surjective (onto), bijective (one-to-one correspondence)",
+            "Inverse and Composition of Functions: Definitions and computations",
+            "Applications: Use in programming, data mapping, and relational databases"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "Mathematical Reasoning and Proof Techniques",
+          "hours": 6,
+          "topics": [
+            "Mathematical Reasoning: Basic structure of arguments, logical flow",
+            "Mathematical Induction: Principle of induction, proof by induction, applications in series and recursive definitions",
+            "Strong Induction: Differences from regular induction, applications",
+            "Recursive Definitions: Defining sequences and structures recursively",
+            "Structural Induction: Proofs involving recursively defined structures like trees and lists",
+            "Applications: Problem-solving and validation of algorithms"
+          ]
+        },
+        {
+          "unit_number": "5",
+          "unit_name": "Combinatorics and Counting Principles",
+          "hours": 5,
+          "topics": [
+            "Basic Counting Principles: Introduction to counting, rule of sum and rule of product with real-world examples (e.g., menu combinations, clothing combinations)",
+            "Permutations and Combinations: Concepts of ordered and unordered selections, factorial notation, formulae for permutations (nPr) and combinations (nCr), applications in password generation and team selection",
+            "Pigeonhole Principle: Understanding the concept, simple and strong pigeonhole principle, applications such as birthday paradox, drawer problems, and error checking",
+            "Inclusion-Exclusion Principle: Set-based approach to solving overlapping sets, solving problems involving counting elements in unions of sets (up to three sets), and its application in probability and combinatorics"
+          ]
+        },
+        {
+          "unit_number": "6",
+          "unit_name": "Graph Theory and Trees",
+          "hours": 12,
+          "topics": [
+            "Graphs: Introduction, definition, examples; Nodes, edges, adjacent nodes, directed and undirected edge, Directed graph, undirected graph, examples; Initiating and terminating nodes, Loop (sling), Distinct edges, Parallel edges, Multi-graph, simple graph, weighted graphs, examples, Isolated nodes, Null graph; Isomorphic graphs, examples; Degree, Indegree, out-degree, total degree of a node, examples",
+            "Subgraphs: definition, examples; Converse (reversal or directional dual) of a digraph, examples",
+            "Path: Definition, Paths of a given graph, length of path, examples; Simple path (edge simple), elementary path (node simple), examples; Cycle (circuit), elementary cycle, examples",
+            "Reachability: Definition, geodesic, distance, examples; Properties of reachability, the triangle inequality; Reachable set of a given node, examples, Node base, examples",
+            "Connectedness: Definition, weakly connected, strongly connected, unilaterally connected, examples; Strong, weak, and unilateral components of a graph, examples, Applications to represent Resource allocation status of an operating system, and detection and correction of deadlocks",
+            "Matrix representation of graph: Definition, Adjacency matrix, boolean (or bit) matrix, examples; Determine number of paths of length n through Adjacency matrix, examples; Path (Reachability) matrix of a graph, examples; Warshall's algorithm to produce Path matrix, Flowchart",
+            "Types of Graphs: Simple, multigraph, weighted, directed/undirected, complete, bipartite",
+            "Graph Traversal: Breadth-First Search (BFS), Depth-First Search (DFS)",
+            "Trees: Trees: Definition, branch nodes, leaf (terminal) nodes, root, examples",
+            "Different representations of a tree, examples; Binary tree, m-ary tree, Full (or complete) binary tree, examples",
+            "Converting any m-ary tree to a binary tree, examples",
+            "Representation of a binary tree: Linked-list; algorithms; Applications of List structures and graphs",
+            "Tree Traversals: Inorder, preorder, postorder traversal techniques",
+            "Applications: Networking, pathfinding algorithms, compiler syntax trees, file systems"
+          ]
+        },
+        {
+          "unit_number": "7",
+          "unit_name": "Algebraic Structures",
+          "hours": 3,
+          "topics": [
+            "Binary Operations: Definition and examples of binary operations on sets",
+            "Algebraic Systems: Semigroups, monoids, and groups - axioms and properties",
+            "Group Theory Basics: Identity element, inverse, associativity, examples with integers and matrices",
+            "Boolean Algebra: Basic postulates and theorems, duality, Boolean functions",
+            "Logic Circuits: Simplification of logic circuits using Boolean expressions",
+            "Applications: Automata theory, logic design, cryptography"
+          ]
+        }
+      ],
+      "practical_hours": 48,
+      "practical_topics": [
+        "Truth tables, logical operators, tautologies using Python or logic tools",
+        "Set operations implementation and Venn diagram visualization",
+        "Relation properties and matrix/digraph representation in code",
+        "Function definitions and mapping types with coding examples",
+        "Recursion-based programs (factorial, Fibonacci), validating inductive proofs",
+        "Permutations and combinations via iteration and recursion",
+        "Graph representation: adjacency list and matrix (using NetworkX or code)",
+        "Graph traversal: DFS and BFS implementations",
+        "Tree structures and traversals (inorder, preorder, postorder)",
+        "Boolean algebra simplification and expression evaluation via code",
+        "Mini project: Logical puzzle solver or graph simulation"
+      ]
+    },
+    {
+      "course_code": "BCA 152",
+      "course_name": "Microprocessor and Computer Architecture",
+      "credit_hours": 3,
+      "workload": "6 Hrs/Week (Theory: 3 Hrs, Practical: 3 Hrs)",
+      "course_description": "This course is designed to familiarize the fundamental knowledge about computer architecture, instruction cycle, components of microprocessor, Intel 8085 and assembly programming.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Introduction to Microprocessor",
+          "hours": 3,
+          "topics": [
+            "Definition of Microprocessor Components: Registers, ALU, Control and Timing, System Buses (Address, Data, Control)",
+            "Microprocessor System with Bus Organization",
+            "Application of MP"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "8085 Microprocessor",
+          "hours": 12,
+          "topics": [
+            "Functional Block Diagram, Pin Configuration, Description of each Block: Registers, Flag (Description of each Flag), Multiplex Address data bus (Ad0- Ad7), Timing and Control Unit, Interrupts (Introduction Only)",
+            "Addressing Modes",
+            "Instruction cycle, Machine cycle (Opcode, fetch, memory read, memory write) and T states, Timing diagram of MOV,LDA, STA, MVI",
+            "8085 Instruction Set: Data Transfer (MOV, MVI, STA, LDA, LXI, LDAX, STAX, XCHG), Arithmetic (ADD, A DI, ADC, SUB, SUI, SBB, INR, DCR, INX, DCX), Logic (ANA, ANI, ORA, ORI, XRA, XRI, C MA, C MP), Branching (JMP, JNZ, JZ, JNC, JC)",
+            "Basic Assembly Language Programming using 8085 Instruction Sets: Addition (8 and 16 bit), Subtraction (8 and 16 bit), Multiplication (8 bit) and Division (8 bit), Simple Sequence Program, Array Searching using branching and looping"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "8086 Microprocessor",
+          "hours": 4,
+          "topics": [
+            "Logical block diagram and components",
+            "Bus interface unit and Execution Unit",
+            "Flag, pipeline concept",
+            "Memory Segmentation",
+            "Segmentation register"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "Basic Computer Architecture and Design",
+          "hours": 6,
+          "topics": [
+            "Stored Program Organization",
+            "Computer Registers, Common bus system",
+            "Instruction set, Timing and Control- Instruction Cycle",
+            "Micro-Operation, Arithmetic Micro Operations: Addition, Subtraction, Increment, Decrement",
+            "Logic Micro Operations: AND, OR, NOT, NAND, NOR, XOR",
+            "Shift Micro Operations: Logical, Circular and Arithmetic"
+          ]
+        },
+        {
+          "unit_number": "5",
+          "unit_name": "Microprogrammed Control Unit",
+          "hours": 5,
+          "topics": [
+            "Hardwired vs micro program CU",
+            "Control Memory, Address Sequencing",
+            "Micro-operation, Micro instruction, Micro Instruction Format",
+            "Micro-program: Symbolic and Binary Micro-program (FETCH)"
+          ]
+        },
+        {
+          "unit_number": "6",
+          "unit_name": "Central Processing Unit",
+          "hours": 6,
+          "topics": [
+            "General Register Organization",
+            "Stack Organization",
+            "RISC and CISC architecture"
+          ]
+        },
+        {
+          "unit_number": "7",
+          "unit_name": "Computer Arithmetic",
+          "hours": 3,
+          "topics": [
+            "Addition and Subtraction with signed magnitude data",
+            "Addition and Subtraction with signed 2's complement data",
+            "Booth Multiplication"
+          ]
+        },
+        {
+          "unit_number": "8",
+          "unit_name": "Input and Output Organization and Memory Organization",
+          "hours": 5,
+          "topics": [
+            "Introduction to Peripheral Devices",
+            "I/O interface- I/O bus and Interface Modules",
+            "Isolated versus Memory Mapped I/O",
+            "Interrupt",
+            "Direct Memory Access (DMA): Introduction, Basic DMA Procedures (DMA controller only)",
+            "Hierarchy of Memory System",
+            "Primary Memory: RAM and ROM, Memory Address Map with examples of Address Decoding",
+            "Secondary Memory: Structure of Magnetic Disk",
+            "Cache Memory"
+          ]
+        },
+        {
+          "unit_number": "9",
+          "unit_name": "Pipelining",
+          "hours": 4,
+          "topics": [
+            "Concept of Pipelining and Flynn's Classification",
+            "Pipelining Example with Speed Up Ratio",
+            "Arithmetic Pipeline, Pipeline for Floating-point Addition and Subtraction",
+            "Instruction Pipeline: Four Segment Instruction Pipeline",
+            "Data Dependency, Handling of Branch Instruction, pipeline hazard and its solution"
+          ]
+        }
+      ],
+      "practical_hours": 48,
+      "practical_topics": [
+        "Write assembly language programs using both the 8085- microprocessor trainer kit and a software-based 8085 simulators.",
+        "Demonstrate the use of all types of instructions and various addressing modes available in the 8085- instruction set.",
+        "Develop programs that include fundamental arithmetic operations (8- bit addition and subtraction,16- bit addition and subtraction,8- bit multiplication and division), logical operations, loops, bitwise manipulation, and branching techniques.",
+        "Implement algorithms for computer arithmetic using high level language"
+      ]
+    },
+    {
+      "course_code": "BCA 153",
+      "course_name": "Object Oriented Programming in Java",
+      "credit_hours": 3,
+      "workload": "6 Hrs/Week (Theory: 3 Hrs, Practical: 3 Hrs)",
+      "course_description": "This course provides an in-depth introduction to object-oriented programming (OOP) principles and their implementation using the Java programming language. This course covers the different concepts of object-oriented programming such as classes, objects, inheritance, polymorphism, abstraction, encapsulation, exception handling, multithreading collections, generics, file handling and advanced concept of OOP. The course emphasizes both theoretical understanding and hands-on programming skills.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Introduction to Java and OOP concept",
+          "hours": 4,
+          "topics": [
+            "History, Feature or Buzzwords of Java",
+            "Java Architecture: JVM, JDK and JRE",
+            "Procedural-oriented Vs. Object-oriented Programming",
+            "Setting up java environment and IDE in Local machine",
+            "Sample java programs",
+            "Compiling and running java program",
+            "Command-line arguments",
+            "Scanner class for input",
+            "Handling common errors"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "Basic of Java Programming",
+          "hours": 8,
+          "topics": [
+            "Writing comments and its type",
+            "Java token: keywords, identifier, literal, operators and separators",
+            "Data types: primitive and user-defined data type",
+            "Variable declaration and assignment, expression",
+            "Control statements: selection statements, looping statement and jump statements",
+            "Arrays: single dimension array, multi-dimensional array (Rectangular and Jagged)",
+            "Type conversion and casting",
+            "Garbage Collection",
+            "String: creation, concatenation, comparison, modification, changing case and searching",
+            "String Buffer Class"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "Class and Objects in Java",
+          "hours": 8,
+          "topics": [
+            "Defining class, adding method to class, creating object and calling function/method",
+            "Abstraction and Encapsulation",
+            "Constrictors and its type (Default, Parameterized and copy)",
+            "'this' keyword",
+            "Static fields and methods",
+            "More orm method: passing by value, by reference",
+            "Recursion",
+            "Nested and inner class",
+            "Variable length arguments",
+            "Package: Defining and importing package"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "Inheritance and Polymorphism",
+          "hours": 8,
+          "topics": [
+            "Inheritance basics",
+            "Inheritance Type( Single-level, Multi-level, Multiple and Hierarchical)",
+            "'super' keyword",
+            "Polymorphism: Method overloading and method overriding",
+            "Object class",
+            "'final' keyword",
+            "Abstract class and methods",
+            "Access control (private, protected, default and public)",
+            "Interface: Defining, implementing and applying interface"
+          ]
+        },
+        {
+          "unit_number": "5",
+          "unit_name": "Exception Handling and Multithreading",
+          "hours": 6,
+          "topics": [
+            "Basic exceptions, proper use of exceptions",
+            "Exception hierarchy",
+            "Exception handling keywords: try, catch, throw, throws and finally",
+            "Java's built-in exceptions",
+            "User-defined exceptions",
+            "Multithreading basics",
+            "Thread class and Runnable interface",
+            "Thread priorities",
+            "Thread synchronization and inter-thread communication"
+          ]
+        },
+        {
+          "unit_number": "6",
+          "unit_name": "File Handling in Java",
+          "hours": 6,
+          "topics": [
+            "Console and File I/O",
+            "Reading and writing file using byte stream",
+            "Reading and writing file using character stream",
+            "Serialization and deserialization",
+            "RandomAccessFile class"
+          ]
+        },
+        {
+          "unit_number": "7",
+          "unit_name": "Collections and Generics",
+          "hours": 6,
+          "topics": [
+            "Wrapper class and associate methods",
+            "Java collection framework: List, Set, Map interface, ArrayList, LinkedList, HashSet, HashMap and TreeSet Class",
+            "Accessing collections: Iterator/comparator",
+            "Defining generic class and methods",
+            "Using wildcard arguments",
+            "Generic interface and generic hierarchy",
+            "Some generic restrictions"
+          ]
+        },
+        {
+          "unit_number": "8",
+          "unit_name": "Advanced OOP concepts in Java",
+          "hours": 4,
+          "topics": [
+            "Design pattern: singleton, factory, observer pattern",
+            "Lambda expression",
+            "Stream API: Introduction",
+            "Optional class",
+            "Method references"
+          ]
+        }
+      ],
+      "practical_hours": 48,
+      "practical_topics": [
+        "To install Java SE and IDE (Notepad++, NetBeans or Eclipse) on local Machine.",
+        "To run and compile java program and implement concept of command-line argument and scanner class.",
+        "To implement java basic concepts: Token, control statements, arrays, type casting.",
+        "To implement method provided by String and StringBuffer class.",
+        "To define class, object and implement other object-oriented feature like Encapsulation, Inheritance, polymorphism and Abstraction.",
+        "To handle built-in and user-defined exception and implement multithreading concepts.",
+        "To create, write and read file using byte stream, character stream class and use concept of serialization, deserialization and RandomAccessFile.",
+        "To implement java collection Framework and generic concepts.",
+        "To implement advanced OOP concepts in java",
+        "After end of course student must submit programming project on object-oriented concept of Java."
+      ]
+    },
+    {
+      "course_code": "BCA 154",
+      "course_name": "Mathematics II",
+      "credit_hours": 3,
+      "workload": "6 Hrs/Week (Theory: 3 Hrs, Practical: 3 Hrs)",
+      "course_description": "The course covers the concepts of Limit and Continuity, Derivatives of Algebraic, Trigonometric, Exponential, and Logarithmic functions, and their applications. It also covers Integration and its Applications, Volume and Surface Integral of some selected functions, and Numerical Integration using Trapezoidal and Simpson's Rule. Ordinary and Partial Differential Equations, their examples and uses are also discussed in this course. Other contents of the course include Optimization Problems like Simplex Method for two variables, and Gauss- Seidel, Gauss Elimination, Matrix Inversion, Bisection, and Newton- Raphson Method for solving the linear equations.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Limit and Continuity",
+          "hours": 7,
+          "topics": [
+            "Definition of limit including epsilon-delta condition, right and left hand limit, and its interpretation",
+            "Algebraic properties of limit",
+            "Definition and conditions of continuity and discontinuity",
+            "Continuity of algebraic, Trigonometric, and exponential functions, examples, and counterexamples"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "Derivatives",
+          "hours": 7,
+          "topics": [
+            "Definition and geometrical meaning of derivatives",
+            "First principle (or by definition) method to differentiate algebraic, trigonometric, exponential, and logarithmic functions",
+            "Rules of derivatives (sum, product, power, chain, and quotient rule)",
+            "Derivatives of inverse circular, hyperbolic functions and implicit functions",
+            "Higher order derivatives",
+            "Relation between derivative and continuity",
+            "Definition and examples of partial derivatives"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "Applications of Derivatives",
+          "hours": 8,
+          "topics": [
+            "Increasing and decreasing functions",
+            "Equation of tangents and normals using first derivatives",
+            "L'Hospital's rule",
+            "Angle between two lines",
+            "Maxima and minima, absolute maxima and minima, concavity, stationary points and points of inflection",
+            "Statement and geometrical interpretation of Rolle's theorem, Cauchy Mean-value theorem and Generalized Mean-value theorem",
+            "Taylor's theorem, Maclaurin theorem (without proof) and its use in expansion of some simple functions",
+            "Applications of derivatives in Economics",
+            "Rate measures"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "Anti-derivative and its Applications",
+          "hours": 8,
+          "topics": [
+            "Definition and geometrical meaning of integration",
+            "Basic integration formulas for algebraic, trigonometric, exponential, and logarithmic functions",
+            "Trigonometric substitution for basic functions, Integration by parts (Product rule for integration)",
+            "Partial fractions",
+            "Improper integral",
+            "Definite integral in terms of Riemann sum, and fundamental theorem of integral calculus",
+            "Applications of definite integral (Area under curve, area between curves, Quadrature & rectification)",
+            "Surface and volume integrals",
+            "Trapezoidal and Simpson's Rule for numerical integration"
+          ]
+        },
+        {
+          "unit_number": "5",
+          "unit_name": "Differential Equations",
+          "hours": 8,
+          "topics": [
+            "Definition, order, and degree of differential equations",
+            "Differential equations of first order and first degree",
+            "Variables separable, homogeneous, exact, and linear differential equations",
+            "Reducible to linear form",
+            "Partial differential equations with some basic examples"
+          ]
+        },
+        {
+          "unit_number": "6",
+          "unit_name": "Computational Methods",
+          "hours": 10,
+          "topics": [
+            "Linear programming problems",
+            "Linear inequalities in two variables and their graphical solutions",
+            "Simplex Method (up to 3 variables), Duality problems",
+            "Matrix inversion method",
+            "Gauss Elimination, Gauss-Seidel method",
+            "Bisection method and Newton-Raphson Method for non-linear equations"
+          ]
+        }
+      ],
+      "practical_hours": null,
+      "practical_topics": [
+        "Students are expected to use Python, MATLAB, or Mathematica to solve the numerical problems of each units and compare the solution with that of pen and paper."
+      ]
+    },
+    {
+      "course_code": "BCA 155",
+      "course_name": "UX/UI Design",
+      "credit_hours": 3,
+      "workload": "6 Hrs/Week (Theory: 3 Hrs, Practical: 3 Hrs)",
+      "course_description": "This course covers different design principles, concepts and techniques of UX and UI designs focusing on making products with user centric user interface which is easy to use, efficient and user-friendly. Students are introduced with the basic concepts, design techniques and evaluation of UX and UI. It also includes latest concepts used by the designers to design the UX/UI and also trends in the UX/UI design.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Introduction",
+          "hours": 4,
+          "topics": [
+            "Fundamentals of UX and UI",
+            "UX vs UI",
+            "Tasks of UX designer and UI designer",
+            "UX principles: Usability, Accessibility, Simplicity",
+            "Core discipline of UX: User research, content strategy, Information Architecture, Interaction design, Visual Design, usability evaluation",
+            "User interfaces: CLI, GUI, VUI, Menu-driven, NLP based",
+            "Properties of good UX/UI design",
+            "UX/UI tools: Figma, Adobe XD, Sketch"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "User interaction design",
+          "hours": 4,
+          "topics": [
+            "UX design process and user center design, Mindmap",
+            "UX research: Conducting user research: Interviews, Surveys, Competitive analysis, creating user personas, user journey mapping",
+            "Ideation techniques: using Mood boards, Brainstorming and sketching"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "User Interface design",
+          "hours": 6,
+          "topics": [
+            "Graphical and web user interfaces",
+            "Interaction styles: Command line, Menu selection, Form fill in, Direct manipulation, Anthropomorphic",
+            "Principles of UI design",
+            "Graphical user interface",
+            "UI design process",
+            "Human considerations in interface and screen design",
+            "Technological considerations in interface design"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "UI components",
+          "hours": 12,
+          "topics": [
+            "System menus and functions of menus",
+            "Formatting of menus: Consistency, display, presentation, organization, complexity, item arrangement, ordering, grouping",
+            "Types of menus: Menu bar, pull down menu, cascading menu, popup menu, tear off menu, iconic menu",
+            "Selection of Windows and its components, window presentation styles: Tiled windows, overlapping windows, cascading windows",
+            "Types of windows: Primary, secondary windows, dialog boxes",
+            "Screen based controls: Operable controls (Buttons, toolbars), Text entry/Read-only controls (single and multiple line textboxes,) selection controls (radio buttons, checkboxes, palettes, list boxes, list view controls, drop down/popup list boxes",
+            "Other operable controls: slider, tabs, date picker, tree view, scroll bars",
+            "Selecting the proper controls",
+            "Creating meaningful graphics, icons and images"
+          ]
+        },
+        {
+          "unit_number": "5",
+          "unit_name": "UI Design considerations",
+          "hours": 6,
+          "topics": [
+            "Page layout, Color scheme and font selection, typography, screen size and responsive designs, interactive element",
+            "Visual hierarchy principles: Alignment, Color, Contrast, Proximity, Size, Texture, Time",
+            "Navigation: Global navigation, utility navigation, Associative and Inline Navigation",
+            "Navigational models: Hub and spoke, fully connected, multilevel or tree, stepwise navigation, Pyramid navigation, flat navigation"
+          ]
+        },
+        {
+          "unit_number": "6",
+          "unit_name": "Wireframing and prototyping",
+          "hours": 6,
+          "topics": [
+            "Wireframes and mock-ups",
+            "Prototyping: Low fidelity and high fidelity prototyping, interactive prototyping",
+            "UX storyboarding, mockups",
+            "Software prototyping",
+            "Transition and animation to prototypes",
+            "Creating a simple clickable prototype"
+          ]
+        },
+        {
+          "unit_number": "7",
+          "unit_name": "Design evaluations",
+          "hours": 6,
+          "topics": [
+            "Formative and summative evaluation",
+            "Usability testing: Moderated vs Unmoderated",
+            "Analyzing test results and gathering insights",
+            "Evaluation through expert analysis and user participation, iterative evaluation and evaluation paradigms",
+            "DECIDE evaluation framework, heuristic evaluation",
+            "Task analysis and performance metrics"
+          ]
+        },
+        {
+          "unit_number": "8",
+          "unit_name": "Advanced techniques: VUI and NLP based UI",
+          "hours": 4,
+          "topics": [
+            "Command and control vs Conversational UI",
+            "Personas, Avatars, Actors and Video games",
+            "Speech recognition technology and Dialog management",
+            "Designing for Wearable Devices"
+          ]
+        }
+      ],
+      "practical_hours": 48,
+      "practical_topics": [
+        "Use the basic tools and features for visual designs",
+        "Use proper page layout, font selection, screen size and responsive designs",
+        "Implement color theory and typography in interface designs",
+        "Create designs with proper grids and layouts",
+        "Integrating interactive elements to the designs",
+        "Create design with different types of windows and operable controls",
+        "Use different navigational styles in the designs",
+        "Construct wireframe and prototypes for the designs",
+        "Create the storyboards for interaction designs",
+        "Apply different effects, styles and animation for designs",
+        "At the end of the semester, students need to submit a project that should include the basic interface and interaction designs for a chosen topic individually and perform the evaluations on the designs."
+      ]
+    },
+    {
+      "course_code": "BCA 156",
+      "course_name": "Principle of Management",
+      "credit_hours": 1,
+      "workload": "1 Hrs/Week (Theory: 1 Hrs)",
+      "course_description": "This course introduces the fundamental principles of management by integrating classical concepts with modern practices and emerging issues in management. It introduces students to the core functions of management - planning, organizing, decision-making and leading - while highlighting social dimensions of organizational behavior. Practical emphasis is placed on understanding the uses of IT in management.",
+      "units": [
+        {
+          "unit_number": "1",
+          "unit_name": "Introduction to Management",
+          "hours": null,
+          "topics": [
+            "Concept and meaning of management",
+            "Forms of business",
+            "Management process",
+            "Types of managers",
+            "Basic managerial roles",
+            "Managerial skills",
+            "Integrated management framework",
+            "Managing ethics and diversity",
+            "Social responsibilities and organizations",
+            "Role of IT in management"
+          ]
+        },
+        {
+          "unit_number": "2",
+          "unit_name": "Planning and Decision making",
+          "hours": null,
+          "topics": [
+            "Concept of planning",
+            "Planning process",
+            "Types of plan",
+            "Organizational goals",
+            "Organizational planning",
+            "SWOT analysis",
+            "Nature and process of decision-making",
+            "Use of IT in planning and decision-making"
+          ]
+        },
+        {
+          "unit_number": "3",
+          "unit_name": "Organizing",
+          "hours": 3,
+          "topics": [
+            "Elements of organizing",
+            "Job design, job description and job specification",
+            "Authority distribution",
+            "Forms of organizational design"
+          ]
+        },
+        {
+          "unit_number": "4",
+          "unit_name": "Leading",
+          "hours": null,
+          "topics": [
+            "Nature of leadership",
+            "Generic approaches to leadership",
+            "Situational approaches to leadership",
+            "Emerging approaches to leadership",
+            "Managing team in the time of crisis",
+            "Leadership challenges in IT based organization"
+          ]
+        }
+      ],
+      "practical_hours": null,
+      "practical_topics": null,
+      "note": "This course is delivered in a seminar format. There is no final examination. Assessment is continuous based on presentation, participation, attendance, quizzes, term paper, and reflection note."
+    }
+  ]
+}
