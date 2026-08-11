@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Dark Mode Design</text>
+  <text x="40" y="75" class="subtitle">Reduce eye strain with careful color adaptation &#8212; never invert blindly</text>
+
+  <!-- Do -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <circle cx="28" cy="28" r="12" fill="#10b981" />
+    <path d="M22 28 l4 4 l8 -10" fill="none" stroke="#fff" stroke-width="2.5" />
+    <text x="48" y="34" class="label" fill="#34d399">Use dark grays</text>
+    <rect x="24" y="50" width="300" height="34" rx="8" fill="#121212" stroke="#1e293b" />
+    <text x="40" y="72" font-family="'Segoe UI', sans-serif" font-size="13" fill="#e0e0e0">Surface #121212 &#183; Text #E0E0E0</text>
+    <rect x="24" y="96" width="300" height="34" rx="8" fill="#1e1e1e" stroke="#2d2d2d" />
+    <text x="40" y="118" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff">Raised surface #1E1E1E</text>
+    <text x="24" y="142" class="desc" fill="#64748b">Elevation via lighter surfaces, not shadows</text>
+  </g>
+
+  <!-- Don't -->
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#dc2626" stroke-width="2" />
+    <circle cx="28" cy="28" r="12" fill="#dc2626" />
+    <line x1="22" y1="22" x2="34" y2="34" stroke="#fff" stroke-width="2.5" />
+    <line x1="34" y1="22" x2="22" y2="34" stroke="#fff" stroke-width="2.5" />
+    <text x="48" y="34" class="label" fill="#f87171">Avoid pure black</text>
+    <rect x="24" y="50" width="300" height="34" rx="8" fill="#000000" stroke="#334155" />
+    <text x="40" y="72" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff">Pure black #000 hurts contrast</text>
+    <rect x="24" y="96" width="300" height="34" rx="8" fill="#0a0a0a" stroke="#334155" />
+    <text x="40" y="118" font-family="'Segoe UI', sans-serif" font-size="13" fill="#ffffff">White on black causes eye fatigue</text>
+    <text x="24" y="142" class="desc" fill="#64748b">Lower contrast slightly on dark backgrounds</text>
+  </g>
+
+  <!-- System preference -->
+  <g transform="translate(40, 275)">
+    <rect x="0" y="0" width="720" height="110" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#a78bfa">Respect System Preferences</text>
+    <rect x="24" y="44" width="660" height="24" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="60" font-family="'Courier New', monospace" font-size="12" fill="#a78bfa">@media (prefers-color-scheme: dark) { --bg: #121212; }</text>
+    <rect x="24" y="78" width="300" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="93" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Follow OS theme automatically</text>
+    <rect x="340" y="78" width="300" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="352" y="93" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Always offer a manual toggle too</text>
+    <text x="24" y="104" class="desc" fill="#64748b">Test brand colors in both modes &#8212; adjust saturation for dark surfaces</text>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .principle { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 17px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">UI Design Principles</text>
+  <text x="40" y="75" class="subtitle">The five pillars that guide every great interface</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(40, 105)">
+    <rect x="0" y="0" width="225" height="110" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="38" class="principle" fill="#60a5fa">Consistency</text>
+    <text x="18" y="60" class="desc">Uniform patterns and controls</text>
+    <text x="18" y="78" class="desc">across every screen. Users never</text>
+    <text x="18" y="96" class="desc">relearn how the app behaves.</text>
+  </g>
+
+  <g transform="translate(288, 105)">
+    <rect x="0" y="0" width="225" height="110" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="38" class="principle" fill="#34d399">Visibility</text>
+    <text x="18" y="60" class="desc">Important actions are always</text>
+    <text x="18" y="78" class="desc">visible. Never bury critical</text>
+    <text x="18" y="96" class="desc">functions in deep menus.</text>
+  </g>
+
+  <g transform="translate(536, 105)">
+    <rect x="0" y="0" width="225" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="38" class="principle" fill="#fbbf24">Feedback</text>
+    <text x="18" y="60" class="desc">Every action gets an immediate,</text>
+    <text x="18" y="78" class="desc">clear response - hover states,</text>
+    <text x="18" y="96" class="desc">validation and loading indicators.</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(164, 245)">
+    <rect x="0" y="0" width="225" height="110" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <text x="18" y="38" class="principle" fill="#f472b6">Simplicity</text>
+    <text x="18" y="60" class="desc">Remove everything unnecessary.</text>
+    <text x="18" y="78" class="desc">Every pixel serves a purpose -</text>
+    <text x="18" y="96" class="desc">add nothing that isn&#8217;t needed.</text>
+  </g>
+
+  <g transform="translate(412, 245)">
+    <rect x="0" y="0" width="225" height="110" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="18" y="38" class="principle" fill="#a78bfa">Hierarchy</text>
+    <text x="18" y="60" class="desc">Guide attention with visual</text>
+    <text x="18" y="78" class="desc">weight. The most important</text>
+    <text x="18" y="96" class="desc">elements are the most prominent.</text>
+  </g>
+
+  <text x="400" y="410" text-anchor="middle" class="desc" font-weight="600" fill="#64748b">Consistency + Visibility + Feedback + Simplicity + Hierarchy</text>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Voice User Interface (VUI)</text>
+  <text x="40" y="75" class="subtitle">Conversation is the interface &#8212; powered by speech recognition</text>
+
+  <!-- Voice command flow -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="720" height="130" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="24" y="30" class="label" fill="#60a5fa">How a voice command works</text>
+    <!-- user mic -->
+    <circle cx="70" cy="82" r="26" fill="#0f172a" stroke="#3b82f6" stroke-width="2" />
+    <path d="M64 74 a10 10 0 0 1 12 0" fill="none" stroke="#60a5fa" stroke-width="2.5" />
+    <rect x="67" y="84" width="6" height="10" rx="3" fill="#60a5fa" />
+    <line x1="70" y1="80" x2="70" y2="92" stroke="#60a5fa" stroke-width="2" />
+    <text x="70" y="60" text-anchor="middle" class="desc" fill="#94a3b8">Speak</text>
+    <!-- arrow -->
+    <line x1="110" y1="82" x2="160" y2="82" stroke="#475569" stroke-width="2" />
+    <polygon points="162,82 157,78 157,86" fill="#475569" />
+    <!-- STT -->
+    <rect x="164" y="54" width="130" height="56" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="229" y="76" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#34d399">Speech-to-text</text>
+    <text x="229" y="96" text-anchor="middle" class="desc" fill="#64748b">converts audio</text>
+    <!-- arrow -->
+    <line x1="294" y1="82" x2="344" y2="82" stroke="#475569" stroke-width="2" />
+    <polygon points="346,82 341,78 341,86" fill="#475569" />
+    <!-- NLU -->
+    <rect x="348" y="54" width="130" height="56" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2" />
+    <text x="413" y="76" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#fbbf24">Understand</text>
+    <text x="413" y="96" text-anchor="middle" class="desc" fill="#64748b">intent + entities</text>
+    <!-- arrow -->
+    <line x1="478" y1="82" x2="528" y2="82" stroke="#475569" stroke-width="2" />
+    <polygon points="530,82 525,78 525,86" fill="#475569" />
+    <!-- Action -->
+    <rect x="532" y="54" width="130" height="56" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="2" />
+    <text x="597" y="76" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#a78bfa">Take action</text>
+    <text x="597" y="96" text-anchor="middle" class="desc" fill="#64748b">+ reply aloud</text>
+  </g>
+
+  <!-- Principles -->
+  <g transform="translate(40, 255)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#34d399">Design Principles</text>
+    <text x="20" y="54" class="desc" fill="#94a3b8">&#8226; Be conversational and brief</text>
+    <text x="20" y="72" class="desc" fill="#94a3b8">&#8226; Confirm understanding</text>
+    <text x="20" y="90" class="desc" fill="#94a3b8">&#8226; Handle errors gracefully</text>
+    <text x="20" y="108" class="desc" fill="#94a3b8">&#8226; Provide clear prompts</text>
+  </g>
+
+  <!-- Use cases -->
+  <g transform="translate(410, 255)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#fbbf24">Use Cases</text>
+    <text x="20" y="54" class="desc" fill="#94a3b8">&#8226; Smart home control</text>
+    <text x="20" y="72" class="desc" fill="#94a3b8">&#8226; Virtual assistants (Alexa, Siri)</text>
+    <text x="20" y="90" class="desc" fill="#94a3b8">&#8226; IVR phone systems</text>
+    <text x="20" y="108" class="desc" fill="#94a3b8">&#8226; In-car entertainment &amp; accessibility</text>
+  </g>
+</svg>

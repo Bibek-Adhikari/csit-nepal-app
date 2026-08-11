@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">User Surveys &amp; Interviews</text>
+  <text x="40" y="75" class="subtitle">Qualitative depth from interviews, quantitative breadth from surveys</text>
+
+  <!-- Interview -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#60a5fa">Interviews</text>
+    <circle cx="110" cy="95" r="24" fill="#0f172a" stroke="#3b82f6" stroke-width="2" />
+    <circle cx="110" cy="89" r="9" fill="#3b82f6" />
+    <path d="M88 120 a22 22 0 0 1 44 0 z" fill="#3b82f6" />
+    <path d="M160 78 q-8 -10 0 -18 M180 78 q-8 -10 0 -18 M200 78 q-8 -10 0 -18" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="220" cy="95" r="24" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <circle cx="220" cy="89" r="9" fill="#10b981" />
+    <path d="M198 120 a22 22 0 0 1 44 0 z" fill="#10b981" />
+    <text x="18" y="135" class="desc" fill="#64748b">Open-ended questions, active listening, probe deeper</text>
+    <text x="18" y="150" class="desc" fill="#64748b">Ask &#8220;Tell me about the last time you...&#8221;</text>
+  </g>
+
+  <!-- Survey -->
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#34d399">Surveys</text>
+    <rect x="24" y="44" width="302" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="59" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">How satisfied are you with the app?</text>
+    <circle cx="40" cy="84" r="6" fill="#10b981" />
+    <circle cx="70" cy="84" r="6" fill="none" stroke="#334155" stroke-width="1.5" />
+    <circle cx="100" cy="84" r="6" fill="none" stroke="#334155" stroke-width="1.5" />
+    <circle cx="130" cy="84" r="6" fill="none" stroke="#334155" stroke-width="1.5" />
+    <text x="36" y="106" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">1 (very) &#160;&#160; 2 &#160;&#160; 3 &#160;&#160; 4 &#160;&#160; 5 (not at all)</text>
+    <rect x="24" y="118" width="180" height="18" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="131" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Optional comments...</text>
+    <text x="18" y="150" class="desc" fill="#64748b">Likert scales + open text, keep 5-10 min</text>
+  </g>
+
+  <!-- Question types -->
+  <g transform="translate(40, 275)">
+    <rect x="0" y="0" width="350" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#fbbf24">Question Types</text>
+    <rect x="20" y="44" width="70" height="46" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="55" y="66" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Behavioral</text>
+    <rect x="100" y="44" width="70" height="46" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="135" y="66" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Attitudinal</text>
+    <rect x="180" y="44" width="70" height="46" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="215" y="66" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Usability</text>
+    <rect x="260" y="44" width="70" height="46" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="295" y="66" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Demographic</text>
+    <text x="18" y="104" class="desc" fill="#64748b">Avoid leading or biased phrasing</text>
+  </g>
+
+  <g transform="translate(410, 275)">
+    <rect x="0" y="0" width="350" height="110" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#a78bfa">Analysis</text>
+    <text x="20" y="56" class="desc" fill="#94a3b8">&#8226; Quantitative &#8594; statistics (scales, MCQs)</text>
+    <text x="20" y="74" class="desc" fill="#94a3b8">&#8226; Qualitative &#8594; thematic analysis</text>
+    <text x="20" y="92" class="desc" fill="#94a3b8">&#8226; Combine both for rich, reliable insights</text>
+  </g>
+</svg>

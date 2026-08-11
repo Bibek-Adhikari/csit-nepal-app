@@ -618,6 +618,47 @@ html.dark .stat-bubble {
   color: var(--text-muted);
 }
 
+/* Ad Banner */
+.ad-banner {
+  margin: 0.85rem 0.85rem 0;
+  padding: 0.6rem 0.6rem 0.45rem;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  animation: fadeInUp 0.35s ease both;
+}
+
+html.dark .ad-banner {
+  border-color: rgba(36, 50, 74, 0.9);
+  background: rgba(15, 23, 42, 0.94);
+}
+
+.ad-banner-label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.ad-banner-slot {
+  width: 100%;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ad-banner-slot iframe {
+  border-radius: 14px;
+}
+
 .section-headline {
   margin: 0 1rem 0.7rem;
   font-size: 0.78rem;
@@ -2225,6 +2266,7 @@ html.dark .upload-path-preview {
   }
 
   .welcome-hero,
+  .ad-banner,
   .youtube-embedded-banner,
   .section-headline,
   .semester-scroller,
@@ -2232,7 +2274,6 @@ html.dark .upload-path-preview {
     margin-left: 1.35rem;
     margin-right: 1.35rem;
   }
-
   .welcome-hero {
     padding: 1.25rem;
   }

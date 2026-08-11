@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Performance Considerations</text>
+  <text x="40" y="75" class="subtitle">Speed that users feel matters as much as real speed</text>
+
+  <!-- Core Web Vitals -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#60a5fa">Core Web Vitals</text>
+
+    <rect x="20" y="46" width="310" height="26" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="32" y="63" font-family="'Segoe UI', sans-serif" font-size="12" fill="#94a3b8">LCP</text>
+    <rect x="66" y="51" width="150" height="16" rx="8" fill="#10b981" />
+    <rect x="66" y="51" width="90" height="16" rx="8" fill="#0f172a" />
+    <text x="230" y="63" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">&lt; 2.5s</text>
+
+    <rect x="20" y="80" width="310" height="26" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="32" y="97" font-family="'Segoe UI', sans-serif" font-size="12" fill="#94a3b8">INP</text>
+    <rect x="66" y="85" width="150" height="16" rx="8" fill="#10b981" />
+    <rect x="66" y="85" width="70" height="16" rx="8" fill="#0f172a" />
+    <text x="230" y="97" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">&lt; 200ms</text>
+
+    <rect x="20" y="114" width="310" height="26" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="32" y="131" font-family="'Segoe UI', sans-serif" font-size="12" fill="#94a3b8">CLS</text>
+    <rect x="66" y="119" width="150" height="16" rx="8" fill="#10b981" />
+    <rect x="66" y="119" width="30" height="16" rx="8" fill="#0f172a" />
+    <text x="230" y="131" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">&lt; 0.1</text>
+  </g>
+
+  <!-- Techniques -->
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#34d399">Techniques that build trust</text>
+
+    <rect x="20" y="46" width="150" height="40" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="95" y="62" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Skeleton screens</text>
+    <text x="95" y="77" text-anchor="middle" class="desc" fill="#64748b">show progress instantly</text>
+
+    <rect x="180" y="46" width="150" height="40" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="255" y="62" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Lazy loading</text>
+    <text x="255" y="77" text-anchor="middle" class="desc" fill="#64748b">load only what is seen</text>
+
+    <rect x="20" y="96" width="310" height="40" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="175" y="112" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Optimistic updates</text>
+    <text x="175" y="127" text-anchor="middle" class="desc" fill="#64748b">update UI first, confirm with the server</text>
+  </g>
+
+  <g transform="translate(40, 275)">
+    <rect x="0" y="0" width="720" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#fbbf24">Perceived vs. Real Performance</text>
+    <!-- real time line -->
+    <rect x="20" y="46" width="680" height="8" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="20" y="46" width="120" height="8" rx="4" fill="#3b82f6" />
+    <text x="20" y="72" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Real load time</text>
+    <text x="90" y="72" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa">= 1.8s</text>
+    <!-- perceived time line -->
+    <rect x="20" y="84" width="680" height="8" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="20" y="84" width="60" height="8" rx="4" fill="#10b981" />
+    <text x="20" y="102" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8">Perceived time (skeleton + instant feedback)</text>
+    <text x="470" y="102" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">feels instant</text>
+  </g>
+</svg>

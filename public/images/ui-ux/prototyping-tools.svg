@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .tool { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 15px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Prototyping Tools</text>
+  <text x="40" y="75" class="subtitle">Pick the right tool for the fidelity and interaction you need to test</text>
+
+  <!-- Figma -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="225" height="160" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <path d="M58 40 v44 a13 13 0 0 0 26 0 v-10 h-13 a13 13 0 0 1 -13 -13 v-21 z" fill="#a259ff" />
+    <text x="92" y="60" class="tool" fill="#f8fafc">Figma</text>
+    <text x="92" y="78" class="desc">Design + prototype together</text>
+    <text x="20" y="110" class="desc">Smart animate, overlays, design systems</text>
+    <text x="20" y="128" class="desc">Real-time collaboration</text>
+    <text x="20" y="146" class="desc">Share links for user testing</text>
+  </g>
+
+  <!-- InVision -->
+  <g transform="translate(288, 100)">
+    <rect x="0" y="0" width="225" height="160" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <rect x="48" y="42" width="30" height="30" rx="6" fill="none" stroke="#10b981" stroke-width="2" />
+    <text x="92" y="60" class="tool" fill="#f8fafc">InVision</text>
+    <text x="92" y="78" class="desc">Dedicated prototype platform</text>
+    <text x="20" y="110" class="desc">Clickable hotspots</text>
+    <text x="20" y="128" class="desc">Screen-to-screen flows</text>
+    <text x="20" y="146" class="desc">Stakeholder presentations</text>
+  </g>
+
+  <!-- Principle -->
+  <g transform="translate(536, 100)">
+    <rect x="0" y="0" width="225" height="160" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <circle cx="62" cy="57" r="14" fill="none" stroke="#fbbf24" stroke-width="2" />
+    <text x="88" y="62" class="tool" fill="#f8fafc">Principle</text>
+    <text x="88" y="80" class="desc">Animated prototypes (Mac)</text>
+    <text x="20" y="112" class="desc">Microinteractions &amp; transitions</text>
+    <text x="20" y="130" class="desc">Motion design focus</text>
+    <text x="20" y="148" class="desc">Exports to video or interactive</text>
+  </g>
+
+  <!-- Framer -->
+  <g transform="translate(40, 285)">
+    <rect x="0" y="0" width="225" height="100" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="20" y="32" class="tool" fill="#a78bfa">Framer</text>
+    <text x="20" y="54" class="desc">Advanced prototyping with code</text>
+    <text x="20" y="72" class="desc">Complex interactions, animations, real data</text>
+    <text x="20" y="90" class="desc">Bridges design and development</text>
+  </g>
+
+  <!-- Adobe XD -->
+  <g transform="translate(288, 285)">
+    <rect x="0" y="0" width="225" height="100" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <rect x="20" y="14" width="22" height="22" rx="4" fill="none" stroke="#f472b6" stroke-width="2" />
+    <text x="52" y="32" class="tool" fill="#f8fafc">Adobe XD</text>
+    <text x="20" y="56" class="desc">Auto-animate, repeat grid, voice prototyping</text>
+    <text x="20" y="74" class="desc">Integrates with Photoshop &amp; Illustrator</text>
+  </g>
+
+  <!-- Footer -->
+  <g transform="translate(536, 285)">
+    <rect x="0" y="0" width="225" height="100" rx="12" fill="#1e293b" stroke="#06b6d4" stroke-width="2" />
+    <text x="20" y="32" class="tool" fill="#22d3ee">How to choose</text>
+    <text x="20" y="56" class="desc">Motion-heavy &#8594; Principle / Framer</text>
+    <text x="20" y="74" class="desc">Collaboration &#8594; Figma</text>
+    <text x="20" y="92" class="desc">Quick flows &#8594; InVision</text>
+  </g>
+</svg>

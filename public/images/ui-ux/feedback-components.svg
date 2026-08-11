@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Feedback Components</text>
+  <text x="40" y="75" class="subtitle">How a product tells users what just happened and what is happening</text>
+
+  <!-- Toast -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="160" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#60a5fa">Toast / Snackbar</text>
+    <rect x="60" y="52" width="270" height="46" rx="8" fill="#0f172a" stroke="#334155" />
+    <circle cx="84" cy="75" r="12" fill="#10b981" />
+    <path d="M78 75 l5 5 l8 -10" fill="none" stroke="#fff" stroke-width="2.5" />
+    <text x="104" y="79" font-family="'Segoe UI', sans-serif" font-size="12" fill="#e2e8f0">File uploaded successfully</text>
+    <text x="18" y="136" class="desc">Temporary, non-blocking &#8212; 3-5 seconds, action optional.</text>
+  </g>
+
+  <!-- Alert -->
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="160" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#fbbf24">Alert / Notification</text>
+    <rect x="24" y="52" width="302" height="46" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
+    <path d="M48 62 l-6 24 h26 z" fill="none" stroke="#fbbf24" stroke-width="2.5" />
+    <text x="52" y="80" font-family="'Segoe UI', sans-serif" font-size="12" fill="#fbbf24">!</text>
+    <text x="84" y="79" font-family="'Segoe UI', sans-serif" font-size="12" fill="#e2e8f0">Your session will expire soon</text>
+    <text x="18" y="136" class="desc">More prominent, persistent, color-coded by severity.</text>
+  </g>
+
+  <!-- Skeleton -->
+  <g transform="translate(40, 285)">
+    <rect x="0" y="0" width="350" height="105" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#f472b6">Skeleton Screen</text>
+    <rect x="24" y="42" width="44" height="44" rx="8" fill="#0f172a" stroke="#334155" />
+    <rect x="80" y="46" width="160" height="10" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="80" y="64" width="120" height="10" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="24" y="98" width="180" height="8" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="24" y="110" width="60" height="8" rx="4" fill="#0f172a" stroke="#334155" />
+    <text x="24" y="124" class="desc" transform="translate(0,0)" fill="#64748b">Placeholders feel faster than spinners.</text>
+  </g>
+
+  <g transform="translate(410, 285)">
+    <rect x="0" y="0" width="350" height="105" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#a78bfa">Empty States</text>
+    <circle cx="175" cy="62" r="22" fill="#0f172a" stroke="#334155" />
+    <rect x="167" y="52" width="16" height="20" rx="2" fill="none" stroke="#8b5cf6" stroke-width="2.5" />
+    <text x="175" y="96" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#a78bfa">No projects yet</text>
+    <text x="175" y="112" text-anchor="middle" class="desc" fill="#64748b">Illustration + explanation + call-to-action</text>
+  </g>
+</svg>

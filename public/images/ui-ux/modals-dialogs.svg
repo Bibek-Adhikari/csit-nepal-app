@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Modals &amp; Dialogs</text>
+  <text x="40" y="75" class="subtitle">Focused, single-task overlays &#8212; always with a clear exit</text>
+
+  <!-- Background screen (behind) -->
+  <rect x="80" y="110" width="640" height="250" rx="14" fill="#0f172a" stroke="#334155" stroke-width="2" opacity="0.5" />
+  <rect x="100" y="130" width="200" height="16" rx="4" fill="#1e293b" />
+  <rect x="100" y="160" width="560" height="10" rx="4" fill="#1e293b" />
+  <rect x="100" y="180" width="480" height="10" rx="4" fill="#1e293b" />
+  <rect x="100" y="200" width="540" height="10" rx="4" fill="#1e293b" />
+
+  <!-- Modal -->
+  <g transform="translate(210, 120)">
+    <rect x="0" y="0" width="380" height="230" rx="14" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <rect x="0" y="0" width="380" height="52" rx="14" fill="#0f172a" />
+    <text x="24" y="34" font-family="'Segoe UI', sans-serif" font-weight="700" fill="#f8fafc" font-size="16">Delete this file?</text>
+    <line x1="20" y1="52" x2="360" y2="52" stroke="#334155" stroke-width="1.5" />
+    <text x="344" y="36" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="700" fill="#64748b" font-size="16">&#215;</text>
+    <text x="24" y="88" font-family="'Segoe UI', sans-serif" fill="#94a3b8" font-size="12">This action cannot be undone. The file and all its</text>
+    <text x="24" y="106" font-family="'Segoe UI', sans-serif" fill="#94a3b8" font-size="12">notes will be permanently removed.</text>
+    <rect x="24" y="140" width="150" height="40" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1.5" />
+    <text x="99" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#94a3b8" font-size="13">Cancel</text>
+    <rect x="206" y="140" width="150" height="40" rx="8" fill="#dc2626" />
+    <text x="281" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#fff" font-size="13">Delete</text>
+    <text x="190" y="208" text-anchor="middle" class="label" fill="#a78bfa" font-size="11">ESC &#183; X button &#183; overlay click to close</text>
+  </g>
+
+  <!-- Dim overlay hint -->
+  <text x="80" y="400" font-family="'Segoe UI', sans-serif" font-size="12" fill="#64748b">Overlays focus attention: one modal at a time, a clear exit, and a single task.</text>
+</svg>
