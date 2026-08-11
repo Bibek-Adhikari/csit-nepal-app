@@ -17,7 +17,7 @@
   <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
 
   <text x="40" y="50" class="title">Voice User Interface (VUI)</text>
-  <text x="40" y="75" class="subtitle">Conversation is the interface &mdash; powered by speech recognition</text>
+  <text x="40" y="75" class="subtitle">Conversation is the interface &#8212; powered by speech recognition</text>
 
   <!-- Voice command flow -->
   <g transform="translate(40, 100)">
@@ -56,19 +56,19 @@
   <g transform="translate(40, 255)">
     <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
     <text x="18" y="30" class="label" fill="#34d399">Design Principles</text>
-    <text x="20" y="54" class="desc" fill="#94a3b8">&bull; Be conversational and brief</text>
-    <text x="20" y="72" class="desc" fill="#94a3b8">&bull; Confirm understanding</text>
-    <text x="20" y="90" class="desc" fill="#94a3b8">&bull; Handle errors gracefully</text>
-    <text x="20" y="108" class="desc" fill="#94a3b8">&bull; Provide clear prompts</text>
+    <text x="20" y="54" class="desc" fill="#94a3b8">&#8226; Be conversational and brief</text>
+    <text x="20" y="72" class="desc" fill="#94a3b8">&#8226; Confirm understanding</text>
+    <text x="20" y="90" class="desc" fill="#94a3b8">&#8226; Handle errors gracefully</text>
+    <text x="20" y="108" class="desc" fill="#94a3b8">&#8226; Provide clear prompts</text>
   </g>
 
   <!-- Use cases -->
   <g transform="translate(410, 255)">
     <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
     <text x="18" y="30" class="label" fill="#fbbf24">Use Cases</text>
-    <text x="20" y="54" class="desc" fill="#94a3b8">&bull; Smart home control</text>
-    <text x="20" y="72" class="desc" fill="#94a3b8">&bull; Virtual assistants (Alexa, Siri)</text>
-    <text x="20" y="90" class="desc" fill="#94a3b8">&bull; IVR phone systems</text>
-    <text x="20" y="108" class="desc" fill="#94a3b8">&bull; In-car entertainment &amp; accessibility</text>
+    <text x="20" y="54" class="desc" fill="#94a3b8">&#8226; Smart home control</text>
+    <text x="20" y="72" class="desc" fill="#94a3b8">&#8226; Virtual assistants (Alexa, Siri)</text>
+    <text x="20" y="90" class="desc" fill="#94a3b8">&#8226; IVR phone systems</text>
+    <text x="20" y="108" class="desc" fill="#94a3b8">&#8226; In-car entertainment &amp; accessibility</text>
   </g>
 </svg>

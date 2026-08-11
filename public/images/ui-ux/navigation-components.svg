@@ -52,7 +52,7 @@
     <rect x="0" y="0" width="350" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
     <text x="18" y="28" class="label" fill="#fbbf24">Pagination</text>
     <circle cx="62" cy="66" r="16" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
-    <text x="62" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#fbbf24">&lsaquo;</text>
+    <text x="62" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#fbbf24">&#8249;</text>
     <circle cx="110" cy="66" r="16" fill="#1e3a2f" stroke="#10b981" stroke-width="1.5" />
     <text x="110" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#34d399">1</text>
     <circle cx="150" cy="66" r="16" fill="#0f172a" stroke="#334155" />
@@ -60,8 +60,8 @@
     <circle cx="190" cy="66" r="16" fill="#0f172a" stroke="#334155" />
     <text x="190" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#94a3b8">3</text>
     <circle cx="258" cy="66" r="16" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
-    <text x="258" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#fbbf24">&rsaquo;</text>
-    <text x="18" y="100" class="desc">Numbered pages with prev/next and &ldquo;showing X of Y&rdquo;.</text>
+    <text x="258" y="71" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#fbbf24">&#8250;</text>
+    <text x="18" y="100" class="desc">Numbered pages with prev/next and &#8220;showing X of Y&#8221;.</text>
   </g>
 
   <!-- Breadcrumbs -->

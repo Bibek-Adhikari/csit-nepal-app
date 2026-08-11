@@ -17,7 +17,7 @@
   <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
 
   <text x="40" y="50" class="title">Types of Wireframes</text>
-  <text x="40" y="75" class="subtitle">From rough sketch to high fidelity &mdash; fidelity increases as ideas validate</text>
+  <text x="40" y="75" class="subtitle">From rough sketch to high fidelity &#8212; fidelity increases as ideas validate</text>
 
   <!-- Sketch -->
   <g transform="translate(40, 100)">

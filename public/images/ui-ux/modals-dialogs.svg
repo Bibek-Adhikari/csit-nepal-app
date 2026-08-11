@@ -16,7 +16,7 @@
   <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
 
   <text x="40" y="50" class="title">Modals &amp; Dialogs</text>
-  <text x="40" y="75" class="subtitle">Focused, single-task overlays &mdash; always with a clear exit</text>
+  <text x="40" y="75" class="subtitle">Focused, single-task overlays &#8212; always with a clear exit</text>
 
   <!-- Background screen (behind) -->
   <rect x="80" y="110" width="640" height="250" rx="14" fill="#0f172a" stroke="#334155" stroke-width="2" opacity="0.5" />
@@ -38,7 +38,7 @@
     <text x="99" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#94a3b8" font-size="13">Cancel</text>
     <rect x="206" y="140" width="150" height="40" rx="8" fill="#dc2626" />
     <text x="281" y="165" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#fff" font-size="13">Delete</text>
-    <text x="190" y="208" text-anchor="middle" class="label" fill="#a78bfa" font-size="11">ESC &middot; X button &middot; overlay click to close</text>
+    <text x="190" y="208" text-anchor="middle" class="label" fill="#a78bfa" font-size="11">ESC &#183; X button &#183; overlay click to close</text>
   </g>
 
   <!-- Dim overlay hint -->

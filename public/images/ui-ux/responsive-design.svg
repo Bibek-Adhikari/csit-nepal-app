@@ -17,7 +17,7 @@
   <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
 
   <text x="40" y="50" class="title">Responsive Design</text>
-  <text x="40" y="75" class="subtitle">One design that adapts across every screen &mdash; mobile first</text>
+  <text x="40" y="75" class="subtitle">One design that adapts across every screen &#8212; mobile first</text>
 
   <!-- Mobile -->
   <g transform="translate(60, 105)">
@@ -70,5 +70,5 @@
     <text x="95" y="328" text-anchor="middle" class="desc">12-column grid, full layout</text>
   </g>
 
-  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#64748b" font-size="12">Breakpoints &middot; Fluid layouts &middot; Media queries &middot; srcset images</text>
+  <text x="400" y="400" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#64748b" font-size="12">Breakpoints &#183; Fluid layouts &#183; Media queries &#183; srcset images</text>
 </svg>

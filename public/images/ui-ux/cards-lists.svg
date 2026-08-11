@@ -82,5 +82,5 @@
     <text x="215" y="266" text-anchor="middle" class="cardLabel" fill="#64748b" font-size="10">Show more</text>
   </g>
 
-  <text x="400" y="415" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#64748b" font-size="12">Cards: heterogeneous, visual content &nbsp;|&nbsp; Lists: scannable, task-heavy content</text>
+  <text x="400" y="415" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-weight="600" fill="#64748b" font-size="12">Cards: heterogeneous, visual content &#160;|&#160; Lists: scannable, task-heavy content</text>
 </svg>

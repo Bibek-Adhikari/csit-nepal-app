@@ -27,7 +27,7 @@
     <circle cx="84" cy="75" r="12" fill="#10b981" />
     <path d="M78 75 l5 5 l8 -10" fill="none" stroke="#fff" stroke-width="2.5" />
     <text x="104" y="79" font-family="'Segoe UI', sans-serif" font-size="12" fill="#e2e8f0">File uploaded successfully</text>
-    <text x="18" y="136" class="desc">Temporary, non-blocking &mdash; 3-5 seconds, action optional.</text>
+    <text x="18" y="136" class="desc">Temporary, non-blocking &#8212; 3-5 seconds, action optional.</text>
   </g>
 
   <!-- Alert -->

@@ -74,8 +74,8 @@
   <g transform="translate(536, 285)">
     <rect x="0" y="0" width="225" height="100" rx="12" fill="#1e293b" stroke="#06b6d4" stroke-width="2" />
     <text x="20" y="32" class="tool" fill="#22d3ee">How to choose</text>
-    <text x="20" y="56" class="desc">Motion-heavy &rarr; Principle / Framer</text>
-    <text x="20" y="74" class="desc">Collaboration &rarr; Figma</text>
-    <text x="20" y="92" class="desc">Quick flows &rarr; InVision</text>
+    <text x="20" y="56" class="desc">Motion-heavy &#8594; Principle / Framer</text>
+    <text x="20" y="74" class="desc">Collaboration &#8594; Figma</text>
+    <text x="20" y="92" class="desc">Quick flows &#8594; InVision</text>
   </g>
 </svg>
