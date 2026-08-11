@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { WelcomeHero } from "@/components/welcome-hero";
-import { AdBanner } from "@/components/ad-banner";
 import { semesters, type Semester } from "@/content/subjects";
 
 export default function HomePage() {
@@ -68,7 +67,6 @@ export default function HomePage() {
       </div>
 
       {/* YouTube Banner */}
-      <AdBanner />
       <a
         href="https://youtube.com/@bcanepall?si=CyehfgQKQg6m8ApG"
         target="_blank"
