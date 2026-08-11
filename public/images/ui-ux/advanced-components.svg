@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Advanced Components</text>
+  <text x="40" y="75" class="subtitle">Powerful interaction patterns for complex tasks</text>
+
+  <!-- Date picker -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#60a5fa">Date Picker</text>
+    <rect x="24" y="42" width="302" height="24" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="59" font-family="'Segoe UI', sans-serif" font-size="12" fill="#94a3b8">Mon 15 Aug 2026</text>
+    <rect x="286" y="47" width="28" height="16" rx="4" fill="#3b82f6" />
+    <text x="300" y="60" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#fff">&#9660;</text>
+    <!-- mini calendar -->
+    <rect x="24" y="76" width="302" height="58" rx="6" fill="#0f172a" stroke="#1e293b" />
+    <text x="36" y="92" font-family="'Segoe UI', sans-serif" font-size="9" fill="#64748b">Mo Tu We Th Fr Sa Su</text>
+    <rect x="36" y="98" width="16" height="16" rx="3" fill="#3b82f6" />
+    <text x="44" y="110" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fff">1</text>
+    <text x="60" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">2 3 4 5 6 7 8</text>
+    <text x="120" y="124" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">9 10 11 12 13 14</text>
+    <text x="18" y="138" class="desc" transform="translate(0,0)">Calendar + keyboard input + clear button.</text>
+  </g>
+
+  <!-- Accordion -->
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="150" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#34d399">Accordion</text>
+    <rect x="24" y="42" width="302" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="57" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">What is responsive design?</text>
+    <text x="310" y="57" font-family="'Segoe UI', sans-serif" font-size="11" fill="#34d399">&#43;</text>
+    <rect x="24" y="70" width="302" height="34" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+    <text x="36" y="84" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">A layout that adapts to any screen size</text>
+    <text x="36" y="98" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">using breakpoints and fluid grids.</text>
+    <rect x="24" y="110" width="302" height="22" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="125" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">How does the 8px grid work?</text>
+    <text x="310" y="125" font-family="'Segoe UI', sans-serif" font-size="11" fill="#64748b">&#43;</text>
+    <text x="18" y="146" class="desc" transform="translate(0,0)" fill="#64748b">Progressive disclosure for FAQs.</text>
+  </g>
+
+  <!-- Stepper -->
+  <g transform="translate(40, 275)">
+    <rect x="0" y="0" width="350" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#fbbf24">Stepper</text>
+    <circle cx="62" cy="64" r="16" fill="#1e3a2f" stroke="#10b981" stroke-width="2" />
+    <path d="M56 64 l4 4 l7 -9" fill="none" stroke="#34d399" stroke-width="2.5" />
+    <line x1="78" y1="64" x2="108" y2="64" stroke="#10b981" stroke-width="2" />
+    <circle cx="130" cy="64" r="16" fill="#f59e0b" />
+    <text x="130" y="70" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#0f172a" font-weight="700">2</text>
+    <line x1="146" y1="64" x2="176" y2="64" stroke="#334155" stroke-width="2" />
+    <circle cx="198" cy="64" r="16" fill="#0f172a" stroke="#334155" />
+    <text x="198" y="70" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#94a3b8">3</text>
+    <line x1="214" y1="64" x2="244" y2="64" stroke="#334155" stroke-width="2" />
+    <circle cx="266" cy="64" r="16" fill="#0f172a" stroke="#334155" />
+    <text x="266" y="70" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#94a3b8">4</text>
+    <text x="18" y="100" class="desc">Multi-step progress with completed / current / upcoming.</text>
+  </g>
+
+  <!-- Carousel -->
+  <g transform="translate(410, 275)">
+    <rect x="0" y="0" width="350" height="110" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#f472b6">Carousel</text>
+    <rect x="24" y="42" width="70" height="44" rx="6" fill="#0f172a" stroke="#334155" />
+    <rect x="102" y="42" width="120" height="44" rx="6" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" />
+    <rect x="230" y="42" width="70" height="44" rx="6" fill="#0f172a" stroke="#334155" />
+    <text x="162" y="52" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f472b6">Slide 2</text>
+    <text x="162" y="68" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">Swipe or arrow</text>
+    <text x="162" y="82" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#94a3b8">to navigate</text>
+    <circle cx="160" cy="98" r="4" fill="#64748b" />
+    <circle cx="176" cy="98" r="4" fill="#f472b6" />
+    <circle cx="192" cy="98" r="4" fill="#64748b" />
+    <text x="18" y="104" class="desc" transform="translate(0,0)" fill="#64748b">Dots, arrows, auto-play + pause on hover.</text>
+  </g>
+</svg>

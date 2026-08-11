@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Types of Wireframes</text>
+  <text x="40" y="75" class="subtitle">From rough sketch to high fidelity &mdash; fidelity increases as ideas validate</text>
+
+  <!-- Sketch -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="170" height="240" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="85" y="30" text-anchor="middle" class="label" fill="#60a5fa">Sketch</text>
+    <!-- hand-drawn feel lines -->
+    <path d="M14 50 Q 20 48 26 51 T 38 49" fill="none" stroke="#475569" stroke-width="2" />
+    <path d="M14 66 Q 22 63 30 67 T 44 65" fill="none" stroke="#475569" stroke-width="2" />
+    <rect x="16" y="86" width="138" height="80" rx="4" fill="#0f172a" stroke="#64748b" stroke-dasharray="4 3" />
+    <rect x="16" y="180" width="138" height="22" rx="4" fill="none" stroke="#475569" stroke-dasharray="3 3" />
+    <text x="85" y="222" text-anchor="middle" class="desc" fill="#94a3b8">Paper &amp; pen, roughest, fastest</text>
+  </g>
+
+  <!-- Low-fi -->
+  <g transform="translate(220, 100)">
+    <rect x="0" y="0" width="170" height="240" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="85" y="30" text-anchor="middle" class="label" fill="#34d399">Low-Fidelity</text>
+    <rect x="16" y="44" width="138" height="18" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="16" y="72" width="138" height="60" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="16" y="142" width="66" height="40" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="88" y="142" width="66" height="40" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="16" y="192" width="138" height="16" rx="4" fill="#0f172a" stroke="#334155" />
+    <text x="85" y="222" text-anchor="middle" class="desc" fill="#94a3b8">Boxes &amp; placeholders, grayscale</text>
+  </g>
+
+  <!-- Mid-fi -->
+  <g transform="translate(400, 100)">
+    <rect x="0" y="0" width="170" height="240" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="85" y="30" text-anchor="middle" class="label" fill="#fbbf24">Mid-Fidelity</text>
+    <rect x="16" y="44" width="138" height="18" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="16" y="44" width="50" height="18" rx="4" fill="#1e3a2f" stroke="#10b981" />
+    <rect x="16" y="72" width="138" height="60" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="24" y="80" width="40" height="16" rx="3" fill="#334155" />
+    <rect x="24" y="102" width="70" height="8" rx="3" fill="#475569" />
+    <rect x="24" y="116" width="56" height="8" rx="3" fill="#475569" />
+    <rect x="16" y="142" width="66" height="40" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="88" y="142" width="66" height="40" rx="4" fill="#0f172a" stroke="#475569" />
+    <rect x="24" y="158" width="30" height="8" rx="3" fill="#475569" />
+    <rect x="24" y="172" width="20" height="8" rx="3" fill="#475569" />
+    <rect x="16" y="192" width="138" height="16" rx="4" fill="#0f172a" stroke="#f59e0b" />
+    <text x="85" y="222" text-anchor="middle" class="desc" fill="#94a3b8">Real content, better spacing</text>
+  </g>
+
+  <!-- High-fi -->
+  <g transform="translate(580, 100)">
+    <rect x="0" y="0" width="170" height="240" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <text x="85" y="30" text-anchor="middle" class="label" fill="#f472b6">High-Fidelity</text>
+    <rect x="16" y="44" width="138" height="18" rx="4" fill="#1e293b" stroke="#ec4899" />
+    <text x="24" y="57" font-family="'Segoe UI', sans-serif" font-size="9" fill="#f472b6">Product Name</text>
+    <rect x="16" y="72" width="138" height="60" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="24" y="80" width="34" height="34" rx="4" fill="#1e293b" stroke="#ec4899" />
+    <rect x="66" y="82" width="70" height="6" rx="3" fill="#475569" />
+    <rect x="66" y="94" width="56" height="6" rx="3" fill="#475569" />
+    <rect x="66" y="106" width="62" height="6" rx="3" fill="#475569" />
+    <rect x="16" y="142" width="138" height="40" rx="4" fill="#0f172a" stroke="#334155" />
+    <rect x="24" y="152" width="60" height="8" rx="3" fill="#475569" />
+    <rect x="24" y="166" width="48" height="8" rx="3" fill="#475569" />
+    <rect x="16" y="192" width="138" height="16" rx="4" fill="#ec4899" />
+    <text x="85" y="204" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#fff" font-weight="700">Continue</text>
+    <text x="85" y="222" text-anchor="middle" class="desc" fill="#94a3b8">Nearly final layout &amp; content</text>
+  </g>
+</svg>

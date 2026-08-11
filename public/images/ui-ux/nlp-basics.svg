@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">NLP Basics</text>
+  <text x="40" y="75" class="subtitle">How machines read, understand and generate human language</text>
+
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#60a5fa">Tokenization</text>
+    <rect x="24" y="46" width="302" height="28" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="65" font-family="'Segoe UI', sans-serif" font-size="12" fill="#94a3b8">"I love Nepal"</text>
+    <rect x="36" y="84" width="60" height="24" rx="6" fill="#0f172a" stroke="#3b82f6" />
+    <text x="66" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa">I</text>
+    <rect x="104" y="84" width="70" height="24" rx="6" fill="#0f172a" stroke="#3b82f6" />
+    <text x="139" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa">love</text>
+    <rect x="182" y="84" width="80" height="24" rx="6" fill="#0f172a" stroke="#3b82f6" />
+    <text x="222" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#60a5fa">Nepal</text>
+    <text x="18" y="122" class="desc" fill="#64748b">Split text into word / subword tokens</text>
+  </g>
+
+  <g transform="translate(410, 100)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#34d399">Named Entity Recognition</text>
+    <rect x="24" y="46" width="302" height="28" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">Meet Bibek on 15 Aug in Kathmandu</text>
+    <rect x="36" y="84" width="120" height="24" rx="6" fill="#0f172a" stroke="#10b981" />
+    <text x="96" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">Person: Bibek</text>
+    <rect x="164" y="84" width="80" height="24" rx="6" fill="#0f172a" stroke="#f59e0b" />
+    <text x="204" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#fbbf24">Date</text>
+    <rect x="252" y="84" width="70" height="24" rx="6" fill="#0f172a" stroke="#ec4899" />
+    <text x="287" y="100" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#f472b6">Place</text>
+    <text x="18" y="122" class="desc" fill="#64748b">Extract names, dates, locations, organizations</text>
+  </g>
+
+  <g transform="translate(40, 255)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#fbbf24">Sentiment Analysis</text>
+    <rect x="24" y="44" width="302" height="26" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="62" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">"This app is amazing!" -> Positive</text>
+    <rect x="24" y="78" width="302" height="26" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="96" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">"Terrible support" -> Negative</text>
+    <text x="18" y="122" class="desc" fill="#64748b">Detects emotional tone of text</text>
+  </g>
+
+  <g transform="translate(410, 255)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <text x="18" y="30" class="label" fill="#a78bfa">Intent Classification</text>
+    <rect x="24" y="44" width="302" height="26" rx="8" fill="#0f172a" stroke="#334155" />
+    <text x="36" y="62" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8">"I need to reset my password"</text>
+    <rect x="24" y="80" width="302" height="28" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="36" y="99" font-family="'Segoe UI', sans-serif" font-size="12" fill="#a78bfa">intent: password_reset</text>
+    <text x="18" y="122" class="desc" fill="#64748b">Map user input to a defined action</text>
+  </g>
+</svg>

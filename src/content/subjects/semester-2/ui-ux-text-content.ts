@@ -159,6 +159,7 @@
 <p><strong>Feedback</strong> &mdash; Every user action should produce an immediate, clear response. Buttons should change on hover, forms should validate in real-time, and loading states should be shown.</p>
 <p><strong>Simplicity</strong> &mdash; Remove unnecessary elements. Every pixel should serve a purpose. Follow the principle: &ldquo;Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.&rdquo;</p>
 <p><strong>Hierarchy</strong> &mdash; Use visual hierarchy to guide users&rsquo; attention. The most important elements should be the most prominent.</p>
+<img src="/images/ui-ux/ui-design-principles.svg" alt="The Five UI Design Principles" />
 </div>
 
 <div class="text-content-card">
@@ -169,6 +170,7 @@
 <p><strong>Hierarchy</strong> &mdash; Visual weight determines reading order. Size, color, contrast, and positioning all contribute to hierarchy.</p>
 <p><strong>Alignment</strong> &mdash; Elements should be visually connected through alignment. Nothing should be placed arbitrarily &mdash; every element should have a clear relationship to other elements.</p>
 <p><strong>Repetition</strong> &mdash; Consistent use of design elements (colors, fonts, spacing) creates unity and reinforces brand identity.</p>
+<img src="/images/ui-ux/visual-design-fundamentals.svg" alt="Visual Design Fundamentals" />
 </div>
 
 <div class="text-content-card">
@@ -188,6 +190,7 @@
 <p><strong>Line height</strong>: Should be 1.4&ndash;1.6&times; the font size for body text. Too tight = cramped; too loose = disconnected. Headlines use tighter line-height.</p>
 <p><strong>Line length</strong>: Optimal reading length is 50&ndash;75 characters per line. Longer lines cause fatigue; shorter lines disrupt reading flow.</p>
 <p><strong>Hierarchy</strong>: Use font size, weight, and color to create clear levels: headings (H1-H6), body text, captions, and labels. Limit to 2&ndash;3 font families.</p>
+<img src="/images/ui-ux/typography-ui.svg" alt="Typography in UI" />
 </div>
 
 <div class="text-content-card">
@@ -208,6 +211,7 @@
 <p><strong>Bottom navigation</strong> &mdash; Standard for mobile apps. 3-5 icon+label items at the bottom of the screen. Easy thumb access.</p>
 <p><strong>Hamburger menu</strong> &mdash; Hides navigation behind a three-line icon. Saves space but reduces discoverability. Use for secondary navigation only.</p>
 <p><strong>Breadcrumbs</strong> &mdash; Show the user&rsquo;s location in a hierarchy. Essential for deep content hierarchies (e-commerce, documentation).</p>
+<img src="/images/ui-ux/navigation-patterns.svg" alt="Navigation Patterns" />
 </div>
 
 <div class="text-content-card">
@@ -218,6 +222,7 @@
 <p><strong>Media queries</strong> &mdash; CSS rules that apply styles based on device characteristics. <code>@media (min-width: 768px) { ... }</code> applies styles only on screens wider than 768px.</p>
 <p><strong>Responsive images</strong> &mdash; Use <code>srcset</code> attribute, <code>&lt;picture&gt;</code> element, or CSS to serve appropriately sized images. Avoid loading a 2000px image on a 320px screen.</p>
 <p><strong>Touch targets</strong> &mdash; Minimum 44&times;44px for interactive elements on mobile. Ensure adequate spacing between tappable elements to prevent accidental taps.</p>
+<img src="/images/ui-ux/responsive-design.svg" alt="Responsive Design" />
 </div>
 `,
 
@@ -249,6 +254,7 @@
 <p><strong>List items</strong> &mdash; Display a collection of similar items vertically. Each item typically has an icon/avatar, primary text, secondary text, and trailing action.</p>
 <p><strong>Grid layouts</strong> &mdash; Arrange cards in a responsive grid. 2-4 columns on desktop, 1-2 on mobile. Maintain consistent gutters (spacing between cards).</p>
 <p><strong>When to use cards vs lists</strong>: Cards for visual browsing (images, varied content). Lists for scan-heavy tasks (settings, contacts, messages).</p>
+<img src="/images/ui-ux/cards-lists.svg" alt="Cards and Lists" />
 </div>
 
 <div class="text-content-card">
@@ -259,6 +265,7 @@
 <p><strong>Bottom sheets</strong> &mdash; Slide up from the bottom on mobile. Good for actions, menus, and quick forms. Less disruptive than full modals on mobile.</p>
 <p><strong>Overlays</strong> &mdash; Semi-transparent background behind modals. Clicking the overlay should close the modal (unless the action is destructive).</p>
 <p><strong>Best practices</strong>: Limit modal depth (one modal at a time). Provide clear exit (X button, ESC key, overlay click). Keep content focused on a single task.</p>
+<img src="/images/ui-ux/modals-dialogs.svg" alt="Modals and Dialogs" />
 </div>
 
 <div class="text-content-card">
@@ -268,6 +275,7 @@
 <p><strong>Tabs</strong> &mdash; Horizontal navigation within a page or section. Used for switching between related views (e.g., &ldquo;Overview,&rdquo; &ldquo;Details,&rdquo; &ldquo;Reviews&rdquo;).</p>
 <p><strong>Pagination</strong> &mdash; Divides long lists into pages. Include page numbers, previous/next buttons, and &ldquo;showing X of Y&rdquo; indicator. Consider infinite scroll for content feeds.</p>
 <p><strong>Breadcrumbs</strong> &mdash; Shows the user&rsquo;s current location in a hierarchy. Clickable links allow quick navigation to parent pages. Essential for deep site structures.</p>
+<img src="/images/ui-ux/navigation-components.svg" alt="Navigation Components" />
 </div>
 
 <div class="text-content-card">
@@ -277,6 +285,7 @@
 <p><strong>Badges</strong> &mdash; Small labels that convey status or count. &ldquo;New,&rdquo; &ldquo;3,&rdquo; &ldquo;Beta.&rdquo; Use color to indicate meaning (success=green, warning=yellow, error=red).</p>
 <p><strong>Tags</strong> &mdash; Keyword labels for categorization. Used for filtering and organizing content. Should be removable and clickable.</p>
 <p><strong>Progress indicators</strong> &mdash; Show completion status. <strong>Determinate</strong> (percentage bar) for known progress, <strong>indeterminate</strong> (spinner) for unknown duration.</p>
+<img src="/images/ui-ux/data-display.svg" alt="Data Display Components" />
 </div>
 
 <div class="text-content-card">
@@ -286,6 +295,7 @@
 <p><strong>Loaders/Spinners</strong> &mdash; Indicate that content is loading. Use for operations taking 1-10 seconds. For longer waits, use progress bars with estimated time.</p>
 <p><strong>Skeleton screens</strong> &mdash; Placeholder shapes that mimic the layout of content before it loads. Perceived as faster than spinners. Use gray rectangles to represent text, images, and UI elements.</p>
 <p><strong>Empty states</strong> &mdash; Shown when there is no content. Include an illustration, explanation, and call-to-action (e.g., &ldquo;Create your first project&rdquo;).</p>
+<img src="/images/ui-ux/feedback-components.svg" alt="Feedback Components" />
 </div>
 
 <div class="text-content-card">
@@ -295,6 +305,7 @@
 <p><strong>Accordions</strong> &mdash; Expand/collapse content sections. Good for FAQs and progressive disclosure. Keep header text concise. Allow only one or multiple sections open depending on context.</p>
 <p><strong>Steppers</strong> &mdash; Multi-step processes with progress indication. Show completed, current, and upcoming steps. Allow backward navigation. Clearly indicate which step the user is on.</p>
 <p><strong>Rich text editors</strong> &mdash; WYSIWYG editors for formatted content. Include toolbar with common formatting options (bold, italic, lists, links). Consider Markdown for developer-focused tools.</p>
+<img src="/images/ui-ux/advanced-components.svg" alt="Advanced UI Components" />
 </div>
 `,
 
@@ -316,6 +327,7 @@
 <p><strong>Cultural considerations</strong>: Colors, icons, and gestures have different meanings across cultures. Avoid culture-specific metaphors. Support right-to-left (RTL) languages where needed.</p>
 <p><strong>Age considerations</strong>: Older adults may have reduced vision, hearing, and motor control. Design with larger touch targets, higher contrast, and simpler navigation.</p>
 <p><strong>Persona spectrum</strong>: For each disability, consider permanent, temporary, and situational contexts. This broadens the impact of accessibility improvements.</p>
+<img src="/images/ui-ux/inclusive-design.svg" alt="Inclusive Design and the Persona Spectrum" />
 </div>
 
 <div class="text-content-card">
@@ -325,6 +337,7 @@
 <p><strong>Lazy loading</strong> &mdash; Load content only when needed. Images below the fold load as the user scrolls. Reduces initial page load time and bandwidth usage.</p>
 <p><strong>Optimistic updates</strong> &mdash; Update the UI immediately when a user performs an action, before the server confirms success. If the server fails, show an error and revert.</p>
 <p><strong>Key metrics</strong>: <strong>LCP</strong> (Largest Contentful Paint) &lt; 2.5s, <strong>FID</strong> (First Input Delay) &lt; 100ms, <strong>CLS</strong> (Cumulative Layout Shift) &lt; 0.1.</p>
+<img src="/images/ui-ux/performance-considerations.svg" alt="Performance Considerations" />
 </div>
 
 <div class="text-content-card">
@@ -334,6 +347,7 @@
 <p><strong>System preferences</strong> &mdash; Respect the user&rsquo;s OS-level dark mode setting using <code>prefers-color-scheme</code> CSS media query. Always provide a manual toggle as well.</p>
 <p><strong>Color palette changes</strong> &mdash; Saturation and brightness of brand colors often need adjustment for dark backgrounds. Test all color combinations in both modes.</p>
 <p><strong>Shadows and elevation</strong> &mdash; In dark mode, elevation is shown through lighter surface colors (not shadows). Higher surfaces are brighter, creating depth without relying on drop shadows.</p>
+<img src="/images/ui-ux/dark-mode-design.svg" alt="Dark Mode Design" />
 </div>
 
 <div class="text-content-card">
@@ -353,6 +367,7 @@
 <p><strong>Documentation</strong> &mdash; Living documentation that includes component usage guidelines, do&rsquo;s and don&rsquo;ts, code examples, and accessibility notes. Must be maintained alongside the design system.</p>
 <p><strong>Benefits</strong>: Faster development, consistent user experience, easier onboarding for new team members, and a shared language between designers and developers.</p>
 <p><strong>Popular systems</strong>: Google <strong>Material Design</strong>, Apple <strong>Human Interface Guidelines</strong>, IBM <strong>Carbon Design</strong>, Salesforce <strong>Lightning Design System</strong>.</p>
+<img src="/images/ui-ux/design-systems.svg" alt="Design Systems" />
 </div>
 `,
 
@@ -364,6 +379,7 @@
 <p><strong>Sketching</strong> &mdash; The fastest way to create wireframes. Use pen and paper or digital sketching tools. Sketches are disposable &mdash; create many, discard freely.</p>
 <p><strong>What wireframes include</strong>: Content blocks, navigation, basic layout, functional elements (buttons, forms), and placeholder text/images.</p>
 <p><strong>What wireframes exclude</strong>: Final colors, detailed typography, images, animations, and exact copy. Keeping them abstract prevents premature focus on visual details.</p>
+<img src="/images/ui-ux/wireframe-basics.svg" alt="Wireframing Basics" />
 </div>
 
 <div class="text-content-card">
@@ -376,6 +392,7 @@
 <p>More detailed than low-fi. Includes real content, better spacing, and clearer hierarchy. Still grayscale without final visual design. Useful for usability testing and stakeholder review.</p>
 <h4>High-Fidelity Wireframe</h4>
 <p>Nearly final in layout and content, but without visual polish. Includes real images, text, and accurate spacing. Bridges wireframing and prototyping. Useful for detailed feedback sessions.</p>
+<img src="/images/ui-ux/wireframe-types.svg" alt="Types of Wireframes" />
 </div>
 
 <div class="text-content-card">
@@ -395,6 +412,7 @@
 <p><strong>Principle</strong> &mdash; Mac-only tool for creating animated prototypes. Excellent for microinteractions, transitions, and motion design. Exports to video or interactive format.</p>
 <p><strong>Framer</strong> &mdash; Advanced prototyping with code. Supports complex interactions, animations, and real data. Bridges the gap between design and development.</p>
 <p><strong>Adobe XD</strong> &mdash; Part of Adobe Creative Cloud. Offers auto-animate, repeat grid, and voice prototyping. Integrates with Photoshop and Illustrator.</p>
+<img src="/images/ui-ux/prototyping-tools.svg" alt="Prototyping Tools" />
 </div>
 
 <div class="text-content-card">
@@ -404,6 +422,7 @@
 <p><strong>Edge cases</strong> &mdash; Unusual or unexpected scenarios: empty states, error conditions, boundary values, and concurrent actions. Good UX anticipates and handles edge cases gracefully.</p>
 <p><strong>Task analysis</strong> &mdash; Breaking down a complex task into individual steps. Identifies opportunities for simplification, automation, and better information architecture.</p>
 <p><strong>Tools</strong>: Miro, Whimsical, FigJam, or even pen and paper. Keep flows simple and readable. Use standard symbols: rectangles for screens, diamonds for decisions, arrows for flow direction.</p>
+<img src="/images/ui-ux/user-flows.svg" alt="User Flows and Task Analysis" />
 </div>
 
 <div class="text-content-card">
@@ -413,6 +432,7 @@
 <p><strong>Feedback loops</strong> &mdash; After testing, iterate on the prototype based on findings. Multiple rounds of test-and-refine produce stronger designs.</p>
 <p><strong>Handoff to development</strong> &mdash; Prototypes serve as specifications for developers. Annotated prototypes with interactions, states, and edge cases reduce ambiguity.</p>
 <p><strong>Cost of change</strong> &mdash; Changing a wireframe costs minutes. Changing a prototype costs hours. Changing production code costs days or weeks. Front-load design investment to reduce overall project cost.</p>
+<img src="/images/ui-ux/wireframe-to-prototype.svg" alt="From Wireframe to Prototype" />
 </div>
 `,
 
@@ -442,6 +462,7 @@
 <p><strong>A/B testing</strong> &mdash; Compare two versions of a design to see which performs better. Measures specific metrics (conversion rate, click-through rate) with statistical significance.</p>
 <p><strong>Test with 5 users</strong> &mdash; Research shows that testing with 5 users uncovers approximately 85% of usability issues. Adding more users yields diminishing returns.</p>
 <p><strong>Metrics</strong>: Task completion rate, time on task, error rate, satisfaction scores (SUS, NPS), and learnability over multiple sessions.</p>
+<img src="/images/ui-ux/usability-testing.svg" alt="Usability Testing" />
 </div>
 
 <div class="text-content-card">
@@ -451,6 +472,7 @@
 <p><strong>Types of questions</strong>: Behavioral (past actions), Attitudinal (opinions/beliefs), Usability (task-specific feedback), and Demographics (background information).</p>
 <p><strong>Survey distribution</strong>: Email, in-app popups, social media, or website intercepts. Keep surveys short (5-10 minutes) to maximize response rates. Offer incentives when appropriate.</p>
 <p><strong>Analysis</strong>: Quantitative data (scales, multiple choice) for statistical analysis. Qualitative data (open-ended, interviews) for thematic analysis and deep insights.</p>
+<img src="/images/ui-ux/surveys-interviews.svg" alt="User Surveys and Interviews" />
 </div>
 
 <div class="text-content-card">
@@ -460,6 +482,7 @@
 <p><strong>Session recordings</strong> &mdash; Record actual user sessions to observe real behavior. Watch for confusion, rage clicks, and abandoned flows. Tools: Hotjar, FullStory, LogRocket.</p>
 <p><strong>Funnel analysis</strong> &mdash; Track user progression through a multi-step process (sign-up, checkout). Identify where users drop off and investigate why.</p>
 <p><strong>A/B test analytics</strong> &mdash; Compare metrics between design variants. Ensure statistical significance before declaring a winner. Consider sample size and test duration.</p>
+<img src="/images/ui-ux/analytics-heatmaps.svg" alt="Analytics and Heatmaps" />
 </div>
 
 <div class="text-content-card">
@@ -469,6 +492,7 @@
 <p><strong>Severity ratings</strong>: Rate each issue by severity and frequency. Common scale: 0 (not a problem), 1 (cosmetic), 2 (minor), 3 (major), 4 (catastrophic).</p>
 <p><strong>Cognitive walkthrough</strong> &mdash; Step through a task from the user&rsquo;s perspective. At each step, ask: Will the user know what to do? Will they see the action? Will they understand the feedback?</p>
 <p><strong>Limitations</strong>: Expert evaluation cannot replace user testing. Experts may have different mental models than actual users. Use heuristic evaluation as a complement to, not a substitute for, user research.</p>
+<img src="/images/ui-ux/heuristic-evaluation.svg" alt="Heuristic Evaluation" />
 </div>
 
 <div class="text-content-card">
@@ -478,6 +502,7 @@
 <p><strong>Statistical significance</strong> &mdash; Ensure results are not due to chance. Minimum 95% confidence level. Calculate required sample size before starting the test. Run tests for at least 1-2 business cycles.</p>
 <p><strong>Tools</strong>: Google Optimize, Optimizely, VWO, LaunchDarkly. Many analytics platforms include A/B testing capabilities.</p>
 <p><strong>Best practices</strong>: Test one variable at a time (unless doing multivariate testing). Document learnings. Even &ldquo;losing&rdquo; tests provide valuable insights. Build a culture of experimentation.</p>
+<img src="/images/ui-ux/ab-testing.svg" alt="A/B Testing" />
 </div>
 `,
 
@@ -489,6 +514,7 @@
 <p><strong>Advantages</strong>: Hands-free operation, accessibility for visually impaired users, speed for simple tasks (timers, searches, smart home control), and natural interaction.</p>
 <p><strong>Challenges</strong>: No visual cues, privacy concerns, difficulty with complex or multi-step tasks, accent/language recognition issues, and noise interference.</p>
 <p><strong>Use cases</strong>: Smart home control, virtual assistants, phone IVR systems, in-car entertainment, and accessibility tools for users with motor or visual impairments.</p>
+<img src="/images/ui-ux/vui-basics.svg" alt="VUI Basics" />
 </div>
 
 <div class="text-content-card">
@@ -508,6 +534,7 @@
 <p><strong>Sentiment analysis</strong> &mdash; Determining the emotional tone of text (positive, negative, neutral). Used for customer feedback analysis, social media monitoring, and chatbot responses.</p>
 <p><strong>Named Entity Recognition (NER)</strong> &mdash; Identifying and classifying entities in text: names, dates, locations, organizations. Essential for chatbots to extract structured information from unstructured input.</p>
 <p><strong>Intent classification</strong> &mdash; Determining what the user wants to do based on their input. &ldquo;I need to reset my password&rdquo; &rarr; intent: password_reset. Combines NLP with predefined action mappings.</p>
+<img src="/images/ui-ux/nlp-basics.svg" alt="NLP Basics" />
 </div>
 
 <div class="text-content-card">
@@ -517,6 +544,7 @@
 <p><strong>Conversational UI patterns</strong>: Greeting &rarr; understand intent &rarr; gather information &rarr; take action &rarr; confirm &rarr; close. Include fallback responses for when the bot doesn&rsquo;t understand.</p>
 <p><strong>Personality</strong> &mdash; Chatbots should have a consistent personality aligned with the brand. Tone (formal/casual), voice (friendly/professional), and humor level should be defined upfront.</p>
 <p><strong>Handoff to humans</strong> &mdash; Always provide an option to escalate to a human agent. Detect frustration (repeated errors, negative sentiment) and offer human support proactively.</p>
+<img src="/images/ui-ux/chatbot-design.svg" alt="Chatbot Design" />
 </div>
 
 <div class="text-content-card">
@@ -526,6 +554,7 @@
 <p><strong>Accessibility considerations</strong>: Provide alternatives to voice-only output (visual transcripts), handle background noise, support multiple accents and speech patterns, and offer manual input fallbacks.</p>
 <p><strong>Privacy and consent</strong> &mdash; Always indicate when the device is listening. Provide physical mute buttons. Be transparent about data collection and storage. Voice data is highly personal.</p>
 <p><strong>Inclusive language</strong> &mdash; Design voice prompts that work across genders, ages, and cultural backgrounds. Avoid assumptions about the user&rsquo;s identity or context.</p>
+<img src="/images/ui-ux/vui-accessibility.svg" alt="Accessibility in VUI" />
 </div>
 
 <div class="text-content-card">
@@ -535,6 +564,7 @@
 <p><strong>Ambient computing</strong> &mdash; Computing that is everywhere and nowhere. Smart homes, IoT devices, and contextual interfaces that anticipate needs without explicit commands. The interface disappears into the environment.</p>
 <p><strong>Generative AI in UI</strong> &mdash; AI-generated interfaces that adapt to individual users in real-time. Dynamic layouts, personalized content, and conversational interfaces that understand context and intent.</p>
 <p><strong>Key trends</strong>: Voice and gesture inputs becoming mainstream, AI-powered personalization, spatial computing, and the shift from app-based to ambient, context-aware interfaces.</p>
+<img src="/images/ui-ux/future-of-ui.svg" alt="Future of UI" />
 </div>
 `,
 };

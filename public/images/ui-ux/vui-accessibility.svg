@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: #f8fafc; font-size: 24px; }
+    .subtitle { font-family: 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; font-size: 14px; }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 13px; }
+    .desc { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; }
+  </style>
+
+  <rect width="100%" height="100%" rx="16" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" rx="16" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <text x="40" y="50" class="title">Accessibility in VUI</text>
+  <text x="40" y="75" class="subtitle">Making voice interfaces usable by everyone</text>
+
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="720" height="270" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <text x="18" y="28" class="label" fill="#34d399">Inclusive voice design checklist</text>
+
+    <circle cx="40" cy="56" r="12" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="40" y="60" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">1</text>
+    <text x="62" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">Support regional accents and dialects</text>
+
+    <circle cx="40" cy="86" r="12" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="40" y="90" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">2</text>
+    <text x="62" y="90" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">Provide visual + text alternatives</text>
+
+    <circle cx="40" cy="116" r="12" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="40" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">3</text>
+    <text x="62" y="120" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">Allow repeat and slower speech prompts</text>
+
+    <circle cx="40" cy="146" r="12" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="40" y="150" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">4</text>
+    <text x="62" y="150" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">Handle noisy environments gracefully</text>
+
+    <circle cx="40" cy="176" r="12" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+    <text x="40" y="180" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#34d399">5</text>
+    <text x="62" y="180" font-family="'Segoe UI', sans-serif" font-size="11" fill="#e2e8f0">Never rely on voice as the only input</text>
+
+    <text x="18" y="220" class="label" fill="#fbbf24">Who benefits?</text>
+    <text x="20" y="244" class="desc" fill="#94a3b8">&bull; People with visual or motor impairments</text>
+    <text x="20" y="262" class="desc" fill="#94a3b8">&bull; Users on the go or with full hands</text>
+  </g>
+</svg>
