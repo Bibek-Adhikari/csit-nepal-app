@@ -67,6 +67,22 @@ export default function MockTestQuizPage() {
       setLoading(true);
       setError(null);
 
+      if (subject === "all") {
+        const mathCount = Math.round(questionCount * 0.5);
+        const englishCount = Math.round(questionCount * 0.4);
+        const gkCount = questionCount - mathCount - englishCount;
+        const parts = [
+          ...shuffleArray(rawQuestionBank.math ?? []).slice(0, mathCount),
+          ...shuffleArray(rawQuestionBank.english ?? []).slice(0, englishCount),
+          ...shuffleArray(rawQuestionBank.gk ?? []).slice(0, gkCount),
+        ];
+        const selected = shuffleArray(parts).map((r) => toMockQuestion(r, subject));
+        setQuestions(selected);
+        setTimeLeft(totalSeconds);
+        setLoading(false);
+        return;
+      }
+
       try {
         const apiTopic = SUBJECT_MAP_TO_API[subject];
         const params = new URLSearchParams();
