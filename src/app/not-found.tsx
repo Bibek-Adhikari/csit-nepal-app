@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { OfflineErrorPage } from "@/components/offline-error";
 
 export default function NotFound() {
-  redirect("/");
+  return <OfflineErrorPage />;
 }

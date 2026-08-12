@@ -1,8 +1,9 @@
-const CACHE = "bca-nepal-v14";
-const STATIC_CACHE = "bca-nepal-static-v14";
-const API_CACHE = "bca-nepal-api-v14";
-const PDF_CACHE = "bca-nepal-pdf-v14";
-const LECTURE_CACHE = "bca-nepal-lecture-v14";
+const CACHE = "bca-nepal-v15";
+const STATIC_CACHE = "bca-nepal-static-v15";
+const API_CACHE = "bca-nepal-api-v15";
+const PDF_CACHE = "bca-nepal-pdf-v15";
+const LECTURE_CACHE = "bca-nepal-lecture-v15";
+const RSC_CACHE = "bca-nepal-rsc-v15";
 const SHARE_DB_NAME = "bca-nepal-offline";
 const SHARE_DB_VERSION = 5;
 const PENDING_SHARES_STORE = "pending-shares";
@@ -91,7 +92,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((k) => ![CACHE, STATIC_CACHE, API_CACHE, PDF_CACHE, LECTURE_CACHE].includes(k))
+          .filter((k) => ![CACHE, STATIC_CACHE, API_CACHE, PDF_CACHE, LECTURE_CACHE, RSC_CACHE].includes(k))
           .map((k) => caches.delete(k))
       )
     )
@@ -142,7 +143,7 @@ function isAnalytics(url) {
 }
 
 function isRsc(url) {
-  return url.searchParams.has("__rsc") || url.pathname.endsWith(".rsc");
+  return url.searchParams.has("_rsc") || url.searchParams.has("__rsc") || url.pathname.endsWith(".rsc");
 }
 
 function isViewPdf(url) {
@@ -158,16 +159,15 @@ function isPdfjsWorker(url) {
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Fetch Handler Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 // Network- / strategy-agnostic fallback.
-//  - Navigations gracefully resolve to the offline page
-//    (so a thrown strategy never shows a blank browser error).
+//  - Navigations gracefully resolve to the standalone offline page
+//    (so a thrown strategy never shows a blank browser error and unknown
+//    routes never get rewritten to the home page).
 //  - Other requests degrade to an empty Response with a 503 so
 //    callers that expect a body (e.g. RSC) get a defined rejection,
 //    while the page itself still renders the cached shell.
 async function offlineFallback(request, url) {
   if (request.mode === "navigate") {
-    const cached = await caches.match(url.origin + url.pathname);
-    if (cached) return cached;
-    return caches.match("/offline.html");
+    return navOfflineFallback(url);
   }
   // Already-cached copy wins if we have it
   const pathCached = url ? await caches.match(url.origin + url.pathname) : null;
@@ -175,6 +175,29 @@ async function offlineFallback(request, url) {
   const anyCached = await caches.match(request);
   if (anyCached) return anyCached;
   return new Response("", { status: 503, statusText: "Offline" });
+}
+
+// Offline fallback for same-origin page navigations (direct load, refresh,
+// PWA standalone launch, back/forward, and the full-page navigation Next.js
+// falls back to when an RSC fetch fails).
+//  1. A previously cached copy of the exact path wins (visited routes in
+//     CACHE/LECTURE_CACHE, or the precached app shell in STATIC_CACHE).
+//  2. Otherwise serve the standalone offline page (never the home page, and
+//     never a redirect, so the failed URL stays in the address bar).
+async function navOfflineFallback(url) {
+  const path = url ? url.origin + url.pathname : null;
+  for (const name of [CACHE, STATIC_CACHE, LECTURE_CACHE]) {
+    if (!path) break;
+    const cache = await caches.open(name);
+    const hit = await cache.match(path);
+    if (hit) return hit;
+  }
+  const offlinePage = await caches.match("/offline.html");
+  if (offlinePage) return offlinePage;
+  return new Response(
+    "<!doctype html><html><head><meta charset=\"utf-8\"><title>Page Not Found</title></head><body style=\"font-family:system-ui,-apple-system,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0;background:#f8fafc;color:#0f172a;text-align:center;padding:1.5rem\"><h1 style=\"font-size:1.25rem\">Page Not Found</h1><p style=\"color:#64748b\">This page isn&apos;t available offline yet. Open it once while online to save it for offline use.</p><p><a href=\"/\" style=\"display:inline-block;margin-top:0.5rem;background:#2563eb;color:#fff;padding:0.7rem 1.5rem;border-radius:999px;text-decoration:none;font-weight:700\">Back to Home</a></p></body></html>",
+    { status: 503, headers: { "Content-Type": "text/html" } }
+  );
 }
 
 self.addEventListener("fetch", (event) => {
@@ -202,7 +225,7 @@ self.addEventListener("fetch", (event) => {
 
   // View-pdf page: network-first (always show latest, with offline fallback)
   if (isViewPdf(url)) {
-    event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
+    event.respondWith(networkFirstWithFallback(req, url));
     return;
   }
 
@@ -215,7 +238,7 @@ self.addEventListener("fetch", (event) => {
   // RSC payloads: stale-while-revalidate with offline fallback
   if (isRsc(url)) {
     if (url.pathname === "/view-pdf") {
-      event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
+      event.respondWith(networkFirstWithFallback(req, url));
     } else {
       event.respondWith(staleWhileRevalidateRsc(req, url).catch(() => offlineFallback(req, url)));
     }
@@ -265,7 +288,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Cross-origin: network-first with offline fallback
-  event.respondWith(networkFirstWithFallback(req, "/offline.html", url));
+  event.respondWith(networkFirstWithFallback(req, url));
 });
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Cache Strategies Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
@@ -296,8 +319,7 @@ async function staleWhileRevalidateNav(request, url) {
   const fresh = await fetchPromise;
   if (fresh) return fresh;
 
-  const homeCached = await caches.match("/");
-  return homeCached || caches.match("/offline.html") || new Response("Offline", { status: 503 });
+  return navOfflineFallback(url);
 }
 
 async function staleWhileRevalidate(request, cacheName) {
@@ -337,6 +359,12 @@ async function staleWhileRevalidateRsc(request, url) {
   const fetchPromise = fetch(request).then(async (res) => {
     if (res.ok) {
       cache.put(request, res.clone());
+      // Only full navigation payloads are path-cached (prefetches are partial
+      // flight trees and would be unsafe to replay as a navigation).
+      if (url && !request.headers.get("next-router-prefetch")) {
+        const rscCache = await caches.open(RSC_CACHE);
+        rscCache.put(url.origin + url.pathname, res.clone());
+      }
     }
     return res;
   }).catch(() => null);
@@ -349,12 +377,21 @@ async function staleWhileRevalidateRsc(request, url) {
   const fresh = await fetchPromise;
   if (fresh) return fresh;
 
-  const pathReq = new Request(url.origin + url.pathname);
-  const pathCached = await cache.match(pathReq);
-  if (pathCached) return pathCached;
+  // Offline with nothing cached for this exact request: prefer a cached
+  // flight payload for the path (smooth SPA navigation), then the cached
+  // HTML document (triggers a full-page load of the same cached shell).
+  // If neither exists the offline page is a non-flight response, so the
+  // Next.js router performs a full-page navigation that the service worker
+  // resolves with the offline page again (never a redirect, no loop).
+  if (url) {
+    const rscCache = await caches.open(RSC_CACHE);
+    const rscPathCached = await rscCache.match(url.origin + url.pathname);
+    if (rscPathCached) return rscPathCached;
+    const pathCached = await cache.match(url.origin + url.pathname);
+    if (pathCached) return pathCached;
+  }
 
-  const homeCached = await caches.match("/");
-  return homeCached || caches.match("/offline.html") || new Response("Offline", { status: 503 });
+  return navOfflineFallback(url);
 }
 
 async function nextImageStrategy(request, url) {
@@ -387,7 +424,7 @@ function resolveNextImageUrl(url) {
   }
 }
 
-async function networkFirstWithFallback(request, fallbackUrl, url) {
+async function networkFirstWithFallback(request, url) {
   try {
     const res = await fetch(request);
     if (res.ok) {
@@ -403,8 +440,7 @@ async function networkFirstWithFallback(request, fallbackUrl, url) {
       const pathCached = await caches.match(pathReq);
       if (pathCached) return pathCached;
     }
-    const fallback = await caches.match(fallbackUrl);
-    return homeCached || caches.match("/offline.html") || new Response("Offline", { status: 503 });
+    return navOfflineFallback(url);
   }
 }
 
@@ -418,7 +454,11 @@ async function networkFirstCache(request, cacheName) {
     return res;
   } catch {
     const cached = await caches.match(request);
-    return cached || new Response(JSON.stringify({ error: "Offline", offline: true }), {
+    if (cached) return cached;
+    if (request.mode === "navigate") {
+      return navOfflineFallback(new URL(request.url));
+    }
+    return new Response(JSON.stringify({ error: "Offline", offline: true }), {
       status: 503,
       headers: { "Content-Type": "application/json" },
     });
