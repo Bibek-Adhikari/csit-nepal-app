@@ -89,7 +89,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} antialiased`}>
       <head>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5307415243144212"
-     crossorigin="anonymous"></script>
+     crossOrigin="anonymous"></script>
         <JsonLd data={websiteSchema} />
         <JsonLd data={organizationSchema} />
         <meta name="theme-color" content="#2563eb" />
