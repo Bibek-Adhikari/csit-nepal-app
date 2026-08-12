@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackNav } from "@/components/back-nav";
 
-const COUNT_OPTIONS = [10, 20, 30];
+const COUNT_OPTIONS = [10, 20, 30, 50, 100];
 
 const SUBJECTS = [
   { key: "english", label: "English", icon: "bx-book" },
@@ -18,7 +18,7 @@ export default function MockTestConfigPage() {
   const [questionCount, setQuestionCount] = useState(20);
   const [subject, setSubject] = useState("english");
 
-  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : 30;
+  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : questionCount <= 30 ? 30 : questionCount <= 50 ? 60 : 90;
 
   const handleStart = () => {
     router.push(`/mock-test/${subject}?count=${questionCount}`);

@@ -38,7 +38,7 @@ export default function MockTestQuizPage() {
   const router = useRouter();
 
   const subject = params.subject;
-  const questionCount = Math.min(Math.max(Number(searchParams.get("count")) || 20, 1), 30);
+  const questionCount = Math.min(Math.max(Number(searchParams.get("count")) || 20, 1), 100);
 
   const [questions, setQuestions] = useState<MockQuestion[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function MockTestQuizPage() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
 
-  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : 30;
+  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : questionCount <= 30 ? 30 : questionCount <= 50 ? 60 : 90;
   const totalSeconds = totalMinutes * 60;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === questions.length;
