@@ -38,7 +38,8 @@ export default function MockTestQuizPage() {
   const router = useRouter();
 
   const subject = params.subject;
-  const questionCount = Math.min(Math.max(Number(searchParams.get("count")) || 20, 1), 100);
+  const subjectMax = subject === "math" ? 50 : subject === "all" ? 100 : 40;
+  const questionCount = Math.min(Math.max(Number(searchParams.get("count")) || 20, 1), subjectMax);
 
   const [questions, setQuestions] = useState<MockQuestion[]>([]);
   const [loading, setLoading] = useState(true);

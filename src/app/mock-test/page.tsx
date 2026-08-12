@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackNav } from "@/components/back-nav";
 
-const COUNT_OPTIONS = [10, 20, 30, 50, 100];
-
 const SUBJECTS = [
   { key: "english", label: "English", icon: "bx-book" },
   { key: "math", label: "Mathematics", icon: "bx-calculator" },
@@ -13,12 +11,28 @@ const SUBJECTS = [
   { key: "all", label: "All Subjects", icon: "bx-shuffle" },
 ] as const;
 
+type SubjectKey = (typeof SUBJECTS)[number]["key"];
+
+const COUNT_BY_SUBJECT: Record<SubjectKey, number[]> = {
+  english: [10, 20, 30, 40],
+  math: [10, 20, 30, 50],
+  gk: [10, 20, 30, 40],
+  all: [10, 20, 30, 50, 100],
+};
+
 export default function MockTestConfigPage() {
   const router = useRouter();
   const [questionCount, setQuestionCount] = useState(20);
-  const [subject, setSubject] = useState("english");
+  const [subject, setSubject] = useState<SubjectKey>("english");
 
-  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : questionCount <= 30 ? 30 : questionCount <= 50 ? 60 : 90;
+  const countOptions = COUNT_BY_SUBJECT[subject];
+  const totalMinutes = questionCount <= 10 ? 10 : questionCount <= 20 ? 20 : questionCount <= 30 ? 30 : questionCount <= 40 ? 45 : questionCount <= 50 ? 60 : 90;
+
+  const handleSelectSubject = (key: SubjectKey) => {
+    setSubject(key);
+    const options = COUNT_BY_SUBJECT[key];
+    setQuestionCount((c) => (options.includes(c) ? c : options[options.length - 1]));
+  };
 
   const handleStart = () => {
     router.push(`/mock-test/${subject}?count=${questionCount}`);
@@ -42,7 +56,7 @@ export default function MockTestConfigPage() {
               <i className="bx bx-question-mark" style={{ marginRight: "0.3rem" }}></i>Questions
             </label>
             <div className="badge-row" style={{ gap: "0.5rem" }}>
-              {COUNT_OPTIONS.map((n) => (
+              {countOptions.map((n) => (
                 <button
                   key={n}
                   onClick={() => setQuestionCount(n)}
@@ -63,7 +77,7 @@ export default function MockTestConfigPage() {
               {SUBJECTS.map((s) => (
                 <button
                   key={s.key}
-                  onClick={() => setSubject(s.key)}
+                  onClick={() => handleSelectSubject(s.key)}
                   className={`sheet-badge${subject === s.key ? " accent" : ""}`}
                   style={{ background: "none", border: "none", cursor: "pointer", padding: "0.4rem 0.85rem" }}
                 >
