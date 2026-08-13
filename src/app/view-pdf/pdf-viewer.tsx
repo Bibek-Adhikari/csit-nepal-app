@@ -52,7 +52,17 @@ function LazyPage({ pageNumber, pageWidth }: { pageNumber: number; pageWidth: nu
   );
 }
 
-export default function PdfViewer({ url, title, semester, subject, unit, returnTo }: { url: string; title: string; semester: string; subject: string; unit: string; returnTo?: string }) {
+export default function PdfViewer({ url, signedUrl, bucket, path, title, semester, subject, unit, returnTo }: {
+  url: string;
+  signedUrl?: string | null;
+  bucket?: string;
+  path?: string;
+  title: string;
+  semester: string;
+  subject: string;
+  unit: string;
+  returnTo?: string;
+}) {
   const router = useRouter();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,13 +70,16 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
   const [pageWidth, setPageWidth] = useState(800);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [dlProgress, setDlProgress] = useState(0);
-  const [dlState, setDlState] = useState<"fetching" | "ready" | "error" | "none">("none");
+  const [dlState, setDlState] = useState<"fetching" | "ready" | "error" | "expired" | "none">("none");
   const [bookmarked, setBookmarked] = useState(false);
+  const [refreshedSignedUrl, setRefreshedSignedUrl] = useState<string | null>(null);
+  const [retryToken, setRetryToken] = useState(0);
   const blobRef = useRef<Blob | null>(null);
   const blobUrlRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackingRef = useRef(false);
   const pdfId = url;
+  const effectiveUrl = refreshedSignedUrl ?? signedUrl ?? url;
 
   const goBack = () => {
     if (returnTo) {
@@ -109,7 +122,7 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
   }, [numPages]);
 
   useEffect(() => {
-    if (!url) return;
+    if (!effectiveUrl) return;
     let cancelled = false;
 
     const load = async () => {
@@ -128,7 +141,10 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
       setDlState("fetching");
       setDlProgress(0);
       try {
-        const res = await fetch(url);
+        const res = await fetch(effectiveUrl);
+        if (res.status === 400 || res.status === 401 || res.status === 403) {
+          throw new Error(`Link expired (HTTP ${res.status})`);
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const total = parseInt(res.headers.get("Content-Length") || "0", 10);
         const reader = res.body!.getReader();
@@ -155,8 +171,13 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
           // offline save failed, PDF is still viewable
         }
         if (!cancelled) setBookmarked(false);
-      } catch {
-        if (!cancelled) setDlState("error");
+      } catch (err) {
+        if (cancelled) return;
+        if (err instanceof Error && err.message.startsWith("Link expired")) {
+          setDlState("expired");
+        } else {
+          setDlState("error");
+        }
       }
     };
 
@@ -166,7 +187,30 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
       cancelled = true;
       if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     };
-  }, [url, pdfId, title, semester, subject, unit]);
+  }, [effectiveUrl, url, pdfId, title, semester, subject, unit, retryToken]);
+
+  const refreshUrl = async () => {
+    if (!bucket || !path) {
+      // Non-storage URL (no server-side refresh available): retry the raw URL.
+      setDlState("fetching");
+      setRetryToken((t) => t + 1);
+      return;
+    }
+
+    setDlState("fetching");
+    setLoadError(false);
+    try {
+      const params = new URLSearchParams({ bucket, path });
+      const res = await fetch(`/api/pdf/signed-url?${params.toString()}`, {
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as { signedUrl: string };
+      setRefreshedSignedUrl(data.signedUrl);
+    } catch {
+      setDlState("expired");
+    }
+  };
 
   const toggleBookmark = async () => {
     const next = !bookmarked;
@@ -178,7 +222,8 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
     await updateBookmark(pdfId, next);
   };
 
-  if (dlState === "error" || (dlState === "none" && loadError)) {
+  if (dlState === "expired" || dlState === "error" || (dlState === "none" && loadError)) {
+    const isExpired = dlState === "expired" || (dlState === "none" && loadError);
     return (
       <div className="pdf-viewer-root">
         <button className="pdf-viewer-back" onClick={goBack} aria-label="Go back">
@@ -186,7 +231,17 @@ export default function PdfViewer({ url, title, semester, subject, unit, returnT
         </button>
         <div className="empty-state" style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
           <i className="bx bxs-file-pdf" style={{ fontSize: "3rem", color: "var(--text-muted)" }}></i>
-          <p>Could not load PDF.</p>
+          <p>{isExpired ? "This PDF link has expired." : "Could not load PDF."}</p>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button
+              className="pill-btn"
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", cursor: "pointer" }}
+              onClick={refreshUrl}
+            >
+              <i className="bx bx-refresh"></i>
+              Refresh link
+            </button>
+          </div>
         </div>
       </div>
     );

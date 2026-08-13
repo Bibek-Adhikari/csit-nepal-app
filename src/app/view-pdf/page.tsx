@@ -1,25 +1,29 @@
-"use client";
-
-import { useSearchParams, useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
+import { headers } from "next/headers";
 import { PdfErrorBoundary } from "@/components/pdf-error-boundary";
+import {
+  createSignedPdfUrl,
+  isAuthorizedPdfRequest,
+  parseStorageReference,
+  SIGNED_URL_EXPIRES_IN,
+} from "@/lib/pdf-access";
+import { BackNavButton } from "./back-nav-button";
+import { PdfViewerLazy } from "./pdf-viewer-loader";
 
-const PdfViewer = dynamic(() => import("./pdf-viewer"), { ssr: false });
+export const dynamic = "force-dynamic";
 
-function ViewPdfContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const url = searchParams.get("url");
-  const title = searchParams.get("title") || "Untitled";
-  const semester = searchParams.get("semester") || "";
-  const subject = searchParams.get("subject") || "";
-  const unit = searchParams.get("unit") || "";
-  const returnTo = searchParams.get("returnTo") || "";
+type ViewPdfSearchParams = {
+  [key: string]: string | string[] | undefined;
+};
 
-  const backUrl = returnTo || (semester && subject
-    ? unit ? `/notes/${semester}/${subject}/${unit}` : `/notes/${semester}/${subject}`
-    : "/subjects");
+export default async function ViewPdfPage({ searchParams }: { searchParams: Promise<ViewPdfSearchParams> }) {
+  const sp = await searchParams;
+
+  const url = typeof sp.url === "string" ? sp.url : "";
+  const title = typeof sp.title === "string" ? sp.title : "Untitled";
+  const semester = typeof sp.semester === "string" ? sp.semester : "";
+  const subject = typeof sp.subject === "string" ? sp.subject : "";
+  const unit = typeof sp.unit === "string" ? sp.unit : "";
+  const returnTo = typeof sp.returnTo === "string" ? sp.returnTo : "";
 
   if (!url) {
     return (
@@ -29,39 +33,69 @@ function ViewPdfContent() {
     );
   }
 
-  return (
-    <>
-      <nav className="back-nav">
-        <button
-          onClick={() => {
-            if (returnTo) {
-              router.replace(returnTo);
-            } else {
-              router.back();
-            }
-          }}
-          className="back-nav-link"
-          style={{ background: "none", border: "none", cursor: "pointer" }}
-        >
-          <i className="bx bx-chevron-left"></i>
-          <span>{title}</span>
-        </button>
-      </nav>
-      <PdfViewer url={url} title={title} semester={semester} subject={subject} unit={unit} returnTo={returnTo} />
-    </>
-  );
-}
+  // Resolve the storage reference (bucket + path) from the incoming URL so the
+  // signed URL is generated dynamically on every request and never stored.
+  const ref = parseStorageReference(url);
+  let signedUrl: string | null = null;
+  let authError = false;
+  let signError = false;
 
-export default function ViewPdfPage() {
+  if (ref) {
+    const headerList = await headers();
+    if (
+      !isAuthorizedPdfRequest({
+        host: headerList.get("host"),
+        origin: headerList.get("origin"),
+        referer: headerList.get("referer"),
+      })
+    ) {
+      authError = true;
+    } else {
+      const result = await createSignedPdfUrl(ref.bucket, ref.path, SIGNED_URL_EXPIRES_IN);
+      if (result) {
+        signedUrl = result.signedUrl;
+      } else {
+        signError = true;
+      }
+    }
+  }
+
+  if (authError) {
+    return (
+      <PdfErrorBoundary>
+        <div className="empty-state">
+          <p>You are not authorized to view this PDF.</p>
+        </div>
+      </PdfErrorBoundary>
+    );
+  }
+
+  if (signError) {
+    return (
+      <PdfErrorBoundary>
+        <div className="empty-state">
+          <p>Could not generate a secure link to this PDF. Please try again later.</p>
+        </div>
+      </PdfErrorBoundary>
+    );
+  }
+
   return (
     <PdfErrorBoundary>
-      <Suspense fallback={
-        <div className="empty-state">
-          <p>Loading PDF viewer…</p>
-        </div>
-      }>
-        <ViewPdfContent />
-      </Suspense>
+      <nav className="back-nav">
+        <BackNavButton returnTo={returnTo} title={title} />
+      </nav>
+      <PdfViewerLazy
+        url={url}
+        signedUrl={signedUrl}
+        bucket={ref ? ref.bucket : ""}
+        path={ref ? ref.path : ""}
+        title={title}
+        semester={semester}
+        subject={subject}
+        unit={unit}
+        returnTo={returnTo}
+      />
     </PdfErrorBoundary>
   );
 }

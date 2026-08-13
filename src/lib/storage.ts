@@ -16,7 +16,7 @@ export async function ensureStorageBuckets() {
     for (const bucketName of requiredBuckets) {
       if (!existingBucketNames.includes(bucketName)) {
         const { error: createError } = await supabase.storage.createBucket(bucketName, {
-          public: true,
+          public: false,
           fileSizeLimit: 52428800,
           allowedMimeTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'],
         });
@@ -24,10 +24,17 @@ export async function ensureStorageBuckets() {
         if (createError) {
           console.error(`Failed to create bucket ${bucketName}:`, createError);
         } else {
-          console.log(`Created bucket: ${bucketName}`);
+          console.log(`Created private bucket: ${bucketName}`);
         }
       } else {
-        console.log(`Bucket already exists: ${bucketName}`);
+        // Ensure existing buckets stay private; objects are only served via
+        // temporary signed URLs (see src/lib/pdf-access.ts).
+        const { error: updateError } = await supabase.storage.updateBucket(bucketName, { public: false });
+        if (updateError) {
+          console.error(`Failed to make bucket private: ${bucketName}`, updateError);
+        } else {
+          console.log(`Bucket is private: ${bucketName}`);
+        }
       }
     }
   } catch (error) {
