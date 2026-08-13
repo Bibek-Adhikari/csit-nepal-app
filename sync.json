@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "description": "Byte-identical files shared between bcanepal-app and csitnepal-app. Regenerate with: node scripts/check-core.mjs --update",
+  "files": [
+    {
+      "path": "src/app/globals.css",
+      "sha256": "8930b2da3d63e5899bb5d07725d0ae391570205c2d5e72e47e00e94d5d59f449"
+    },
+    {
+      "path": "src/lib/admin-auth.ts",
+      "sha256": "ea269307fea6c719e1c942cc968be3641c3ab42e5be9ce486164add8e630606f"
+    },
+    {
+      "path": "src/lib/database.types.ts",
+      "sha256": "f2fddde5485bea2556843554fd062268f3b82ce9736784965168c1d954112d89"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "sha256": "f499170aac71267d5f830e9bbe800091dedc27d84a5c878fbca33fc6127a7078"
+    },
+    {
+      "path": "src/lib/pdf-access.ts",
+      "sha256": "338dd12f0b897791809f347145c225c0a2304b19c3fa72c525129ddc42e23f69"
+    },
+    {
+      "path": "src/lib/progress.ts",
+      "sha256": "e8b81e2b16901e88dabcfda3d40f744c7f21f5b7f49ed3d09d7b2fb2042d9a91"
+    },
+    {
+      "path": "src/lib/storage.ts",
+      "sha256": "caf7d19804b79821f74d5f5c22bcfc981027dabd657bff325a94e4b75ee967c4"
+    },
+    {
+      "path": "src/lib/storage-url.ts",
+      "sha256": "e593c1484a7a1fb7d8527d2338ba8ff20b0258dc6825313d337f5e72e49aa992"
+    },
+    {
+      "path": "src/lib/supabase.ts",
+      "sha256": "8af1b23ad76c99a31dbcaa1cb09fd52c0a5ba8ed3890e4c64b5eaee3fcabba31"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "sha256": "982bf16c5d13d9ab58c3d3a6485c39fe44f3796f8f5163d880f8818432b22ee0"
+    },
+    {
+      "path": "src/app/api/auth/login/route.ts",
+      "sha256": "dca24847bfa4facb8b811924da7c6a1cc70c0236e541f5b5fc9e70b260053d88"
+    },
+    {
+      "path": "src/app/api/auth/logout/route.ts",
+      "sha256": "8a5097952c649c827da7a74e70351e2ca42d45529101896bf918807910557117"
+    },
+    {
+      "path": "src/app/api/db/init/route.ts",
+      "sha256": "30a93bcd1b8e0d6c15da8bc2c7a39f1908bc25b2758fc069743800eb839612c1"
+    },
+    {
+      "path": "src/app/api/entrance/pdfs/route.ts",
+      "sha256": "a2bebaddf32fac82cfed566e36aa041760fe88ed21efc3edfc666068251367a8"
+    },
+    {
+      "path": "src/app/api/entrance/questions/route.ts",
+      "sha256": "cf01f53550e0b48599ffb8b35c6ebd628e348e5889f5a4ae861bdbb765b877b4"
+    },
+    {
+      "path": "src/app/api/lectures/route.ts",
+      "sha256": "cf3ede6042d572cd696d1ab0767def343139cd79d4f76e53a36834ca5dddaea0"
+    },
+    {
+      "path": "src/app/api/notes/route.ts",
+      "sha256": "747231da449a46bd946087e223d3cf4302023310616493b603fe311abc48ee8a"
+    },
+    {
+      "path": "src/app/api/notes/[id]/route.ts",
+      "sha256": "55f8631a691345c5d469592265a8367d825b7b5a4ea88d6290672c9b827f7507"
+    },
+    {
+      "path": "src/app/api/pdf/signed-url/route.ts",
+      "sha256": "929bdf8e0cea5481ad5fbfa1fc859636eae019fae30b26b0b40df66cf6e6d9af"
+    },
+    {
+      "path": "src/app/api/storage/delete/route.ts",
+      "sha256": "dc7bd30e42fa1ff9c51847f98fce5af96e203560af687d2d08457d5b6c2b418d"
+    },
+    {
+      "path": "src/app/api/storage/init/route.ts",
+      "sha256": "45c61bb35ae1c466b43f695dba5b1260677b19cdc62f9b991a962d8f5d4ca4b8"
+    },
+    {
+      "path": "src/app/api/storage/list/route.ts",
+      "sha256": "fe5c40dcbcf42e3dad6fc04a93e14e0a750cf94d05ab615d1e2c1d76947a71cf"
+    },
+    {
+      "path": "src/app/api/storage/sync/route.ts",
+      "sha256": "faf569215f23b29247ad42123cb1441ccf4a96f6edea01f6d77223a6f06d1c6e"
+    },
+    {
+      "path": "src/app/api/storage/upload/route.ts",
+      "sha256": "3ad5c0f691ea31287ea7a78814a3b4ec2c6adb4f7f4e9102de328e2712b04bb3"
+    },
+    {
+      "path": "src/app/api/subject-questions/route.ts",
+      "sha256": "72352674d5886b60a4514ef227c5be48937a7f38102a4080f32b1b9aeba9605b"
+    },
+    {
+      "path": "src/app/api/youtube/pubsub/route.ts",
+      "sha256": "cbad53fcb4ca08cb798e300c0f5c630e6b146baf61feca2f934bfd71c4d85bf9"
+    },
+    {
+      "path": "src/app/api/youtube/subscribe/route.ts",
+      "sha256": "61ec3420493a5f3eba606293750d980b433771e465b79e25092099b482cc04df"
+    },
+    {
+      "path": "src/app/view-pdf/page.tsx",
+      "sha256": "4c0dfa529ae2176560ebc5b8743a6dbb70d4f980fb5a12a5253a279b5b156f07"
+    },
+    {
+      "path": "src/app/view-pdf/pdf-viewer.tsx",
+      "sha256": "9f5ded148b0faefd1019ddab53f7ddf359bed8df27466468f40fc93a52d5c61f"
+    },
+    {
+      "path": "src/app/view-pdf/pdf-viewer-loader.tsx",
+      "sha256": "4c5ce95810c5abb3b7e3dce410cade5da0619e0521315f2f49180ca9d1607e12"
+    },
+    {
+      "path": "src/app/view-pdf/back-nav-button.tsx",
+      "sha256": "6c4baf276bc1f131e82c3231d49015ba10f02febfcd32269a9b80b148a98402f"
+    },
+    {
+      "path": "src/components/ad-banner.tsx",
+      "sha256": "d4ec91c53f61ca6e0f72d08fc3c9f0a5d400c560fa272c4d59f73efa76b7bd38"
+    },
+    {
+      "path": "src/components/back-nav.tsx",
+      "sha256": "007a7fe6351c52e8201ca514476617e88bfd3197cd6519e2b045bea2a8aba30f"
+    },
+    {
+      "path": "src/components/code-block.tsx",
+      "sha256": "df8266c4b721c95acff9c47cf57c22bd324fc6d2eab5f58c555846d7c1ed9be2"
+    },
+    {
+      "path": "src/components/completion-toggle.tsx",
+      "sha256": "8f49a1f10cdb772a7dfe125ed057b7001960546e6979c60f6e73ec65b41ef266"
+    },
+    {
+      "path": "src/components/content-body.tsx",
+      "sha256": "4eac59b1044dd1731512a27911122f2db52b8226c45b5f0087b4e71d9b91ff69"
+    },
+    {
+      "path": "src/components/course-content-card.tsx",
+      "sha256": "08dfdf5e36332742d1393378569281e0091c455c161a947f82b922a5c750372b"
+    },
+    {
+      "path": "src/components/course-structure-button.tsx",
+      "sha256": "98c4a5a3354a8ad4c38c70b82648b271ee6c1853d920a1033728d9ad65a134b3"
+    },
+    {
+      "path": "src/components/dashboard-card.tsx",
+      "sha256": "a6dba1c039b7d89fc415d587a7789b2ce8b6dceb58b9a7b9fbb5cfe74436ed5c"
+    },
+    {
+      "path": "src/components/entrance-card.tsx",
+      "sha256": "e33c6aa8358f790c4a50c2f8b7455a94287320c7c15fe077739bb329f298022f"
+    },
+    {
+      "path": "src/components/entrance-mock-test.tsx",
+      "sha256": "769e25fe850ad146c02974850b6ee6e44d1ef2bb586d073a2c7d394017874c37"
+    },
+    {
+      "path": "src/components/katex-renderer.tsx",
+      "sha256": "2cdba53c4cf0efed5d6fee45073284184f65a1c7deb88ac1bf0ae044fc35cd51"
+    },
+    {
+      "path": "src/components/lecture-grid.tsx",
+      "sha256": "1fcf8705ca91e8718c3a899a2da4a3a34013d3805c91dae9137ca9cd516d29e6"
+    },
+    {
+      "path": "src/components/notes-tree.tsx",
+      "sha256": "65d36d1494de70e9d18d27c8c6a8d803dbd08bb4918398c8d4b712c40e6eb06f"
+    },
+    {
+      "path": "src/components/offline-banner.tsx",
+      "sha256": "47128e733d091c3a75377533a1b01ef4c5c1ce8b1ba8153d336d9eaebd486344"
+    },
+    {
+      "path": "src/components/offline-error.tsx",
+      "sha256": "ab481ccd1899d699bcd1a3e55124ac89f32a210f0a44e7fb59ed681573337ed8"
+    },
+    {
+      "path": "src/components/pdf-error-boundary.tsx",
+      "sha256": "5df8d5e1575493d301f0c9b586c5d3d98b913c8f64dde46720fa8027c139df5a"
+    },
+    {
+      "path": "src/components/prism-init.tsx",
+      "sha256": "96f7ed2f1608ed6d2db553004d3d6a4017daedfd4fb46f4a95c9ab00b53855f0"
+    },
+    {
+      "path": "src/components/progress-dashboard.tsx",
+      "sha256": "d530d46f2a2ac80299d3f3c89ce75bbc9fa735c6beab123126547f0166949670"
+    },
+    {
+      "path": "src/components/related-lectures.tsx",
+      "sha256": "8cca8458fe600bd86e233cec0b8b1b20105f707b6767aa19b6eca7d61671b4e5"
+    },
+    {
+      "path": "src/components/route-progress.tsx",
+      "sha256": "ab7cd6129ef202bab808aa490b79d9cb9175dcf46bac016b1a9924518af0f19e"
+    },
+    {
+      "path": "src/components/semester-scroller.tsx",
+      "sha256": "53a3e2f7d62bf54e040ad9d1def617700a83e443844918d8b2c0ee8d9faee7e1"
+    },
+    {
+      "path": "src/components/site-nav.tsx",
+      "sha256": "08c8edc7e8c96c6f51d6cfd71b4f0462eb71377e3164f35deace87424f5f5d5d"
+    },
+    {
+      "path": "src/components/subject-quiz.tsx",
+      "sha256": "7df56a2955e9d2a6a3cd2f2694d596986da173b833352d49ea820c46ba3da616"
+    },
+    {
+      "path": "src/components/theme-provider.tsx",
+      "sha256": "c905f1e2c09bdac3389917d95ad3af37425d506b930d229a1993dc0c8903578a"
+    },
+    {
+      "path": "src/components/theme-toggle.tsx",
+      "sha256": "14d1d7bdcc7c2d483e001f0461f44cf01c24484981f9722e3efa6de81d611d6d"
+    },
+    {
+      "path": "src/components/ui-utils.ts",
+      "sha256": "304b23158df6c65555391622b66f15266c78ff676568368f7803b00bd09c37a1"
+    },
+    {
+      "path": "src/components/unit-content-tabs.tsx",
+      "sha256": "5ed0752b43df3497635ae319331842278d17c679c842cac73f52344212cc2c71"
+    },
+    {
+      "path": "src/components/video-notes.tsx",
+      "sha256": "f3a7bc614f2d9c9c841ea3a2da7a688ca2b16ce9b87ee9faa0e49a8a0227df23"
+    },
+    {
+      "path": "next.config.ts",
+      "sha256": "2596c9cc616e76a6dca37d82b9e0b7921d56a59ad4cedeba12f3c8a545284ef7"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "5c51df4c59f4510d8c7dadf07a5c32132228826a3b331da5e286207b4df7ef9c"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "870f1adccecf3051cbcd9fd307cef51d7633cf510979c181a81f4b1797273493"
+    },
+    {
+      "path": "postcss.config.mjs",
+      "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "6d26e0be00f57dde97b659b908f7070a85158e63310d16a67e2350c377a83a03"
+    },
+    {
+      "path": "netlify.toml",
+      "sha256": "8427cbfe2abdc894fa2530a155d8fb8b8e8fa0aa2fb67a468119b047433ea67c"
+    },
+    {
+      "path": "instrumentation.ts",
+      "sha256": "dfed8fe553928643b7c1736625778ef0a07f392e1e6fe17244d1ba74c270b36d"
+    },
+    {
+      "path": "sentry.client.config.ts",
+      "sha256": "220dc16005067f5f452088772df0a4817d3263a84fc7733de6090422cae58936"
+    },
+    {
+      "path": "sentry.edge.config.ts",
+      "sha256": "90fdc63b5d5b7a376af545cff1785392d682ba5517b9afbf1e0d7e608c349905"
+    },
+    {
+      "path": "sentry.server.config.ts",
+      "sha256": "90fdc63b5d5b7a376af545cff1785392d682ba5517b9afbf1e0d7e608c349905"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "d9ac711b0d37e96d038b35de03f2e1cc55ca96d8c89edf856c6a47856aaba2f5"
+    }
+  ]
+}
