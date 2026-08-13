@@ -7,11 +7,12 @@ import { AdBanner } from "@/components/ad-banner";
 import { semesters, type Semester } from "@/content/subjects";
 
 export default function HomePage() {
-  const [activeSemester, setActiveSemester] = useState<string>(semesters[0].key);
+  const [activeTab, setActiveTab] = useState<string>(semesters[0].key);
 
-  const currentSemester: Semester | undefined = semesters.find(
-    (s) => s.key === activeSemester
-  );
+  const isEntrance = activeTab === "entrance";
+  const currentSemester: Semester | undefined = isEntrance
+    ? undefined
+    : semesters.find((s) => s.key === activeTab);
 
   return (
     <>
@@ -35,37 +36,74 @@ export default function HomePage() {
       {/* Semester Scroller */}
       <h3 className="section-headline">Choose Semester</h3>
       <div className="semester-scroller">
+        <button
+          className={`pill-btn${isEntrance ? " active" : ""}`}
+          onClick={() => setActiveTab("entrance")}
+        >
+          Entrance
+        </button>
         {semesters.map((semester) => (
           <button
             key={semester.key}
-            className={`pill-btn${activeSemester === semester.key ? " active" : ""}`}
-            onClick={() => setActiveSemester(semester.key)}
+            className={`pill-btn${activeTab === semester.key ? " active" : ""}`}
+            onClick={() => setActiveTab(semester.key)}
           >
             {semester.label}
           </button>
         ))}
       </div>
 
-      {/* Subject Stack */}
-      <h3 className="section-headline">Subjects</h3>
-      <div className="subject-stack">
-        {currentSemester?.subjects.map((subject) => (
-          <Link
-            key={subject.code}
-            href={`/subjects/${activeSemester}/${subject.slug}`}
-            className="app-card"
-          >
-            <div className="card-left">
-              <span className="card-code">{subject.code}</span>
-              <span className="card-title">{subject.title}</span>
-              <span className="card-meta-inline">
-                {subject.credits} &middot; {subject.units.length} units
-              </span>
-            </div>
-            <i className="bx bx-chevron-right card-chevron"></i>
-          </Link>
-        ))}
-      </div>
+      {/* Entrance Stack */}
+      {isEntrance ? (
+        <>
+          <h3 className="section-headline">Entrance Preparation</h3>
+          <div className="subject-stack">
+            <Link href="/mock-test" className="app-card" style={{ alignItems: "center" }}>
+              <div className="card-left">
+                <span className="card-code">
+                  <i className="bx bx-edit-alt" style={{ marginRight: "0.35rem" }}></i>
+                  Mock Test
+                </span>
+                <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Timed practice with customizable subjects</span>
+              </div>
+              <i className="bx bx-chevron-right card-chevron"></i>
+            </Link>
+            <Link href="/questions" className="app-card" style={{ alignItems: "center" }}>
+              <div className="card-left">
+                <span className="card-code">
+                  <i className="bx bx-book-open" style={{ marginRight: "0.35rem" }}></i>
+                  Past Questions
+                </span>
+                <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Study materials & question PDFs</span>
+              </div>
+              <i className="bx bx-chevron-right card-chevron"></i>
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Subject Stack */}
+          <h3 className="section-headline">Subjects</h3>
+          <div className="subject-stack">
+            {currentSemester?.subjects.map((subject) => (
+              <Link
+                key={subject.code}
+                href={`/subjects/${activeTab}/${subject.slug}`}
+                className="app-card"
+              >
+                <div className="card-left">
+                  <span className="card-code">{subject.code}</span>
+                  <span className="card-title">{subject.title}</span>
+                  <span className="card-meta-inline">
+                    {subject.credits} &middot; {subject.units.length} units
+                  </span>
+                </div>
+                <i className="bx bx-chevron-right card-chevron"></i>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* YouTube Banner */}
       <AdBanner />
