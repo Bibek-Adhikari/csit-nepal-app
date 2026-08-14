@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Course Content",
-  description: "Complete TU BCA course content — all semesters with units and PDF notes.",
+  description: "Complete TU BSc CSIT course content — all semesters with units and PDF notes.",
 };
 
 interface UnitPdf {
@@ -159,7 +159,7 @@ export default async function CourseContentPage() {
             {semester.subjects.map((subject) => (
               <div key={subject.slug} className="cc-unit">
                 <div className="cc-unit-header">
-                  <span className="cc-unit-num">{subject.code.replace("BCA ", "")}</span>
+                  <span className="cc-unit-num">{subject.code.replace("CSC ", "")}</span>
                   <div className="cc-unit-info">
                     <h3 className="cc-unit-title">{subject.title}</h3>
                     <p className="cc-unit-summary">{subject.credits} credits · {subject.units.length} units</p>

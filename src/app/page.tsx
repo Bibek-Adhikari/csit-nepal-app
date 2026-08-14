@@ -22,9 +22,9 @@ export default function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: "BCA Nepal",
-            url: "https://bcanepal.app",
-            description: "Free study companion for TU BCA students. Browse notes, watch YouTube lectures, track progress.",
+            name: "CSIT Nepal",
+            url: "https://csitnepal.vercel.app",
+            description: "Free study companion for TU BSc CSIT students. Browse notes, watch YouTube lectures, track progress.",
             applicationCategory: "EducationalApplication",
             operatingSystem: "Any",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -115,7 +115,7 @@ export default function HomePage() {
       >
         <div className="yt-banner-left">
           <span>YouTube Channel</span>
-          <h4>BCA Nepal — Lectures &amp; Guides</h4>
+          <h4>CSIT Nepal — Lectures &amp; Guides</h4>
           <p>Video walkthroughs for every semester subject</p>
         </div>
         <div className="yt-play-icon">

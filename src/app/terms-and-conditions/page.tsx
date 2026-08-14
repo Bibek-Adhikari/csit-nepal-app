@@ -3,7 +3,7 @@ import { BackNav } from "@/components/back-nav";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
-  description: "Terms and Conditions for using the BCA Nepal app.",
+  description: "Terms and Conditions for using the CSIT Nepal app.",
 };
 
 export default function TermsPage() {
@@ -17,7 +17,7 @@ export default function TermsPage() {
 
       <div className="legal-content">
         <h3>1. Acceptance</h3>
-        <p>By using BCA Nepal, you agree to these terms. This app is a study helper for Tribhuvan University BCA students.</p>
+        <p>By using CSIT Nepal, you agree to these terms. This app is a study helper for Tribhuvan University BSc CSIT students.</p>
 
         <h3>2. Content</h3>
         <ul>
@@ -47,7 +47,7 @@ export default function TermsPage() {
         </ul>
 
         <h3>6. Limitation</h3>
-        <p>BCA Nepal is a free educational tool. We are not liable for any damages arising from use of this app.</p>
+        <p>CSIT Nepal is a free educational tool. We are not liable for any damages arising from use of this app.</p>
 
         <h3>7. Changes</h3>
         <p>We may update these terms at any time. Continued use after changes constitutes acceptance.</p>

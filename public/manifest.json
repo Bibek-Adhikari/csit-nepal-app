@@ -1,13 +1,13 @@
 {
-  "name": "BCA Nepal",
-  "short_name": "BCA Nepal",
-  "description": "Mobile-first study hub for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
-  "author": "BCA Nepal Team",
-  "owner": "BCA Nepal",
+  "name": "CSIT Nepal",
+  "short_name": "CSIT Nepal",
+  "description": "Mobile-first study hub for Tribhuvan University BSc CSIT students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
+  "author": "CSIT Nepal Team",
+  "owner": "CSIT Nepal",
   "founding_date": "2025",
   "developer": {
-    "name": "BCA Nepal Team",
-    "url": "https://github.com/Bibek-Adhikari/bca-nepal-app",
+    "name": "CSIT Nepal Team",
+    "url": "https://github.com/Bibek-Adhikari/csit-nepal-app",
     "team": [
       {
         "name": "Rupesh Adhikari",

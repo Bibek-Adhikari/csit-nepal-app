@@ -177,7 +177,7 @@ export function ServiceWorkerRegister() {
       {showInstall && !installDismissed && (
         <div className="install-banner">
           <div className="install-banner-text">
-            <strong>Install BCA Nepal</strong>
+            <strong>Install CSIT Nepal</strong>
             <span>Add to home screen for faster access</span>
           </div>
           <button onClick={handleInstall}>Install</button>

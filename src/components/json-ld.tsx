@@ -10,16 +10,16 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "BCA Nepal",
-  alternateName: ["BCA Nepal - TU BCA Study Hub", "BCA Study Hub"],
-  url: "https://bcanepal.app",
+  name: "CSIT Nepal",
+  alternateName: ["CSIT Nepal - TU BSc CSIT Study Hub", "CSIT Study Hub"],
+  url: "https://csitnepal.vercel.app",
   logo: {
     "@type": "ImageObject",
-    url: "https://bcanepal.app/icons/fabi.jpg",
+    url: "https://csitnepal.vercel.app/icons/fabi.jpg",
     width: 512,
     height: 512,
   },
-  description: "Free study companion for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track study progress — all offline.",
+  description: "Free study companion for Tribhuvan University BSc CSIT students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track study progress — all offline.",
   foundingDate: "2024",
   founders: [
     {
@@ -43,37 +43,37 @@ export const organizationSchema = {
     },
   ],
   sameAs: [
-    "https://github.com/Bibek-Adhikari/bca-nepal-app",
+    "https://github.com/Bibek-Adhikari/csit-nepal-app",
   ],
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
-    url: "https://github.com/Bibek-Adhikari/bca-nepal-app/issues",
+    url: "https://github.com/Bibek-Adhikari/csit-nepal-app/issues",
     availableLanguage: ["English", "Nepali"],
   },
-  keywords: ["BCA Nepal", "TU BCA", "Tribhuvan University", "BCA notes", "BCA study", "semester notes", "BCA PDF", "BCA lectures", "Nepal BCA"],
+  keywords: ["CSIT Nepal", "TU CSIT", "BSc CSIT", "Tribhuvan University", "CSIT notes", "CSIT study", "semester notes", "CSIT PDF", "CSIT lectures", "Nepal CSIT"],
 };
 
 export const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "BCA Nepal",
-  alternateName: "BCA Nepal - TU BCA Study Hub",
-  url: "https://bcanepal.app",
-  description: "Free study companion for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track study progress — all offline.",
+  name: "CSIT Nepal",
+  alternateName: "CSIT Nepal - TU BSc CSIT Study Hub",
+  url: "https://csitnepal.vercel.app",
+  description: "Free study companion for Tribhuvan University BSc CSIT students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track study progress — all offline.",
   publisher: {
     "@type": "Organization",
-    name: "BCA Nepal",
+    name: "CSIT Nepal",
     logo: {
       "@type": "ImageObject",
-      url: "https://bcanepal.app/icons/fabi.jpg",
+      url: "https://csitnepal.vercel.app/icons/fabi.jpg",
     },
   },
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://bcanepal.app/search?q={search_term_string}",
+      urlTemplate: "https://csitnepal.vercel.app/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
@@ -81,17 +81,17 @@ export const websiteSchema = {
   copyrightYear: 2024,
   copyrightHolder: {
     "@type": "Organization",
-    name: "BCA Nepal",
+    name: "CSIT Nepal",
   },
 };
 
 export const webAppSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "BCA Nepal",
-  alternateName: "BCA Nepal - TU BCA Study Hub",
-  url: "https://bcanepal.app",
-  description: "Free study companion for TU BCA students. Browse notes, watch YouTube lectures, track progress.",
+  name: "CSIT Nepal",
+  alternateName: "CSIT Nepal - TU BSc CSIT Study Hub",
+  url: "https://csitnepal.vercel.app",
+  description: "Free study companion for TU BSc CSIT students. Browse notes, watch YouTube lectures, track progress.",
   applicationCategory: "EducationalApplication",
   operatingSystem: "Any",
   offers: {
@@ -115,11 +115,11 @@ export const webAppSchema = {
     "Offline Access",
     "Quiz System",
   ],
-  screenshot: "https://bcanepal.app/icons/fabi.jpg",
+  screenshot: "https://csitnepal.vercel.app/icons/fabi.jpg",
   author: {
     "@type": "Organization",
-    name: "BCA Nepal",
-    url: "https://bcanepal.app",
+    name: "CSIT Nepal",
+    url: "https://csitnepal.vercel.app",
   },
   maintainer: [
     {
@@ -143,19 +143,19 @@ export const breadcrumbHomeSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://bcanepal.app",
+      item: "https://csitnepal.vercel.app",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Subjects",
-      item: "https://bcanepal.app/subjects",
+      item: "https://csitnepal.vercel.app/subjects",
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Lectures",
-      item: "https://bcanepal.app/lectures",
+      item: "https://csitnepal.vercel.app/lectures",
     },
   ],
 };
@@ -166,34 +166,34 @@ export const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is BCA Nepal?",
+      name: "What is CSIT Nepal?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "BCA Nepal is a free study companion for Tribhuvan University BCA students. It provides semester notes, PDFs, handwritten notes, YouTube lectures, and progress tracking - all accessible offline.",
+        text: "CSIT Nepal is a free study companion for Tribhuvan University BSc CSIT students. It provides semester notes, PDFs, handwritten notes, YouTube lectures, and progress tracking - all accessible offline.",
       },
     },
     {
       "@type": "Question",
-      name: "Is BCA Nepal free to use?",
+      name: "Is CSIT Nepal free to use?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, BCA Nepal is completely free. All study materials including notes, PDFs, and video lectures are available at no cost.",
+        text: "Yes, CSIT Nepal is completely free. All study materials including notes, PDFs, and video lectures are available at no cost.",
       },
     },
     {
       "@type": "Question",
-      name: "Can I access BCA Nepal offline?",
+      name: "Can I access CSIT Nepal offline?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, BCA Nepal works offline. Once you visit the site, study materials are cached for offline access using Progressive Web App technology.",
+        text: "Yes, CSIT Nepal works offline. Once you visit the site, study materials are cached for offline access using Progressive Web App technology.",
       },
     },
     {
       "@type": "Question",
-      name: "Which semesters are available on BCA Nepal?",
+      name: "Which semesters are available on CSIT Nepal?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "BCA Nepal covers all 6 semesters of the Tribhuvan University BCA program, including subjects like Java, C Programming, Digital Logic, Mathematics, and UX/UI Design.",
+        text: "CSIT Nepal covers all 8 semesters of the Tribhuvan University BSc CSIT program, including subjects like C Programming, Digital Logic, Discrete Structures, Object-Oriented Programming, and Microprocessor.",
       },
     },
   ],

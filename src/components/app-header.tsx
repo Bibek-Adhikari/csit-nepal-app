@@ -14,12 +14,12 @@ export function AppHeader() {
       <Link href="/" className="app-logo-link">
         <Image
           src="/logo.jpg"
-          alt="BCA Nepal"
+          alt="CSIT Nepal"
           width={36}
           height={36}
           className="app-logo-img"
         />
-        <h1>BCA<span>Nepal</span></h1>
+        <h1>CSIT<span>Nepal</span></h1>
       </Link>
       <div className="header-actions">
         <button className="channel-badge" onClick={() => setNotifOpen(true)} style={{ background: "none", border: "none", cursor: "pointer" }}>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Profile",
-  description: "Track your BCA study progress, manage preferences, and view statistics.",
+  description: "Track your CSIT study progress, manage preferences, and view statistics.",
   alternates: { canonical: "/profile" },
 };
 

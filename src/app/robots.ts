@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
   ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "")
-  : "https://bcanepal.vercel.app";
+  : "https://csitnepal.vercel.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {

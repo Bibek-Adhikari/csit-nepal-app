@@ -11,7 +11,7 @@ export function WelcomeHero() {
       <div className="hero-top">
         <div>
           <h1>
-            BCA<span> Nepal</span> study hub
+            CSIT<span> Nepal</span> study hub
           </h1>
           <p>
             Browse semester-specific subjects, open YouTube lectures, and study

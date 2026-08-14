@@ -1,9 +1,9 @@
-const CACHE = "bca-nepal-v15";
-const STATIC_CACHE = "bca-nepal-static-v15";
-const API_CACHE = "bca-nepal-api-v15";
-const PDF_CACHE = "bca-nepal-pdf-v15";
-const LECTURE_CACHE = "bca-nepal-lecture-v15";
-const RSC_CACHE = "bca-nepal-rsc-v15";
+const CACHE = "csitnepal-v1";
+const STATIC_CACHE = "csitnepal-static-v1";
+const API_CACHE = "csitnepal-api-v1";
+const PDF_CACHE = "csitnepal-pdf-v1";
+const LECTURE_CACHE = "csitnepal-lecture-v1";
+const RSC_CACHE = "csitnepal-rsc-v1";
 const SHARE_DB_NAME = "bca-nepal-offline";
 const SHARE_DB_VERSION = 5;
 const PENDING_SHARES_STORE = "pending-shares";
@@ -12,31 +12,21 @@ const PRECACHE_URLS = [
   "/",
   "/subjects",
   "/subjects/semester-1",
-  "/subjects/semester-1/computer-fundamentals-and-applications",
-  "/subjects/semester-1/programming-in-c",
+  "/subjects/semester-1/introduction-to-information-technology",
+  "/subjects/semester-1/c-programming",
   "/subjects/semester-1/digital-logic",
   "/subjects/semester-1/mathematics-i",
-  "/subjects/semester-1/professional-communication-and-ethics",
-  "/subjects/semester-1/hardware-workshop",
+  "/subjects/semester-1/physics",
   "/subjects/semester-2",
-  "/subjects/semester-2/discrete-structure",
-  "/subjects/semester-2/microprocessor-architecture",
-  "/subjects/semester-2/oop-in-java",
+  "/subjects/semester-2/discrete-structures",
+  "/subjects/semester-2/object-oriented-programming",
+  "/subjects/semester-2/microprocessor",
   "/subjects/semester-2/mathematics-ii",
-  "/subjects/semester-2/ux-ui-design",
-  "/subjects/semester-2/principles-of-management",
-  "/notes/semester-1/computer-fundamentals-and-applications/lab-reports",
-  "/notes/semester-1/programming-in-c/lab-reports",
-  "/notes/semester-1/digital-logic/lab-reports",
-  "/notes/semester-1/mathematics-i/lab-reports",
-  "/notes/semester-1/professional-communication-and-ethics/lab-reports",
-  "/notes/semester-1/hardware-workshop/lab-reports",
-  "/notes/semester-2/discrete-structure/lab-reports",
-  "/notes/semester-2/microprocessor-architecture/lab-reports",
-  "/notes/semester-2/oop-in-java/lab-reports",
-  "/notes/semester-2/mathematics-ii/lab-reports",
-  "/notes/semester-2/ux-ui-design/lab-reports",
-  "/notes/semester-2/principles-of-management/lab-reports",
+  "/subjects/semester-2/statistics-i",
+  "/notes/semester-1/c-programming/lab-reports",
+  "/notes/semester-1/physics/lab-reports",
+  "/notes/semester-2/object-oriented-programming/lab-reports",
+  "/notes/semester-2/microprocessor/lab-reports",
   "/subjects/entrance",
   "/questions",
   "/mock-test",
@@ -611,7 +601,7 @@ self.addEventListener("push", (event) => {
     ],
   };
 
-  event.waitUntil(self.registration.showNotification(data.title || "BCA Nepal", options));
+  event.waitUntil(self.registration.showNotification(data.title || "CSIT Nepal", options));
 });
 
 self.addEventListener("notificationclick", (event) => {

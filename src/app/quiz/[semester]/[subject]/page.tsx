@@ -8,10 +8,10 @@ export async function generateMetadata({ params }: { params: Promise<{ semester:
   const semesterData = getSemester(semester);
   const subjectData = getSubject(semester, subject);
   return {
-    title: subjectData ? `${subjectData.title} Quiz - BCA` : "Quiz",
+    title: subjectData ? `${subjectData.title} Quiz - CSIT` : "Quiz",
     description: subjectData
-      ? `Practice MCQs for ${subjectData.title} (${semesterData?.label || semester}) covering all units. BCA study questions.`
-      : "BCA subject quiz.",
+      ? `Practice MCQs for ${subjectData.title} (${semesterData?.label || semester}) covering all units. CSIT study questions.`
+      : "CSIT subject quiz.",
   };
 }
 

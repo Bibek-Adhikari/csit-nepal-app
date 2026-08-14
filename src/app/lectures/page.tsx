@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Lectures",
-  description: "Browse YouTube lectures for BCA with in-app playback. Watch instantly.",
+  description: "Browse YouTube lectures for CSIT with in-app playback. Watch instantly.",
   alternates: { canonical: "/lectures" },
 };
 
@@ -17,8 +17,8 @@ export default function LecturesPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "BCA Lecture Videos",
-            description: "Browse YouTube lectures for BCA with in-app playback.",
+            name: "CSIT Lecture Videos",
+            description: "Browse YouTube lectures for CSIT with in-app playback.",
           }),
         }}
       />

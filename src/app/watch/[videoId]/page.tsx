@@ -59,7 +59,7 @@ export default function WatchPage() {
               "@context": "https://schema.org",
               "@type": "VideoObject",
               name: video.title,
-              description: `${video.subject} lecture for BCA ${video.semester}.`,
+              description: `${video.subject} lecture for CSIT ${video.semester}.`,
               thumbnailUrl: video.thumbnail,
               embedUrl: `https://www.youtube.com/embed/${video.id}`,
               contentUrl: `https://www.youtube.com/watch?v=${video.id}`,

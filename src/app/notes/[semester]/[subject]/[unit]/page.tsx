@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: { params: Promise<{ semester:
   const unitData = getUnit(semester as SemesterKey, subject, unit);
   const title = unitData ? `${unitData.title} - ${subjectData?.title || subject} Notes` : "Notes";
   const description = unitData
-    ? `Download ${unitData.title} notes and handwritten PDFs for ${subjectData?.title || subject} (${semesterData?.label || semester}). BCA study material.`
-    : "BCA notes and study materials.";
+    ? `Download ${unitData.title} notes and handwritten PDFs for ${subjectData?.title || subject} (${semesterData?.label || semester}). CSIT study material.`
+    : "CSIT notes and study materials.";
   return {
     title,
     description,
@@ -163,7 +163,7 @@ export default async function UnitNotesPage({ params }: { params: Promise<{ seme
   const handwrittenNotes = [...unitData.notes.handwritten, ...supabaseNotes.handwritten];
   const solutionNotes = [...supabaseNotes.solutions];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://csitnepal.vercel.app";
 
   return (
     <>

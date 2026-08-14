@@ -52,7 +52,7 @@ export function CoursePdfViewer({ coursePdfs }: Props) {
             coursePdfs.map((cp) => (
               <div key={`${cp.semester}/${cp.subject}`} className="cc-unit">
                 <div className="cc-unit-header">
-                  <span className="cc-unit-num">{cp.code.replace("BCA ", "")}</span>
+                  <span className="cc-unit-num">{cp.code.replace("CSC ", "")}</span>
                   <div className="cc-unit-info">
                     <h3 className="cc-unit-title">{cp.title}</h3>
                   </div>

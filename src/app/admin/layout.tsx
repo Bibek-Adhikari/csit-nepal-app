@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
-  description: "Manage BCA Nepal study materials.",
+  description: "Manage CSIT Nepal study materials.",
   alternates: { canonical: "/admin" },
   robots: { index: false },
 };

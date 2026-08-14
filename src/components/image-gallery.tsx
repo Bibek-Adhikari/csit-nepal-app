@@ -489,7 +489,7 @@ export default function ImageGallery({ onCountChange }: ImageGalleryProps) {
         </div>
         <div className="pwa-step">
           <span className="pwa-step-num">2</span>
-          <div className="pwa-step-content"><h4>Tap Share</h4><p>Choose <strong>BCA Nepal</strong></p></div>
+          <div className="pwa-step-content"><h4>Tap Share</h4><p>Choose <strong>CSIT Nepal</strong></p></div>
         </div>
         <div className="pwa-step">
           <span className="pwa-step-num">3</span>

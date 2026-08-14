@@ -44,7 +44,7 @@ export default async function SubjectPage({
     notFound();
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bcanepal.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://csitnepal.vercel.app";
 
   let solutionNotes: NoteItem[] = [];
   try {

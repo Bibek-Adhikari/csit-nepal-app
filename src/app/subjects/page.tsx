@@ -7,7 +7,7 @@ import { CourseContentCard } from "@/components/course-content-card";
 
 export const metadata: Metadata = {
   title: "Subjects",
-  description: "Browse BCA subjects by semester. Access notes, PDFs, and lectures for all TU BCA courses.",
+  description: "Browse CSIT subjects by semester. Access notes, PDFs, and lectures for all TU BSc CSIT courses.",
 };
 
 export default function SubjectsPage() {

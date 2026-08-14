@@ -8,7 +8,7 @@ export async function generateMetadata({ params }: { params: Promise<{ videoId: 
   }
   return {
     title: video.title.slice(0, 60),
-    description: `Watch "${video.title}" — BCA ${video.semester} ${video.subject} lecture.`,
+    description: `Watch "${video.title}" — CSIT ${video.semester} ${video.subject} lecture.`,
     alternates: { canonical: `/watch/${videoId}` },
   };
 }

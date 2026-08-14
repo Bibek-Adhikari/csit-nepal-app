@@ -120,7 +120,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <h3 className="section-headline">BCA Gallery</h3>
+      <h3 className="section-headline">CSIT Gallery</h3>
       <div className="subject-stack" style={{ paddingBottom: "0.5rem" }}>
         <Link href="/gallery" className="app-card" style={{ textDecoration: "none", color: "inherit" }}>
           <div className="card-left">
@@ -133,7 +133,7 @@ export default function ProfilePage() {
             <span className="card-meta-inline">
               {sharedCount > 0
                 ? "Tap to view gallery"
-                : "Share images from your gallery to BCA Nepal"}
+                : "Share images from your gallery to CSIT Nepal"}
             </span>
           </div>
           <i className="bx bx-chevron-right card-chevron"></i>
@@ -188,7 +188,7 @@ export default function ProfilePage() {
         >
           <div className="card-left">
             <span className="card-code">Facebook</span>
-            <span className="card-title">Join BCA Nepal Group</span>
+            <span className="card-title">Join CSIT Nepal Group</span>
             <span className="card-meta-inline">Discuss, share notes, get help</span>
           </div>
           <i className="bx bx-link-external card-chevron"></i>
@@ -241,7 +241,7 @@ export default function ProfilePage() {
               <span className="pwa-step-num">3</span>
               <div className="pwa-step-content">
                 <h4>Done!</h4>
-                <p>BCA Nepal is now on your home screen. Open it anytime — even offline.</p>
+                <p>CSIT Nepal is now on your home screen. Open it anytime — even offline.</p>
               </div>
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function ProfilePage() {
               <span className="pwa-step-num">4</span>
               <div className="pwa-step-content">
                 <h4>Done!</h4>
-                <p>Tap <strong>Add</strong> in the top right. BCA Nepal is now on your home screen.</p>
+                <p>Tap <strong>Add</strong> in the top right. CSIT Nepal is now on your home screen.</p>
               </div>
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function ProfilePage() {
         <div className="app-card" style={{ cursor: "pointer" }} onClick={() => setShowShare(!showShare)}>
           <div className="card-left">
             <span className="card-code">Share</span>
-            <span className="card-title">Share BCA Nepal</span>
+            <span className="card-title">Share CSIT Nepal</span>
             <span className="card-meta-inline">Scan QR code to share with friends</span>
           </div>
           <i className={`bx bx-chevron-${showShare ? "up" : "down"} card-chevron`}></i>
@@ -302,7 +302,7 @@ export default function ProfilePage() {
         {showShare && (
           <div className="pwa-steps" style={{ marginTop: "0.5rem" }}>
             <div className="pwa-step" style={{ flexDirection: "column", alignItems: "center", textAlign: "center", gap: "1rem" }}>
-              <img src="/qr_bca.png" alt="Share BCA Nepal" className="protect" style={{ width: "100%", maxWidth: 220, height: "auto", borderRadius: 16 }} />
+              <img src="/qr_bca.png" alt="Share CSIT Nepal" className="protect" style={{ width: "100%", maxWidth: 220, height: "auto", borderRadius: 16 }} />
               <div className="pwa-step-content" style={{ textAlign: "center" }}>
                 <h4>Scan to Share</h4>
                 <p>Share this QR code with friends</p>

@@ -83,7 +83,7 @@ export function NotificationPanel({ open, onClose }: NotificationPanelProps) {
         {
           id: "welcome",
           icon: "bx-wink-smile",
-          title: "Welcome to BCA Nepal!",
+          title: "Welcome to CSIT Nepal!",
           description: "We're glad to have you here. Start exploring subjects, lectures, and notes to boost your studies.",
           time: "Just now",
         },

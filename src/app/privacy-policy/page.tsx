@@ -3,7 +3,7 @@ import { BackNav } from "@/components/back-nav";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy for BCA Nepal app. Learn how we handle your data.",
+  description: "Privacy Policy for CSIT Nepal app. Learn how we handle your data.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
 
       <div className="legal-content">
         <h3>1. Data We Collect</h3>
-        <p>BCA Nepal is a study helper app for Tribhuvan University BCA students. We collect minimal data:</p>
+        <p>CSIT Nepal is a study helper app for Tribhuvan University BSc CSIT students. We collect minimal data:</p>
         <ul>
           <li><strong>Study progress</strong> — completed units and bookmarks stored locally on your device (never sent to our servers)</li>
           <li><strong>Offline PDFs</strong> — downloaded notes stored in your browser&apos;s IndexedDB for offline access</li>

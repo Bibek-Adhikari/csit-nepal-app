@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "View PDF",
-  description: "View BCA study material PDFs directly in your browser.",
+  description: "View CSIT study material PDFs directly in your browser.",
   alternates: { canonical: "/view-pdf" },
   robots: { index: false },
 };

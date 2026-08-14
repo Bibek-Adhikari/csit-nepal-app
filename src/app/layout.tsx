@@ -16,21 +16,21 @@ const geistSans = Geist({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http") ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "") : undefined;
-const APP_URL = SITE_URL || "https://bcanepal.vercel.app";
+const APP_URL = SITE_URL || "https://csitnepal.vercel.app";
 
 export const metadata: Metadata = {
   title: {
-    default: "BCA Nepal - TU BCA Study Hub",
-    template: "%s | BCA Nepal",
+    default: "CSIT Nepal - TU BSc CSIT Study Hub",
+    template: "%s | CSIT Nepal",
   },
-  description: "Mobile-first study hub for Tribhuvan University BCA students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
-  keywords: ["BCA Nepal", "TU BCA", "Tribhuvan University", "BCA notes", "BCA study", "semester notes", "BCA PDF", "BCA lectures", "Nepal BCA"],
+  description: "Mobile-first study hub for Tribhuvan University BSc CSIT students. Access semester notes, PDFs, handwritten notes, YouTube lectures, and track your study progress — all offline.",
+  keywords: ["CSIT Nepal", "TU CSIT", "BSc CSIT", "Tribhuvan University", "CSIT notes", "CSIT study", "semester notes", "CSIT PDF", "CSIT lectures", "Nepal CSIT"],
   metadataBase: new URL(APP_URL),
   openGraph: {
-    title: "BCA Nepal - TU BCA Study Hub",
-    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for Tribhuvan University BCA students. Works offline.",
+    title: "CSIT Nepal - TU BSc CSIT Study Hub",
+    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for Tribhuvan University BSc CSIT students. Works offline.",
     url: APP_URL,
-    siteName: "BCA Nepal",
+    siteName: "CSIT Nepal",
     type: "website",
     locale: "en_US",
     images: [
@@ -38,20 +38,20 @@ export const metadata: Metadata = {
         url: "/icons/fabi.jpg",
         width: 1264,
         height: 848,
-        alt: "BCA Nepal - TU BCA Study Hub",
+        alt: "CSIT Nepal - TU BSc CSIT Study Hub",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BCA Nepal - TU BCA Study Hub",
-    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for TU BCA students.",
+    title: "CSIT Nepal - TU BSc CSIT Study Hub",
+    description: "Access semester notes, PDFs, handwritten notes, and YouTube lectures for TU CSIT students.",
     images: ["/icons/fabi.jpg"],
   },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    title: "BCA Nepal",
+    title: "CSIT Nepal",
     statusBarStyle: "default",
   },
   icons: {
@@ -95,7 +95,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#2563eb" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="BCA Nepal" />
+        <meta name="apple-mobile-web-app-title" content="CSIT Nepal" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />

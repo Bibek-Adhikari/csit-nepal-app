@@ -142,7 +142,7 @@ function SharePageContent() {
     return (
       <>
         <section className="welcome-hero">
-          <h1>Share to BCA Nepal</h1>
+          <h1>Share to CSIT Nepal</h1>
           <p>{shared === "1" ? "No images were shared." : "Share images from your gallery to save them here."}</p>
         </section>
         <div className="empty-state">
@@ -150,7 +150,7 @@ function SharePageContent() {
           <p>
             {shared === "1"
               ? "The shared files were not images or could not be processed."
-              : "Select images from your gallery and choose BCA Nepal to get started."}
+              : "Select images from your gallery and choose CSIT Nepal to get started."}
           </p>
         </div>
       </>

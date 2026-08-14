@@ -12,7 +12,7 @@ export default function EntrancePage() {
           <i className="bx bxs-graduation" style={{ fontSize: "1.6rem", color: "var(--primary)" }}></i>
           <h2 style={{ margin: 0 }}>Entrance Preparation</h2>
         </div>
-        <p>BCA entrance exam prep — Questions, Mock Tests & study materials.</p>
+        <p>CSIT entrance exam prep — Questions, Mock Tests & study materials.</p>
       </section>
 
       <div className="subject-stack" style={{ paddingBottom: "1.5rem" }}>
